@@ -68,13 +68,21 @@ namespace Recorder.ViewModels
 
         public async void LoadScheduleAsync()
         {
+            Debug.WriteLine($"LoadScheduleAsync called, Schedule is null: {Schedule == null}, IsLoading: {IsLoading}");
+            
             if (Schedule == null && !IsLoading)
             {
                 IsLoading = true;
+                Debug.WriteLine("Starting to load schedule...");
+                
                 Result<Schedule> result = await appRepository.GetScheduleAsync(scheduleId);
+                
+                Debug.WriteLine($"GetScheduleAsync completed. Succeeded: {result.Succeeded}, Data is null: {result.Data == null}");
+                
                 if (result.Succeeded && result.Data != null)
                 {
                     Schedule = result.Data;
+                    Debug.WriteLine($"Schedule loaded: {Schedule.ScheduleId}");
                     UpdateProperties(result.Data);
                     SendSelectEvent();
                 }
@@ -84,6 +92,7 @@ namespace Recorder.ViewModels
                     ScheduleLoadFailed?.Invoke(this, EventArgs.Empty);
                 }
                 IsLoading = false;
+                Debug.WriteLine($"IsLoading set to false");
             }
         }
 
@@ -101,15 +110,26 @@ namespace Recorder.ViewModels
 
         private void UpdateProperties(Schedule schedule)
         {
+            Debug.WriteLine($"UpdateProperties called for schedule: {schedule?.ScheduleId}");
+            
             // Use schedule defaults if start override not specified
             var titleDict = schedule.Start?.Title ?? schedule.Title;
             var body1Dict = schedule.Start?.Body1 ?? schedule.Body1;
             var body2Dict = schedule.Start?.Body2 ?? schedule.Body2;
 
-            Title = titleDict.ToLocalString();
-            Body1 = body1Dict.ToLocalString();
-            Body2 = body2Dict.ToLocalString();
+            Debug.WriteLine($"titleDict: {titleDict?.Count ?? 0} items");
+            Debug.WriteLine($"body1Dict: {body1Dict?.Count ?? 0} items");
+            Debug.WriteLine($"body2Dict: {body2Dict?.Count ?? 0} items");
+
+            Title = titleDict?.ToLocalString();
+            Body1 = body1Dict?.ToLocalString();
+            Body2 = body2Dict?.ToLocalString();
             ImageUrl = schedule.Start?.ImageUrl;
+            
+            Debug.WriteLine($"Set Title: {Title}");
+            Debug.WriteLine($"Set Body1: {Body1}");
+            Debug.WriteLine($"Set Body2: {Body2}");
+            Debug.WriteLine($"Set ImageUrl: {ImageUrl}");
         }
 
         public ICommand ClickCommand => new Command<string>((url) =>

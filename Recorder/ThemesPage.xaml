@@ -82,6 +82,7 @@
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <ListView x:Name="themeListView"
                   BackgroundColor="{StaticResource AppBackgroundColor}"

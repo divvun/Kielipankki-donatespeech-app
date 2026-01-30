@@ -31,7 +31,7 @@ namespace Recorder
             viewModel.ScheduleLoadFailed += OnScheduleLoadFailed;
             BindingContext = viewModel;
 
-            startImage.HeightRequest = DeviceDisplay.MainDisplayInfo.GetHeightInSixteenNine();
+            startImage.HeightRequest = 200; // Fixed height instead of calculated
 
             // note: this can be replaced with a method from Xamarin Essentials 1.6 when available
             permissionRequestInfo = DependencyService.Get<IPermissionRequestInfo>() ?? new DefaultPermissionRequestInfo();

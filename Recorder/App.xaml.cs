@@ -65,35 +65,8 @@ namespace Recorder
 
                 StartUploadScheduler(schedulerLockCounter);
 
-                // Temporarily use a simple test page to debug
-                MainPage = new NavigationPage(new ContentPage
-                {
-                    Content = new StackLayout
-                    {
-                        Padding = 20,
-                        Children =
-                        {
-                            new Label { Text = "Test Page", FontSize = 24, TextColor = Colors.Black },
-                            new Label { Text = "If you see this, the app is working!", TextColor = Colors.Gray },
-                            new Button 
-                            { 
-                                Text = "Go to Onboarding", 
-                                Command = new Command(async () =>
-                                {
-                                    try 
-                                    {
-                                        await Application.Current.MainPage.Navigation.PushAsync(GetInitialPage());
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        await Application.Current.MainPage.DisplayAlert("Navigation Error", $"Failed to navigate:\n{ex.Message}\n\nStack:\n{ex.StackTrace}", "OK");
-                                    }
-                                })
-                            }
-                        }
-                    },
-                    BackgroundColor = Colors.White
-                });
+                // Set the main page to the initial page based on onboarding status
+                MainPage = new NavigationPage(GetInitialPage());
             }
             catch (Exception ex)
             {
@@ -117,9 +90,6 @@ namespace Recorder
 
         private Page GetInitialPage()
         {
-            // For testing, always clear onboarding and start fresh
-            Preferences.Remove(Constants.OnboardingCompletedKey);
-            
             bool onboardingCompleted = Preferences.Get(Constants.OnboardingCompletedKey, false);
 
             if (Config.AlwaysShowOnboarding || !onboardingCompleted)

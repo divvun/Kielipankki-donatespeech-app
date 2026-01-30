@@ -35,21 +35,26 @@
             <StackLayout Orientation="Vertical">
 
                 <Image x:Name="startImage"
-                       Source="{Binding ImageUrl, Converter={StaticResource stringToImageSource}}"
-                       Aspect="AspectFill"/>
+                       Source="{Binding ImageUrl}"
+                       Aspect="AspectFit"
+                       HeightRequest="200"
+                       Margin="20,20,20,0"/>
 
                 <StackLayout Orientation="Vertical"
                              Margin="20"
                              VerticalOptions="FillAndExpand">
 
                     <Label Text="{Binding Title}"
-                           Style="{StaticResource PageTitleStyle}" />
+                           Style="{StaticResource PageTitleStyle}"
+                           TextColor="Black" />
 
                     <Label Text="{Binding Body1}"
-                           Style="{StaticResource BodyTextStyle}"/>
+                           Style="{StaticResource BodyTextStyle}"
+                           TextColor="Black"/>
 
                     <Label Text="{Binding Body2}"
-                           Style="{StaticResource BodyTextStyle}" />
+                           Style="{StaticResource BodyTextStyle}"
+                           TextColor="Black" />
 
                 </StackLayout>
             </StackLayout>

@@ -27,9 +27,6 @@ namespace Recorder
             viewModel = new ThemesPageViewModel(app.AppRepository);
             viewModel.ThemeLoadFailed += OnThemeLoadFailed;
             BindingContext = viewModel;
-            
-            // Don't auto-load themes on construction - wait for user interaction
-            // viewModel.ReloadIfNeeded();
         }
 
         private void CreateCommands()
@@ -80,11 +77,10 @@ namespace Recorder
             // trigger updates to elements or models that might have changed while
             // this page was not visible
 
-            // Disabled for testing - no API configured
-            // if (!IsAlertShowing)
-            // {
-            //     viewModel.ReloadIfNeeded();
-            // }
+            if (!IsAlertShowing)
+            {
+                viewModel.ReloadIfNeeded();
+            }
             navigationBarView.Update();
         }
 
