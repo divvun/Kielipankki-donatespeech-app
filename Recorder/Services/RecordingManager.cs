@@ -15,14 +15,18 @@ namespace Recorder.Services
         private readonly IAudioRecorder recorder;
         private readonly IAppConfiguration appConfiguration;
 
-        public RecordingManager(IAppConfiguration appConfiguration)
+        public RecordingManager(IAppConfiguration appConfiguration, IAudioRecorder audioRecorder = null)
         {
             this.appConfiguration = appConfiguration;
-            recorder = DependencyService.Get<IAudioRecorder>() ?? new NullAudioRecorder();
+            recorder = audioRecorder ?? DependencyService.Get<IAudioRecorder>() ?? new NullAudioRecorder();
 
-            if (recorder == null)
+            if (recorder is NullAudioRecorder)
             {
-                Debug.WriteLine("Problem getting IAudioRecorder");
+                Debug.WriteLine("Using NullAudioRecorder - recording will not work");
+            }
+            else
+            {
+                Debug.WriteLine($"Using audio recorder: {recorder.GetType().Name}");
             }
         }
 

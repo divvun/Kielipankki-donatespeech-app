@@ -130,8 +130,11 @@ namespace Recorder.Services
                 schedule.Items.Add(new ScheduleItem
                 {
                     ItemId = $"item{i}",
-                    Kind = ItemKindValue.Prompt,
-                    ItemType = ItemTypeValue.Text,
+                    Kind = ItemKindValue.Media, // Use Media kind so recording button shows
+                    ItemType = "", // Empty string to avoid null reference
+                    TypeId = "",
+                    Url = "",
+                    // Don't set ItemType - we don't need media display for recording items
                     Title = new Dictionary<string, string> { { "fi", $"Lause {i}" } },
                     Body1 = new Dictionary<string, string> { { "fi", "Lue seuraava lause ääneen:" } },
                     Body2 = new Dictionary<string, string> { { "fi", $"Tämä on testilause numero {i} nauhoitusta varten." } },
@@ -139,7 +142,8 @@ namespace Recorder.Services
                     Start = new ScheduleItemState
                     {
                         Title = new Dictionary<string, string> { { "fi", "Valmis nauhoittamaan" } },
-                        Body1 = new Dictionary<string, string> { { "fi", "Paina nappia kun olet valmis" } }
+                        Body1 = new Dictionary<string, string> { { "fi", "Paina nappia kun olet valmis" } },
+                        Body2 = new Dictionary<string, string> { { "fi", $"Tämä on testilause numero {i} nauhoitusta varten." } }
                     },
                     Recording = new ScheduleItemState
                     {

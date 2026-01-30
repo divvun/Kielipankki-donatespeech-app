@@ -60,45 +60,22 @@
             </StackLayout>
         </ScrollView>
 
-        <AbsoluteLayout VerticalOptions="Fill"
-                        HorizontalOptions="Fill"
-                        Margin="0,-50,0,0"
-                        IsVisible="{Binding IsLoading, Converter={StaticResource boolNegation}}"
-                        Grid.Row="2">
-            <StackLayout Orientation="Horizontal" Spacing="0" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-                <Image Source="bottombar_notch_left"
-                       HeightRequest="1"
-                       WidthRequest="60"
-                       VerticalOptions="FillAndExpand"
-                       InputTransparent="True"
-                       AutomationProperties.IsInAccessibleTree="False" />
-                <Image Source="bottombar_notch_flex"
-                       HeightRequest="1"
-                       VerticalOptions="FillAndExpand"
-                       HorizontalOptions="FillAndExpand"
-                       MinimumHeightRequest="1"
-                       AutomationProperties.IsInAccessibleTree="False" />
-                <Image Source="bottombar_notch_right"
-                       HeightRequest="1"
-                       WidthRequest="60"
-                       VerticalOptions="FillAndExpand"
-                       InputTransparent="True"
-                       AutomationProperties.IsInAccessibleTree="False" />
-            </StackLayout>
+        <StackLayout VerticalOptions="End"
+                     HorizontalOptions="FillAndExpand"
+                     Padding="24,16,24,32"
+                     IsVisible="{Binding IsLoading, Converter={StaticResource boolNegation}}"
+                     Grid.Row="2">
+            
+            <Button Text="{x:Static resources:AppResources.StartButtonText}"
+                    Clicked="StartButtonClickedAsync"
+                    HorizontalOptions="CenterAndExpand"
+                    WidthRequest="230"
+                    HeightRequest="50"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    AutomationId="ScheduleStartButton"/>
 
-            <StackLayout AbsoluteLayout.LayoutBounds="0,16,1,-1"
-                         AbsoluteLayout.LayoutFlags="XProportional,WidthProportional"
-                         Orientation="Horizontal"
-                         Padding="24,16,24,32">
-
-                <Button Text="{x:Static resources:AppResources.StartButtonText}"
-                        Clicked="StartButtonClickedAsync"
-                        HorizontalOptions="CenterAndExpand"
-                        WidthRequest="230"
-                        AutomationId="ScheduleStartButton"/>
-
-            </StackLayout>
-        </AbsoluteLayout>
+        </StackLayout>
 
         <app:NavigationBarView />
     </Grid>

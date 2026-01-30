@@ -245,15 +245,25 @@ namespace Recorder.ViewModels
                 execute: () => DisplayState = ScheduleItemStateType.Start);
         }
 
-        private void ToggleRecordingState()
+        private async void ToggleRecordingState()
         {
-            if (recordingManager.IsRecording)
+            try
             {
-                StopRecording();
+                if (recordingManager.IsRecording)
+                {
+                    StopRecording();
+                }
+                else
+                {
+                    StartRecording();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                StartRecording();
+                await App.Current.MainPage.DisplayAlert(
+                    "Recording Error",
+                    $"{ex.GetType().Name}: {ex.Message}\n\nStack: {ex.StackTrace}",
+                    "OK");
             }
         }
 
@@ -291,9 +301,13 @@ namespace Recorder.ViewModels
 
         private void UpdateRecordButton()
         {
+            System.Diagnostics.Debug.WriteLine($"UpdateRecordButton: IsRecordingEnabled={ItemViewModel?.IsRecordingEnabled}, IsPrompt={ItemViewModel?.IsPrompt}, DisplayState={DisplayState}");
+            
             ShowRecordButton = ItemViewModel.IsRecordingEnabled
                        && !ItemViewModel.IsPrompt    
                        && DisplayState != ScheduleItemStateType.Finish;
+            
+            System.Diagnostics.Debug.WriteLine($"UpdateRecordButton: ShowRecordButton={ShowRecordButton}");
 
             var buttonStyle = "recordButtonStyle";
 
@@ -315,9 +329,32 @@ namespace Recorder.ViewModels
 
         private void StartRecording()
         {
-            recordingManager.StartRecording(ItemViewModel.Item.ItemId);
-            DisplayState = ScheduleItemStateType.Recording;
-            elapsedTimeModel.Start();
+            try
+            {
+                Debug.WriteLine($"StartRecording: ItemViewModel={ItemViewModel}, ItemViewModel?.Item={ItemViewModel?.Item}, ItemViewModel?.Item?.ItemId={ItemViewModel?.Item?.ItemId}");
+                
+                if (ItemViewModel == null)
+                {
+                    Debug.WriteLine("ERROR: ItemViewModel is null!");
+                    throw new InvalidOperationException("ItemViewModel is null");
+                }
+                
+                if (ItemViewModel.Item == null)
+                {
+                    Debug.WriteLine("ERROR: ItemViewModel.Item is null!");
+                    throw new InvalidOperationException("ItemViewModel.Item is null");
+                }
+                
+                recordingManager.StartRecording(ItemViewModel.Item.ItemId);
+                DisplayState = ScheduleItemStateType.Recording;
+                elapsedTimeModel.Start();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"EXCEPTION in StartRecording: {ex.GetType().Name}: {ex.Message}");
+                Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         private void StopRecording()

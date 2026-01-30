@@ -16,7 +16,7 @@ namespace Recorder
         public IRecorderApi RecorderApi { get; private set; }
         public IAppRepository AppRepository { get; private set; }
         public IAppPreferences AppPreferences { get; private set; }
-        public RecordingManager RecMan { get; private set; }
+        public IRecordingManager RecMan { get; private set; }
 
         private static IAppDatabase _database;
         public static IAppDatabase Database => GetDatabase();
@@ -110,7 +110,54 @@ namespace Recorder
             AppPreferences = new AppPreferences();
             AppRepository = new AppRepository(RecorderApi, AppPreferences);
 
-            RecMan = new RecordingManager(Config);
+            // Try to get RecordingManager from DI first
+            try
+            {
+                RecMan = Application.Current.Handler?.MauiContext?.Services?.GetService(typeof(IRecordingManager)) as IRecordingManager;
+                if (RecMan != null)
+                {
+                    Debug.WriteLine("Got RecordingManager from DI");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to get RecordingManager from DI: {ex.Message}");
+            }
+
+            // Fallback to manual creation
+            if (RecMan == null)
+            {
+                Debug.WriteLine("Creating RecordingManager manually");
+                IAudioRecorder audioRecorder = null;
+                try
+                {
+                    audioRecorder = Application.Current.Handler?.MauiContext?.Services?.GetService(typeof(IAudioRecorder)) as IAudioRecorder;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Failed to get IAudioRecorder from DI: {ex.Message}");
+                }
+
+                // If DI didn't work, directly instantiate platform-specific recorder
+                if (audioRecorder == null)
+                {
+#if MACCATALYST
+                    audioRecorder = new Recorder.Maui.Platforms.MacCatalyst.AudioRecorder();
+                    Debug.WriteLine("Created Mac Catalyst AudioRecorder directly");
+#elif IOS
+                    audioRecorder = new Recorder.iOS.AudioRecorder();
+                    Debug.WriteLine("Created iOS AudioRecorder directly");
+#elif ANDROID
+                    audioRecorder = new Recorder.Droid.AudioRecorder();
+                    Debug.WriteLine("Created Android AudioRecorder directly");
+#else
+                    Debug.WriteLine("No platform-specific AudioRecorder available, using NullAudioRecorder");
+#endif
+                }
+
+                RecMan = new RecordingManager(Config, audioRecorder);
+            }
+
             AnalyticsEventTracker = DependencyService.Get<IFirebaseAnalyticsEventTracker>() ?? new NoOpFirebaseAnalyticsEventTracker();
 
         }

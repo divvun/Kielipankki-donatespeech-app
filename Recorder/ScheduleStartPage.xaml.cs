@@ -39,26 +39,52 @@ namespace Recorder
 
         async void StartButtonClickedAsync(object sender, EventArgs e)
         {
-            if (scheduleStarting)
+            try
             {
-                Debug.WriteLine("Ignoring schedule start since already starting");
-                return;
-            }
-            scheduleStarting = true;
-
-            if (viewModel.Schedule != null)
-            {
-                if (await CheckAndRequestPermissionAsync())
+                Debug.WriteLine("=== StartButtonClickedAsync called ===");
+                Console.WriteLine("=== StartButtonClickedAsync called ===");
+                
+                if (scheduleStarting)
                 {
-                    // one way navigation
-                    await Navigation.PushAsyncThenRemove(new SchedulePage(viewModel.Schedule), this);
+                    Debug.WriteLine("Ignoring schedule start since already starting");
+                    return;
+                }
+                scheduleStarting = true;
+
+                Debug.WriteLine($"viewModel.Schedule is null: {viewModel.Schedule == null}");
+                Console.WriteLine($"viewModel.Schedule is null: {viewModel.Schedule == null}");
+                
+                if (viewModel.Schedule != null)
+                {
+                    Debug.WriteLine("Checking and requesting permission...");
+                    Console.WriteLine("Checking and requesting permission...");
+                    if (await CheckAndRequestPermissionAsync())
+                    {
+                        Debug.WriteLine("Permission granted, navigating to SchedulePage");
+                        Console.WriteLine("Permission granted, navigating to SchedulePage");
+                        // one way navigation
+                        await Navigation.PushAsyncThenRemove(new SchedulePage(viewModel.Schedule), this);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("permission denied");
+                        Console.WriteLine("permission denied");
+                    }
                 }
                 else
                 {
-                    Debug.WriteLine("permission denied");
+                    Debug.WriteLine("Schedule is null, cannot start");
+                    Console.WriteLine("Schedule is null, cannot start");
                 }
+                scheduleStarting = false;
             }
-            scheduleStarting = false;
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"ERROR in StartButtonClickedAsync: {ex}");
+                Console.WriteLine($"ERROR in StartButtonClickedAsync: {ex}");
+                await DisplayAlert("Error", $"Failed to start: {ex.Message}", "OK");
+                scheduleStarting = false;
+            }
         }
 
         private async Task<bool> CheckAndRequestPermissionAsync()
