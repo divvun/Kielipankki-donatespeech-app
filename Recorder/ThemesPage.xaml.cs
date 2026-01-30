@@ -4,14 +4,13 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 using Recorder.ViewModels;
 using Recorder.ResX;
 
 namespace Recorder
 {
-    [DesignTimeVisible(false)]
     public partial class ThemesPage : ContentPage
     {
         private ThemesPageViewModel viewModel;
@@ -28,6 +27,9 @@ namespace Recorder
             viewModel = new ThemesPageViewModel(app.AppRepository);
             viewModel.ThemeLoadFailed += OnThemeLoadFailed;
             BindingContext = viewModel;
+            
+            // Don't auto-load themes on construction - wait for user interaction
+            // viewModel.ReloadIfNeeded();
         }
 
         private void CreateCommands()
@@ -78,10 +80,11 @@ namespace Recorder
             // trigger updates to elements or models that might have changed while
             // this page was not visible
 
-            if (!IsAlertShowing)
-            {
-                viewModel.ReloadIfNeeded();
-            }
+            // Disabled for testing - no API configured
+            // if (!IsAlertShowing)
+            // {
+            //     viewModel.ReloadIfNeeded();
+            // }
             navigationBarView.Update();
         }
 

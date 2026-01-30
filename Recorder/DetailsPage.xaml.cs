@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Xamarin.Forms;
-using Xamarin.Essentials;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.ApplicationModel.Communication;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 using System.Windows.Input;
 using System.Diagnostics;
 

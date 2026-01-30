@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-using Xamarin.Forms;
-using Xamarin.Essentials;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Networking;
+using Microsoft.Maui.Storage;
 
 using Recorder.Models;
 using Recorder.Services;
@@ -32,41 +33,93 @@ namespace Recorder
 
         public App()
         {
-            InitializeComponent();
-            InitializeServices();
-
-            // Generate and save an instance ID if one does not already exist
-            if (!Preferences.ContainsKey(Constants.ClientIdKey))
+            try
             {
-                string guidString = Guid.NewGuid().ToString();
-                Preferences.Set(Constants.ClientIdKey, guidString);
-                Debug.WriteLine($"Created new client ID: {guidString}");
+                InitializeComponent();
+                InitializeServices();
+
+                // Generate and save an instance ID if one does not already exist
+                if (!Preferences.ContainsKey(Constants.ClientIdKey))
+                {
+                    string guidString = Guid.NewGuid().ToString();
+                    Preferences.Set(Constants.ClientIdKey, guidString);
+                    Debug.WriteLine($"Created new client ID: {guidString}");
+                }
+                Debug.WriteLine(string.Format("From preferences, clientID = {0}", Preferences.Get(Constants.ClientIdKey, "unknown")));
+
+                // Force the user language for testing:
+                Preferences.Set(Constants.UserLanguageKey, "fi");
+
+                // Initialize the total number of seconds recorded from preferences.
+                // If this preference is not found, it is initialized to zero.
+                // The number should be updated after each completed recording.
+                // Use the UpdateTotalRecorded function in this class for that.
+                TotalRecordedSeconds = Preferences.Get(Constants.TotalRecordedSecondsKey, 0);
+                Debug.WriteLine($"Total time recorded: {TotalRecordedSeconds} seconds");
+                // Use NavigationBarViewModel to get a formatted representation.
+
+                //App.Database.DeleteAllRecordings();  // or maybe not
+                //this.AppRepository.ListRecordingsInDatabase();
+
+                this.AppRepository.ListUploadedRecordings();
+
+                StartUploadScheduler(schedulerLockCounter);
+
+                // Temporarily use a simple test page to debug
+                MainPage = new NavigationPage(new ContentPage
+                {
+                    Content = new StackLayout
+                    {
+                        Padding = 20,
+                        Children =
+                        {
+                            new Label { Text = "Test Page", FontSize = 24, TextColor = Colors.Black },
+                            new Label { Text = "If you see this, the app is working!", TextColor = Colors.Gray },
+                            new Button 
+                            { 
+                                Text = "Go to Onboarding", 
+                                Command = new Command(async () =>
+                                {
+                                    try 
+                                    {
+                                        await Application.Current.MainPage.Navigation.PushAsync(GetInitialPage());
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        await Application.Current.MainPage.DisplayAlert("Navigation Error", $"Failed to navigate:\n{ex.Message}\n\nStack:\n{ex.StackTrace}", "OK");
+                                    }
+                                })
+                            }
+                        }
+                    },
+                    BackgroundColor = Colors.White
+                });
             }
-            Debug.WriteLine(string.Format("From preferences, clientID = {0}", Preferences.Get(Constants.ClientIdKey, "unknown")));
-
-            // Force the user language for testing:
-            Preferences.Set(Constants.UserLanguageKey, "fi");
-
-            // Initialize the total number of seconds recorded from preferences.
-            // If this preference is not found, it is initialized to zero.
-            // The number should be updated after each completed recording.
-            // Use the UpdateTotalRecorded function in this class for that.
-            TotalRecordedSeconds = Preferences.Get(Constants.TotalRecordedSecondsKey, 0);
-            Debug.WriteLine($"Total time recorded: {TotalRecordedSeconds} seconds");
-            // Use NavigationBarViewModel to get a formatted representation.
-
-            //App.Database.DeleteAllRecordings();  // or maybe not
-            //this.AppRepository.ListRecordingsInDatabase();
-
-            this.AppRepository.ListUploadedRecordings();
-
-            StartUploadScheduler(schedulerLockCounter);
-
-            MainPage = new NavigationPage(GetInitialPage());
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                MainPage = new ContentPage
+                {
+                    Content = new ScrollView
+                    {
+                        Content = new Editor
+                        {
+                            Text = ex.ToString(),
+                            Margin = new Thickness(20),
+                            IsReadOnly = true,
+                            AutoSize = EditorAutoSizeOption.TextChanges,
+                            FontSize = 12
+                        }
+                    }
+                };
+            }
         }
 
         private Page GetInitialPage()
         {
+            // For testing, always clear onboarding and start fresh
+            Preferences.Remove(Constants.OnboardingCompletedKey);
+            
             bool onboardingCompleted = Preferences.Get(Constants.OnboardingCompletedKey, false);
 
             if (Config.AlwaysShowOnboarding || !onboardingCompleted)
@@ -88,7 +141,7 @@ namespace Recorder
             AppRepository = new AppRepository(RecorderApi, AppPreferences);
 
             RecMan = new RecordingManager(Config);
-            AnalyticsEventTracker = DependencyService.Get<IFirebaseAnalyticsEventTracker>();
+            AnalyticsEventTracker = DependencyService.Get<IFirebaseAnalyticsEventTracker>() ?? new NoOpFirebaseAnalyticsEventTracker();
 
         }
 
@@ -111,7 +164,7 @@ namespace Recorder
         private void StartUploadScheduler(long timerLock)
         {
             Debug.WriteLine("Starting timer for lock value {0}", timerLock);
-            Xamarin.Forms.Device.StartTimer(TimeSpan.FromSeconds(Constants.PendingUploadsTimerIntervalSeconds), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(Constants.PendingUploadsTimerIntervalSeconds), () =>
             {
                 Debug.WriteLine("Running upload task");
                 if (timerLock != schedulerLockCounter)

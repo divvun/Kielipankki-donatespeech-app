@@ -1,6 +1,7 @@
 ﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Devices;
 
 namespace Recorder
 {
@@ -26,8 +27,9 @@ namespace Recorder
 
         public double ProvideValue(IServiceProvider serviceProvider)
         {
-            string value = Device.RuntimePlatform == Device.iOS ? iOS : Android;
-            double scale = Device.RuntimePlatform == Device.iOS ? iOSFontScale : AndroidFontScale;
+            bool isApple = DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst;
+            string value = isApple ? iOS : Android;
+            double scale = isApple ? iOSFontScale : AndroidFontScale;
             return scale * (double)fontSizeConverter.ConvertFromInvariantString(value);
         }
 

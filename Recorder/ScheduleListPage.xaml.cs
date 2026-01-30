@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 using Recorder.Models;
 using Recorder.ViewModels;
 using Recorder.Services;
-using Xamarin.Essentials;
-using static Xamarin.Essentials.Permissions;
+using Microsoft.Maui.ApplicationModel;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 using System.Threading.Tasks;
 
 namespace Recorder

@@ -1,9 +1,11 @@
 ﻿using System;
-using Xamarin.Forms;
+using System.ComponentModel;
+using Microsoft.Maui.Controls;
 
 using Recorder.Models;
 using System.Diagnostics;
 using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace Recorder
 {

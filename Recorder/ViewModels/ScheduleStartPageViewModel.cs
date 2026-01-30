@@ -5,8 +5,8 @@ using System.Reflection;
 using System.Windows.Input;
 using Recorder.Models;
 using Recorder.Services;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
 
 namespace Recorder.ViewModels
 {

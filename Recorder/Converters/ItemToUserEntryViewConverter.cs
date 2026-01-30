@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 using Recorder.Models;
 using Recorder.ViewModels;

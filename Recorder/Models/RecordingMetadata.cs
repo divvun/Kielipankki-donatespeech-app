@@ -2,7 +2,8 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xamarin.Essentials;
+using Microsoft.Maui.Devices;
+using Microsoft.Maui.Storage;
 
 namespace Recorder.Models
 {

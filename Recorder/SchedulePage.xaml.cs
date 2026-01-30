@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 using Recorder.Models;
 using Recorder.ViewModels;
 using System.ComponentModel;
-using Xamarin.Essentials;
+using Microsoft.Maui.Devices;
 using Recorder.ResX;
 
 namespace Recorder

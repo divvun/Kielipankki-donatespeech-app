@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 using Recorder.Models;
-using Xamarin.Essentials;
+using Microsoft.Maui.Storage;
 using System.Collections.Generic;
 
 namespace Recorder.Services
@@ -18,7 +18,7 @@ namespace Recorder.Services
         public RecordingManager(IAppConfiguration appConfiguration)
         {
             this.appConfiguration = appConfiguration;
-            recorder = DependencyService.Get<IAudioRecorder>();
+            recorder = DependencyService.Get<IAudioRecorder>() ?? new NullAudioRecorder();
 
             if (recorder == null)
             {

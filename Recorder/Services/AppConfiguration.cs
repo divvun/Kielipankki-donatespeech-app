@@ -24,7 +24,17 @@ namespace Recorder.Services
         public static AppConfiguration Load()
         {
             var assembly = Assembly.GetAssembly(typeof(AppConfiguration));
-            var stream = assembly.GetManifestResourceStream(resourceName);
+            using var stream = assembly?.GetManifestResourceStream(resourceName);
+            if (stream == null)
+            {
+                return new AppConfiguration
+                {
+                    RecorderApiUrl = string.Empty,
+                    RecorderApiKey = string.Empty,
+                    BuildType = "debug"
+                };
+            }
+
             using var reader = new StreamReader(stream);
             var json = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<AppConfiguration>(json);

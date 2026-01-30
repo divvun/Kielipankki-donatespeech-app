@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
 using Recorder.ResX;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.ApplicationModel.Communication;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 
 namespace Recorder.Views
 {
@@ -31,13 +33,25 @@ namespace Recorder.Views
         {
             InitializeComponent();
             BindingContext = this;
+            
+            // Set text from resources
+            titleLabel.Text = AppResources.TermsHelloTitle ?? "Terms and Conditions";
+            bodyLabel.Text = AppResources.TermsHelloBody ?? "Please read and accept the terms...";
+            
             acceptButton.Clicked += AcceptButton_Clicked;
         }
 
-        private void AcceptButton_Clicked(object sender, EventArgs e)
+        private async void AcceptButton_Clicked(object sender, EventArgs e)
         {
-            Preferences.Set(Constants.OnboardingCompletedKey, true);
-            Navigation.PushAsyncThenClearHistory(new ThemesPage());
+            try
+            {
+                Preferences.Set(Constants.OnboardingCompletedKey, true);
+                await Navigation.PushAsync(new ThemesPage());
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Navigation Error", $"Failed to navigate to ThemesPage:\n{ex.Message}", "OK");
+            }
         }
     }
 }

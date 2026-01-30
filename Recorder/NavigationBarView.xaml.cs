@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Recorder.ViewModels;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 namespace Recorder
 {

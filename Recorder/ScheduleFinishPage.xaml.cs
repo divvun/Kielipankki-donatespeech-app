@@ -5,8 +5,10 @@ using System.Text;
 using Recorder.Models;
 using Recorder.ResX;
 using Recorder.ViewModels;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Devices;
+using Microsoft.Maui.Storage;
 
 namespace Recorder
 {

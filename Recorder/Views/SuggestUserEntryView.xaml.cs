@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using dotMorten.Xamarin.Forms;
 using Recorder.ViewModels;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 namespace Recorder.Views
 {
@@ -21,8 +20,6 @@ namespace Recorder.Views
             InitializeFromModel();
 
             suggestBox.TextChanged += SuggestBox_TextChanged;
-            suggestBox.SuggestionChosen += SuggestBox_SuggestionChosen;
-            suggestBox.QuerySubmitted += SuggestBox_QuerySubmitted;
 
             otherEntry.TextChanged += OtherEntry_TextChanged;
         }
@@ -43,35 +40,17 @@ namespace Recorder.Views
             }
         }
 
-        private void SuggestBox_TextChanged(object sender, AutoSuggestBoxTextChangedEventArgs e)
+        private void SuggestBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            suggestBox.ItemsSource = GetSuggestions(suggestBox.Text);
-        }
+            if (e.NewTextValue == null)
+            {
+                return;
+            }
 
-        private void SuggestBox_SuggestionChosen(object sender, AutoSuggestBoxSuggestionChosenEventArgs e)
-        {
-            model.Answer = (string)e.SelectedItem;
+            model.Answer = e.NewTextValue;
             model.AnswerModified = true;
-
             otherEntry.Text = null;
-
-            Debug.WriteLine($"Suggestion chosen as answer: '{model.Answer}'");
-        }
-
-        private void SuggestBox_QuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs e)
-        {
-            if (e.ChosenSuggestion == null)
-            {
-                model.Answer = e.QueryText;
-                model.AnswerModified = true;
-                Debug.WriteLine($"Query submitted (query text) as answer: '{model.Answer}'");
-            }
-            else
-            {
-                model.Answer = (string)e.ChosenSuggestion;
-                model.AnswerModified = true;
-                Debug.WriteLine($"Query submitted (chosen suggestion) as answer: '{model.Answer}'");
-            }
+            Debug.WriteLine($"Entry text changed to '{e.NewTextValue}' --> answer = '{model.Answer}'");
         }
 
         private void OtherEntry_TextChanged(object sender, TextChangedEventArgs e)

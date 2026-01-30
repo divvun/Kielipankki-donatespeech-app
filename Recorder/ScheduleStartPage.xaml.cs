@@ -6,9 +6,10 @@ using Recorder.Models;
 using Recorder.ResX;
 using Recorder.Services;
 using Recorder.ViewModels;
-using Xamarin.Essentials;
-using Xamarin.Forms;
-using static Xamarin.Essentials.Permissions;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Devices;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace Recorder
 {
@@ -33,7 +34,7 @@ namespace Recorder
             startImage.HeightRequest = DeviceDisplay.MainDisplayInfo.GetHeightInSixteenNine();
 
             // note: this can be replaced with a method from Xamarin Essentials 1.6 when available
-            permissionRequestInfo = DependencyService.Get<IPermissionRequestInfo>();
+            permissionRequestInfo = DependencyService.Get<IPermissionRequestInfo>() ?? new DefaultPermissionRequestInfo();
         }
 
         async void StartButtonClickedAsync(object sender, EventArgs e)

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
 
 using Recorder.Models;
 using Recorder.ViewModels;
-using Xamarin.Essentials;
+using Microsoft.Maui.Devices;
 
 namespace Recorder.Converters
 {

@@ -1,5 +1,6 @@
 ﻿using System;
-using Xamarin.Forms;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace Recorder.Models
 {
@@ -7,16 +8,21 @@ namespace Recorder.Models
     // note that for data binding we need to use an IValueConverter
     public class VideoSourceConverter : TypeConverter
     {
-        public override object ConvertFromInvariantString(string value)
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
-            if (!String.IsNullOrWhiteSpace(value))
+            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            if (value is string text && !string.IsNullOrWhiteSpace(text))
             {
                 Uri uri;
-                return Uri.TryCreate(value, UriKind.Absolute, out uri) && uri.Scheme != "file" ?
-                                VideoSource.FromUri(value) : VideoSource.FromResource(value);
+                return Uri.TryCreate(text, UriKind.Absolute, out uri) && uri.Scheme != "file" ?
+                                VideoSource.FromUri(text) : VideoSource.FromResource(text);
             }
 
-            throw new InvalidOperationException("Cannot convert null or whitespace to ImageSource");
+            return base.ConvertFrom(context, culture, value);
         }
     }
 }

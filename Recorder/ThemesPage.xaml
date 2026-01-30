@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:effects="clr-namespace:Recorder.Effects;assembly=Recorder"
     xmlns:resources="clr-namespace:Recorder.ResX"
     xmlns:app="clr-namespace:Recorder"
     xmlns:conv="clr-namespace:Recorder.Converters"
-    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     mc:Ignorable="d"
     x:Class="Recorder.ThemesPage"
     x:Name="this">
@@ -49,13 +48,13 @@
                             </Size>
                         </ios:VisualElement.ShadowOffset>
 
-                    <StackLayout Orientation="Horizontal"
-                                 BackgroundColor="{Binding ButtonBackgroundColor}"
-                                 Margin="20,8"
-                                 Padding="8"
-                                 effects:RoundedCornersEffect.CornerRadius="25"
-                                 AutomationId="{Binding TestId}"
-                                 android:VisualElement.Elevation="4">
+                    <Frame CornerRadius="25"
+                           BackgroundColor="{Binding ButtonBackgroundColor}"
+                           Margin="20,8"
+                           Padding="8"
+                           AutomationId="{Binding TestId}"
+                           HasShadow="False">
+                    <StackLayout Orientation="Horizontal">
 
                         <Frame Style="{StaticResource ThemeImageBorderStyle}"
                                VerticalOptions="Center">
@@ -63,7 +62,6 @@
                                    Aspect="AspectFill"
                                    WidthRequest="62"
                                    HeightRequest="62"
-                                   effects:RoundedCornersEffect.CornerRadius="16"
                                    AutomationProperties.IsInAccessibleTree="False" />                            
                         </Frame>
 
@@ -74,6 +72,7 @@
                                VerticalTextAlignment="Center"
                                VerticalOptions="Fill" />
                     </StackLayout>
+                    </Frame>
                     </ContentView>
                 </ViewCell>
             </DataTemplate>
@@ -112,7 +111,7 @@
                 </StackLayout>
             </ListView.Header>
             <ListView.Footer>
-                <ContentView effects:SafeAreaInsetEffect.Insets="Bottom" />
+                <ContentView Padding="0,0,0,20" />
             </ListView.Footer>
         </ListView>
 

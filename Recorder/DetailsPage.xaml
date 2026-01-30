@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:app="clr-namespace:Recorder"
-             xmlns:effects="clr-namespace:Recorder.Effects"
              xmlns:resources="clr-namespace:Recorder.ResX"
              x:Class="Recorder.DetailsPage">
     <ContentPage.Resources>
@@ -23,7 +22,7 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <ScrollView VerticalOptions="FillAndExpand" effects:SafeAreaInsetEffect.Insets="Bottom" Grid.Row="1">
+            <ScrollView VerticalOptions="FillAndExpand" Padding="0,0,0,20" Grid.Row="1">
                 <StackLayout Orientation="Vertical" Margin="16,0">
                     <Label Text="{x:Static resources:AppResources.DetailsGeneralTitle}"
                            Style="{StaticResource DetailsTitleStyle}" />

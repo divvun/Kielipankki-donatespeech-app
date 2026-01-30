@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resources="clr-namespace:Recorder.ResX"
              xmlns:app="clr-namespace:Recorder"
-             xmlns:effects="clr-namespace:Recorder.Effects"
              xmlns:conv="clr-namespace:Recorder.Converters"
              x:Class="Recorder.ScheduleFinishPage">
 
@@ -66,9 +65,7 @@
             <StackLayout AbsoluteLayout.LayoutBounds="0,16,1,-1"
                          AbsoluteLayout.LayoutFlags="XProportional,WidthProportional"
                          Orientation="Vertical"
-                         Padding="24,16,24,12"
-                         effects:SafeAreaInsetEffect.Insets="Bottom"
-                         effects:SafeAreaInsetEffect.InsetModifier="0,0,0,-5"
+                         Padding="24,16,24,32"
                          Spacing="10">
 
                 <Button x:Name="inviteButton"
