@@ -21,9 +21,9 @@ namespace Recorder.Maui.Platforms.Android
         const string FILE_EXTENSION = "flac";
         const string MIME_TYPE = "audio/flac";
 
-        MediaRecorder recorder;
-        string outputFilePath;
-        AudioFile output;
+        MediaRecorder? recorder;
+        string? outputFilePath;
+        AudioFile? output;
         DateTime recordingStartTime;
 
         public AudioRecorder()

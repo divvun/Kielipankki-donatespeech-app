@@ -135,7 +135,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
                 try
                 {
                     // duration needs to be captured before the recorder is stopped
-                    output.Duration = recorder.currentTime;
+                    output.Duration = recorder.CurrentTime;
 
                     recorder.Stop();
                     

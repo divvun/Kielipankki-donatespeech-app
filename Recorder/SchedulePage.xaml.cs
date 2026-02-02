@@ -36,7 +36,7 @@ namespace Recorder
 
             InitializeComponent();
 
-            var recordButtonSize = Device.GetNamedSize(NamedSize.Default, RecordButton) * 6.5;
+            var recordButtonSize = 14.0 * 6.5; // Using default font size
             RecordButton.WidthRequest = recordButtonSize;
             RecordButton.HeightRequest = recordButtonSize;
 

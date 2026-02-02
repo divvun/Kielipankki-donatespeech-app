@@ -22,9 +22,9 @@ namespace Recorder.Maui.Platforms.iOS
         const string MIME_TYPE = "audio/flac";
         const int AUDIO_FORMAT = (int)AudioToolbox.AudioFormatType.Flac;
 
-        AVAudioRecorder recorder;
-        NSDictionary settings;
-        AudioFile output;
+        AVAudioRecorder? recorder;
+        NSDictionary? settings;
+        AudioFile? output;
 
         public AudioRecorder()
         {
@@ -140,7 +140,7 @@ namespace Recorder.Maui.Platforms.iOS
                     recorder.Stop();
                     
                     var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    var fullPath = Path.Combine(documentsFolder, output.FileName);
+                    var fullPath = Path.Combine(documentsFolder, output.FileName!);
                     
                     Debug.WriteLine($"Stopped recording: {output.FileName}, Duration: {output.Duration}s");
                     Debug.WriteLine($"File should be at: {fullPath}");

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Shapes;
 
 using Recorder.Models;
 using Recorder.ViewModels;
@@ -60,15 +61,13 @@ namespace Recorder.Converters
             // text is in the url field
             label.SetBinding(Label.TextProperty, nameof(model.ItemMediaUrl));
 
-            return new Frame()
+            return new Border()
             {
                 Content = label,
                 HeightRequest = MediaHeight - 40,
                 Padding = 0,
                 Margin = new Thickness(40, 20),
-                CornerRadius = 50,
-                HasShadow = false,
-                IsClippedToBounds = true,
+                StrokeShape = new RoundRectangle { CornerRadius = 50 },
             };
         }
 

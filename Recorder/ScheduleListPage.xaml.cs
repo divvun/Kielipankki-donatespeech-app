@@ -81,7 +81,10 @@ namespace Recorder
             {
                 return;
             }
-            ((ListView)sender).SelectedItem = null;
+            if (sender is CollectionView collectionView)
+            {
+                collectionView.SelectedItem = null;
+            }
 
             Schedule selectedSchedule = this.schedules[e.SelectedItemIndex];
 

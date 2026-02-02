@@ -16,10 +16,20 @@ namespace Recorder
         {
             var value = GetDeviceValue();
 
+#pragma warning disable CS0612, CS0618 // Type or member is obsolete
             if (value is NamedSize ns)
             {
-                return Device.GetNamedSize(ns, typeof(Label));
+                // Map NamedSize to font size values
+                return ns switch
+                {
+                    NamedSize.Micro => 10.0,
+                    NamedSize.Small => 12.0,
+                    NamedSize.Medium => 14.0,
+                    NamedSize.Large => 18.0,
+                    _ => 14.0 // Default
+                };
             }
+#pragma warning restore CS0612, CS0618
 
             return value;
         }

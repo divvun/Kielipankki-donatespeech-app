@@ -91,7 +91,7 @@ namespace Recorder
                 return;
             }
 
-            ListView? list = sender as ListView;
+            CollectionView? list = sender as CollectionView;
             if (scheduleOpening)
             {
                 Debug.WriteLine("Ignoring theme selection since already opening");
