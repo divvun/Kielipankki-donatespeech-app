@@ -145,7 +145,7 @@ namespace Recorder
                     audioRecorder = new Recorder.Maui.Platforms.MacCatalyst.AudioRecorder();
                     Debug.WriteLine("Created Mac Catalyst AudioRecorder directly");
 #elif IOS
-                    audioRecorder = new Recorder.iOS.AudioRecorder();
+                    audioRecorder = new Recorder.Maui.Platforms.iOS.AudioRecorder();
                     Debug.WriteLine("Created iOS AudioRecorder directly");
 #elif ANDROID
                     audioRecorder = new Recorder.Droid.AudioRecorder();
