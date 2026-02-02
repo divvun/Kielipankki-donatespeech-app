@@ -5,7 +5,7 @@ namespace Recorder.Converters
 {
     public class UpperCaseConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
             var text = $"{value}";
             if (!string.IsNullOrEmpty(text))
@@ -16,7 +16,7 @@ namespace Recorder.Converters
             return string.Empty;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
             return string.Empty;
         }
