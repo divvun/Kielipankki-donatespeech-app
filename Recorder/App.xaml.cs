@@ -148,7 +148,7 @@ namespace Recorder
                     audioRecorder = new Recorder.Maui.Platforms.iOS.AudioRecorder();
                     Debug.WriteLine("Created iOS AudioRecorder directly");
 #elif ANDROID
-                    audioRecorder = new Recorder.Droid.AudioRecorder();
+                    audioRecorder = new Recorder.Maui.Platforms.Android.AudioRecorder();
                     Debug.WriteLine("Created Android AudioRecorder directly");
 #else
                     Debug.WriteLine("No platform-specific AudioRecorder available, using NullAudioRecorder");
