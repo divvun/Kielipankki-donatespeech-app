@@ -64,14 +64,25 @@ namespace Recorder
                 this.AppRepository.ListUploadedRecordings();
 
                 StartUploadScheduler(schedulerLockCounter);
-
-                // Set the main page to the initial page based on onboarding status
-                MainPage = new NavigationPage(GetInitialPage());
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                MainPage = new ContentPage
+            }
+        }
+
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            Page mainPage;
+            try
+            {
+                // Set the main page to the initial page based on onboarding status
+                mainPage = new NavigationPage(GetInitialPage());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                mainPage = new ContentPage
                 {
                     Content = new ScrollView
                     {
@@ -86,6 +97,8 @@ namespace Recorder
                     }
                 };
             }
+
+            return new Window(mainPage);
         }
 
         private Page GetInitialPage()
@@ -181,7 +194,7 @@ namespace Recorder
         private void StartUploadScheduler(long timerLock)
         {
             Debug.WriteLine("Starting timer for lock value {0}", timerLock);
-            Device.StartTimer(TimeSpan.FromSeconds(Constants.PendingUploadsTimerIntervalSeconds), () =>
+            Dispatcher.StartTimer(TimeSpan.FromSeconds(Constants.PendingUploadsTimerIntervalSeconds), () =>
             {
                 Debug.WriteLine("Running upload task");
                 if (timerLock != schedulerLockCounter)

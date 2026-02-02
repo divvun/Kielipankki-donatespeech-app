@@ -260,10 +260,14 @@ namespace Recorder.ViewModels
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlertAsync(
-                    "Recording Error",
-                    $"{ex.GetType().Name}: {ex.Message}\n\nStack: {ex.StackTrace}",
-                    "OK");
+                var page = Application.Current?.Windows[0]?.Page;
+                if (page != null)
+                {
+                    await page.DisplayAlertAsync(
+                        "Recording Error",
+                        $"{ex.GetType().Name}: {ex.Message}\n\nStack: {ex.StackTrace}",
+                        "OK");
+                }
             }
         }
 

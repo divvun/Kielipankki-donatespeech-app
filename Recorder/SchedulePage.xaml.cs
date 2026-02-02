@@ -48,15 +48,15 @@ namespace Recorder
 
         private void OnMaxRecordingTimeReached(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(()
-                => DisplayAlertAsync(AppResources.RecordingStoppedLimitTitle, AppResources.RecordingStoppedLimitMessage, AppResources.AlertDismissOk));
+            Dispatcher.Dispatch(() =>
+                DisplayAlertAsync(AppResources.RecordingStoppedLimitTitle, AppResources.RecordingStoppedLimitMessage, AppResources.AlertDismissOk));
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SchedulePageViewModel.DisplayState))
             {
-                Device.BeginInvokeOnMainThread(() =>
+                Dispatcher.Dispatch(() =>
                 {
                     // refresh recorded minutes
                     navigationBarView.Update();
@@ -68,8 +68,8 @@ namespace Recorder
             else if (e.PropertyName == nameof(SchedulePageViewModel.ItemViewModel))
             {
                 // scroll to top when schedule item changes
-                Device.BeginInvokeOnMainThread(()
-                    => scrollView.ScrollToAsync(0, 0, false));
+                Dispatcher.Dispatch(() =>
+                    scrollView.ScrollToAsync(0, 0, false));
             }
         }
 
