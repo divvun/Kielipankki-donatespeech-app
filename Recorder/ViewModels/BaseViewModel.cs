@@ -6,7 +6,7 @@ namespace Recorder.ViewModels
 {
     public class BaseViewmodel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void Set<T>(ref T field, T value, params string[] notifyPropertyNames)
         {

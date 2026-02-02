@@ -14,9 +14,9 @@ namespace Recorder
     //
     public class PlatformFontSizeExtension : IMarkupExtension<double>
     {
-        public string iOS { get; set; }
+        public string iOS { get; set; } = string.Empty;
         public double iOSFontScale { get; set; } = 1.0;
-        public string Android { get; set; }
+        public string Android { get; set; } = string.Empty;
         public double AndroidFontScale { get; set; } = 1.0;
 
         private readonly FontSizeConverter fontSizeConverter = new FontSizeConverter();

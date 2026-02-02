@@ -15,7 +15,7 @@ namespace Recorder
             Text, Back, Close
         };
 
-        public string ButtonText
+        public string? ButtonText
         {
             get { return GetValue(ButtonTextProperty) as string; }
             set { SetValue(ButtonTextProperty, value); }

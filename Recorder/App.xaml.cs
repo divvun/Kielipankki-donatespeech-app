@@ -22,12 +22,12 @@ namespace Recorder
         public static IAppDatabase Database => GetDatabase();
 
         public IFirebaseAnalyticsEventTracker AnalyticsEventTracker;
-        public IAppConfiguration Config { get; private set; }
+        public IAppConfiguration Config { get; private set; } = null!;
 
         private long schedulerLockCounter = 0;
 
-        public event EventHandler AppSleep;
-        public event EventHandler AppResume;
+        public event EventHandler AppSleep = null!;
+        public event EventHandler AppResume = null!;
 
         public int TotalRecordedSeconds;  // total recorded time from preferences
 

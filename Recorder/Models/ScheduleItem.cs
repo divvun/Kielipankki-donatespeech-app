@@ -46,20 +46,20 @@ namespace Recorder.Models
         public Dictionary<string, string>? OtherAnswer;  // "other" answer = checkbox label for multi-choice
         public Dictionary<string, string>? OtherEntryLabel;  // text entry label for super-choice and multi-choice
 
-        public Dictionary<string, string> StartTitle => Start?.Title ?? Title;
-        public Dictionary<string, string> StartBody1 => Start?.Body1 ?? Body1;
-        public Dictionary<string, string> StartBody2 => Start?.Body2 ?? Body2;
-        public string StartUrl => Start?.ImageUrl ?? Url;
+        public Dictionary<string, string>? StartTitle => Start?.Title ?? Title;
+        public Dictionary<string, string>? StartBody1 => Start?.Body1 ?? Body1;
+        public Dictionary<string, string>? StartBody2 => Start?.Body2 ?? Body2;
+        public string? StartUrl => Start?.ImageUrl ?? Url;
 
-        public Dictionary<string, string> RecordingTitle => Recording?.Title ?? Title;
-        public Dictionary<string, string> RecordingBody1 => Recording?.Body1 ?? Body1;
-        public Dictionary<string, string> RecordingBody2 => Recording?.Body2 ?? Body2;
-        public string RecordingUrl => Recording?.ImageUrl ?? Url;
+        public Dictionary<string, string>? RecordingTitle => Recording?.Title ?? Title;
+        public Dictionary<string, string>? RecordingBody1 => Recording?.Body1 ?? Body1;
+        public Dictionary<string, string>? RecordingBody2 => Recording?.Body2 ?? Body2;
+        public string? RecordingUrl => Recording?.ImageUrl ?? Url;
 
         // finish title is not defined here since its default comes from resources
-        public Dictionary<string, string> FinishBody1 => Finish?.Body1 ?? Body1;
-        public Dictionary<string, string> FinishBody2 => Finish?.Body2 ?? Body2;
-        public string FinishUrl => Finish?.ImageUrl ?? Url;
+        public Dictionary<string, string>? FinishBody1 => Finish?.Body1 ?? Body1;
+        public Dictionary<string, string>? FinishBody2 => Finish?.Body2 ?? Body2;
+        public string? FinishUrl => Finish?.ImageUrl ?? Url;
 
         public bool IsPrompt => Kind.Equals(ItemKindValue.Prompt);
         public bool IsMedia => Kind.Equals(ItemKindValue.Media);

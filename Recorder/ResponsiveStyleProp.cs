@@ -8,11 +8,11 @@ namespace Recorder
     [ContentProperty("Query")]
     public class ResponsiveStyleProp<T> : IMarkupExtension
     {
-        public T Normal { get; set; }
-        public T Medium { get; set; }
-        public T Large { get; set; }
+        public T Normal { get; set; } = default!;
+        public T Medium { get; set; } = default!;
+        public T Large { get; set; } = default!;
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        public object? ProvideValue(IServiceProvider serviceProvider)
         {
             var value = GetDeviceValue();
 

@@ -67,7 +67,7 @@ namespace Recorder.Views
             }
         }
 
-        private List<string> GetSuggestions(string text)
+        private List<string>? GetSuggestions(string text)
         {
             return string.IsNullOrWhiteSpace(text) ? null :
                 model.ChoiceOptions

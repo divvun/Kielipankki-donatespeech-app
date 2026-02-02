@@ -38,7 +38,7 @@ namespace Recorder.Converters
             return null; 
         }
 
-        private View CreateText(ScheduleItemViewModel model)
+        private View? CreateText(ScheduleItemViewModel model)
         {
             if (string.IsNullOrWhiteSpace(model.ItemMediaUrl))
             {                

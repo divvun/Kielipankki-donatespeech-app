@@ -14,9 +14,9 @@ namespace Recorder
     [ContentProperty(nameof(Source))]
     public class ImageResourceExtension : IMarkupExtension
     {
-        public string Source { get; set; }
+        public string Source { get; set; } = string.Empty;
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        public object? ProvideValue(IServiceProvider serviceProvider)
         {
             if (Source == null)
             {

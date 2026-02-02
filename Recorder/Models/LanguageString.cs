@@ -20,7 +20,7 @@ namespace Recorder.Models
             Strings = strings;
         }
 
-        public string Localized
+        public string? Localized
         {
             get
             {

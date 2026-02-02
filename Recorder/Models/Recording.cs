@@ -22,7 +22,7 @@ namespace Recorder.Models
             }
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return RecordingId;
         }

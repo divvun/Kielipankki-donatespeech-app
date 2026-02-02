@@ -22,9 +22,9 @@ namespace Recorder.Maui.Platforms.MacCatalyst
         const string MIME_TYPE = "audio/flac";
         const int AUDIO_FORMAT = (int)AudioToolbox.AudioFormatType.Flac;
 
-        AVAudioRecorder recorder;
-        NSDictionary settings;
-        AudioFile output;
+        AVAudioRecorder? recorder;
+        NSDictionary? settings;
+        AudioFile? output;
 
         public AudioRecorder()
         {

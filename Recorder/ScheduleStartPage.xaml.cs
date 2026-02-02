@@ -16,7 +16,7 @@ namespace Recorder
     public partial class ScheduleStartPage : ContentPage
     {
         private readonly ScheduleStartPageViewModel viewModel;
-        private Task<bool> alertPopupTask;
+        private Task<bool> alertPopupTask = Task.FromResult(false);
         private readonly IPermissionRequestInfo permissionRequestInfo;
         private bool scheduleStarting;
 

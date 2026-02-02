@@ -11,7 +11,7 @@ namespace Recorder.Services
 {
     public class RecordingManager : IRecordingManager
     {
-        private Recording recording;
+        private Recording? recording;
         private readonly IAudioRecorder recorder;
         private readonly IAppConfiguration appConfiguration;
 

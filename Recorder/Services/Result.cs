@@ -5,7 +5,7 @@ namespace Recorder.Services
     public class Result <T>
     {
         public bool Succeeded { get; private set; }
-        public T Data { get; private set; }
+        public T? Data { get; private set; }
 
         protected Result(bool succeeded, T data)
         {

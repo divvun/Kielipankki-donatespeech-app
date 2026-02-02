@@ -39,7 +39,7 @@ namespace Recorder
             }
         }
 
-        public static object GetOrNull(this ResourceDictionary dictionary, string key)
+        public static object? GetOrNull(this ResourceDictionary dictionary, string key)
         {
             if (dictionary.ContainsKey(key))
             {

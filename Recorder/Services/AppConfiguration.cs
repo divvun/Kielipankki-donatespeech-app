@@ -13,6 +13,8 @@ namespace Recorder.Services
         private AppConfiguration()
         {
             MaxRecordingMinutes = 10;
+            RecorderApiUrl = string.Empty;
+            RecorderApiKey = string.Empty;
         }
 
         public string RecorderApiUrl { get; set; }
