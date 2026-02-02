@@ -10,11 +10,11 @@ namespace Recorder.ViewModels
     public class ScheduleItemViewModel : BaseViewmodel
     {
         public ScheduleItem Item { get; set; }
-        public string ItemType { get; private set; }
+        public string ItemType { get; private set; } = null!;
         public int CounterIndex { get; set; }
         public int CounterTotal { get; set; }
 
-        private string _answer;
+        private string _answer = string.Empty;
         public string Answer
         {
             get => _answer;
@@ -46,14 +46,14 @@ namespace Recorder.ViewModels
                     // update dependent properties through setters so their
                     // property changed events fire only if value actually changed
                     VideoPlay = VideoPlayFor(_state);
-                    ItemMediaUrl = MediaUrlFor(_state);
+                    ItemMediaUrl = MediaUrlFor(_state) ?? string.Empty;
                     ItemTitle = TitleFor(_state);
-                    ItemBody1 = Body1For(_state);
-                    ItemBody2 = Body2For(_state);
+                    ItemBody1 = Body1For(_state) ?? string.Empty;
+                    ItemBody2 = Body2For(_state) ?? string.Empty;
 
                     if (IsVideo)
                     {
-                        VideoItemImageUrl = VideoItemImageUrlFor(_state);
+                        VideoItemImageUrl = VideoItemImageUrlFor(_state) ?? string.Empty;
                         if (_state == ScheduleItemStateType.Start)
                         {
                             VideoReset?.Invoke(this, EventArgs.Empty);
@@ -63,7 +63,7 @@ namespace Recorder.ViewModels
             }
         }
 
-        public event EventHandler<EventArgs> VideoReset;
+        public event EventHandler<EventArgs>? VideoReset;
 
         // this is called when app goes to background
         public void PauseSchedule()
@@ -73,7 +73,7 @@ namespace Recorder.ViewModels
             VideoPlay = false;
         }
 
-        private string _mediaUrl;
+        private string _mediaUrl = string.Empty;
         public string ItemMediaUrl 
         {
             get => _mediaUrl;
@@ -87,35 +87,35 @@ namespace Recorder.ViewModels
             set => Set(ref _videoPlay, value, nameof(VideoPlay));
         }
 
-        private string _videoItemImageUrl;
+        private string _videoItemImageUrl = string.Empty;
         public string VideoItemImageUrl
         {
             get => _videoItemImageUrl;
             set => Set(ref _videoItemImageUrl, value, nameof(VideoItemImageUrl));
         }
 
-        private string _title;
+        private string _title = string.Empty;
         public string ItemTitle
         {
             get => _title;
             set => Set(ref _title, value, nameof(ItemTitle));
         }
 
-        private string _body1;
+        private string _body1 = string.Empty;
         public string ItemBody1
         {
             get => _body1;
             set => Set(ref _body1, value, nameof(ItemBody1));
         }
 
-        private string _body2;
+        private string _body2 = string.Empty;
         public string ItemBody2
         {
             get => _body2;
             set => Set(ref _body2, value, nameof(ItemBody2));
         }
 
-        public string CounterLabel
+        public string? CounterLabel
         {
             get
             {
@@ -157,14 +157,14 @@ namespace Recorder.ViewModels
 
                 foreach (LanguageString ls in _options)
                 {
-                    ss.Add(ls.Localized);
+                    ss.Add(ls.Localized ?? string.Empty);
                 }
                 return ss;
             }
         }
 
-        public string OtherAnswerValue => Item.OtherAnswer.ToLocalString();
-        public string OtherEntryLabel => Item.OtherEntryLabel.ToLocalString();
+        public string? OtherAnswerValue => Item.OtherAnswer?.ToLocalString();
+        public string? OtherEntryLabel => Item.OtherEntryLabel?.ToLocalString();
 
         public bool IsPrompt => Item.IsPrompt;
         public bool IsPromptWithImage => Item.IsPrompt && !string.IsNullOrEmpty(Item.Url);
@@ -176,13 +176,13 @@ namespace Recorder.ViewModels
         public ScheduleItemViewModel(ScheduleItem item, IAppRepository appRepository)
         {
             Item = item;
-            ItemType = item.ItemType;
+            ItemType = item.ItemType!;
 
             // user prompt for a specific question, like age, always uses the same item id, also on different schedules
             // so we can initialize with a previously stored answer
-            if (item.IsPrompt)
+            if (item.IsPrompt && item.ItemId != null)
             {
-                string previousAnswer = appRepository.GetAnswer(item.ItemId);
+                string? previousAnswer = appRepository.GetAnswer(item.ItemId);
                 if (previousAnswer != null)
                 {
                     Answer = previousAnswer;

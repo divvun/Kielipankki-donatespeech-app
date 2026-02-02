@@ -17,7 +17,7 @@ namespace Recorder
         public string? Body1 => _body1.Localized;
         public string? Body2 => _body2.Localized;
 
-        public string TestId => schedule.ScheduleId;
+        public string TestId => schedule.ScheduleId!;
 
         public ScheduleViewModel(Schedule schedule)
         {

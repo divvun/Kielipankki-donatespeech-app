@@ -28,11 +28,11 @@ namespace Recorder.ViewModels
 
         public ICommand PreviousCommand { get; private set; } = null!;
         public ICommand NextCommand { get; private set; } = null!;
-        public ICommand RecordCommand { get; private set; } // both start and stop recording
-        public ICommand ContinueCommand { get; private set; }
-        public ICommand RetryCommand { get; private set; }
+        public ICommand RecordCommand { get; private set; } = null!; // both start and stop recording
+        public ICommand ContinueCommand { get; private set; } = null!;
+        public ICommand RetryCommand { get; private set; } = null!;
 
-        private ScheduleItemViewModel _itemViewModel;
+        private ScheduleItemViewModel _itemViewModel = null!;
         public ScheduleItemViewModel ItemViewModel
         {
             get => _itemViewModel;
@@ -78,43 +78,43 @@ namespace Recorder.ViewModels
             }
         }
 
-        private string _continueButtonText;
+        private string _continueButtonText = null!;
         public string ContinueButtonText
         {
             get => _continueButtonText;
             set => Set(ref _continueButtonText, value, nameof(ContinueButtonText));
         }
 
-        private Style _continueButtonStyle;
-        public Style ContinueButtonStyle
+        private Style? _continueButtonStyle;
+        public Style? ContinueButtonStyle
         {
             get => _continueButtonStyle;
             set => Set(ref _continueButtonStyle, value, nameof(ContinueButtonStyle));
         }
 
-        private string _recordButtonText;
+        private string _recordButtonText = null!;
         public string RecordButtonText
         {
             get => _recordButtonText;
             set => Set(ref _recordButtonText, value, nameof(RecordButtonText));
         }
 
-        private Style _recordButtonStyle;
-        public Style RecordButtonStyle
+        private Style? _recordButtonStyle;
+        public Style? RecordButtonStyle
         {
             get => _recordButtonStyle;
             set => Set(ref _recordButtonStyle, value, nameof(RecordButtonStyle));
         }
 
-        private string _recordingTimeText;
+        private string _recordingTimeText = null!;
         public string RecordingTimeText
         {
             get => _recordingTimeText;
             set => Set(ref _recordingTimeText, value, nameof(RecordingTimeText));
         }
 
-        private Style _recordingTimeLabelStyle;
-        public Style RecordingTimeLabelStyle
+        private Style? _recordingTimeLabelStyle;
+        public Style? RecordingTimeLabelStyle
         {
             get => _recordingTimeLabelStyle;
             set => Set(ref _recordingTimeLabelStyle, value, nameof(RecordingTimeLabelStyle));
@@ -208,17 +208,17 @@ namespace Recorder.ViewModels
                 case ScheduleItemStateType.Start:
                     {
                         RecordingTimeText = "0:00";
-                        if (resourceDictionary.TryGetValue("InfoLabelStyle", out object resource))
+                        if (resourceDictionary.TryGetValue("InfoLabelStyle", out object? resource) && resource is Style style)
                         {
-                            RecordingTimeLabelStyle = resource as Style;
+                            RecordingTimeLabelStyle = style;
                         }
                         break;
                     }
                 case ScheduleItemStateType.Recording:
                     {
-                        if (resourceDictionary.TryGetValue("AccentLabelStyle", out object resource))
+                        if (resourceDictionary.TryGetValue("AccentLabelStyle", out object? resource) && resource is Style style)
                         {
-                            RecordingTimeLabelStyle = resource as Style;
+                            RecordingTimeLabelStyle = style;
                         }
                         break;
                     }
@@ -291,9 +291,9 @@ namespace Recorder.ViewModels
             {
                 // Skip only for a prompt that does not have an answer yet
                 ContinueButtonText = AppResources.SkipScheduleItem;
-                if (resourceDictionary.TryGetValue("textButtonStyle", out object resource))
+                if (resourceDictionary.TryGetValue("textButtonStyle", out object? resource) && resource is Style style)
                 {
-                    ContinueButtonStyle = resource as Style;
+                    ContinueButtonStyle = style;
                 }
             }
             else
@@ -325,9 +325,9 @@ namespace Recorder.ViewModels
                 RecordButtonText = AppResources.StartRecording;
             }
 
-            if (resourceDictionary.TryGetValue(buttonStyle, out object resource))
+            if (resourceDictionary.TryGetValue(buttonStyle, out object? resource) && resource is Style style)
             {
-                RecordButtonStyle = resource as Style;
+                RecordButtonStyle = style;
             }
         }
 

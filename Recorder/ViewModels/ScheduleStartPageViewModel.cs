@@ -110,16 +110,22 @@ namespace Recorder.ViewModels
 
         private void UpdateProperties(Schedule schedule)
         {
-            Debug.WriteLine($"UpdateProperties called for schedule: {schedule?.ScheduleId ?? "null"}");
+            if (schedule == null)
+            {
+                Debug.WriteLine("UpdateProperties called with null schedule");
+                return;
+            }
+
+            Debug.WriteLine($"UpdateProperties called for schedule: {schedule.ScheduleId ?? "null"}");
             
             // Use schedule defaults if start override not specified
             var titleDict = schedule.Start?.Title ?? schedule.Title;
             var body1Dict = schedule.Start?.Body1 ?? schedule.Body1;
             var body2Dict = schedule.Start?.Body2 ?? schedule.Body2;
 
-            Debug.WriteLine($"titleDict: {titleDict?.Count.ToString() ?? "null"} items");
-            Debug.WriteLine($"body1Dict: {body1Dict?.Count.ToString() ?? "null"} items");
-            Debug.WriteLine($"body2Dict: {body2Dict?.Count.ToString() ?? "null"} items");
+            Debug.WriteLine($"titleDict: {titleDict?.Count ?? 0} items");
+            Debug.WriteLine($"body1Dict: {body1Dict?.Count ?? 0} items");
+            Debug.WriteLine($"body2Dict: {body2Dict?.Count ?? 0} items");
 
             Title = titleDict?.ToLocalString() ?? string.Empty;
             Body1 = body1Dict?.ToLocalString() ?? string.Empty;
