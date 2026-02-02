@@ -40,7 +40,7 @@ namespace Recorder.Views
             }
         }
 
-        private void SuggestBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void SuggestBox_TextChanged(object? sender, TextChangedEventArgs e)
         {
             if (e.NewTextValue == null)
             {
@@ -53,7 +53,7 @@ namespace Recorder.Views
             Debug.WriteLine($"Entry text changed to '{e.NewTextValue}' --> answer = '{model.Answer}'");
         }
 
-        private void OtherEntry_TextChanged(object sender, TextChangedEventArgs e)
+        private void OtherEntry_TextChanged(object? sender, TextChangedEventArgs e)
         {
             // null occurs when text is cleared
             if (e.NewTextValue != null)

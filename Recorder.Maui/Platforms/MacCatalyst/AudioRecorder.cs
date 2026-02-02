@@ -105,7 +105,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
                 throw new RecordingException("AVAudioRecorder.PrepareToRecord() failed");
             }
 
-            recorder.FinishedRecording += delegate (object sender, AVStatusEventArgs e) {
+            recorder.FinishedRecording += delegate (object? sender, AVStatusEventArgs e) {
                 recorder?.Dispose();
                 recorder = null;
                 Debug.WriteLine($"Done recording (status: {e.Status})");

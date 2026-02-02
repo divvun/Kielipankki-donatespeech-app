@@ -173,7 +173,7 @@ namespace Recorder.ViewModels
             }
         }
 
-        private void ItemViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void ItemViewModelPropertyChanged(object? sender, PropertyChangedEventArgs args)
         {
             if (args.PropertyName == nameof(ScheduleItemViewModel.Answer))
             {
@@ -188,7 +188,7 @@ namespace Recorder.ViewModels
             elapsedTimeModel.SecondElapsed += OnSecondElapsed;
         }
 
-        private void OnSecondElapsed(object sender, ElapsedTimeModel.SecondElapsedEventArgs e)
+        private void OnSecondElapsed(object? sender, ElapsedTimeModel.SecondElapsedEventArgs e)
         {
             RecordingTimeText = e.ElapsedTime.ToString(@"m\:ss");
 

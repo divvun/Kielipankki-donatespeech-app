@@ -28,7 +28,7 @@ namespace Recorder.ViewModels
             timer.Stop();
         }
 
-        private void OnElapsed(object source, ElapsedEventArgs e)
+        private void OnElapsed(object? source, ElapsedEventArgs e)
         {
             TimeSpan sinceStart = e.SignalTime - startTime;
             SecondElapsed?.Invoke(this, new SecondElapsedEventArgs(sinceStart));

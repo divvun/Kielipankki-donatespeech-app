@@ -41,7 +41,7 @@ namespace Recorder.Views
             acceptButton.Clicked += AcceptButton_Clicked;
         }
 
-        private async void AcceptButton_Clicked(object sender, EventArgs e)
+        private async void AcceptButton_Clicked(object? sender, EventArgs e)
         {
             try
             {

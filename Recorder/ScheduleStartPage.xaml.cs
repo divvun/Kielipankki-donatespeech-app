@@ -122,7 +122,7 @@ namespace Recorder
             return false;
         }
 
-        private async void OnScheduleLoadFailed(object sender, System.EventArgs e)
+        private async void OnScheduleLoadFailed(object? sender, System.EventArgs e)
         {
             if (!IsAlertShowing)
             {

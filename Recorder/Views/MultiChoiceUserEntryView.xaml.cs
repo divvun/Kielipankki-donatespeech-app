@@ -65,7 +65,7 @@ namespace Recorder.Views
             }
         }
 
-        private void OtherEntry_TextChanged(object sender, TextChangedEventArgs e)
+        private void OtherEntry_TextChanged(object? sender, TextChangedEventArgs e)
         {
             // null occurs when text is cleared
             if (e.NewTextValue != null)

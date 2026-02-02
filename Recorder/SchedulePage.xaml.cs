@@ -46,13 +46,13 @@ namespace Recorder
             app.AppSleep += OnAppSleep;
         }
 
-        private void OnMaxRecordingTimeReached(object sender, EventArgs e)
+        private void OnMaxRecordingTimeReached(object? sender, EventArgs e)
         {
             Dispatcher.Dispatch(() =>
                 DisplayAlertAsync(AppResources.RecordingStoppedLimitTitle, AppResources.RecordingStoppedLimitMessage, AppResources.AlertDismissOk));
         }
 
-        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SchedulePageViewModel.DisplayState))
             {
@@ -73,7 +73,7 @@ namespace Recorder
             }
         }
 
-        private void OnAppSleep(object sender, EventArgs e)
+        private void OnAppSleep(object? sender, EventArgs e)
         {
             Debug.WriteLine("SchedulePage:AppPause");
             viewModel.PauseSchedule();
@@ -89,7 +89,7 @@ namespace Recorder
             viewModel.PauseSchedule();
         }
 
-        private async void ScheduleFinished(object sender, EventArgs e)
+        private async void ScheduleFinished(object? sender, EventArgs e)
         {
             // one way navigation to finish page
             await Navigation.PushAsyncThenRemove(new ScheduleFinishPage(this.schedule), this);

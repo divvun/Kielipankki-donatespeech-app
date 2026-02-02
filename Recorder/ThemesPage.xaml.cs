@@ -47,7 +47,7 @@ namespace Recorder
             );
         }
 
-        private async void OnThemeLoadFailed(object sender, System.EventArgs e)
+        private async void OnThemeLoadFailed(object? sender, System.EventArgs e)
         {
             if (!IsAlertShowing)
             { 
