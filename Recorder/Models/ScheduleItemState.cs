@@ -5,10 +5,10 @@ namespace Recorder.Models
 {
     public class ScheduleItemState
     {
-        public Dictionary<string, string> Title;
-        public Dictionary<string, string> Body1;
-        public Dictionary<string, string> Body2;
-        public string ImageUrl;
+        public Dictionary<string, string>? Title;
+        public Dictionary<string, string>? Body1;
+        public Dictionary<string, string>? Body2;
+        public string? ImageUrl;
     }
 
     public enum ScheduleItemStateType

@@ -9,19 +9,19 @@ namespace Recorder.Models
 {
     public class RecordingMetadata
     {
-        public string ClientId;
+        public string ClientId = "";
         public string RecordingId;
-        public string ClientPlatformName;
-        public string ClientPlatformVersion;
+        public string ClientPlatformName = "";
+        public string ClientPlatformVersion = "";
         public DateTime RecordingTimestamp;
         public double RecordingDuration;
         public int RecordingBitDepth;
         public int RecordingSampleRate;
         public int RecordingNumberOfChannels;
-        public string ContentType;
-        public string ItemId;
+        public string ContentType = "";
+        public string ItemId = "";
 
-        public UserMetadata User;
+        public UserMetadata User = null!;
 
         public RecordingMetadata(string recordingId)
         {

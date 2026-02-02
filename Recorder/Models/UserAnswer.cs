@@ -5,8 +5,8 @@ namespace Recorder.Models
 {
     public class UserAnswer
     {
-        public string ItemId;    // the schedule item
-        public string Value;     // the actual answer
+        public string? ItemId;    // the schedule item
+        public string? Value;     // the actual answer
 
         public JObject ToJsonObject()
         {

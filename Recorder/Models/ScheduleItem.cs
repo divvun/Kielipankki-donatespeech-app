@@ -27,24 +27,24 @@ namespace Recorder.Models
 
     public class ScheduleItem : ICloneable
     {
-        public string ItemId;
-        public string Kind;
-        public string ItemType;
-        public string TypeId;
-        public string Url;
-        public Dictionary<string, string> Title;
-        public Dictionary<string, string> Body1;
-        public Dictionary<string, string> Body2;
-        public Dictionary<string, string> MetaTitle;  // new for v2, v1 clients will ignore this
-        public List<Dictionary<string, string>> Options;
+        public string? ItemId;
+        public string? Kind;
+        public string? ItemType;
+        public string? TypeId;
+        public string? Url;
+        public Dictionary<string, string>? Title;
+        public Dictionary<string, string>? Body1;
+        public Dictionary<string, string>? Body2;
+        public Dictionary<string, string>? MetaTitle;  // new for v2, v1 clients will ignore this
+        public List<Dictionary<string, string>>? Options;
         public bool IsRecording;
         public int StartTime;
         public int EndTime;
-        public ScheduleItemState Start;
-        public ScheduleItemState Recording;
-        public ScheduleItemState Finish;
-        public Dictionary<string, string> OtherAnswer;  // "other" answer = checkbox label for multi-choice
-        public Dictionary<string, string> OtherEntryLabel;  // text entry label for super-choice and multi-choice
+        public ScheduleItemState? Start;
+        public ScheduleItemState? Recording;
+        public ScheduleItemState? Finish;
+        public Dictionary<string, string>? OtherAnswer;  // "other" answer = checkbox label for multi-choice
+        public Dictionary<string, string>? OtherEntryLabel;  // text entry label for super-choice and multi-choice
 
         public Dictionary<string, string> StartTitle => Start?.Title ?? Title;
         public Dictionary<string, string> StartBody1 => Start?.Body1 ?? Body1;
