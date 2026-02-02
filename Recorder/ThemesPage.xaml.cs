@@ -51,7 +51,7 @@ namespace Recorder
         {
             if (!IsAlertShowing)
             { 
-                alertPopupTask = DisplayAlert(AppResources.LoadFailedAlertTitle, AppResources.LoadFailedAlertMessage,
+                alertPopupTask = DisplayAlertAsync(AppResources.LoadFailedAlertTitle, AppResources.LoadFailedAlertMessage,
                     AppResources.LoadFailedAlertContinue, AppResources.LoadFailedAlertCancel);
 
                 await alertPopupTask;

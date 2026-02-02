@@ -28,7 +28,7 @@ namespace Recorder
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Navigation Error", $"Failed to navigate:\n{ex.Message}\n\nStack:\n{ex.StackTrace}", "OK");
+                await DisplayAlertAsync("Navigation Error", $"Failed to navigate:\n{ex.Message}\n\nStack:\n{ex.StackTrace}", "OK");
             }
         }
     }

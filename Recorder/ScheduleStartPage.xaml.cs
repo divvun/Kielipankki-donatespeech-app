@@ -82,7 +82,7 @@ namespace Recorder
             {
                 Debug.WriteLine($"ERROR in StartButtonClickedAsync: {ex}");
                 Console.WriteLine($"ERROR in StartButtonClickedAsync: {ex}");
-                await DisplayAlert("Error", $"Failed to start: {ex.Message}", "OK");
+                await DisplayAlertAsync("Error", $"Failed to start: {ex.Message}", "OK");
                 scheduleStarting = false;
             }
         }
@@ -109,13 +109,13 @@ namespace Recorder
             // android allows retry, ios does not
             if (permissionRequestInfo.IsRetryAllowedForDeniedMicrophone())
             {
-                await DisplayAlert(AppResources.PermissionRationaleTitle,
+                await DisplayAlertAsync(AppResources.PermissionRationaleTitle,
                     AppResources.PermissionRationaleMessage, AppResources.PermissionRationaleDismiss);
             }
             else
             {
                 // ios: denied, android: denied and do not ask again -> user needs to fix manually
-                await DisplayAlert(AppResources.PermissionDeniedTitle,
+                await DisplayAlertAsync(AppResources.PermissionDeniedTitle,
                     AppResources.PermissionDeniedMessage, AppResources.PermissionDeniedDismiss);
             }
 
@@ -126,7 +126,7 @@ namespace Recorder
         {
             if (!IsAlertShowing)
             {
-                alertPopupTask = DisplayAlert(AppResources.LoadFailedAlertTitle, AppResources.LoadFailedAlertMessage,
+                alertPopupTask = DisplayAlertAsync(AppResources.LoadFailedAlertTitle, AppResources.LoadFailedAlertMessage,
                     AppResources.LoadFailedAlertContinue, AppResources.LoadFailedAlertCancel);
 
                 await alertPopupTask;

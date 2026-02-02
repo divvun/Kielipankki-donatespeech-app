@@ -49,7 +49,7 @@ namespace Recorder
         private void OnMaxRecordingTimeReached(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(()
-                => DisplayAlert(AppResources.RecordingStoppedLimitTitle, AppResources.RecordingStoppedLimitMessage, AppResources.AlertDismissOk));
+                => DisplayAlertAsync(AppResources.RecordingStoppedLimitTitle, AppResources.RecordingStoppedLimitMessage, AppResources.AlertDismissOk));
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

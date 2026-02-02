@@ -50,7 +50,7 @@ namespace Recorder.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Navigation Error", $"Failed to navigate to ThemesPage:\n{ex.Message}", "OK");
+                await DisplayAlertAsync("Navigation Error", $"Failed to navigate:\n{ex.Message}", "OK");
             }
         }
     }
