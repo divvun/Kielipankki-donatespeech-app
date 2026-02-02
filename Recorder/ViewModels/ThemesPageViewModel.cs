@@ -10,7 +10,9 @@ namespace Recorder.ViewModels
     {
         private readonly IAppRepository appRepository;
 
+#pragma warning disable CS0067 // Event is never used - preserved for future use
         public event EventHandler<EventArgs> ThemeLoadFailed;
+#pragma warning restore CS0067
 
         public ThemesPageViewModel(IAppRepository appRepository)
         {
