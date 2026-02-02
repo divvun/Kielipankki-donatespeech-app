@@ -5,7 +5,7 @@ namespace Recorder.ViewModels
 {
     public class NavigationBarViewModel : BaseViewmodel
     {
-        private string _totalRecordedMinutes;
+        private string _totalRecordedMinutes = string.Empty;
         public string TotalRecordedMinutes 
         {
             get => _totalRecordedMinutes;

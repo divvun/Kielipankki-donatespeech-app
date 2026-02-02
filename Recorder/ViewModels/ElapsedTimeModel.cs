@@ -15,7 +15,7 @@ namespace Recorder.ViewModels
             timer.Elapsed += OnElapsed;
         }
 
-        public event EventHandler<SecondElapsedEventArgs> SecondElapsed;
+        public event EventHandler<SecondElapsedEventArgs>? SecondElapsed;
 
         public void Start()
         {

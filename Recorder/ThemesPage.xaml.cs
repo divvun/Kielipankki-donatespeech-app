@@ -91,23 +91,24 @@ namespace Recorder
                 return;
             }
 
-            ListView list = sender as ListView;
+            ListView? list = sender as ListView;
             if (scheduleOpening)
             {
                 Debug.WriteLine("Ignoring theme selection since already opening");
-                list.SelectedItem = null;
+                if (list != null) list.SelectedItem = null;
                 return;
             }
             scheduleOpening = true; // prevent double-click
 
-            ThemeViewModel themeModel = e.SelectedItem as ThemeViewModel;
+            ThemeViewModel? themeModel = e.SelectedItem as ThemeViewModel;
+            if (themeModel == null) return;
 
             // clear selection so it's not selected when navigating back
-            list.SelectedItem = null;
+            if (list != null) list.SelectedItem = null;
 
             SendThemeSelectEvent(themeModel);
 
-            await Navigation.PushAsync(new ScheduleStartPage(themeModel.FirstScheduleId));
+            await Navigation.PushAsync(new ScheduleStartPage(themeModel.FirstScheduleId!));
             scheduleOpening = false;
         }
 
@@ -122,11 +123,11 @@ namespace Recorder
             var themeDict = new Dictionary<string, string>
             {
                 { AnalyticsParameterNamesConstants.ItemId, themeModel.ThemeId },
-                { AnalyticsParameterNamesConstants.ItemName, themeModel.Title },
+                { AnalyticsParameterNamesConstants.ItemName, themeModel.Title ?? string.Empty },
                 { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.Theme }
             };
             var app = Application.Current as App;
-            app.AnalyticsEventTracker.SendEvent(AnalyticsEventNamesConstants.SelectContent, themeDict);
+            app!.AnalyticsEventTracker.SendEvent(AnalyticsEventNamesConstants.SelectContent, themeDict);
         }
     }
 }

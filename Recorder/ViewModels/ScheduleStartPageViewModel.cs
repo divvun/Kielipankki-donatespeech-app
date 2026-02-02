@@ -17,37 +17,37 @@ namespace Recorder.ViewModels
         private readonly IAppConfiguration appConfiguration;
         private readonly string scheduleId;
 
-        public event EventHandler<EventArgs> ScheduleLoadFailed;
+        public event EventHandler<EventArgs>? ScheduleLoadFailed;
 
-        private string _title;
+        private string _title = null!;
         public string Title
         {
             get => _title;
             set => Set(ref _title, value, nameof(Title));
         }
 
-        private string _body1;
+        private string _body1 = null!;
         public string Body1
         {
             get => _body1;
             set => Set(ref _body1, value, nameof(Body1));
         }
 
-        private string _body2;
+        private string _body2 = null!;
         public string Body2
         {
             get => _body2;
             set => Set(ref _body2, value, nameof(Body2));
         }
 
-        private string _imageUrl;
+        private string _imageUrl = null!;
         public string ImageUrl
         {
             get => _imageUrl;
             set => Set(ref _imageUrl, value, nameof(ImageUrl));
         }
 
-        public Schedule Schedule { get; private set; }
+        public Schedule Schedule { get; private set; } = null!;
 
         private bool _loading;
         public bool IsLoading
@@ -100,31 +100,31 @@ namespace Recorder.ViewModels
         {
             var scheduleDict = new Dictionary<string, string>
             {
-                { AnalyticsParameterNamesConstants.ItemId, Schedule.ScheduleId },
+                { AnalyticsParameterNamesConstants.ItemId, Schedule.ScheduleId! },
                 { AnalyticsParameterNamesConstants.ItemName, Title ?? string.Empty },
                 { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.Schedule },
-                { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType }
+                { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType! }
             };
             eventTracker.SendEvent(AnalyticsEventNamesConstants.SelectContent, scheduleDict);
         }
 
         private void UpdateProperties(Schedule schedule)
         {
-            Debug.WriteLine($"UpdateProperties called for schedule: {schedule?.ScheduleId}");
+            Debug.WriteLine($"UpdateProperties called for schedule: {schedule?.ScheduleId ?? "null"}");
             
             // Use schedule defaults if start override not specified
             var titleDict = schedule.Start?.Title ?? schedule.Title;
             var body1Dict = schedule.Start?.Body1 ?? schedule.Body1;
             var body2Dict = schedule.Start?.Body2 ?? schedule.Body2;
 
-            Debug.WriteLine($"titleDict: {titleDict?.Count ?? 0} items");
-            Debug.WriteLine($"body1Dict: {body1Dict?.Count ?? 0} items");
-            Debug.WriteLine($"body2Dict: {body2Dict?.Count ?? 0} items");
+            Debug.WriteLine($"titleDict: {titleDict?.Count.ToString() ?? "null"} items");
+            Debug.WriteLine($"body1Dict: {body1Dict?.Count.ToString() ?? "null"} items");
+            Debug.WriteLine($"body2Dict: {body2Dict?.Count.ToString() ?? "null"} items");
 
-            Title = titleDict?.ToLocalString();
-            Body1 = body1Dict?.ToLocalString();
-            Body2 = body2Dict?.ToLocalString();
-            ImageUrl = schedule.Start?.ImageUrl;
+            Title = titleDict?.ToLocalString() ?? string.Empty;
+            Body1 = body1Dict?.ToLocalString() ?? string.Empty;
+            Body2 = body2Dict?.ToLocalString() ?? string.Empty;
+            ImageUrl = schedule.Start?.ImageUrl ?? string.Empty;
             
             Debug.WriteLine($"Set Title: {Title}");
             Debug.WriteLine($"Set Body1: {Body1}");

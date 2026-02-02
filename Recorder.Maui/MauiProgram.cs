@@ -38,7 +38,7 @@ public static class MauiProgram
 		// Register RecordingManager as a service
 		builder.Services.AddSingleton<IRecordingManager>(sp =>
 		{
-			var config = AppConfiguration.Load();
+			var config = AppConfiguration.Load() ?? new AppConfiguration();
 			var audioRecorder = sp.GetRequiredService<IAudioRecorder>();
 			return new RecordingManager(config, audioRecorder);
 		});

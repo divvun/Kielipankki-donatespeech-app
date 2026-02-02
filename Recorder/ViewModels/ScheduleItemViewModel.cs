@@ -230,7 +230,7 @@ namespace Recorder.ViewModels
             }
         }
 
-        private string MediaUrlFor(ScheduleItemStateType state) => state switch
+        private string? MediaUrlFor(ScheduleItemStateType state) => state switch
         {
             ScheduleItemStateType.Start => Item.StartUrl,
             ScheduleItemStateType.Recording => Item.RecordingUrl,
@@ -238,7 +238,7 @@ namespace Recorder.ViewModels
         };
 
         // special case for displaying image on top of video 
-        private string VideoItemImageUrlFor(ScheduleItemStateType state) => state switch
+        private string? VideoItemImageUrlFor(ScheduleItemStateType state) => state switch
         {
             ScheduleItemStateType.Start => Item.Start?.ImageUrl,
             ScheduleItemStateType.Finish => Item.Finish?.ImageUrl,
@@ -247,23 +247,23 @@ namespace Recorder.ViewModels
 
         private string TitleFor(ScheduleItemStateType state) => state switch
         {
-            ScheduleItemStateType.Start => Item.StartTitle.ToLocalString(),
-            ScheduleItemStateType.Recording => Item.RecordingTitle.ToLocalString(),
+            ScheduleItemStateType.Start => Item.StartTitle?.ToLocalString() ?? string.Empty,
+            ScheduleItemStateType.Recording => Item.RecordingTitle?.ToLocalString() ?? string.Empty,
             _ => Item.Finish?.Title?.ToLocalString() ?? AppResources.RecordingFinishTitle
         };
 
-        private string Body1For(ScheduleItemStateType state) => state switch
+        private string? Body1For(ScheduleItemStateType state) => state switch
         {
-            ScheduleItemStateType.Start => Item.StartBody1.ToLocalString(),
-            ScheduleItemStateType.Recording => Item.RecordingBody1.ToLocalString(),
-            _ => Item.FinishBody1.ToLocalString()
+            ScheduleItemStateType.Start => Item.StartBody1?.ToLocalString(),
+            ScheduleItemStateType.Recording => Item.RecordingBody1?.ToLocalString(),
+            _ => Item.FinishBody1?.ToLocalString()
         };
 
-        private string Body2For(ScheduleItemStateType state) => state switch
+        private string? Body2For(ScheduleItemStateType state) => state switch
         {
-            ScheduleItemStateType.Start => Item.StartBody2.ToLocalString(),
-            ScheduleItemStateType.Recording => Item.RecordingBody2.ToLocalString(),
-            _ => Item.FinishBody2.ToLocalString()
+            ScheduleItemStateType.Start => Item.StartBody2?.ToLocalString(),
+            ScheduleItemStateType.Recording => Item.RecordingBody2?.ToLocalString(),
+            _ => Item.FinishBody2?.ToLocalString()
         };
     }
 }

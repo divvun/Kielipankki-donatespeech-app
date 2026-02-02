@@ -126,9 +126,10 @@ namespace Recorder
             // Try to get RecordingManager from DI first
             try
             {
-                RecMan = Application.Current.Handler?.MauiContext?.Services?.GetService(typeof(IRecordingManager)) as IRecordingManager;
-                if (RecMan != null)
+                var recManFromDI = Application.Current?.Handler?.MauiContext?.Services?.GetService(typeof(IRecordingManager)) as IRecordingManager;
+                if (recManFromDI != null)
                 {
+                    RecMan = recManFromDI;
                     Debug.WriteLine("Got RecordingManager from DI");
                 }
             }

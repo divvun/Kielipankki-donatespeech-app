@@ -149,8 +149,8 @@ namespace Recorder.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    T data = JsonConvert.DeserializeObject<T>(content, serializerSettings);
-                    return data;
+                    T? data = JsonConvert.DeserializeObject<T>(content, serializerSettings);
+                    return data!;
                 }
                 else
                 {

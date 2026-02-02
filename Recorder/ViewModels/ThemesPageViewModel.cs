@@ -11,8 +11,16 @@ namespace Recorder.ViewModels
         private readonly IAppRepository appRepository;
 
 #pragma warning disable CS0067 // Event is never used - preserved for future use
-        public event EventHandler<EventArgs> ThemeLoadFailed;
+        public event EventHandler<EventArgs>? ThemeLoadFailed;
 #pragma warning restore CS0067
+
+        private List<ThemeViewModel> _themeModels = new List<ThemeViewModel>();
+        
+        public List<ThemeViewModel> ThemeModels
+        {
+            get => _themeModels;
+            set => Set(ref _themeModels, value, nameof(ThemeModels));
+        }
 
         public ThemesPageViewModel(IAppRepository appRepository)
         {
@@ -75,7 +83,7 @@ namespace Recorder.ViewModels
 
                 // update completed flags on every call.. data binding will update list data template
                 ThemeModels?.ForEach(t =>
-                    t.IsCompleted = completedScheduleIds?.Contains(t.FirstScheduleId) == true);
+                    t.IsCompleted = completedScheduleIds?.Contains(t.FirstScheduleId ?? string.Empty) == true);
             }
         }
 
@@ -127,13 +135,6 @@ namespace Recorder.ViewModels
         {
             get => _loading;
             set => Set(ref _loading, value, nameof(IsLoading));
-        }
-
-        private List<ThemeViewModel> _themeModels;
-        public List<ThemeViewModel> ThemeModels
-        {
-            get => _themeModels;
-            set => Set(ref _themeModels, value, nameof(ThemeModels));
         }
     }
 }

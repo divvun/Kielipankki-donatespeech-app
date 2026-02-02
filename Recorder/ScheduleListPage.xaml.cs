@@ -87,14 +87,14 @@ namespace Recorder
 
             var title = new LanguageString
             {
-                Strings = selectedSchedule.Title
+                Strings = selectedSchedule.Title!
             };
 
             var app = Application.Current as App;
             var dict = new Dictionary<string, string>
             {
                 { AnalyticsParameterNamesConstants.ItemId, selectedSchedule.ScheduleId! },
-                { AnalyticsParameterNamesConstants.ItemName, title.Localized! },
+                { AnalyticsParameterNamesConstants.ItemName, title.Localized ?? string.Empty },
                 { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.Schedule },
                 { AnalyticsParameterNamesConstants.BuildType, app!.Config.BuildType }
             };

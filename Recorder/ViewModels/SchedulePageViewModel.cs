@@ -15,7 +15,7 @@ namespace Recorder.ViewModels
         private Schedule schedule;
         private List<ScheduleItemViewModel> itemModels;
         private int currentItemIndex;
-        private ElapsedTimeModel elapsedTimeModel;
+        private ElapsedTimeModel elapsedTimeModel = null!;
 
         private readonly IRecordingManager recordingManager;
         private readonly IFirebaseAnalyticsEventTracker eventTracker;
@@ -23,11 +23,11 @@ namespace Recorder.ViewModels
         private readonly IAppRepository appRepository;
         private readonly IAppConfiguration appConfiguration;
 
-        public event EventHandler<EventArgs> ScheduleFinished;
-        public event EventHandler<EventArgs> MaxRecordingTimeReached;
+        public event EventHandler<EventArgs>? ScheduleFinished;
+        public event EventHandler<EventArgs>? MaxRecordingTimeReached;
 
-        public ICommand PreviousCommand { get; private set; }
-        public ICommand NextCommand { get; private set; }
+        public ICommand PreviousCommand { get; private set; } = null!;
+        public ICommand NextCommand { get; private set; } = null!;
         public ICommand RecordCommand { get; private set; } // both start and stop recording
         public ICommand ContinueCommand { get; private set; }
         public ICommand RetryCommand { get; private set; }
@@ -389,9 +389,9 @@ namespace Recorder.ViewModels
             var dict = new Dictionary<string, string>
             {
                 { AnalyticsParameterNamesConstants.ItemId, item.ItemId! },
-                { AnalyticsParameterNamesConstants.ItemName, item.Title!.ToLocalString() },
+                { AnalyticsParameterNamesConstants.ItemName, item.Title!.ToLocalString() ?? string.Empty },
                 { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.ScheduleItem },
-                { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType }
+                { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType ?? string.Empty }
             };
             eventTracker.SendEvent(AnalyticsEventNamesConstants.SelectContent, dict);
         }
@@ -399,7 +399,7 @@ namespace Recorder.ViewModels
         private void SendUserAnswerCompletedEvent(ScheduleItem item, string answer)
         {
             eventTracker.SendEvent(new ScheduleItemCompletedEvent(
-                item.ItemId!, item.Title!.ToLocalString(), answer, appConfiguration.BuildType));
+                item.ItemId!, item.Title!.ToLocalString() ?? string.Empty, answer, appConfiguration.BuildType ?? string.Empty));
         }
 
         private void ShowPreviousItem()

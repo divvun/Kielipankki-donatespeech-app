@@ -29,7 +29,7 @@ namespace Recorder.Views
             {
                 var selections = TryParseAnswer();
 
-                if (selections.Count > 0)
+                if (selections != null && selections.Count > 0)
                 {
                     if (model.ChoiceOptions.Find(c => c == selections[0]) != null)
                     {
@@ -51,7 +51,7 @@ namespace Recorder.Views
             }
         }
 
-        private List<string> TryParseAnswer()
+        private List<string>? TryParseAnswer()
         {
             try
             {

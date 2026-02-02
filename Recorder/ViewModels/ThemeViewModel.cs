@@ -13,16 +13,16 @@ namespace Recorder.ViewModels
         private LanguageString _body1;
         private LanguageString _body2;
 
-        public string Title => _title.Localized;
-        public string Body1 => _body1.Localized;
-        public string Body2 => _body2.Localized;
+        public string? Title => _title.Localized;
+        public string? Body1 => _body1.Localized;
+        public string? Body2 => _body2.Localized;
 
-        public string ImageUrl => theme.Content.Image;
-        public string TestId => theme.Id;
+        public string? ImageUrl => theme.Content?.Image;
+        public string TestId => theme.Id!;
 
-        public string ThemeId => theme.Id;
+        public string ThemeId => theme.Id!;
 
-        public string FirstScheduleId
+        public string? FirstScheduleId
         {
             get 
             {
@@ -42,8 +42,8 @@ namespace Recorder.ViewModels
             get
             {
                 return this.IsCompleted ?
-                    (Color)Application.Current.Resources["ThirdColor"] :
-                    (Color)Application.Current.Resources["FirstColor"];
+                    (Color)Application.Current!.Resources["ThirdColor"] :
+                    (Color)Application.Current!.Resources["FirstColor"];
             }
         }
 
@@ -60,15 +60,15 @@ namespace Recorder.ViewModels
 
             this._title = new LanguageString()
             {
-                Strings = theme.Content.Title
+                Strings = theme.Content!.Title!
             };
             this._body1 = new LanguageString()
             {
-                Strings = theme.Content.Body1
+                Strings = theme.Content!.Body1!
             };
             this._body2 = new LanguageString()
             {
-                Strings = theme.Content.Body2
+                Strings = theme.Content!.Body2!
             };
         }
     }

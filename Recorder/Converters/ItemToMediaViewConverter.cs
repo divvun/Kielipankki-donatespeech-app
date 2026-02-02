@@ -51,7 +51,7 @@ namespace Recorder.Converters
                 Padding = 20
             };
 
-            var labelStyle = Application.Current.Resources.GetOrNull("TextScheduleItemLabelStyle");
+            var labelStyle = Application.Current!.Resources.GetOrNull("TextScheduleItemLabelStyle");
             if (labelStyle != null)
             {
                 label.Style = (Style)labelStyle;

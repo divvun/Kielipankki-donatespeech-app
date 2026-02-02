@@ -168,8 +168,8 @@ namespace Recorder.Services
             Debug.WriteLine("UploadStatus | RecordingId | ItemId | FileName | ClientId | Timestamp | Metadata");
             foreach (Recording rec in recordings)
             {
-                string md = rec.Metadata;
-                string metadataString = md.Substring(0, 20) + "..." + md.Substring(Math.Max(0, md.Length - 20));
+                string md = rec.Metadata ?? string.Empty;
+                string metadataString = md.Length > 40 ? md.Substring(0, 20) + "..." + md.Substring(Math.Max(0, md.Length - 20)) : md;
                 Debug.WriteLine($"{rec.UploadStatus:8} | {rec.RecordingId} | {rec.ItemId} | {rec.FileName} | {rec.ClientId} | {rec.Timestamp} | {metadataString}");
             }
         }
@@ -231,9 +231,9 @@ namespace Recorder.Services
                 // (because deleting and reinstalling the app may cause the full path to change), so we need to
                 // construct the full pathname again:
                 var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string recordingFileName = Path.Combine(documentsFolder, rec.FileName);
+                string recordingFileName = Path.Combine(documentsFolder, rec.FileName!);
 
-                bool success = await RecorderApi.UploadRecordingAsync(recordingFileName, uploadDescription.PreSignedUrl, metadataObject.ContentType);
+                bool success = await RecorderApi.UploadRecordingAsync(recordingFileName, uploadDescription.PreSignedUrl, metadataObject!.ContentType!);
                 if (success)
                 {
                     rec.UploadStatus = UploadStatus.Uploaded;
@@ -251,6 +251,6 @@ namespace Recorder.Services
             => appPreferences.Set(id, value);
 
         public string? GetAnswer(string id)
-            => appPreferences.Get(id, defaultValue: null);
+            => appPreferences.Get(id, defaultValue: string.Empty);
     }
 }
