@@ -14,7 +14,7 @@ namespace Recorder
             return block(self);
         }
 
-        public static string ToLocalString(this Dictionary<string, string> dictionary)
+        public static string? ToLocalString(this Dictionary<string, string> dictionary)
         {
             return new LanguageString(dictionary).Localized;
         }

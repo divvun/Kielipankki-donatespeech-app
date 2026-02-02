@@ -54,11 +54,11 @@ namespace Recorder
                 foreach (string scheduleId in this.scheduleIds)
                 {
                     //Debug.WriteLine($"About to download schedule {scheduleId}");
-                    Result<Schedule> result = await app.AppRepository.GetScheduleAsync(scheduleId);
+                    Result<Schedule> result = await app!.AppRepository.GetScheduleAsync(scheduleId);
                     if (result.Succeeded)
                     {
-                        Debug.WriteLine($"Loaded schedule '{result.Data.ScheduleId}'");
-                        this.schedules.Add(result.Data);
+                        Debug.WriteLine($"Loaded schedule '{result.Data!.ScheduleId}'");
+                        this.schedules.Add(result.Data!);
                     }
                     else
                     {
@@ -93,10 +93,10 @@ namespace Recorder
             var app = Application.Current as App;
             var dict = new Dictionary<string, string>
             {
-                { AnalyticsParameterNamesConstants.ItemId, selectedSchedule.ScheduleId },
-                { AnalyticsParameterNamesConstants.ItemName, title.Localized },
+                { AnalyticsParameterNamesConstants.ItemId, selectedSchedule.ScheduleId! },
+                { AnalyticsParameterNamesConstants.ItemName, title.Localized! },
                 { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.Schedule },
-                { AnalyticsParameterNamesConstants.BuildType, app.Config.BuildType }
+                { AnalyticsParameterNamesConstants.BuildType, app!.Config.BuildType }
             };
 
             app.AnalyticsEventTracker.SendEvent(AnalyticsEventNamesConstants.SelectContent, dict);

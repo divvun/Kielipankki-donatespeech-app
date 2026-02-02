@@ -90,7 +90,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
             );
 
             // Set recorder parameters
-            recorder = AVAudioRecorder.Create(audioFilePath, new AudioSettings(settings), out err);
+            recorder = AVAudioRecorder.Create(audioFilePath, new AudioSettings(settings!), out err);
 
             if (recorder == null)
             {
@@ -140,7 +140,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
                     recorder.Stop();
                     
                     var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    var fullPath = Path.Combine(documentsFolder, output.FileName);
+                    var fullPath = Path.Combine(documentsFolder, output.FileName!);
                     
                     Debug.WriteLine($"Stopped recording: {output.FileName}, Duration: {output.Duration}s");
                     Debug.WriteLine($"File should be at: {fullPath}");

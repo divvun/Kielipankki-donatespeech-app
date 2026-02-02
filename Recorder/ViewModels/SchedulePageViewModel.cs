@@ -307,7 +307,7 @@ namespace Recorder.ViewModels
         {
             System.Diagnostics.Debug.WriteLine($"UpdateRecordButton: IsRecordingEnabled={ItemViewModel?.IsRecordingEnabled}, IsPrompt={ItemViewModel?.IsPrompt}, DisplayState={DisplayState}");
             
-            ShowRecordButton = ItemViewModel.IsRecordingEnabled
+            ShowRecordButton = ItemViewModel!.IsRecordingEnabled
                        && !ItemViewModel.IsPrompt    
                        && DisplayState != ScheduleItemStateType.Finish;
             
@@ -349,7 +349,7 @@ namespace Recorder.ViewModels
                     throw new InvalidOperationException("ItemViewModel.Item is null");
                 }
                 
-                recordingManager.StartRecording(ItemViewModel.Item.ItemId);
+                recordingManager.StartRecording(ItemViewModel.Item.ItemId!);
                 DisplayState = ScheduleItemStateType.Recording;
                 elapsedTimeModel.Start();
             }
@@ -373,7 +373,7 @@ namespace Recorder.ViewModels
             var newIndex = currentItemIndex + indexOffset;
             if (newIndex == itemModels.Count)
             {
-                appRepository.AddCompletedScheduleId(schedule.ScheduleId);
+                appRepository.AddCompletedScheduleId(schedule.ScheduleId!);
                 ScheduleFinished?.Invoke(this, EventArgs.Empty);
             }
             else if (newIndex >= 0)
@@ -388,8 +388,8 @@ namespace Recorder.ViewModels
         {
             var dict = new Dictionary<string, string>
             {
-                { AnalyticsParameterNamesConstants.ItemId, item.ItemId },
-                { AnalyticsParameterNamesConstants.ItemName, item.Title.ToLocalString() },
+                { AnalyticsParameterNamesConstants.ItemId, item.ItemId! },
+                { AnalyticsParameterNamesConstants.ItemName, item.Title!.ToLocalString() },
                 { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.ScheduleItem },
                 { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType }
             };
@@ -399,7 +399,7 @@ namespace Recorder.ViewModels
         private void SendUserAnswerCompletedEvent(ScheduleItem item, string answer)
         {
             eventTracker.SendEvent(new ScheduleItemCompletedEvent(
-                item.ItemId, item.Title.ToLocalString(), answer, appConfiguration.BuildType));
+                item.ItemId!, item.Title!.ToLocalString(), answer, appConfiguration.BuildType));
         }
 
         private void ShowPreviousItem()
@@ -418,8 +418,8 @@ namespace Recorder.ViewModels
         {
             if (ItemViewModel.AnswerModified && ItemViewModel.HasAnswer)
             {
-                string id = ItemViewModel.Item.ItemId;
-                string answer = ItemViewModel.NoChoiceSelected ? string.Empty : ItemViewModel.Answer;
+                string id = ItemViewModel.Item!.ItemId!;
+                string answer = ItemViewModel.NoChoiceSelected ? string.Empty : ItemViewModel.Answer!;
 
                 Debug.WriteLine($"Saving a modified answer: {answer}");
 

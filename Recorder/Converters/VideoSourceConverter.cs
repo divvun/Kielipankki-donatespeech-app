@@ -17,7 +17,7 @@ namespace Recorder.Models
         {
             if (value is string text && !string.IsNullOrWhiteSpace(text))
             {
-                Uri uri;
+                Uri? uri;
                 return Uri.TryCreate(text, UriKind.Absolute, out uri) && uri.Scheme != "file" ?
                                 VideoSource.FromUri(text) : VideoSource.FromResource(text);
             }

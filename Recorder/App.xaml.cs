@@ -13,15 +13,15 @@ namespace Recorder
 {
     public partial class App : Application
     {
-        public IRecorderApi RecorderApi { get; private set; }
-        public IAppRepository AppRepository { get; private set; }
-        public IAppPreferences AppPreferences { get; private set; }
-        public IRecordingManager RecMan { get; private set; }
+        public IRecorderApi RecorderApi { get; private set; } = null!;
+        public IAppRepository AppRepository { get; private set; } = null!;
+        public IAppPreferences AppPreferences { get; private set; } = null!;
+        public IRecordingManager RecMan { get; private set; } = null!;
 
-        private static IAppDatabase _database;
+        private static IAppDatabase _database = null!;
         public static IAppDatabase Database => GetDatabase();
 
-        public IFirebaseAnalyticsEventTracker AnalyticsEventTracker;
+        public IFirebaseAnalyticsEventTracker AnalyticsEventTracker = null!;
         public IAppConfiguration Config { get; private set; } = null!;
 
         private long schedulerLockCounter = 0;
@@ -61,7 +61,7 @@ namespace Recorder
                 //App.Database.DeleteAllRecordings();  // or maybe not
                 //this.AppRepository.ListRecordingsInDatabase();
 
-                this.AppRepository.ListUploadedRecordings();
+                this.AppRepository!.ListUploadedRecordings();
 
                 StartUploadScheduler(schedulerLockCounter);
             }
@@ -117,7 +117,7 @@ namespace Recorder
 
         private void InitializeServices()
         {
-            Config = AppConfiguration.Load();
+            Config = AppConfiguration.Load() ?? new AppConfiguration();
 
             RecorderApi = new RecorderApi(Config);
             AppPreferences = new AppPreferences();
@@ -141,10 +141,10 @@ namespace Recorder
             if (RecMan == null)
             {
                 Debug.WriteLine("Creating RecordingManager manually");
-                IAudioRecorder audioRecorder = null;
+                IAudioRecorder? audioRecorder = null;
                 try
                 {
-                    audioRecorder = Application.Current.Handler?.MauiContext?.Services?.GetService(typeof(IAudioRecorder)) as IAudioRecorder;
+                    audioRecorder = Application.Current?.Handler?.MauiContext?.Services?.GetService(typeof(IAudioRecorder)) as IAudioRecorder;
                 }
                 catch (Exception ex)
                 {

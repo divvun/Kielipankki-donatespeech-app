@@ -195,10 +195,10 @@ namespace Recorder.Services
             Debug.WriteLine($"Found {count} pending recordings in database");
             foreach (Recording rec in pendingRecordings)
             {
-                var metadataString = rec.Metadata;
+                var metadataString = rec.Metadata!;
                 Debug.WriteLine($"metadata = '{metadataString}'");
 
-                int lastSlashPosition = rec.FileName.LastIndexOf('/');
+                int lastSlashPosition = rec.FileName!.LastIndexOf('/');
                 string fileNamePart = rec.FileName.Substring(lastSlashPosition + 1);
                 Debug.WriteLine($"Initiating upload: file name = '{fileNamePart}' recording ID = '{rec.RecordingId}', metadata length = {metadataString.Length} characters");
 
@@ -212,7 +212,7 @@ namespace Recorder.Services
                 };
 
                 var metadataObject = JsonConvert.DeserializeObject<RecordingMetadata>(metadataString, metadataJsonSerializerSettings);
-                var uploadDescription = await RecorderApi.InitUploadAsync(rec, metadataObject);
+                var uploadDescription = await RecorderApi.InitUploadAsync(rec, metadataObject!);
                 string url = uploadDescription.PreSignedUrl;
                 Debug.WriteLine($"Got pre-signed URL for recID '{rec.RecordingId}' from server, length = {url.Length} characters");
 
@@ -250,7 +250,7 @@ namespace Recorder.Services
         public void SaveAnswer(string id, string value)
             => appPreferences.Set(id, value);
 
-        public string GetAnswer(string id)
+        public string? GetAnswer(string id)
             => appPreferences.Get(id, defaultValue: null);
     }
 }

@@ -77,14 +77,14 @@ namespace Recorder.Converters
             var video = new VideoPlayer()
             {
                 BindingContext = model,
-                Source = new UriVideoSource(model.Item.Url),
+                Source = new UriVideoSource(model.Item!.Url!),
                 StartTime = model.Item.StartTime,
                 EndTime = model.Item.EndTime,
                 Play = model.VideoPlay, // this must be set after start and end time
                 HeightRequest = MediaHeight
             };
 
-            var backgroundColor = Application.Current.Resources.GetOrNull("AppBackgroundColor");
+            var backgroundColor = Application.Current?.Resources.GetOrNull("AppBackgroundColor");
             if (backgroundColor != null)
             {
                 video.BackgroundColor = (Color)backgroundColor;

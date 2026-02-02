@@ -15,7 +15,7 @@ namespace Recorder
         {
         }
 
-        public event EventHandler ResetToStartRequested;
+        public event EventHandler? ResetToStartRequested;
 
         public void Reset()
         {
@@ -75,7 +75,7 @@ namespace Recorder
             get => (int)GetValue(EndTimeProperty);
         }
 
-        private Timer endMonitor;
+        private Timer? endMonitor;
 
         private void StartMonitoringEnd()
         {

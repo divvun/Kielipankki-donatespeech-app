@@ -30,7 +30,7 @@ namespace Recorder
             bool isApple = DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst;
             string value = isApple ? iOS : Android;
             double scale = isApple ? iOSFontScale : AndroidFontScale;
-            return scale * (double)fontSizeConverter.ConvertFromInvariantString(value);
+            return scale * (double)(fontSizeConverter.ConvertFromInvariantString(value) ?? 0.0);
         }
 
         object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)

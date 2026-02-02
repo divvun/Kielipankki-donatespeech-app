@@ -60,7 +60,7 @@ namespace Recorder.Services
 
         public Task<List<Recording>> GetRecordingsByUploadStatusAsync(string uploadStatus)
         {
-            var query = Database.Table<Recording>().Where(r => r.UploadStatus.Equals(uploadStatus));
+            var query = Database.Table<Recording>().Where(r => r.UploadStatus!.Equals(uploadStatus));
             return query.ToListAsync();
         }
 

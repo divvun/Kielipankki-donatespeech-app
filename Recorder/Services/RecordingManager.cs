@@ -15,7 +15,7 @@ namespace Recorder.Services
         private readonly IAudioRecorder recorder;
         private readonly IAppConfiguration appConfiguration;
 
-        public RecordingManager(IAppConfiguration appConfiguration, IAudioRecorder audioRecorder = null)
+        public RecordingManager(IAppConfiguration appConfiguration, IAudioRecorder? audioRecorder = null)
         {
             this.appConfiguration = appConfiguration;
             recorder = audioRecorder ?? DependencyService.Get<IAudioRecorder>() ?? new NullAudioRecorder();
@@ -59,26 +59,26 @@ namespace Recorder.Services
                 return;
             }
 
-            Debug.WriteLine($"RecordingManager.FinalizeRecording, item ID = '{recording.ItemId}'");
+            Debug.WriteLine($"RecordingManager.FinalizeRecording, item ID = '{recording!.ItemId}'");
 
             var file = recorder.Stop();
             
-            RecordingMetadata metadata = new RecordingMetadata(recording.RecordingId)
+            RecordingMetadata metadata = new RecordingMetadata(recording.RecordingId!)
             {
-                ClientId = recording.ClientId,
-                ItemId = recording.ItemId,
+                ClientId = recording.ClientId!,
+                ItemId = recording.ItemId!,
                 RecordingTimestamp = file.CreatedOn,
                 RecordingDuration = file.Duration,
                 RecordingBitDepth = file.BitDepth,
                 RecordingSampleRate = file.SampleRate,
                 RecordingNumberOfChannels = file.NumberOfChannels,
-                ContentType = file.ContentType,
+                ContentType = file.ContentType!,
             };
 
             Debug.WriteLine($"ContentType = '{file.ContentType}'");
 
             // Explicitly set the User object to null for a recording
-            metadata.User = null;
+            metadata.User = null!;
 
             string metadataString = metadata.ToJsonString();
             Debug.WriteLine($"After finalizing recording, metadata = '{metadataString}'");
@@ -92,8 +92,8 @@ namespace Recorder.Services
             var dict = new Dictionary<string, string>
             {
                 //{ AnalyticsParameterNamesConstants.RecordingId, metadata.RecordingId },
-                { AnalyticsParameterNamesConstants.ClientId, metadata.ClientId },
-                { AnalyticsParameterNamesConstants.ItemId, metadata.ItemId },
+                { AnalyticsParameterNamesConstants.ClientId, metadata.ClientId! },
+                { AnalyticsParameterNamesConstants.ItemId, metadata.ItemId! },
                 { AnalyticsParameterNamesConstants.RecordingTimestamp, metadata.RecordingTimestamp.ToString("o") },
                 { AnalyticsParameterNamesConstants.ClientPlatformName, metadata.ClientPlatformName },
                 { AnalyticsParameterNamesConstants.ClientPlatformVersion, metadata.ClientPlatformVersion },
@@ -103,7 +103,7 @@ namespace Recorder.Services
                 { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType },
             };
             var app = Application.Current as App;
-            app.AnalyticsEventTracker.SendEvent(AnalyticsEventNamesConstants.RecordingCompleted, dict);
+            app!.AnalyticsEventTracker.SendEvent(AnalyticsEventNamesConstants.RecordingCompleted, dict);
 
             // Update the total seconds recorded
             int durationInSeconds = (int) Math.Floor(metadata.RecordingDuration);

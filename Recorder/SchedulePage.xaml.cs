@@ -25,7 +25,7 @@ namespace Recorder
             var app = Application.Current as App;
 
             this.viewModel = new SchedulePageViewModel(this.schedule,
-                app.RecMan, app.AnalyticsEventTracker, app.Resources, app.AppRepository, app.Config);
+                app!.RecMan, app.AnalyticsEventTracker, app.Resources, app.AppRepository, app.Config);
 
             this.viewModel.ScheduleFinished += ScheduleFinished;
             this.viewModel.MaxRecordingTimeReached += OnMaxRecordingTimeReached;
@@ -84,7 +84,7 @@ namespace Recorder
             Debug.WriteLine("SchedulePage:OnDisappearing");
 
             var app = Application.Current as App;
-            app.AppSleep -= OnAppSleep;
+            app!.AppSleep -= OnAppSleep;
 
             viewModel.PauseSchedule();
         }

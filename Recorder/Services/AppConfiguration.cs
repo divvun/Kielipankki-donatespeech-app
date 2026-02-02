@@ -10,11 +10,12 @@ namespace Recorder.Services
         // namespace and filename for embedded resource
         private const string resourceName = "Recorder.BuildConfig.appconfiguration.json";
 
-        private AppConfiguration()
+        public AppConfiguration()
         {
             MaxRecordingMinutes = 10;
             RecorderApiUrl = string.Empty;
             RecorderApiKey = string.Empty;
+            BuildType = string.Empty;
         }
 
         public string RecorderApiUrl { get; set; }
@@ -23,7 +24,7 @@ namespace Recorder.Services
         public uint MaxRecordingMinutes { get; set; }
         public string BuildType { get; set; }
 
-        public static AppConfiguration Load()
+        public static AppConfiguration? Load()
         {
             var assembly = Assembly.GetAssembly(typeof(AppConfiguration));
             using var stream = assembly?.GetManifestResourceStream(resourceName);

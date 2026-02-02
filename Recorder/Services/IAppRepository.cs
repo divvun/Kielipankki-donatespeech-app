@@ -18,6 +18,6 @@ namespace Recorder.Services
         bool AddCompletedScheduleId(string id);
 
         void SaveAnswer(string id, string value);
-        string GetAnswer(string id);
+        string? GetAnswer(string id);
     }
 }

@@ -16,7 +16,7 @@ namespace Recorder.Converters
         {
             if (value is string)
             {
-                var url = (value as string).Trim();
+                var url = (value as string)!.Trim();
 
                 try
                 {

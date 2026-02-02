@@ -13,8 +13,8 @@ namespace Recorder
 {
     public partial class ThemesPage : ContentPage
     {
-        private ThemesPageViewModel viewModel;
-        private Task<bool> alertPopupTask;
+        private ThemesPageViewModel viewModel = null!;
+        private Task<bool> alertPopupTask = Task.FromResult(false);
         private bool scheduleOpening;
         private bool detailsOpening;
 
@@ -24,7 +24,7 @@ namespace Recorder
             InitializeComponent();
 
             var app = Application.Current as App;
-            viewModel = new ThemesPageViewModel(app.AppRepository);
+            viewModel = new ThemesPageViewModel(app!.AppRepository);
             viewModel.ThemeLoadFailed += OnThemeLoadFailed;
             BindingContext = viewModel;
         }
@@ -115,7 +115,7 @@ namespace Recorder
         {
             get;
             private set;
-        }
+        } = null!;
 
         private void SendThemeSelectEvent(ThemeViewModel themeModel)
         {

@@ -25,7 +25,7 @@ namespace Recorder
             InitializeComponent();
 
             var app = Application.Current as App;
-            viewModel = new ScheduleStartPageViewModel(scheduleId, app.AppRepository,
+            viewModel = new ScheduleStartPageViewModel(scheduleId, app!.AppRepository,
                 app.AnalyticsEventTracker, app.Config);
 
             viewModel.ScheduleLoadFailed += OnScheduleLoadFailed;
