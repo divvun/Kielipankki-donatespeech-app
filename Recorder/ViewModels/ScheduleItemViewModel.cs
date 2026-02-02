@@ -38,7 +38,7 @@ namespace Recorder.ViewModels
             get => _state;
             set
             {
-                if (!ReferenceEquals(_state, value))
+                if (!_state.Equals(value))
                 {
                     _state = value;
                     RaisePropertyChanged(nameof(ItemDisplayState));

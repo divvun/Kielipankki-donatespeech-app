@@ -93,7 +93,6 @@
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.6" />
 		<PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="2.1.6" />
-		<PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
 	</ItemGroup>
 
 	<Target Name="CopyAppConfiguration" BeforeTargets="PrepareResources">

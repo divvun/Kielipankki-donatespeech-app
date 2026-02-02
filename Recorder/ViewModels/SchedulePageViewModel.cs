@@ -60,7 +60,7 @@ namespace Recorder.ViewModels
             get => _displayState;
             set
             {
-                if (!ReferenceEquals(_displayState, value))
+                if (!_displayState.Equals(value))
                 {
                     _displayState = value;
                     RaisePropertyChanged(nameof(DisplayState));
