@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Shapes;
+using CommunityToolkit.Maui.Views;
 
 using Recorder.Models;
 using Recorder.ViewModels;
@@ -25,6 +26,10 @@ namespace Recorder.Converters
                 if (model.IsVideo)
                 {
                     return CreateVideo(model);
+                }
+                else if (model.IsAudio)
+                {
+                    return CreateAudio(model);
                 }
                 else if (model.IsImage || model.IsPromptWithImage)
                 {
@@ -69,47 +74,95 @@ namespace Recorder.Converters
                 Margin = new Thickness(40, 20),
                 StrokeShape = new RoundRectangle { CornerRadius = 50 },
             };
-        }
+        }if (string.IsNullOrWhiteSpace(model.Item?.Url))
+            {
+                return new Label { Text = "❌ No video URL" };
+            }
 
-        private View CreateVideo(ScheduleItemViewModel model)
-        {
-            var video = new VideoPlayer()
+            var mediaElement = new MediaElement()
             {
                 BindingContext = model,
-                Source = new UriVideoSource(model.Item!.Url!),
-                StartTime = model.Item.StartTime,
-                EndTime = model.Item.EndTime,
-                Play = model.VideoPlay, // this must be set after start and end time
-                HeightRequest = MediaHeight
+                Source = MediaSource.FromUri(model.Item!.Url!),
+                HeightRequest = MediaHeight,
+                ShowsPlaybackControls = true,
+                AutoPlay = false,
             };
 
             var backgroundColor = Application.Current?.Resources.GetOrNull("AppBackgroundColor");
             if (backgroundColor != null)
             {
-                video.BackgroundColor = (Color)backgroundColor;
+                mediaElement.BackgroundColor = (Color)backgroundColor;
             }
 
-            // binding starts video when recording starts and stops when recording stops,
-            // and this is also updated if app goes to background
-            video.SetBinding(VideoPlayer.PlayProperty, nameof(model.VideoPlay));
+            // Bind play state
+            mediaElement.SetBinding(MediaElement.IsPlayingProperty, new Binding(
+                nameof(model.VideoPlay),
+                BindingMode.TwoWay,
+                source: model
+            ));
 
             if (model.IsRecordingEnabled)
             {
-                video.IsMuted = true;
-
-                // this event handler is removed in ScheduleItemViewModel.ClearAfterDisplay
-                model.VideoReset += (o, e) => video.Reset();               
-
+                mediaElement.ShowsPlaybackControls = false;
+                
                 var image = CreateImage(model, nameof(model.VideoItemImageUrl));
 
                 // overlay image on top of video, so if image is defined it will cover
                 // video and we dont need to show/hide either
                 Grid grid = new Grid();
-                grid.Children.Add(video);
+                grid.Children.Add(mediaElement);
                 grid.Children.Add(image);
                 return grid;
             }
             else
+            {
+                return mediaElement;
+            }
+        }
+
+        private View CreateAudio(ScheduleItemViewModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Item?.Url))
+            {
+                return new Label { Text = "❌ No audio URL" };
+            }
+
+            var mediaElement = new MediaElement()
+            {
+                BindingContext = model,
+                Source = MediaSource.FromUri(model.Item!.Url!),
+                HeightRequest = 60,
+                ShowsPlaybackControls = true,
+                AutoPlay = false,
+            };
+
+            var backgroundColor = Application.Current?.Resources.GetOrNull("AppBackgroundColor");
+            if (backgroundColor != null)
+            {
+                mediaElement.BackgroundColor = (Color)backgroundColor;
+            }
+
+            // Bind play state
+            mediaElement.SetBinding(MediaElement.IsPlayingProperty, new Binding(
+                nameof(model.AudioPlay),
+                BindingMode.TwoWay,
+                source: model
+            ));
+
+            if (model.IsRecordingEnabled)
+            {
+                // Hide controls during recording
+                mediaElement.ShowsPlaybackControls = false;
+            }
+
+            return new Border()
+            {
+                Content = mediaElement,
+                HeightRequest = 100,
+                Padding = 10,
+                Margin = new Thickness(20, 20),
+                StrokeShape = new RoundRectangle { CornerRadius = 20 },
+            };lse
             {
                 video.IsMuted = false;
                 return video;
