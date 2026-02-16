@@ -4,7 +4,7 @@ namespace Recorder.Models
 {
     public class ScheduleListItem
     {
-        public string? Id;
-        public Schedule? Content;
+        public string? Id { get; set; }
+        public Schedule? Content { get; set; }
     }
 }

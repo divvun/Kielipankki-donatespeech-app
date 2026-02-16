@@ -5,8 +5,8 @@ namespace Recorder.Models
 {
     public class ThemeContent
     {
-        public string? Description;
-        public string? Image;  // image URL
-        public List<string>? ScheduleIds;
+        public string? Description { get; set; }
+        public string? Image { get; set; }  // image URL
+        public List<string>? ScheduleIds { get; set; }
     }
 }

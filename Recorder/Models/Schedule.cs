@@ -5,10 +5,10 @@ namespace Recorder.Models
 {
     public class Schedule
     {
-        public string? Id;
-        public string? ScheduleId;
-        public string? Description;
-        public List<ScheduleItem> Items = new List<ScheduleItem>();
+        public string? Id { get; set; }
+        public string? ScheduleId { get; set; }
+        public string? Description { get; set; }
+        public List<ScheduleItem> Items { get; set; } = new List<ScheduleItem>();
 
         public Schedule()
         {

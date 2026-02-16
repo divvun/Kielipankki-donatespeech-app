@@ -22,16 +22,16 @@ namespace Recorder.Models
     [Newtonsoft.Json.JsonConverter(typeof(ScheduleItemJsonConverter))]
     public class ScheduleItem : ICloneable
     {
-        public string? ItemType;
-        public string? ItemId;
-        public string? Description;
-        public string? Url;
-        public string? TypeId;
-        public List<string>? Options;
-        public bool IsRecording;
-        public string? OtherEntryLabel;
-        public int StartTime;
-        public int EndTime;
+        public string? ItemType { get; set; }
+        public string? ItemId { get; set; }
+        public string? Description { get; set; }
+        public string? Url { get; set; }
+        public string? TypeId { get; set; }
+        public List<string>? Options { get; set; }
+        public bool IsRecording { get; set; }
+        public string? OtherEntryLabel { get; set; }
+        public int StartTime { get; set; }
+        public int EndTime { get; set; }
 
         public bool IsPrompt => IsPromptType(ItemType);
         public bool IsMedia => !IsPrompt;

@@ -101,6 +101,7 @@ the respective Visual Studio project file to automatically set the build number.
             <AndroidManifestPlaceholders>versionCode=$(BuildNumber);versionName=$(ReleaseVersion)</AndroidManifestPlaceholders>
             
               
+                
         </PropertyGroup>
     </Target>
 

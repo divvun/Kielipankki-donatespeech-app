@@ -5,7 +5,7 @@ namespace Recorder.Models
 {
     public class Theme
     {
-        public string? Id;
-        public ThemeContent? Content;
+        public string? Id { get; set; }
+        public ThemeContent? Content { get; set; }
     }
 }
