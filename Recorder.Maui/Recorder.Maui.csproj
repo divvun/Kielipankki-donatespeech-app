@@ -78,7 +78,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.30" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.30" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
@@ -87,6 +88,7 @@
 		<PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="2.1.6" />
 		<PackageReference Include="Microsoft.Kiota.Bundle" Version="1.21.2" />
 		<PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.21.2" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="14.0.0" />
 	</ItemGroup>
 
 	<Target Name="CopyAppConfiguration" BeforeTargets="PrepareResources">
