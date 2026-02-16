@@ -84,9 +84,9 @@ namespace Recorder
             navigationBarView.Update();
         }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        async void OnItemSelected(object sender, SelectionChangedEventArgs e)
         {
-            if (e.SelectedItemIndex < 0 || e.SelectedItem == null)
+            if (e.CurrentSelection.Count == 0)
             {
                 return;
             }
@@ -100,7 +100,7 @@ namespace Recorder
             }
             scheduleOpening = true; // prevent double-click
 
-            ThemeViewModel? themeModel = e.SelectedItem as ThemeViewModel;
+            ThemeViewModel? themeModel = e.CurrentSelection.FirstOrDefault() as ThemeViewModel;
             if (themeModel == null) return;
 
             // clear selection so it's not selected when navigating back

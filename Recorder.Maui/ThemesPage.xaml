@@ -34,19 +34,18 @@
             </Style>
 
             <DataTemplate x:Key="themeListItemTemplate">
-                <ViewCell>
-                    <ContentView ios:VisualElement.IsShadowEnabled="true"
-                                 ios:VisualElement.ShadowColor="Black"
-                                 ios:VisualElement.ShadowOpacity="0.3"
-                                 ios:VisualElement.ShadowRadius="3">
-                        <ios:VisualElement.ShadowOffset>
-                            <Size>
-                                <x:Arguments>
-                                    <x:Double>0</x:Double>
-                                    <x:Double>2</x:Double>
-                                </x:Arguments>
-                            </Size>
-                        </ios:VisualElement.ShadowOffset>
+                <ContentView ios:VisualElement.IsShadowEnabled="true"
+                             ios:VisualElement.ShadowColor="Black"
+                             ios:VisualElement.ShadowOpacity="0.3"
+                             ios:VisualElement.ShadowRadius="3">
+                    <ios:VisualElement.ShadowOffset>
+                        <Size>
+                            <x:Arguments>
+                                <x:Double>0</x:Double>
+                                <x:Double>2</x:Double>
+                            </x:Arguments>
+                        </Size>
+                    </ios:VisualElement.ShadowOffset>
 
                     <Frame CornerRadius="25"
                            BackgroundColor="{Binding ButtonBackgroundColor}"
@@ -54,7 +53,7 @@
                            Padding="8"
                            AutomationId="{Binding TestId}"
                            HasShadow="False">
-                    <StackLayout Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal">
 
                         <Frame Style="{StaticResource ThemeImageBorderStyle}"
                                VerticalOptions="Center">
@@ -73,8 +72,7 @@
                                VerticalOptions="Fill" />
                     </StackLayout>
                     </Frame>
-                    </ContentView>
-                </ViewCell>
+                </ContentView>
             </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -84,18 +82,17 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView x:Name="themeListView"
+        <CollectionView x:Name="themeListView"
                   BackgroundColor="{StaticResource AppBackgroundColor}"
-                  SeparatorVisibility="None"
                   ItemTemplate="{StaticResource themeListItemTemplate}"
                   ItemsSource="{Binding ThemeModels}"
-                  RowHeight="100"
                   VerticalOptions="FillAndExpand"
                   HorizontalOptions="FillAndExpand"
-                  ItemSelected="OnItemSelected"
+                  SelectionMode="Single"
+                  SelectionChanged="OnItemSelected"
                   AutomationId="ThemeListView"
                   Grid.Row="1">
-            <ListView.Header>
+            <CollectionView.Header>
                 <StackLayout Orientation="Vertical" Padding="20,36,20,20" HorizontalOptions="FillAndExpand" Spacing="10">
                     <Label x:Name="ThemesPageTitleTextLabel"
                             Style="{StaticResource PageTitleStyle}"
@@ -110,11 +107,11 @@
                     <ActivityIndicator IsVisible="{Binding IsLoading}"
                                         IsRunning="True" Margin="20" Scale="1.5"/>
                 </StackLayout>
-            </ListView.Header>
-            <ListView.Footer>
+            </CollectionView.Header>
+            <CollectionView.Footer>
                 <ContentView Padding="0,0,0,20" />
-            </ListView.Footer>
-        </ListView>
+            </CollectionView.Footer>
+        </CollectionView>
 
         <app:NavigationBarView x:Name="navigationBarView"
                                ButtonType="Text"

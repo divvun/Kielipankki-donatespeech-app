@@ -75,9 +75,9 @@ namespace Recorder
             }
         }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        async void OnItemSelected(object sender, SelectionChangedEventArgs e)
         {
-            if (e.SelectedItemIndex < 0 || e.SelectedItem == null)
+            if (e.CurrentSelection.Count == 0)
             {
                 return;
             }
@@ -86,7 +86,8 @@ namespace Recorder
                 collectionView.SelectedItem = null;
             }
 
-            Schedule selectedSchedule = this.schedules[e.SelectedItemIndex];
+            Schedule selectedSchedule = e.CurrentSelection.FirstOrDefault() as Schedule;
+            if (selectedSchedule == null) return;
 
             var title = selectedSchedule.Description ?? string.Empty;
 
