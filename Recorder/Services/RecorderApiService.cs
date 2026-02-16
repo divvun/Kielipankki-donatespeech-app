@@ -59,21 +59,25 @@ namespace Recorder.Services
                 throw new InvalidOperationException("Recording filename is missing.");
             }
 
-        // Build request with JObject to avoid wrapper type issues
-        var metadataObj = new Newtonsoft.Json.Linq.JObject
-        {
-            ["clientId"] = metadata.ClientId,
-            ["recordingId"] = metadata.RecordingId,
-            ["contentType"] = metadata.ContentType,
-            ["timestamp"] = metadata.RecordingTimestamp.ToString("o"),
-            ["duration"] = metadata.RecordingDuration
-        };
+            // WORKAROUND: Build request with JObject instead of using generated types.
+            // NSwag generates empty wrapper classes (SessionId, RecordingId, etc.) from the
+            // OpenAPI spec's 'title' fields. These wrappers only contain JsonExtensionData
+            // and don't have implicit conversions from primitives, causing type errors.
+            // Using JObject bypasses this and produces correct JSON.
+            var metadataObj = new Newtonsoft.Json.Linq.JObject
+            {
+                ["clientId"] = metadata.ClientId,
+                ["recordingId"] = metadata.RecordingId,
+                ["contentType"] = metadata.ContentType,
+                ["timestamp"] = metadata.RecordingTimestamp.ToString("o"),
+                ["duration"] = metadata.RecordingDuration
+            };
 
-        var requestObj = new Newtonsoft.Json.Linq.JObject
-        {
-            ["filename"] = fileName,
-            ["metadata"] = metadataObj
-        };
+            var requestObj = new Newtonsoft.Json.Linq.JObject
+            {
+                ["filename"] = fileName,
+                ["metadata"] = metadataObj
+            };
 
         var uri = new Uri($"{baseUrl}/v1/upload");
         var content = new StringContent(requestObj.ToString(), System.Text.Encoding.UTF8, "application/json");

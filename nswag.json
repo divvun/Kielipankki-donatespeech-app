@@ -22,7 +22,9 @@
       "generateDtoTypes": true,
       "injectHttpClient": true,
       "disposeHttpClient": false,
+      "generateOptionalPropertiesAsNullable": true,
       "output": "Recorder/Generated/RecorderApiClient.cs"
     }
   }
 }
+
