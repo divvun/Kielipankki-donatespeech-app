@@ -1,6 +1,6 @@
 {
   "descriptionHash": "5452625F277B2AAFE2D4156CB51EBB56D3FDE1D7AA1E564A6453C8476BAA9ABD21A04D546ED62C7DF891CDC29FFD076100C05325DE96414113FABF7C9B5F6078",
-  "descriptionLocation": "../../../../Kielipankki-donatespeech-backend/recorder-backend/openapi.json",
+  "descriptionLocation": "../../../openapi.json",
   "lockFileVersion": "1.0.0",
   "kiotaVersion": "1.30.0",
   "clientClassName": "RecorderApiClient",
