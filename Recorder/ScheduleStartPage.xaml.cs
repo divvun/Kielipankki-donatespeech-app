@@ -56,6 +56,20 @@ namespace Recorder
                 
                 if (viewModel.Schedule != null)
                 {
+                    // Validate schedule has items
+                    if (viewModel.Schedule.Items == null || viewModel.Schedule.Items.Count == 0)
+                    {
+                        Debug.WriteLine($"Schedule '{viewModel.Schedule.ScheduleId}' has no items");
+                        Console.WriteLine($"Schedule '{viewModel.Schedule.ScheduleId}' has no items");
+                        await DisplayAlertAsync("Error", "This schedule has no content to record.", "OK");
+                        await Navigation.PopAsync();
+                        scheduleStarting = false;
+                        return;
+                    }
+
+                    Debug.WriteLine($"Schedule has {viewModel.Schedule.Items.Count} items");
+                    Console.WriteLine($"Schedule has {viewModel.Schedule.Items.Count} items");
+
                     Debug.WriteLine("Checking and requesting permission...");
                     Console.WriteLine("Checking and requesting permission...");
                     if (await CheckAndRequestPermissionAsync())
@@ -75,6 +89,8 @@ namespace Recorder
                 {
                     Debug.WriteLine("Schedule is null, cannot start");
                     Console.WriteLine("Schedule is null, cannot start");
+                    await DisplayAlertAsync("Error", "Failed to load schedule. Please try again.", "OK");
+                    await Navigation.PopAsync();
                 }
                 scheduleStarting = false;
             }

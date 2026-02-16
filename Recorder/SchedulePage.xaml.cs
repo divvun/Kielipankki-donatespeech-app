@@ -18,32 +18,50 @@ namespace Recorder
 
         public SchedulePage(Schedule schedule)
         {
-            this.schedule = schedule;
+            try
+            {
+                if (schedule == null)
+                {
+                    throw new ArgumentNullException(nameof(schedule), "Schedule cannot be null");
+                }
 
-            Debug.WriteLine($"SchedulePage: schedule ID = '{this.schedule.ScheduleId}', has {this.schedule.Items.Count} items");
+                this.schedule = schedule;
 
-            var app = Application.Current as App;
+                Debug.WriteLine($"SchedulePage: schedule ID = '{this.schedule.ScheduleId ?? "null"}', description = '{this.schedule.Description ?? "null"}', has {this.schedule.Items?.Count ?? 0} items");
 
-            this.viewModel = new SchedulePageViewModel(this.schedule,
-                app!.RecMan, app.AnalyticsEventTracker, app.Resources, app.AppRepository, app.Config);
+                if (this.schedule.Items == null || this.schedule.Items.Count == 0)
+                {
+                    throw new InvalidOperationException($"Schedule '{this.schedule.ScheduleId}' has no items");
+                }
 
-            this.viewModel.ScheduleFinished += ScheduleFinished;
-            this.viewModel.MaxRecordingTimeReached += OnMaxRecordingTimeReached;
-            this.viewModel.PropertyChanged += OnViewModelPropertyChanged;
+                var app = Application.Current as App;
 
-            BindingContext = this.viewModel;
-            Debug.WriteLine("View model for schedule page created and set as the binding context");
+                this.viewModel = new SchedulePageViewModel(this.schedule,
+                    app!.RecMan, app.AnalyticsEventTracker, app.Resources, app.AppRepository, app.Config);
 
-            InitializeComponent();
+                this.viewModel.ScheduleFinished += ScheduleFinished;
+                this.viewModel.MaxRecordingTimeReached += OnMaxRecordingTimeReached;
+                this.viewModel.PropertyChanged += OnViewModelPropertyChanged;
 
-            var recordButtonSize = 14.0 * 6.5; // Using default font size
-            RecordButton.WidthRequest = recordButtonSize;
-            RecordButton.HeightRequest = recordButtonSize;
+                BindingContext = this.viewModel;
+                Debug.WriteLine("View model for schedule page created and set as the binding context");
 
-            // On iOS page OnDisappearing is not called when app backgrounds, so we need to hook into
-            // app sleep event directly.
-            // On Android page OnDisappearing is called, so this is not needed but it doesnt cause problem
-            app.AppSleep += OnAppSleep;
+                InitializeComponent();
+
+                var recordButtonSize = 14.0 * 6.5; // Using default font size
+                RecordButton.WidthRequest = recordButtonSize;
+                RecordButton.HeightRequest = recordButtonSize;
+
+                // On iOS page OnDisappearing is not called when app backgrounds, so we need to hook into
+                // app sleep event directly.
+                // On Android page OnDisappearing is called, so this is not needed but it doesnt cause problem
+                app.AppSleep += OnAppSleep;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"FATAL ERROR in SchedulePage constructor: {ex}");
+                throw;
+            }
         }
 
         private void OnMaxRecordingTimeReached(object? sender, EventArgs e)
