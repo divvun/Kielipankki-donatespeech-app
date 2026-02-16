@@ -389,30 +389,30 @@ namespace Recorder.ViewModels
             var dict = new Dictionary<string, string>
             {
                 { AnalyticsParameterNamesConstants.ItemId, item.ItemId! },
-                { AnalyticsParameterNamesConstants.ItemName, item.Title!.ToLocalString() ?? string.Empty },
-                { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.ScheduleItem },
-                { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType ?? string.Empty }
-            };
-            eventTracker.SendEvent(AnalyticsEventNamesConstants.SelectContent, dict);
-        }
+            { AnalyticsParameterNamesConstants.ItemName, item.Description ?? string.Empty },
+            { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.ScheduleItem },
+            { AnalyticsParameterNamesConstants.BuildType, appConfiguration.BuildType ?? string.Empty }
+        };
+        eventTracker.SendEvent(AnalyticsEventNamesConstants.SelectContent, dict);
+    }
 
-        private void SendUserAnswerCompletedEvent(ScheduleItem item, string answer)
-        {
-            eventTracker.SendEvent(new ScheduleItemCompletedEvent(
-                item.ItemId!, item.Title!.ToLocalString() ?? string.Empty, answer, appConfiguration.BuildType ?? string.Empty));
-        }
+    private void SendUserAnswerCompletedEvent(ScheduleItem item, string answer)
+    {
+        eventTracker.SendEvent(new ScheduleItemCompletedEvent(
+            item.ItemId!, item.Description ?? string.Empty, answer, appConfiguration.BuildType ?? string.Empty));
+    }
 
-        private void ShowPreviousItem()
-        {
-            SaveAnswer();
-            MoveBy(indexOffset: -1);
-        }
+    private void ShowPreviousItem()
+    {
+        SaveAnswer();
+        MoveBy(indexOffset: -1);
+    }
 
-        private void ShowNextItem()
-        {
-            SaveAnswer();
-            MoveBy(indexOffset: 1);
-        }
+    private void ShowNextItem()
+    {
+        SaveAnswer();
+        MoveBy(indexOffset: 1);
+    }
 
         private void SaveAnswer()
         {

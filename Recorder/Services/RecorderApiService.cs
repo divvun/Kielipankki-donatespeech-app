@@ -59,21 +59,27 @@ namespace Recorder.Services
                 throw new InvalidOperationException("Recording filename is missing.");
             }
 
-            var request = new Api.InitUploadRequest
-            {
-                Filename = fileName,
-                Metadata = new Api.UploadMetadata
-                {
-                    ClientId = metadata.ClientId,
-                    RecordingId = metadata.RecordingId,
-                    ContentType = metadata.ContentType,
-                    Timestamp = metadata.RecordingTimestamp.ToString("o"),
-                    Duration = metadata.RecordingDuration
-                }
-            };
+        // Build request with JObject to avoid wrapper type issues
+        var metadataObj = new Newtonsoft.Json.Linq.JObject
+        {
+            ["clientId"] = metadata.ClientId,
+            ["recordingId"] = metadata.RecordingId,
+            ["contentType"] = metadata.ContentType,
+            ["timestamp"] = metadata.RecordingTimestamp.ToString("o"),
+            ["duration"] = metadata.RecordingDuration
+        };
 
-            var response = await apiClient.Init_upload_v1_upload_postAsync(request);
-            return new UploadDescription { PreSignedUrl = response.PresignedUrl };
+        var requestObj = new Newtonsoft.Json.Linq.JObject
+        {
+            ["filename"] = fileName,
+            ["metadata"] = metadataObj
+        };
+
+        var uri = new Uri($"{baseUrl}/v1/upload");
+        var content = new StringContent(requestObj.ToString(), System.Text.Encoding.UTF8, "application/json");
+        var responseContent = await PostAsync(uri, content);
+        var response = JsonConvert.DeserializeObject<Api.InitUploadResponse>(responseContent);
+        return new UploadDescription { PreSignedUrl = response?.PresignedUrl ?? string.Empty };
         }
 
         public async Task<List<Theme>> GetAllThemesAsync()
@@ -179,42 +185,54 @@ namespace Recorder.Services
             return await response.Content.ReadAsStringAsync();
         }
 
-        private string ResolveBaseUrl()
+    private async Task<string> PostAsync(Uri uri, HttpContent content)
+    {
+        var response = await apiHttpClient.PostAsync(uri, content);
+        if (!response.IsSuccessStatusCode)
         {
-            if (!string.IsNullOrWhiteSpace(appConfiguration.RecorderApiUrl))
-            {
-                var configuredUrl = appConfiguration.RecorderApiUrl;
-#if ANDROID
-                if (DeviceInfo.DeviceType == DeviceType.Virtual)
-                {
-                    configuredUrl = configuredUrl
-                        .Replace("http://localhost", "http://10.0.2.2")
-                        .Replace("http://127.0.0.1", "http://10.0.2.2");
-                }
-#endif
-                return configuredUrl;
-            }
-
-#if ANDROID
-            return DeviceInfo.DeviceType == DeviceType.Virtual
-                ? "http://10.0.2.2:8000"
-                : "http://localhost:8000";
-#elif IOS || MACCATALYST
-            return "http://localhost:8000";
-#else
-            return "http://localhost:8000";
-#endif
+            Debug.WriteLine($"POST {uri} failed: {response.StatusCode} {response.ReasonPhrase}");
+            throw new Exception("Network request failed");
         }
 
-        private static string NormalizeBaseUrl(string url)
-        {
-            var trimmed = url.TrimEnd('/');
-            if (trimmed.EndsWith("/v1", StringComparison.OrdinalIgnoreCase))
-            {
-                trimmed = trimmed.Substring(0, trimmed.Length - 3);
-            }
-
-            return trimmed;
-        }
+        return await response.Content.ReadAsStringAsync();
     }
+
+    private string ResolveBaseUrl()
+    {
+        if (!string.IsNullOrWhiteSpace(appConfiguration.RecorderApiUrl))
+        {
+            var configuredUrl = appConfiguration.RecorderApiUrl;
+#if ANDROID
+            if (DeviceInfo.DeviceType == DeviceType.Virtual)
+            {
+                configuredUrl = configuredUrl
+                    .Replace("http://localhost", "http://10.0.2.2")
+                    .Replace("http://127.0.0.1", "http://10.0.2.2");
+            }
+#endif
+            return configuredUrl;
+        }
+
+#if ANDROID
+        return DeviceInfo.DeviceType == DeviceType.Virtual
+            ? "http://10.0.2.2:8000"
+            : "http://localhost:8000";
+#elif IOS || MACCATALYST
+        return "http://localhost:8000";
+#else
+        return "http://localhost:8000";
+#endif
+    }
+
+    private static string NormalizeBaseUrl(string url)
+    {
+        var trimmed = url.TrimEnd('/');
+        if (trimmed.EndsWith("/v1", StringComparison.OrdinalIgnoreCase))
+        {
+            trimmed = trimmed.Substring(0, trimmed.Length - 3);
+        }
+
+        return trimmed;
+    }
+}
 }
