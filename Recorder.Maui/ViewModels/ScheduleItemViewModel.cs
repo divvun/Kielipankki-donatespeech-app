@@ -23,7 +23,7 @@ namespace Recorder.ViewModels
 
         public bool HasAnswer => !string.IsNullOrWhiteSpace(Answer);
 
-        public bool NoChoiceSelected => Item.IsChoice && Answer == AppResources.NoChoiceOption;
+        public bool NoChoiceSelected => Item is ChoicePromptItem && Answer == AppResources.NoChoiceOption;
 
         private bool _answerModified;
         public bool AnswerModified
@@ -46,6 +46,7 @@ namespace Recorder.ViewModels
                     // update dependent properties through setters so their
                     // property changed events fire only if value actually changed
                     VideoPlay = VideoPlayFor(_state);
+                    AudioPlay = AudioPlayFor(_state);
                     ItemMediaUrl = MediaUrlFor(_state) ?? string.Empty;
                     ItemTitle = TitleFor(_state);
                     ItemBody1 = Body1For(_state) ?? string.Empty;
@@ -59,11 +60,17 @@ namespace Recorder.ViewModels
                             VideoReset?.Invoke(this, EventArgs.Empty);
                         }
                     }
+                    
+                    if (IsAudio && _state == ScheduleItemStateType.Start)
+                    {
+                        AudioReset?.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
         }
 
         public event EventHandler<EventArgs>? VideoReset;
+        public event EventHandler<EventArgs>? AudioReset;
 
         // this is called when app goes to background
         public void PauseSchedule()
@@ -71,6 +78,7 @@ namespace Recorder.ViewModels
             // platform video players stop automatically when backgrounded but
             // stop manually anyway, this also allows for other player cleanup if needed
             VideoPlay = false;
+            AudioPlay = false;
         }
 
         private string _mediaUrl = string.Empty;
@@ -85,6 +93,13 @@ namespace Recorder.ViewModels
         {
             get => _videoPlay;
             set => Set(ref _videoPlay, value, nameof(VideoPlay));
+        }
+
+        private bool _audioPlay;
+        public bool AudioPlay
+        {
+            get => _audioPlay;
+            set => Set(ref _audioPlay, value, nameof(AudioPlay));
         }
 
         private string _videoItemImageUrl = string.Empty;
@@ -153,13 +168,28 @@ namespace Recorder.ViewModels
             }
         }
 
-        public string? OtherEntryLabel => Item.OtherEntryLabel;
+        public string? OtherEntryLabel => Item switch
+        {
+            MultiChoicePromptItem mc => mc.OtherEntryLabel,
+            SuperChoicePromptItem sc => sc.OtherEntryLabel,
+            _ => null
+        };
 
         public bool IsPrompt => Item.IsPrompt;
-        public bool IsPromptWithImage => Item.IsPrompt && !string.IsNullOrEmpty(Item.Url);
-        public bool IsVideo => ItemType.Equals(ItemTypeValue.Video) || ItemType.Equals(ItemTypeValue.YleVideo);
-        public bool IsImage => ItemType.Equals(ItemTypeValue.Image);
-        public bool IsText => ItemType.Equals(ItemTypeValue.TextContent);
+        public bool IsPromptWithImage => Item.IsPrompt && Item switch
+        {
+            AudioMediaItem a => !string.IsNullOrEmpty(a.Url),
+            VideoMediaItem v => !string.IsNullOrEmpty(v.Url),
+            YleAudioMediaItem ya => !string.IsNullOrEmpty(ya.Url),
+            YleVideoMediaItem yv => !string.IsNullOrEmpty(yv.Url),
+            TextContentItem t => !string.IsNullOrEmpty(t.Url),
+            ImageMediaItem i => !string.IsNullOrEmpty(i.Url),
+            _ => false
+        };
+        public bool IsAudio => Item is AudioMediaItem or YleAudioMediaItem;
+        public bool IsVideo => Item is VideoMediaItem or YleVideoMediaItem;
+        public bool IsImage => Item is ImageMediaItem;
+        public bool IsText => Item is TextContentItem;
         public bool IsRecordingEnabled => Item.IsRecording;
 
         public ScheduleItemViewModel(ScheduleItem item, IAppRepository appRepository)
@@ -178,12 +208,19 @@ namespace Recorder.ViewModels
                 }
             }
 
-            _options = item.Options ?? new List<string>();
+            _options = item switch
+            {
+                ChoicePromptItem c => c.Options,
+                MultiChoicePromptItem mc => mc.Options,
+                SuperChoicePromptItem sc => sc.Options,
+                _ => new List<string>()
+            };
         }
 
         public void ClearAfterDisplay()
         {
             VideoReset = null;
+            AudioReset = null;
         }
 
         public void PrepareForDisplay()
@@ -206,7 +243,30 @@ namespace Recorder.ViewModels
             }
         }
 
-        private string? MediaUrlFor(ScheduleItemStateType state) => Item.Url;
+        private bool AudioPlayFor(ScheduleItemStateType state)
+        {
+            if (IsAudio && !IsRecordingEnabled)
+            {
+                // auto play non-recording audio
+                Debug.WriteLine($"AudioPlayFor state={state}: auto-play non-recording audio");
+                return true;
+            }
+            else
+            {
+                return state == ScheduleItemStateType.Recording;
+            }
+        }
+
+        private string? MediaUrlFor(ScheduleItemStateType state) => Item switch
+        {
+            AudioMediaItem a => a.Url,
+            VideoMediaItem v => v.Url,
+            YleAudioMediaItem ya => ya.Url,
+            YleVideoMediaItem yv => yv.Url,
+            TextContentItem t => t.Url,
+            ImageMediaItem i => i.Url,
+            _ => null
+        };
 
         // special case for displaying image on top of video 
         private string? VideoItemImageUrlFor(ScheduleItemStateType state) => null;
