@@ -13,6 +13,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
         private AVPlayer? player;
         private AVPlayerItem? playerItem;
         private IDisposable? timeObserver;
+        private bool isInitialized = false;
 
         public static PropertyMapper<AudioPlayer, AudioPlayerHandler> AudioPlayerMapper = new PropertyMapper<AudioPlayer, AudioPlayerHandler>(ViewMapper)
         {
@@ -22,6 +23,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
 
         public AudioPlayerHandler() : base(AudioPlayerMapper)
         {
+            Console.WriteLine("AudioPlayer: AudioPlayerHandler constructor called");
         }
 
         protected override UIView CreatePlatformView()
@@ -31,8 +33,22 @@ namespace Recorder.Maui.Platforms.MacCatalyst
             view.BackgroundColor = UIColor.Clear;
             
             player = new AVPlayer();
+            isInitialized = true;
             
-            Debug.WriteLine("AudioPlayer: Created platform view and AVPlayer", "AudioPlayerHandler");
+            Console.WriteLine("AudioPlayer: Created platform view and AVPlayer");
+            
+            // Immediately apply Source and Play if they're already set on the VirtualView
+            if (VirtualView != null)
+            {
+                if (VirtualView.Source != null)
+                {
+                    MapSource(this, VirtualView);
+                }
+                if (VirtualView.Play)
+                {
+                    MapPlay(this, VirtualView);
+                }
+            }
             
             return view;
         }
@@ -88,27 +104,51 @@ namespace Recorder.Maui.Platforms.MacCatalyst
         private void UpdateSource()
         {
             Console.WriteLine($"AudioPlayer: UpdateSource called, source={VirtualView?.Source?.Uri ?? "null"}, player={player != null}");
+            Debug.WriteLine($"AudioPlayer: UpdateSource called, source={VirtualView?.Source?.Uri ?? "null"}, player={player != null}");
             
             if (VirtualView?.Source == null || player == null)
+            {
+                Console.WriteLine("AudioPlayer: Cannot update source - source or player is null");
+                Debug.WriteLine("AudioPlayer: Cannot update source - source or player is null");
                 return;
+            }
 
-            if (string.IsNullOrWhiteSpace(VirtualView.Source.Uri))
+            var uri = VirtualView.Source.Uri;
+            if (string.IsNullOrWhiteSpace(uri))
             {
                 Console.WriteLine("AudioPlayer: Source URI is null or empty, skipping");
+                Debug.WriteLine("AudioPlayer: Source URI is null or empty, skipping");
                 return;
             }
 
             try
             {
-                var url = new NSUrl(VirtualView.Source.Uri);
-                playerItem = AVPlayerItem.FromUrl(url);
-                player.ReplaceCurrentItemWithPlayerItem(playerItem);
+                // Log the URI we're about to use
+                Console.WriteLine($"AudioPlayer: Creating NSUrl from URI: '{uri}'");
+                Debug.WriteLine($"AudioPlayer: Creating NSUrl from URI: '{uri}'");
                 
-                Console.WriteLine($"AudioPlayer: Loaded source {VirtualView.Source.Uri}");
+                NSUrl url = new NSUrl(uri);
+                Console.WriteLine($"AudioPlayer: NSUrl created successfully from '{uri}'");
+                Debug.WriteLine($"AudioPlayer: NSUrl created successfully from '{uri}'");
+                
+                playerItem = AVPlayerItem.FromUrl(url);
+                Console.WriteLine($"AudioPlayer: AVPlayerItem created from URL, status={playerItem.Status}");
+                Debug.WriteLine($"AudioPlayer: AVPlayerItem created from URL, status={playerItem.Status}");
+                
+                player.ReplaceCurrentItemWithPlayerItem(playerItem);
+                Console.WriteLine($"AudioPlayer: PlayerItem replaced in AVPlayer");
+                Debug.WriteLine($"AudioPlayer: PlayerItem replaced in AVPlayer");
+                
+                Console.WriteLine($"AudioPlayer: Loaded source {uri}");
+                Debug.WriteLine($"AudioPlayer: Loaded source {uri}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"AudioPlayer: Failed to load source '{VirtualView.Source.Uri}': {ex.Message}");
+                var errorMsg = $"AudioPlayer: Exception while loading source '{VirtualView.Source.Uri}': {ex.GetType().Name} - {ex.Message}";
+                Console.WriteLine(errorMsg);
+                Debug.WriteLine(errorMsg);
+                Console.WriteLine($"AudioPlayer: Stack trace: {ex.StackTrace}");
+                Debug.WriteLine($"AudioPlayer: Stack trace: {ex.StackTrace}");
                 playerItem = null;
                 player.ReplaceCurrentItemWithPlayerItem(null);
                 return;
@@ -120,12 +160,13 @@ namespace Recorder.Maui.Platforms.MacCatalyst
                 var startCMTime = new CoreMedia.CMTime(VirtualView.StartTime, 1);
                 player.Seek(startCMTime);
                 Console.WriteLine($"AudioPlayer: Seeked to start time {VirtualView.StartTime}s");
+                Debug.WriteLine($"AudioPlayer: Seeked to start time {VirtualView.StartTime}s");
             }
         }
 
         private void UpdatePlayback()
         {
-            Console.WriteLine($"AudioPlayer: UpdatePlayback called, player={player != null}, play={VirtualView?.Play}, hasPlayerItem={playerItem != null}");
+            Console.WriteLine($"AudioPlayer: UpdatePlayback called, isInitialized={isInitialized}, player={player != null}, play={VirtualView?.Play}, hasPlayerItem={playerItem != null}");
             
             if (player == null || VirtualView == null)
             {
@@ -133,15 +174,40 @@ namespace Recorder.Maui.Platforms.MacCatalyst
                 return;
             }
 
+            if (!isInitialized)
+            {
+                Console.WriteLine("AudioPlayer: Handler not fully initialized yet, deferring playback");
+                return;
+            }
+
             if (VirtualView.Play)
             {
                 if (playerItem == null)
                 {
-                    Console.WriteLine("AudioPlayer: Cannot start playback - no playerItem loaded");
-                    return;
+                    Console.WriteLine("AudioPlayer: Cannot start playback - no playerItem loaded, attempting to update source first");
+                    // Try to load the source if it hasn't been loaded yet
+                    if (VirtualView.Source?.Uri != null)
+                    {
+                        UpdateSource();
+                    }
+                    
+                    if (playerItem == null)
+                    {
+                        Console.WriteLine("AudioPlayer: Still no playerItem after trying to update source");
+                        return;
+                    }
                 }
-                player.Play();
-                Console.WriteLine("AudioPlayer: Started playback");
+                
+                try
+                {
+                    Console.WriteLine($"AudioPlayer: About to call Play() on AVPlayer. Current item status: {playerItem?.Status ?? AVPlayerItemStatus.Unknown}");
+                    player.Play();
+                    Console.WriteLine($"AudioPlayer: play() completed. Rate: {player.Rate}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"AudioPlayer: Exception calling Play(): {ex}");
+                }
             }
             else
             {
