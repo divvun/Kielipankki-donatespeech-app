@@ -26,6 +26,13 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			})
+			.ConfigureMauiHandlers(handlers =>
+			{
+#if MACCATALYST || IOS || ANDROID
+				// Register custom handlers for media playback
+				handlers.AddHandler<AudioPlayer, AudioPlayerHandler>();
+#endif
+			})
 			.ConfigureEffects(effects =>
 			{
 				// Empty effects configuration to satisfy legacy code
