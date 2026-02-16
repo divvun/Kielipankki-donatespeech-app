@@ -3,6 +3,48 @@
 This application is built with Xamarin.Forms: Open the `Recorder.sln` in Visual
 Studio for Mac and you're good to go.
 
+## Run from CLI (macOS)
+
+The MAUI app lives in `Recorder.Maui` and supports Mac Catalyst. You need Xcode
+and the MAUI workload installed.
+
+```bash
+# one-time setup
+dotnet workload install maui
+
+# from repo root
+dotnet restore Recorder.Maui/Recorder.Maui.csproj
+dotnet build -f net10.0-maccatalyst Recorder.Maui/Recorder.Maui.csproj
+dotnet run -f net10.0-maccatalyst Recorder.Maui/Recorder.Maui.csproj
+```
+
+## Run backend locally
+
+The app expects the recorder backend to be running for schedules/themes/uploads.
+From the backend repo:
+
+```bash
+cd ../Kielipankki-donatespeech-backend/recorder-backend
+./setup-local.sh
+```
+
+Base URL defaults to `http://localhost:8000` in the app config. For Android
+emulator it is remapped to `http://10.0.2.2:8000` automatically. For physical
+devices, set `RecorderApiUrl` in the relevant
+`Recorder/BuildConfig/<Config>/appconfiguration.json` to your Mac LAN IP.
+
+Troubleshooting:
+
+- Verify backend is reachable:
+
+```bash
+curl http://localhost:8000/v1/schedule
+curl http://localhost:8000/v1/theme
+```
+
+- If you see connection errors on devices, ensure the backend allows HTTP and
+  your device can reach the host (same network, firewall allows port 8000).
+
 ## Development model
 
 We're doing trunk-based development here, which means that the latest
@@ -58,6 +100,7 @@ the respective Visual Studio project file to automatically set the build number.
         <PropertyGroup>
             <AndroidManifestPlaceholders>versionCode=$(BuildNumber);versionName=$(ReleaseVersion)</AndroidManifestPlaceholders>
             
+              
         </PropertyGroup>
     </Target>
 
