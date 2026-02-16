@@ -15,7 +15,7 @@ dotnet workload install maui
 # from repo root
 dotnet restore Recorder.Maui/Recorder.Maui.csproj
 dotnet build -f net10.0-maccatalyst Recorder.Maui/Recorder.Maui.csproj
-dotnet run -f net10.0-maccatalyst Recorder.Maui/Recorder.Maui.csproj
+dotnet run --project Recorder.Maui/Recorder.Maui.csproj -f net10.0-maccatalyst
 ```
 
 ## Run backend locally
