@@ -18,27 +18,17 @@ namespace Recorder.Converters
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is ScheduleItemViewModel model && model.IsPrompt)
-            {
-                if (model.ItemType.Equals(ItemTypeValue.Choice))
-                {
-                    return CreatePicker(model);
-                }
-                else if (model.ItemType.Equals(ItemTypeValue.TextInput))
-                {
-                    return CreateEntry(model);
-                }
-                else if (model.ItemType.Equals(ItemTypeValue.SuperChoice))
-                {
-                    return new SuggestUserEntryView(model);
-                }
-                else if (model.ItemType.Equals(ItemTypeValue.MultiChoice))
-                {
-                    return new MultiChoiceUserEntryView(model);
-                }
-            }
+            if (value is not ScheduleItemViewModel model)
+                return null;
 
-            return null; 
+            return model.Item switch
+            {
+                ChoicePromptItem => CreatePicker(model),
+                TextInputItem => CreateEntry(model),
+                SuperChoicePromptItem => new SuggestUserEntryView(model),
+                MultiChoicePromptItem => new MultiChoiceUserEntryView(model),
+                _ => null
+            };
         }
 
         private View CreateEntry(ScheduleItemViewModel model)
