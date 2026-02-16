@@ -137,13 +137,197 @@ namespace Recorder.Services
 
         private List<ScheduleItem> MapScheduleItems(List<KiotaApi.Models.Schedule.Schedule_items>? kiotaItems)
         {
-            // TOTO: Map from Kiota's polymorphic schedule items to app's ScheduleItem models.
-            // For now, return empty list until we understand the Kiota discriminated union structure.
             if (kiotaItems == null) return new List<ScheduleItem>();
-            
-            // TODO: This needs proper implementation based on Kiota's generated types
-            Debug.WriteLine("WARNING: MapScheduleItems not fully implemented yet");
-            return new List<ScheduleItem>();
+
+            var result = new List<ScheduleItem>();
+            int index = 0;
+            foreach (var wrapperItem in kiotaItems)
+            {
+                ScheduleItem? item = null;
+
+                try
+                {
+                    Console.WriteLine($"=== Processing schedule item #{index} ===");
+                    if (wrapperItem.AudioMediaItem != null)
+                    {
+                        var k = wrapperItem.AudioMediaItem;
+                        Console.WriteLine($"Mapping AudioMediaItem: itemId={k.ItemId}, url={k.Url}, typeId={k.TypeId}");
+                        Console.WriteLine($"  AdditionalData keys: {string.Join(", ", k.AdditionalData?.Keys ?? new string[0])}");
+                        if (k.AdditionalData != null)
+                        {
+                            foreach (var kvp in k.AdditionalData)
+                            {
+                                Debug.WriteLine($"  AdditionalData[{kvp.Key}] = {kvp.Value}");
+                            }
+                        }
+                        item = new Models.AudioMediaItem
+                        {
+                            ItemId = k.ItemId ?? $"audio-{index}",
+                            Description = k.Description ?? "Audio item",
+                            IsRecording = k.IsRecording ?? false,
+                            Url = ResolveMediaUrl(k.Url) ?? string.Empty,
+                            TypeId = k.TypeId ?? "audio/unknown"
+                        };
+                    }
+                    else if (wrapperItem.VideoMediaItem != null)
+                    {
+                        var k = wrapperItem.VideoMediaItem;
+                        Console.WriteLine($"Mapping VideoMediaItem: itemId={k.ItemId}, url={k.Url}, typeId={k.TypeId}");
+                        Console.WriteLine($"  AdditionalData keys: {string.Join(", ", k.AdditionalData?.Keys ?? new string[0])}");
+                        if (k.AdditionalData != null)
+                        {
+                            foreach (var kvp in k.AdditionalData)
+                            {
+                                Debug.WriteLine($"  AdditionalData[{kvp.Key}] = {kvp.Value}");
+                            }
+                        }
+                        item = new Models.VideoMediaItem
+                        {
+                            ItemId = k.ItemId ?? $"video-{index}",
+                            Description = k.Description ?? "Video item",
+                            IsRecording = k.IsRecording ?? false,
+                            Url = ResolveMediaUrl(k.Url) ?? string.Empty,
+                            TypeId = k.TypeId ?? "video/unknown"
+                        };
+                    }
+                    else if (wrapperItem.YleAudioMediaItem != null)
+                    {
+                        var k = wrapperItem.YleAudioMediaItem;
+                        Console.WriteLine($"Mapping YleAudioMediaItem: itemId={k.ItemId}, url={k.Url}");
+                        item = new Models.YleAudioMediaItem
+                        {
+                            ItemId = k.ItemId ?? $"yle-audio-{index}",
+                            Description = k.Description ?? "Yle audio item",
+                            IsRecording = k.IsRecording ?? false,
+                            Url = ResolveMediaUrl(k.Url) ?? string.Empty
+                        };
+                    }
+                    else if (wrapperItem.YleVideoMediaItem != null)
+                    {
+                        var k = wrapperItem.YleVideoMediaItem;
+                        Console.WriteLine($"Mapping YleVideoMediaItem: itemId={k.ItemId}, url={k.Url}");
+                        item = new Models.YleVideoMediaItem
+                        {
+                            ItemId = k.ItemId ?? $"yle-video-{index}",
+                            Description = k.Description ?? "Yle video item",
+                            IsRecording = k.IsRecording ?? false,
+                            Url = ResolveMediaUrl(k.Url) ?? string.Empty
+                        };
+                    }
+                    else if (wrapperItem.TextContentItem != null)
+                    {
+                        var k = wrapperItem.TextContentItem;
+                        Console.WriteLine($"Mapping TextContentItem: itemId={k.ItemId}, url={k.Url}");
+                        item = new Models.TextContentItem
+                        {
+                            ItemId = k.ItemId ?? $"text-{index}",
+                            Description = k.Description ?? "Text item",
+                            IsRecording = k.IsRecording ?? false,
+                            Url = ResolveMediaUrl(k.Url) ?? string.Empty,
+                            TypeId = k.TypeId?.String
+                        };
+                    }
+                    else if (wrapperItem.ImageMediaItem != null)
+                    {
+                        var k = wrapperItem.ImageMediaItem;
+                        Console.WriteLine($"Mapping ImageMediaItem: itemId={k.ItemId}, url={k.Url}");
+                        item = new Models.ImageMediaItem
+                        {
+                            ItemId = k.ItemId ?? $"image-{index}",
+                            Description = k.Description ?? "Image item",
+                            IsRecording = k.IsRecording ?? false,
+                            Url = ResolveMediaUrl(k.Url) ?? string.Empty,
+                            TypeId = k.TypeId ?? "image/unknown"
+                        };
+                    }  
+                    else if (wrapperItem.ChoicePromptItem != null)
+                    {
+                        var k = wrapperItem.ChoicePromptItem;
+                        Console.WriteLine($"Mapping ChoicePromptItem: itemId={k.ItemId}");
+                        item = new Models.ChoicePromptItem
+                        {
+                            ItemId = k.ItemId ?? $"choice-{index}",
+                            Description = k.Description ?? "Choice prompt",
+                            IsRecording = k.IsRecording ?? false,
+                            Options = k.Options?.ToList() ?? new List<string>()
+                        };
+                    }
+                    else if (wrapperItem.MultiChoicePromptItem != null)
+                    {
+                        var k = wrapperItem.MultiChoicePromptItem;
+                        Console.WriteLine($"Mapping MultiChoicePromptItem: itemId={k.ItemId}");
+                        item = new Models.MultiChoicePromptItem
+                        {
+                            ItemId = k.ItemId ?? $"multichoice-{index}",
+                            Description = k.Description ?? "Multi-choice prompt",
+                            IsRecording = k.IsRecording ?? false,
+                            Options = k.Options?.ToList() ?? new List<string>(),
+                            OtherEntryLabel = k.OtherEntryLabel?.String
+                        };
+                    }
+                    else if (wrapperItem.SuperChoicePromptItem != null)
+                    {
+                        var k = wrapperItem.SuperChoicePromptItem;
+                        Console.WriteLine($"Mapping SuperChoicePromptItem: itemId={k.ItemId}");
+                        item = new Models.SuperChoicePromptItem
+                        {
+                            ItemId = k.ItemId ?? $"superchoice-{index}",
+                            Description = k.Description ?? "Super choice prompt",
+                            IsRecording = k.IsRecording ?? false,
+                            Options = k.Options?.ToList() ?? new List<string>(),
+                            OtherEntryLabel = k.OtherEntryLabel?.String
+                        };
+                    }
+                    else if (wrapperItem.TextInputItem != null)
+                    {
+                        var k = wrapperItem.TextInputItem;
+                        Console.WriteLine($"Mapping TextInputItem: itemId={k.ItemId}");
+                        item = new Models.TextInputItem
+                        {
+                            ItemId = k.ItemId ?? $"textinput-{index}",
+                            Description = k.Description ?? "Text input prompt",
+                            IsRecording = k.IsRecording ?? false
+                        };
+                    }
+
+                    if (item != null)
+                    {
+                        result.Add(item);
+                    }
+                    index++;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"ERROR mapping schedule item #{index}: {ex.Message}");
+                    // Skip malformed items but continue processing
+                    index++;
+                }
+            }
+
+            Debug.WriteLine($"Mapped {result.Count} schedule items from {kiotaItems.Count} source items");
+            return result;
+        }
+
+        private string ResolveMediaUrl(string? relativeOrAbsoluteUrl)
+        {
+            if (string.IsNullOrWhiteSpace(relativeOrAbsoluteUrl))
+            {
+                Console.WriteLine($"ResolveMediaUrl: Input is null or whitespace, returning empty string");
+                return relativeOrAbsoluteUrl ?? string.Empty;
+            }
+
+            // If already absolute URL, return as-is
+            if (relativeOrAbsoluteUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                relativeOrAbsoluteUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"ResolveMediaUrl: URL is already absolute: '{relativeOrAbsoluteUrl}'");
+                return relativeOrAbsoluteUrl;
+            }
+
+            // Relative URL - combine with baseUrl
+            var fullUrl = baseUrl.TrimEnd('/') + "/" + relativeOrAbsoluteUrl.TrimStart('/');
+            Console.WriteLine($"ResolveMediaUrl: Resolved '{relativeOrAbsoluteUrl}' to '{fullUrl}'");
+            return fullUrl;
         }
 
         public async Task<bool> UploadRecordingAsync(string filePath, string url, string contentType)
