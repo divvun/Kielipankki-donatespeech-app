@@ -119,7 +119,7 @@ namespace Recorder
         {
             Config = AppConfiguration.Load() ?? new AppConfiguration();
 
-            RecorderApi = new RecorderApi(Config);
+            RecorderApi = new RecorderApiService(Config);
             AppPreferences = new AppPreferences();
             AppRepository = new AppRepository(RecorderApi, AppPreferences);
 

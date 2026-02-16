@@ -76,13 +76,7 @@ namespace Recorder.Services
                 }
                 else
                 {
-                    // Mock schedule data for testing - no API configured
-                    Debug.WriteLine($"Creating mock schedule for ID: {scheduleId}");
-                    Schedule schedule = CreateMockSchedule(scheduleId);
-                    
-                    // Original API call (disabled for testing):
-                    // Schedule schedule = await RecorderApi.GetScheduleAsync(scheduleId);
-                    
+                    Schedule schedule = await RecorderApi.GetScheduleAsync(scheduleId);
                     schedulesById.Add(scheduleId, schedule);
                     return Result<Schedule>.Success(schedule);
                 }
@@ -92,73 +86,6 @@ namespace Recorder.Services
                 Debug.WriteLine(e);
                 return Result<Schedule>.Failure();
             }
-        }
-
-        private Schedule CreateMockSchedule(string scheduleId)
-        {
-            Debug.WriteLine($"CreateMockSchedule called with ID: {scheduleId}");
-            
-            var schedule = new Schedule
-            {
-                ScheduleId = scheduleId,
-                Title = new Dictionary<string, string> { { "fi", "Äänitysjakso" } },
-                Body1 = new Dictionary<string, string> { { "fi", "Nauhoita muutama lause" } },
-                Body2 = new Dictionary<string, string> { { "fi", "Tämä kestää noin 5 minuuttia" } },
-                Start = new ScheduleItemState
-                {
-                    Title = new Dictionary<string, string> { { "fi", "Aloita nauhoitus" } },
-                    Body1 = new Dictionary<string, string> { { "fi", "Paina nappia aloittaaksesi" } },
-                    Body2 = new Dictionary<string, string> { { "fi", "Valmis aloittamaan" } },
-                    ImageUrl = "logo256.png"
-                },
-                Finish = new ScheduleItemState
-                {
-                    Title = new Dictionary<string, string> { { "fi", "Valmis!" } },
-                    Body1 = new Dictionary<string, string> { { "fi", "Kiitos osallistumisesta" } },
-                    ImageUrl = "logo256.png"
-                },
-                Items = new List<ScheduleItem>()
-            };
-
-            Debug.WriteLine($"Created schedule with Title: {schedule.Title["fi"]}");
-            Debug.WriteLine($"Start Title: {schedule.Start.Title["fi"]}");
-            Debug.WriteLine($"Start Body1: {schedule.Start.Body1["fi"]}");
-
-            // Add a few mock recording items
-            for (int i = 1; i <= 3; i++)
-            {
-                schedule.Items.Add(new ScheduleItem
-                {
-                    ItemId = $"item{i}",
-                    Kind = ItemKindValue.Media, // Use Media kind so recording button shows
-                    ItemType = "", // Empty string to avoid null reference
-                    TypeId = "",
-                    Url = "",
-                    // Don't set ItemType - we don't need media display for recording items
-                    Title = new Dictionary<string, string> { { "fi", $"Lause {i}" } },
-                    Body1 = new Dictionary<string, string> { { "fi", "Lue seuraava lause ääneen:" } },
-                    Body2 = new Dictionary<string, string> { { "fi", $"Tämä on testilause numero {i} nauhoitusta varten." } },
-                    IsRecording = true,
-                    Start = new ScheduleItemState
-                    {
-                        Title = new Dictionary<string, string> { { "fi", "Valmis nauhoittamaan" } },
-                        Body1 = new Dictionary<string, string> { { "fi", "Paina nappia kun olet valmis" } },
-                        Body2 = new Dictionary<string, string> { { "fi", $"Tämä on testilause numero {i} nauhoitusta varten." } }
-                    },
-                    Recording = new ScheduleItemState
-                    {
-                        Title = new Dictionary<string, string> { { "fi", "Nauhoitus käynnissä" } },
-                        Body1 = new Dictionary<string, string> { { "fi", "Lue teksti ääneen" } }
-                    },
-                    Finish = new ScheduleItemState
-                    {
-                        Title = new Dictionary<string, string> { { "fi", "Nauhoitus valmis" } },
-                        Body1 = new Dictionary<string, string> { { "fi", "Kuuntele tai tallenna" } }
-                    }
-                });
-            }
-
-            return schedule;
         }
 
         public async Task ListRecordingsInDatabase()
