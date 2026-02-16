@@ -20,26 +20,35 @@ namespace Recorder.Converters
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+            Console.WriteLine($"ItemToMediaViewConverter.Convert called with value type: {value?.GetType().Name ?? "null"}");
+            
             if (value is ScheduleItemViewModel model)
             {
+                Console.WriteLine($"ItemToMediaViewConverter: IsAudio={model.IsAudio}, IsVideo={model.IsVideo}, IsImage={model.IsImage}, IsText={model.IsText}");
+                
                 if (model.IsAudio)
                 {
+                    Console.WriteLine("ItemToMediaViewConverter: Creating audio view");
                     return CreateAudio(model);
                 }
                 else if (model.IsVideo)
                 {
+                    Console.WriteLine("ItemToMediaViewConverter: Creating video view");
                     return CreateVideo(model);
                 }
                 else if (model.IsImage || model.IsPromptWithImage)
                 {
+                    Console.WriteLine("ItemToMediaViewConverter: Creating image view");
                     return CreateImage(model, nameof(model.ItemMediaUrl));
                 }
                 else if (model.IsText)
                 {
+                    Console.WriteLine("ItemToMediaViewConverter: Creating text view");
                     return CreateText(model);
                 }
             }
 
+            Console.WriteLine("ItemToMediaViewConverter: Returning null (no matching type)");
             return null; 
         }
 
@@ -90,7 +99,7 @@ namespace Recorder.Converters
                 return CreatePlaceholderView("No video URL");
             }
 
-            // Display video information
+            // For now, show placeholder until video playback is implemented
             var videoLabel = new Label
             {
                 Text = "📹 Video Available\n(Playback coming soon)",
@@ -103,9 +112,6 @@ namespace Recorder.Converters
             if (model.IsRecordingEnabled)
             {
                 var image = CreateImage(model, nameof(model.VideoItemImageUrl));
-
-                // overlay image on top of video, so if image is defined it will cover
-                // video and we dont need to show/hide either
                 Grid grid = new Grid();
                 grid.Children.Add(videoLabel);
                 grid.Children.Add(image);
@@ -134,24 +140,126 @@ namespace Recorder.Converters
                 return CreatePlaceholderView("No audio URL");
             }
 
-            // Display audio information
-            var audioLabel = new Label
+            try
             {
-                Text = "🎵 Audio Available\n(Playback coming soon)",
-                FontSize = 18,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
-                Padding = 20
-            };
+                // Create a visible UI for the audio player
+                var stackLayout = new StackLayout
+                {
+                    Orientation = StackOrientation.Vertical,
+                    Padding = 20,
+                    Spacing = 10,
+                    BackgroundColor = Color.FromArgb("#F0F0F0")
+                };
 
-            return new Border()
+                // Add a label showing this is an audio player
+                var titleLabel = new Label
+                {
+                    Text = "🔊 Audio Player",
+                    FontSize = 20,
+                    FontAttributes = FontAttributes.Bold,
+                    HorizontalOptions = LayoutOptions.Center,
+                    TextColor = Colors.Black
+                };
+                stackLayout.Children.Add(titleLabel);
+
+                // Add description label
+                var descLabel = new Label
+                {
+                    Text = model.Item.Description ?? "Audio",
+                    FontSize = 16,
+                    HorizontalOptions = LayoutOptions.Center,
+                    TextColor = Colors.Black
+                };
+                stackLayout.Children.Add(descLabel);
+
+                // Add URL display (for debugging)
+                var urlLabel = new Label
+                {
+                    Text = $"URL: {url}",
+                    FontSize = 12,
+                    HorizontalOptions = LayoutOptions.Center,
+                    TextColor = Colors.Gray
+                };
+                stackLayout.Children.Add(urlLabel);
+
+                // Add play status indicator bound to model.AudioPlay
+                var statusLabel = new Label
+                {
+                    FontSize = 14,
+                    HorizontalOptions = LayoutOptions.Center,
+                    BindingContext = model,
+                    TextColor = Colors.Blue
+                };
+                // Bind to AudioPlay property to show true/false
+                statusLabel.SetBinding(Label.TextProperty, new Binding(
+                    nameof(model.AudioPlay),
+                    BindingMode.OneWay,
+                    source: model,
+                    stringFormat: "AudioPlay = {0}"
+                ));
+                stackLayout.Children.Add(statusLabel);
+
+                // Add a manual label to show what we expect
+                var expectedLabel = new Label
+                {
+                    Text = $"Expected: IsAudio={model.IsAudio}, IsRecording={model.IsRecordingEnabled}, State={model.ItemDisplayState}",
+                    FontSize = 10,
+                    HorizontalOptions = LayoutOptions.Center,
+                    TextColor = Colors.DarkGray
+                };
+                stackLayout.Children.Add(expectedLabel);
+
+                // Add a manual play button for testing
+                var playButton = new Button
+                {
+                    Text = "▶️ Force Play Audio",
+                    BackgroundColor = Colors.Green,
+                    TextColor = Colors.White,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Padding = 10
+                };
+                playButton.Clicked += (s, e) =>
+                {
+                    Console.WriteLine($"Manual play button clicked! Setting AudioPlay to true");
+                    model.AudioPlay = true;
+                };
+                stackLayout.Children.Add(playButton);
+
+                // Create the actual AudioPlayer control (invisible but handles playback)
+                var audio = new AudioPlayer()
+                {
+                    BindingContext = model,
+                    Source = new UriAudioSource(url),
+                    Play = model.AudioPlay,
+                    HeightRequest = 0  // Make it invisible - just for audio handling
+                };
+
+                // Bind play state changes
+                audio.SetBinding(AudioPlayer.PlayProperty, new Binding(
+                    nameof(model.AudioPlay),
+                    BindingMode.TwoWay,
+                    source: model
+                ));
+                
+                // Add the invisible audio player to the stack
+                stackLayout.Children.Add(audio);
+
+                Console.WriteLine($"CreateAudio: Created visible audio UI with AudioPlayer control, play={model.AudioPlay}");
+
+                return new Border()
+                {
+                    Content = stackLayout,
+                    HeightRequest = 220,
+                    Padding = 10,
+                    Margin = new Thickness(20, 20),
+                    StrokeShape = new RoundRectangle { CornerRadius = 20 },
+                };
+            }
+            catch (Exception ex)
             {
-                Content = audioLabel,
-                HeightRequest = 100,
-                Padding = 10,
-                Margin = new Thickness(20, 20),
-                StrokeShape = new RoundRectangle { CornerRadius = 20 },
-            };
+                Debug.WriteLine($"CreateAudio: Failed to create AudioPlayer: {ex.Message}");
+                return CreatePlaceholderView($"Audio playback error: {ex.Message}");
+            }
         }
 
         private Image CreateImage(ScheduleItemViewModel model, string urlPropertyName)

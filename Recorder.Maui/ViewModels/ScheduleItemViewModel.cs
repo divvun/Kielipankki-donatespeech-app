@@ -38,6 +38,7 @@ namespace Recorder.ViewModels
             get => _state;
             set
             {
+                Console.WriteLine($"ItemDisplayState setter: old={_state}, new={value}");
                 if (!_state.Equals(value))
                 {
                     _state = value;
@@ -46,7 +47,9 @@ namespace Recorder.ViewModels
                     // update dependent properties through setters so their
                     // property changed events fire only if value actually changed
                     VideoPlay = VideoPlayFor(_state);
+                    Console.WriteLine($"ItemDisplayState: About to set AudioPlay from AudioPlayFor({_state})");
                     AudioPlay = AudioPlayFor(_state);
+                    Console.WriteLine($"ItemDisplayState: AudioPlay is now {AudioPlay}");
                     ItemMediaUrl = MediaUrlFor(_state) ?? string.Empty;
                     ItemTitle = TitleFor(_state);
                     ItemBody1 = Body1For(_state) ?? string.Empty;
@@ -99,7 +102,11 @@ namespace Recorder.ViewModels
         public bool AudioPlay
         {
             get => _audioPlay;
-            set => Set(ref _audioPlay, value, nameof(AudioPlay));
+            set
+            {
+                Console.WriteLine($"AudioPlay setter called: old={_audioPlay}, new={value}");
+                Set(ref _audioPlay, value, nameof(AudioPlay));
+            }
         }
 
         private string _videoItemImageUrl = string.Empty;
@@ -245,15 +252,19 @@ namespace Recorder.ViewModels
 
         private bool AudioPlayFor(ScheduleItemStateType state)
         {
+            Console.WriteLine($"AudioPlayFor called: IsAudio={IsAudio}, IsRecordingEnabled={IsRecordingEnabled}, state={state}");
+            
             if (IsAudio && !IsRecordingEnabled)
             {
                 // auto play non-recording audio
-                Debug.WriteLine($"AudioPlayFor state={state}: auto-play non-recording audio");
+                Console.WriteLine($"AudioPlayFor: Returning TRUE - should auto-play non-recording audio in state {state}");
                 return true;
             }
             else
             {
-                return state == ScheduleItemStateType.Recording;
+                var shouldPlay = state == ScheduleItemStateType.Recording;
+                Console.WriteLine($"AudioPlayFor: Returning {shouldPlay} - state is {state}");
+                return shouldPlay;
             }
         }
 
