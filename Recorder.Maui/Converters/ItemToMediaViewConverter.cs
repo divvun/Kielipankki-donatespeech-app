@@ -22,7 +22,11 @@ namespace Recorder.Converters
         {
             if (value is ScheduleItemViewModel model)
             {
-                if (model.IsVideo)
+                if (model.IsAudio)
+                {
+                    return CreateAudio(model);
+                }
+                else if (model.IsVideo)
                 {
                     return CreateVideo(model);
                 }
@@ -73,47 +77,81 @@ namespace Recorder.Converters
 
         private View CreateVideo(ScheduleItemViewModel model)
         {
-            var video = new VideoPlayer()
+            var url = model.Item switch
             {
-                BindingContext = model,
-                Source = new UriVideoSource(model.Item!.Url!),
-                StartTime = model.Item.StartTime,
-                EndTime = model.Item.EndTime,
-                Play = model.VideoPlay, // this must be set after start and end time
-                HeightRequest = MediaHeight
+                VideoMediaItem v => v.Url,
+                YleVideoMediaItem yv => yv.Url,
+                _ => null
             };
 
-            var backgroundColor = Application.Current?.Resources.GetOrNull("AppBackgroundColor");
-            if (backgroundColor != null)
+            if (string.IsNullOrWhiteSpace(url))
             {
-                video.BackgroundColor = (Color)backgroundColor;
+                Debug.WriteLine($"CreateVideo: Missing or invalid URL for video item {model.Item.GetType().Name}");
+                return CreatePlaceholderView("No video URL");
             }
 
-            // binding starts video when recording starts and stops when recording stops,
-            // and this is also updated if app goes to background
-            video.SetBinding(VideoPlayer.PlayProperty, nameof(model.VideoPlay));
+            // Display video information
+            var videoLabel = new Label
+            {
+                Text = "📹 Video Available\n(Playback coming soon)",
+                FontSize = 18,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                Padding = 20
+            };
 
             if (model.IsRecordingEnabled)
             {
-                video.IsMuted = true;
-
-                // this event handler is removed in ScheduleItemViewModel.ClearAfterDisplay
-                model.VideoReset += (o, e) => video.Reset();               
-
                 var image = CreateImage(model, nameof(model.VideoItemImageUrl));
 
                 // overlay image on top of video, so if image is defined it will cover
                 // video and we dont need to show/hide either
                 Grid grid = new Grid();
-                grid.Children.Add(video);
+                grid.Children.Add(videoLabel);
                 grid.Children.Add(image);
                 return grid;
             }
             else
             {
-                video.IsMuted = false;
-                return video;
+                return videoLabel;
             }
+        }
+
+        private View CreateAudio(ScheduleItemViewModel model)
+        {
+            var url = model.Item switch
+            {
+                AudioMediaItem a => a.Url,
+                YleAudioMediaItem ya => ya.Url,
+                _ => null
+            };
+
+            Console.WriteLine($"CreateAudio: Creating audio view for item, url={url}, audioPlay={model.AudioPlay}");
+
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                Debug.WriteLine($"CreateAudio: Missing or invalid URL for audio item {model.Item.GetType().Name}");
+                return CreatePlaceholderView("No audio URL");
+            }
+
+            // Display audio information
+            var audioLabel = new Label
+            {
+                Text = "🎵 Audio Available\n(Playback coming soon)",
+                FontSize = 18,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                Padding = 20
+            };
+
+            return new Border()
+            {
+                Content = audioLabel,
+                HeightRequest = 100,
+                Padding = 10,
+                Margin = new Thickness(20, 20),
+                StrokeShape = new RoundRectangle { CornerRadius = 20 },
+            };
         }
 
         private Image CreateImage(ScheduleItemViewModel model, string urlPropertyName)
@@ -129,6 +167,19 @@ namespace Recorder.Converters
                 BindingMode.Default, new StringToImageSourceConverter());
 
             return image;
+        }
+
+        private View CreatePlaceholderView(string message)
+        {
+            return new Label
+            {
+                Text = message,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                FontSize = 18,
+                TextColor = Colors.Gray,
+                HeightRequest = MediaHeight
+            };
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
