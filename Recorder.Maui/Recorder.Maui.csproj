@@ -60,31 +60,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<MauiXaml Remove="App.xaml" />
-		<Compile Remove="App.xaml.cs" />
-		<MauiXaml Remove="AppShell.xaml" />
-		<Compile Remove="AppShell.xaml.cs" />
-		<MauiXaml Remove="MainPage.xaml" />
-		<Compile Remove="MainPage.xaml.cs" />
+		<!-- Exclude MAUI template files that we don't use -->
+		<MauiXaml Remove="AppShell.xaml" Condition="Exists('AppShell.xaml')" />
+		<Compile Remove="AppShell.xaml.cs" Condition="Exists('AppShell.xaml.cs')" />
+		<MauiXaml Remove="MainPage.xaml" Condition="Exists('MainPage.xaml')" />
+		<Compile Remove="MainPage.xaml.cs" Condition="Exists('MainPage.xaml.cs')" />
+		<!-- Exclude Xamarin.Forms Effects that are incompatible with MAUI -->
+		<Compile Remove="Effects\*.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<MauiXaml Include="..\Recorder\**\*.xaml" />
-		<Compile Include="..\Recorder\**\*.cs" />
-		<MauiXaml Remove="..\Recorder\bin\**\*.xaml" />
-		<MauiXaml Remove="..\Recorder\obj\**\*.xaml" />
-		<Compile Remove="..\Recorder\bin\**\*.cs" />
-		<Compile Remove="..\Recorder\obj\**\*.cs" />
-		<!-- Exclude Xamarin.Forms Effects that are incompatible with MAUI -->
-		<Compile Remove="..\Recorder\Effects\*.cs" />
-		<EmbeddedResource Include="..\Recorder\ResX\AppResources.resx">
+		<EmbeddedResource Update="ResX\AppResources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>AppResources.Designer.cs</LastGenOutput>
 			<LogicalName>Recorder.ResX.AppResources.resources</LogicalName>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Recorder\Images\logo256.png" />
-		<EmbeddedResource Include="..\Recorder\BuildConfig\appconfiguration.json">
-			<LogicalName>Recorder.BuildConfig.appconfiguration.json</LogicalName>
 		</EmbeddedResource>
 	</ItemGroup>
 
@@ -96,11 +85,13 @@
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.6" />
 		<PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="2.1.6" />
+		<PackageReference Include="Microsoft.Kiota.Bundle" Version="1.21.2" />
+		<PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.21.2" />
 	</ItemGroup>
 
 	<Target Name="CopyAppConfiguration" BeforeTargets="PrepareResources">
-		<Copy SourceFiles="..\Recorder\BuildConfig\$(Configuration)\appconfiguration.json"
-		      DestinationFiles="..\Recorder\BuildConfig\appconfiguration.json" />
+		<Copy SourceFiles="BuildConfig\$(Configuration)\appconfiguration.json"
+		      DestinationFiles="BuildConfig\appconfiguration.json" />
 	</Target>
 
 </Project>

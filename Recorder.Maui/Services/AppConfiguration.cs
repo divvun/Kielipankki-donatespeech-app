@@ -1,0 +1,46 @@
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Newtonsoft.Json;
+
+namespace Recorder.Services
+{
+    public class AppConfiguration : IAppConfiguration
+    {
+        // namespace and filename for embedded resource
+        private const string resourceName = "Recorder.BuildConfig.appconfiguration.json";
+
+        public AppConfiguration()
+        {
+            MaxRecordingMinutes = 10;
+            RecorderApiUrl = string.Empty;
+            RecorderApiKey = string.Empty;
+            BuildType = string.Empty;
+        }
+
+        public string RecorderApiUrl { get; set; }
+        public string RecorderApiKey { get; set; }
+        public bool AlwaysShowOnboarding { get; set; }
+        public uint MaxRecordingMinutes { get; set; }
+        public string BuildType { get; set; }
+
+        public static AppConfiguration? Load()
+        {
+            var assembly = Assembly.GetAssembly(typeof(AppConfiguration));
+            using var stream = assembly?.GetManifestResourceStream(resourceName);
+            if (stream == null)
+            {
+                return new AppConfiguration
+                {
+                    RecorderApiUrl = string.Empty,
+                    RecorderApiKey = string.Empty,
+                    BuildType = "debug"
+                };
+            }
+
+            using var reader = new StreamReader(stream);
+            var json = reader.ReadToEnd();
+            return JsonConvert.DeserializeObject<AppConfiguration>(json);
+        }
+    }
+}

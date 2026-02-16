@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:r="clr-namespace:Recorder.ResX"
+             x:Class="Recorder.Views.SuggestUserEntryView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" BasedOn="{StaticResource BodyTextStyle}"/>
+        </ResourceDictionary>
+    </ContentView.Resources>    
+
+    <StackLayout Orientation="Vertical" Margin="20">
+
+        <Label Text="{x:Static r:AppResources.StartTypingLabelText}"/>
+         <Entry x:Name="suggestBox"
+             TextColor="{StaticResource NormalTextColor}"/>
+
+        <Label Text="{Binding OtherEntryLabel}"/>
+        <Entry x:Name="otherEntry"/>
+
+    </StackLayout>
+</ContentView>
