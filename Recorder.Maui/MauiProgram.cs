@@ -1,9 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
 using Recorder.Services;
+using CommunityToolkit.Maui;
 
 #if MACCATALYST
 using Recorder.Maui.Platforms.MacCatalyst;
+#elif IOS
+using Recorder.Maui.Platforms.iOS;
+#elif ANDROID
+using Recorder.Maui.Platforms.Android;
 #endif
 
 namespace Recorder;
@@ -15,6 +20,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
