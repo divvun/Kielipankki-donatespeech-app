@@ -1,0 +1,28 @@
+{
+  "runtime": "Net100",
+  "defaultVariables": null,
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "../Kielipankki-donatespeech-backend/recorder-backend/openapi.json",
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "className": "RecorderApiClient",
+      "namespace": "Recorder.Api",
+      "operationGenerationMode": "SingleClientFromOperationId",
+      "generateClientInterfaces": true,
+      "generateExceptionClasses": true,
+      "exceptionClass": "RecorderApiException",
+      "wrapResponses": false,
+      "generateResponseClasses": false,
+      "useBaseUrl": true,
+      "httpClientType": "System.Net.Http.HttpClient",
+      "generateDtoTypes": true,
+      "injectHttpClient": true,
+      "disposeHttpClient": false,
+      "output": "Recorder/Generated/RecorderApiClient.cs"
+    }
+  }
+}
