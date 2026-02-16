@@ -10,7 +10,7 @@ namespace Recorder.ViewModels
     public class ScheduleItemViewModel : BaseViewmodel
     {
         public ScheduleItem Item { get; set; }
-        public string ItemType { get; private set; } = null!;
+        public string ItemType { get; private set; } = string.Empty;
         public int CounterIndex { get; set; }
         public int CounterTotal { get; set; }
 
@@ -119,13 +119,6 @@ namespace Recorder.ViewModels
         {
             get
             {
-                if (Item.MetaTitle != null)
-                {
-                    Debug.WriteLine("Using metatitle set in item");
-                    return Item.MetaTitle.ToLocalString();
-                }
-
-                // The item's metatitle hasn't been set, revert to defaults.
                 Debug.WriteLine("Reverting to default metatitle for item type");
 
                 if (IsPrompt)
@@ -139,44 +132,40 @@ namespace Recorder.ViewModels
                 else
                 {
                     return string.Format(AppResources.MediaMetaTitle, CounterIndex, CounterTotal);
-                }                    
+                }
             }
         }
 
         public string NoChoiceOption => AppResources.NoChoiceOption;
 
-        public List<LanguageString> _options;
+        public List<string> _options;
         public List<string> ChoiceOptions
         {
             get
             {
-                List<string> ss = new List<string>();
+            List<string> ss = new List<string>();
 
                 // picker options always include an option to clear current selection
                 ss.Add(NoChoiceOption);
 
-                foreach (LanguageString ls in _options)
-                {
-                    ss.Add(ls.Localized ?? string.Empty);
-                }
+                ss.AddRange(_options);
                 return ss;
             }
         }
 
-        public string? OtherAnswerValue => Item.OtherAnswer?.ToLocalString();
-        public string? OtherEntryLabel => Item.OtherEntryLabel?.ToLocalString();
+        public string? OtherEntryLabel => Item.OtherEntryLabel;
 
         public bool IsPrompt => Item.IsPrompt;
         public bool IsPromptWithImage => Item.IsPrompt && !string.IsNullOrEmpty(Item.Url);
         public bool IsVideo => ItemType.Equals(ItemTypeValue.Video) || ItemType.Equals(ItemTypeValue.YleVideo);
-        public bool IsImage => ItemType.Equals(ItemTypeValue.Image) || ItemType.Equals(ItemTypeValue.LocalImage);
-        public bool IsText => ItemType.Equals(ItemTypeValue.Text);
+        public bool IsImage => ItemType.Equals(ItemTypeValue.Image);
+        public bool IsText => ItemType.Equals(ItemTypeValue.TextContent);
         public bool IsRecordingEnabled => Item.IsRecording;
 
         public ScheduleItemViewModel(ScheduleItem item, IAppRepository appRepository)
         {
             Item = item;
-            ItemType = item.ItemType!;
+            ItemType = item.ItemType ?? string.Empty;
 
             // user prompt for a specific question, like age, always uses the same item id, also on different schedules
             // so we can initialize with a previously stored answer
@@ -189,20 +178,7 @@ namespace Recorder.ViewModels
                 }
             }
 
-            _options = new List<LanguageString>();
-            if (item.Options != null)
-            {
-                foreach (Dictionary<string, string> dict in item.Options)
-                {
-                    // each dict corresponds to a LanguageString
-                    LanguageString ls = new LanguageString
-                    {
-                        Strings = dict
-                    };
-
-                    _options.Add(ls);
-                }
-            }
+            _options = item.Options ?? new List<string>();
         }
 
         public void ClearAfterDisplay()
@@ -230,40 +206,15 @@ namespace Recorder.ViewModels
             }
         }
 
-        private string? MediaUrlFor(ScheduleItemStateType state) => state switch
-        {
-            ScheduleItemStateType.Start => Item.StartUrl,
-            ScheduleItemStateType.Recording => Item.RecordingUrl,
-            _ => Item.FinishUrl
-        };
+        private string? MediaUrlFor(ScheduleItemStateType state) => Item.Url;
 
         // special case for displaying image on top of video 
-        private string? VideoItemImageUrlFor(ScheduleItemStateType state) => state switch
-        {
-            ScheduleItemStateType.Start => Item.Start?.ImageUrl,
-            ScheduleItemStateType.Finish => Item.Finish?.ImageUrl,
-            _ => null
-        };
+        private string? VideoItemImageUrlFor(ScheduleItemStateType state) => null;
 
-        private string TitleFor(ScheduleItemStateType state) => state switch
-        {
-            ScheduleItemStateType.Start => Item.StartTitle?.ToLocalString() ?? string.Empty,
-            ScheduleItemStateType.Recording => Item.RecordingTitle?.ToLocalString() ?? string.Empty,
-            _ => Item.Finish?.Title?.ToLocalString() ?? AppResources.RecordingFinishTitle
-        };
+        private string TitleFor(ScheduleItemStateType state) => Item.Description ?? string.Empty;
 
-        private string? Body1For(ScheduleItemStateType state) => state switch
-        {
-            ScheduleItemStateType.Start => Item.StartBody1?.ToLocalString(),
-            ScheduleItemStateType.Recording => Item.RecordingBody1?.ToLocalString(),
-            _ => Item.FinishBody1?.ToLocalString()
-        };
+        private string? Body1For(ScheduleItemStateType state) => string.Empty;
 
-        private string? Body2For(ScheduleItemStateType state) => state switch
-        {
-            ScheduleItemStateType.Start => Item.StartBody2?.ToLocalString(),
-            ScheduleItemStateType.Recording => Item.RecordingBody2?.ToLocalString(),
-            _ => Item.FinishBody2?.ToLocalString()
-        };
+        private string? Body2For(ScheduleItemStateType state) => string.Empty;
     }
 }

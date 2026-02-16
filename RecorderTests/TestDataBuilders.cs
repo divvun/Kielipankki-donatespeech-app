@@ -76,29 +76,18 @@ namespace RecorderTests
     public class ScheduleItemBuilder
     {
         private string id;
-        private string kind;
         private string type;
         private string url;
         private bool recordingEnabled;
         private int startTime;
         private int endTime;
-        private ScheduleItemState start;
-        private ScheduleItemState recording;
-        private ScheduleItemState finish;
 
         public ScheduleItemBuilder()
         {
             id = Guid.NewGuid().ToString();
-            kind = ItemKindValue.Media;
             type = ItemTypeValue.Image;
             url = "";
             recordingEnabled = true;
-        }
-
-        public ScheduleItemBuilder WithKind(string kind)
-        {
-            this.kind = kind;
-            return this;
         }
 
         public ScheduleItemBuilder WithType(string type)
@@ -110,18 +99,6 @@ namespace RecorderTests
         public ScheduleItemBuilder WithUrl(string url)
         {
             this.url = url;
-            return this;
-        }
-
-        public ScheduleItemBuilder WithStart(ScheduleItemState start)
-        {
-            this.start = start;
-            return this;
-        }
-
-        public ScheduleItemBuilder WithFinish(ScheduleItemState finish)
-        {
-            this.finish = finish;
             return this;
         }
 
@@ -152,15 +129,11 @@ namespace RecorderTests
         public ScheduleItem Build() => new ScheduleItem()
         {
             ItemId = id,
-            Kind = kind,
             ItemType = type,
             Url = url,
             IsRecording = recordingEnabled,
             StartTime = startTime,
-            EndTime = endTime,
-            Start = start,
-            Recording = recording,
-            Finish = finish            
+            EndTime = endTime
         };
     }
 }

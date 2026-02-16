@@ -24,7 +24,7 @@ namespace Recorder.Converters
                 {
                     return CreatePicker(model);
                 }
-                else if (model.ItemType.Equals(ItemTypeValue.Text))
+                else if (model.ItemType.Equals(ItemTypeValue.TextInput))
                 {
                     return CreateEntry(model);
                 }

@@ -88,16 +88,13 @@ namespace Recorder
 
             Schedule selectedSchedule = this.schedules[e.SelectedItemIndex];
 
-            var title = new LanguageString
-            {
-                Strings = selectedSchedule.Title!
-            };
+            var title = selectedSchedule.Description ?? string.Empty;
 
             var app = Application.Current as App;
             var dict = new Dictionary<string, string>
             {
                 { AnalyticsParameterNamesConstants.ItemId, selectedSchedule.ScheduleId! },
-                { AnalyticsParameterNamesConstants.ItemName, title.Localized ?? string.Empty },
+                { AnalyticsParameterNamesConstants.ItemName, title },
                 { AnalyticsParameterNamesConstants.ContentType, AnalyticsContentTypeConstants.Schedule },
                 { AnalyticsParameterNamesConstants.BuildType, app!.Config.BuildType }
             };

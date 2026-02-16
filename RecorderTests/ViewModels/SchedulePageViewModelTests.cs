@@ -151,8 +151,7 @@ namespace RecorderTests.ViewModels
                                         new DummyDictionary(), mockRepo.Object, mockConfiguration.Object);
 
         private ScheduleItemBuilder TextPromptItem => new ScheduleItemBuilder()
-            .WithKind(ItemKindValue.Prompt)
-            .WithType(ItemTypeValue.Text);
+            .WithType(ItemTypeValue.TextInput);
 
         private ScheduleItemBuilder VideoItem => new ScheduleItemBuilder()
             .WithType(ItemTypeValue.Video);

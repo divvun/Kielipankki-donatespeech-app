@@ -66,8 +66,6 @@ namespace RecorderTests.ViewModels
         public void VideoImageNullWhenNotDefined()
         {
             ScheduleItem item = VideoItem
-                .WithStart(new ScheduleItemState())
-                .WithFinish(new ScheduleItemState())
                 .Build();
 
             ScheduleItemViewModel model = new ScheduleItemViewModel(item, mockRepo.Object);
@@ -82,29 +80,8 @@ namespace RecorderTests.ViewModels
             Assert.Null(model.VideoItemImageUrl);
         }
 
-        [Fact]
-        public void VideoImageSetWhenDefined()
-        {
-            ScheduleItem item = VideoItem
-                .WithStart(new ScheduleItemState() { ImageUrl = "start_url" })
-                .WithFinish(new ScheduleItemState() { ImageUrl = "end_url" })
-                .Build();
- 
-            ScheduleItemViewModel model = new ScheduleItemViewModel(item, mockRepo.Object);
-
-            model.ItemDisplayState = ScheduleItemStateType.Start;
-            Assert.Equal(item.Start.ImageUrl, model.VideoItemImageUrl);
-
-            model.ItemDisplayState = ScheduleItemStateType.Recording;
-            Assert.Null(model.VideoItemImageUrl);
-
-            model.ItemDisplayState = ScheduleItemStateType.Finish;
-            Assert.Equal(item.Finish.ImageUrl, model.VideoItemImageUrl);
-        }
-
         private ScheduleItemBuilder TextPromptItem => new ScheduleItemBuilder()
-            .WithKind(ItemKindValue.Prompt)
-            .WithType(ItemTypeValue.Text);
+            .WithType(ItemTypeValue.TextInput);
 
         private static ScheduleItemBuilder VideoItem => new ScheduleItemBuilder()
             .WithType(ItemTypeValue.Video);

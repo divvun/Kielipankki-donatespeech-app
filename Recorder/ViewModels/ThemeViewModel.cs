@@ -9,13 +9,9 @@ namespace Recorder.ViewModels
     {
         private Theme theme;
 
-        private LanguageString _title;
-        private LanguageString _body1;
-        private LanguageString _body2;
-
-        public string? Title => _title.Localized;
-        public string? Body1 => _body1.Localized;
-        public string? Body2 => _body2.Localized;
+        public string? Title => theme.Content?.Description;
+        public string? Body1 => string.Empty;
+        public string? Body2 => string.Empty;
 
         public string? ImageUrl => theme.Content?.Image;
         public string TestId => theme.Id!;
@@ -58,18 +54,10 @@ namespace Recorder.ViewModels
         {
             this.theme = theme;
 
-            this._title = new LanguageString()
+            if (theme.Content == null)
             {
-                Strings = theme.Content!.Title!
-            };
-            this._body1 = new LanguageString()
-            {
-                Strings = theme.Content!.Body1!
-            };
-            this._body2 = new LanguageString()
-            {
-                Strings = theme.Content!.Body2!
-            };
+                theme.Content = new ThemeContent();
+            }
         }
     }
 }

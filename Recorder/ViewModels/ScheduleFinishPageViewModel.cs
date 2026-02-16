@@ -11,15 +11,10 @@ namespace Recorder.ViewModels
 
         public ScheduleFinishPageViewModel(Schedule schedule)
         {
-            // Use schedule defaults if nothing else specified
-            var titleDict = schedule.Finish?.Title ?? schedule.Title;
-            var body1Dict = schedule.Finish?.Body1 ?? schedule.Body1;
-            var body2Dict = schedule.Finish?.Body2 ?? schedule.Body2;
-
-            Title = titleDict!.ToLocalString() ?? string.Empty;
-            Body1 = body1Dict!.ToLocalString() ?? string.Empty;
-            Body2 = body2Dict!.ToLocalString() ?? string.Empty;
-            RewardImageUrl = schedule.Finish?.ImageUrl ?? string.Empty;
+            Title = schedule.Description ?? string.Empty;
+            Body1 = string.Empty;
+            Body2 = string.Empty;
+            RewardImageUrl = string.Empty;
         }
     }
 }
