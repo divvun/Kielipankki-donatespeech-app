@@ -236,7 +236,10 @@ namespace Recorder.Maui.Platforms.Android
 
         private string GetFullPathNameForRecording(string fileName)
         {
-            return Path.Combine(FileSystem.AppDataDirectory, fileName);
+            // Use MyDocuments folder to match iOS and AppRepository expectations
+            // AppRepository.UploadPendingRecordings() looks for files in MyDocuments
+            var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            return Path.Combine(documentsFolder, fileName);
         }
 
         /**
