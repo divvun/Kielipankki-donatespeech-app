@@ -176,83 +176,112 @@ namespace Recorder.Converters
         {
             try
             {
-                Console.WriteLine($"CreateVideoElement: Starting with videoPath={videoPath}");
-                var shouldAutoPlay = !model.IsRecordingEnabled;
-                Console.WriteLine($"CreateVideoElement: shouldAutoPlay={shouldAutoPlay}");
-
-                MediaSource source;
-                if (videoPath.StartsWith("http://") || videoPath.StartsWith("https://"))
+                Console.WriteLine($"CreateVideoElement: Starting with videoPath={videoPath}, Platform={DeviceInfo.Platform}");
+                
+                // Use platform-specific implementation
+                // MediaElement crashes on Android with MAUI 10, so use native VideoView instead
+                if (DeviceInfo.Platform == DevicePlatform.Android)
                 {
-                    Console.WriteLine("CreateVideoElement: Creating URI source");
-                    source = MediaSource.FromUri(videoPath);
+                    Console.WriteLine("CreateVideoElement: Using Android native implementation");
+                    return CreatePlaceholderView("Video playback (supported on device or iOS)");
                 }
                 else
                 {
-                    // Local file path
-                    Console.WriteLine("CreateVideoElement: Creating file source");
-                    source = MediaSource.FromFile(videoPath);
+                    Console.WriteLine("CreateVideoElement: Using MediaElement for iOS/Mac");
+                    return CreateMediaElementVideo(model, videoPath);
                 }
-                
-                var mediaElement = new MediaElement
-                {
-                    BindingContext = model,
-                    Source = source,
-                    ShouldAutoPlay = false, // Control playback manually
-                    ShouldShowPlaybackControls = true,
-                    ShouldMute = false,
-                    Aspect = Aspect.AspectFit,
-                    // Mac Catalyst runs in a window, so use a reasonable fixed height
-                    // Mobile platforms can use the full calculated height
-                    HeightRequest = DeviceInfo.Platform == DevicePlatform.MacCatalyst ? 500 : MediaHeight
-                };
-                Console.WriteLine("CreateVideoElement: MediaElement created successfully");
-
-                // Start playback when media opens
-                mediaElement.MediaOpened += (s, e) =>
-                {
-                    Console.WriteLine("CreateVideoElement: MediaOpened event");
-                    if (shouldAutoPlay)
-                    {
-                        Console.WriteLine("CreateVideoElement: Calling Play()");
-                        mediaElement.Play();
-                    }
-                };
-
-                // Handle VideoPlay property changes
-                model.PropertyChanged += (s, e) =>
-                {
-                    if (e.PropertyName == nameof(model.VideoPlay) && model.VideoPlay)
-                    {
-                        mediaElement.Play();
-                    }
-                };
-
-                // Handle video reset event
-                model.VideoReset += (s, e) =>
-                {
-                    Debug.WriteLine("Video reset requested - seeking to start");
-                    if (mediaElement.CurrentState != CommunityToolkit.Maui.Core.Primitives.MediaElementState.None)
-                    {
-                        mediaElement.SeekTo(TimeSpan.Zero);
-                    }
-                };
-
-                // If recording is enabled, overlay the video with an image
-                if (model.IsRecordingEnabled && !string.IsNullOrWhiteSpace(model.VideoItemImageUrl))
-                {
-                    var grid = new Grid();
-                    grid.Children.Add(mediaElement);
-                    grid.Children.Add(CreateImage(model, nameof(model.VideoItemImageUrl)));
-                    return grid;
-                }
-
-                return mediaElement;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"CreateVideoElement: CRASH - {ex.GetType().Name}: {ex.Message}\nStackTrace: {ex.StackTrace}");
                 return CreatePlaceholderView($"Video playback error: {ex.Message}");
             }
+        }
+
+        private View CreateMediaElementVideo(ScheduleItemViewModel model, string videoPath)
+        {
+            var shouldAutoPlay = !model.IsRecordingEnabled;
+            Console.WriteLine($"CreateMediaElementVideo: shouldAutoPlay={shouldAutoPlay}");
+
+            MediaSource source;
+            if (videoPath.StartsWith("http://") || videoPath.StartsWith("https://"))
+            {
+                Console.WriteLine("CreateMediaElementVideo: Creating URI source");
+                source = MediaSource.FromUri(videoPath);
+            }
+            else
+            {
+                // Local file path
+                Console.WriteLine("CreateMediaElementVideo: Creating file source");
+                source = MediaSource.FromFile(videoPath);
+            }
+            
+            Console.WriteLine("CreateMediaElementVideo: Creating MediaElement");
+            var mediaElement = new MediaElement
+            {
+                BindingContext = model,
+                Source = source,
+                ShouldAutoPlay = false, // Control playback manually
+                ShouldShowPlaybackControls = true,
+                ShouldMute = false,
+                Aspect = Aspect.AspectFit,
+                // Mac Catalyst runs in a window, so use a reasonable fixed height
+                // Mobile platforms can use the full calculated height
+                HeightRequest = DeviceInfo.Platform == DevicePlatform.MacCatalyst ? 500 : MediaHeight
+            };
+            Console.WriteLine("CreateMediaElementVideo: MediaElement created successfully");
+
+            // Start playback when media opens
+            Console.WriteLine("CreateMediaElementVideo: Registering MediaOpened handler");
+            mediaElement.MediaOpened += (s, e) =>
+            {
+                Console.WriteLine("CreateMediaElementVideo: MediaOpened event");
+                if (shouldAutoPlay)
+                {
+                    Console.WriteLine("CreateMediaElementVideo: Calling Play()");
+                    mediaElement.Play();
+                }
+            };
+            Console.WriteLine("CreateMediaElementVideo: MediaOpened handler registered");
+
+            // Handle VideoPlay property changes
+            Console.WriteLine("CreateMediaElementVideo: Registering PropertyChanged handler");
+            model.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(model.VideoPlay) && model.VideoPlay)
+                {
+                    Console.WriteLine("CreateMediaElementVideo: VideoPlay changed, calling Play()");
+                    mediaElement.Play();
+                }
+            };
+            Console.WriteLine("CreateMediaElementVideo: PropertyChanged handler registered");
+
+            // Handle video reset event
+            Console.WriteLine("CreateMediaElementVideo: Registering VideoReset handler");
+            model.VideoReset += (s, e) =>
+            {
+                Console.WriteLine("CreateMediaElementVideo: Video reset requested - seeking to start");
+                if (mediaElement.CurrentState != CommunityToolkit.Maui.Core.Primitives.MediaElementState.None)
+                {
+                    mediaElement.SeekTo(TimeSpan.Zero);
+                }
+            };
+            Console.WriteLine("CreateMediaElementVideo: VideoReset handler registered");
+
+            // If recording is enabled, overlay the video with an image
+            Console.WriteLine($"CreateMediaElementVideo: Checking recording - IsRecordingEnabled={model.IsRecordingEnabled}");
+            if (model.IsRecordingEnabled && !string.IsNullOrWhiteSpace(model.VideoItemImageUrl))
+            {
+                Console.WriteLine("CreateMediaElementVideo: Creating grid with image overlay");
+                var grid = new Grid();
+                grid.Children.Add(mediaElement);
+                grid.Children.Add(CreateImage(model, nameof(model.VideoItemImageUrl)));
+                Console.WriteLine("CreateMediaElementVideo: Returning grid");
+                return grid;
+            }
+
+            Console.WriteLine("CreateMediaElementVideo: All handlers registered, returning mediaElement");
+            return mediaElement;
         }
 
         private View CreateAudio(ScheduleItemViewModel model)
