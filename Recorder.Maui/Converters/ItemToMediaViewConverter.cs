@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Shapes;
 using CommunityToolkit.Maui.Views;
@@ -100,22 +102,102 @@ namespace Recorder.Converters
                 return CreatePlaceholderView("No video URL");
             }
 
+            // For HTTP URLs on iOS/Mac, need to download first due to AVPlayer limitations
+            if ((url.StartsWith("http://") || url.StartsWith("https://")) && 
+                (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst))
+            {
+                return CreateVideoWithHttpDownload(model, url);
+            }
+
+            return CreateVideoElement(model, url);
+        }
+
+        private View CreateVideoWithHttpDownload(ScheduleItemViewModel model, string httpUrl)
+        {
+            // Use a ContentView wrapper so we can update the content
+            var wrapper = new ContentView
+            {
+                Content = CreatePlaceholderView("Loading video...")
+            };
+            
+            // Start async download and replace content when ready
+            Task.Run(async () =>
+            {
+                try
+                {
+                    using var httpClient = new System.Net.Http.HttpClient();
+                    httpClient.Timeout = TimeSpan.FromMinutes(5); // Videos can be large
+                    
+                    var videoData = await httpClient.GetByteArrayAsync(httpUrl);
+                    
+                    // Save to temp file
+                    var extension = System.IO.Path.GetExtension(httpUrl) ?? ".mp4";
+                    var tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"video_{Guid.NewGuid()}{extension}");
+                    await File.WriteAllBytesAsync(tempPath, videoData);
+                    
+                    // Update content on main thread
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        wrapper.Content = CreateVideoElement(model, tempPath);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        wrapper.Content = CreatePlaceholderView($"Failed to load video: {ex.Message}");
+                    });
+                }
+            });
+
+            return wrapper;
+        }
+
+        private View CreateVideoElement(ScheduleItemViewModel model, string videoPath)
+        {
             try
             {
+                var shouldAutoPlay = !model.IsRecordingEnabled;
+
+                MediaSource source;
+                if (videoPath.StartsWith("http://") || videoPath.StartsWith("https://"))
+                {
+                    source = MediaSource.FromUri(videoPath);
+                }
+                else
+                {
+                    // Local file path
+                    source = MediaSource.FromFile(videoPath);
+                }
+                
                 var mediaElement = new MediaElement
                 {
                     BindingContext = model,
-                    Source = MediaSource.FromUri(url),
-                    ShouldAutoPlay = !model.IsRecordingEnabled, // Auto-play if not recording
+                    Source = source,
+                    ShouldAutoPlay = false, // Control playback manually
                     ShouldShowPlaybackControls = true,
                     ShouldMute = false,
                     HeightRequest = MediaHeight,
                     Aspect = Aspect.AspectFill
                 };
 
-                // Bind play state to model if needed
-                mediaElement.SetBinding(MediaElement.ShouldAutoPlayProperty, 
-                    new Binding(nameof(model.VideoPlay), BindingMode.OneWay, source: model));
+                // Start playback when media opens
+                mediaElement.MediaOpened += (s, e) =>
+                {
+                    if (shouldAutoPlay)
+                    {
+                        mediaElement.Play();
+                    }
+                };
+
+                // Handle VideoPlay property changes
+                model.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(model.VideoPlay) && model.VideoPlay)
+                    {
+                        mediaElement.Play();
+                    }
+                };
 
                 // Handle video reset event
                 model.VideoReset += (s, e) =>
@@ -140,7 +222,7 @@ namespace Recorder.Converters
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"CreateVideo: Failed to create MediaElement: {ex.Message}");
+                Debug.WriteLine($"CreateVideoElement: Failed to create MediaElement: {ex.Message}");
                 return CreatePlaceholderView($"Video playback error: {ex.Message}");
             }
         }
