@@ -162,29 +162,23 @@
             </StackLayout>
         </AbsoluteLayout>
 
-        <!-- Recording Bottom Bar - Simplified for testing -->
+        <!-- Recording Bottom Bar -->
         <StackLayout Orientation="Vertical"
                      Padding="20"
                      IsVisible="{Binding ShowRecordButton}"
                      Grid.Row="2"
-                     BackgroundColor="LightGray"
+                     BackgroundColor="{StaticResource AppBackgroundColor}"
                      HorizontalOptions="Center"
                      VerticalOptions="End">
 
             <Button Text="{Binding RecordButtonText, Converter={StaticResource toUpper}}"
                     Command="{Binding RecordCommand}"
-                    WidthRequest="150"
-                    HeightRequest="150"
-                    BackgroundColor="Red"
-                    TextColor="White"
-                    FontSize="18"
-                    CornerRadius="75"
+                    Style="{Binding RecordButtonStyle}"
                     x:Name="RecordButton" />
 
             <Label Text="{Binding RecordingTimeText}"
                    HorizontalTextAlignment="Center"
                    FontSize="24"
-                   TextColor="Black"
                    Margin="0,10,0,0" />
         </StackLayout>
 
