@@ -88,8 +88,7 @@
 	</ItemGroup>
 
 	<Target Name="CopyAppConfiguration" BeforeTargets="PrepareResources">
-		<Copy SourceFiles="BuildConfig\$(Configuration)\appconfiguration.json"
-		      DestinationFiles="BuildConfig\appconfiguration.json" />
+		<Copy SourceFiles="BuildConfig\$(Configuration)\appconfiguration.json" DestinationFiles="BuildConfig\appconfiguration.json" />
 	</Target>
 
 </Project>
