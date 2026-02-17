@@ -37,7 +37,8 @@
                 <ContentView ios:VisualElement.IsShadowEnabled="true"
                              ios:VisualElement.ShadowColor="Black"
                              ios:VisualElement.ShadowOpacity="0.3"
-                             ios:VisualElement.ShadowRadius="3">
+                             ios:VisualElement.ShadowRadius="3"
+                             InputTransparent="True">
                     <ios:VisualElement.ShadowOffset>
                         <Size>
                             <x:Arguments>
@@ -52,8 +53,9 @@
                            Margin="20,8"
                            Padding="8"
                            AutomationId="{Binding TestId}"
-                           HasShadow="False">
-                        <StackLayout Orientation="Horizontal">
+                           HasShadow="False"
+                           InputTransparent="True">
+                        <StackLayout Orientation="Horizontal" InputTransparent="True">
 
                         <Frame Style="{StaticResource ThemeImageBorderStyle}"
                                VerticalOptions="Center">

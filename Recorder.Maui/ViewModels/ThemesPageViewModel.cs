@@ -29,21 +29,23 @@ namespace Recorder.ViewModels
 
         public async void ReloadIfNeeded()
         {
+            Console.WriteLine("[MAUI ThemesPageViewModel] ReloadIfNeeded() called");
+            
             // Read completed schedules from preferences
             List<string> completedScheduleIds = appRepository.GetCompletedScheduleIds();
 
             // TEST BEGIN 
-            Debug.WriteLine("Completed schedule IDs from user preferences:");
+            Console.WriteLine("Completed schedule IDs from user preferences:");
             if (completedScheduleIds?.Count > 0)
             {
                 foreach (string scheduleId in completedScheduleIds)
                 {
-                    Debug.WriteLine(scheduleId);
+                    Console.WriteLine(scheduleId);
                 }
             }
             else
             {
-                Debug.WriteLine("None.");
+                Console.WriteLine("None.");
             }
             // TEST END
 
@@ -51,18 +53,21 @@ namespace Recorder.ViewModels
             {
                 if (ThemeModels == null || ThemeModels.Count == 0)
                 {
+                    Console.WriteLine("[MAUI ThemesPageViewModel] Loading themes from repository...");
                     IsLoading = true;
 
                     Result<List<Theme>> result = await appRepository.GetAllThemesAsync();
+                    Console.WriteLine($"[MAUI ThemesPageViewModel] GetAllThemesAsync result: Succeeded={result.Succeeded}, Count={result.Data?.Count ?? 0}");
                     if (result.Succeeded)
                     {
                         ThemeModels = result.Data
                             .FindAll(t => t?.Content?.ScheduleIds?.Count > 0)
                             .ConvertAll(t => new ThemeViewModel(t));
+                        Console.WriteLine($"[MAUI ThemesPageViewModel] Loaded {ThemeModels.Count} theme models");
                     }
                     else
                     {
-                        Debug.WriteLine("Failed to load themes");
+                        Console.WriteLine("[MAUI ThemesPageViewModel] Failed to load themes");
                         ThemeLoadFailed?.Invoke(this, EventArgs.Empty);
                     }
                     
@@ -70,7 +75,7 @@ namespace Recorder.ViewModels
                 }
                 else
                 {
-                    Debug.WriteLine($"ThemeModels already loaded with {ThemeModels.Count} items");
+                    Console.WriteLine($"[MAUI ThemesPageViewModel] ThemeModels already loaded with {ThemeModels.Count} items");
                 }
 
                 // update completed flags on every call.. data binding will update list data template
