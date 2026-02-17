@@ -13,6 +13,9 @@ has been migrated from Xamarin.Forms to .NET MAUI.
 
 ### Build and Run
 
+- List Android emulators: `emulator -list-avds`
+- Run Android emulator: `emulator -avd <emulator_name>`
+
 ```bash
 # Restore dependencies
 dotnet restore Recorder.Maui/Recorder.Maui.csproj
@@ -24,6 +27,12 @@ dotnet build Recorder.Maui/Recorder.Maui.csproj -f net10.0-ios          # iOS
 
 # Run on Mac Catalyst
 dotnet run --project Recorder.Maui/Recorder.Maui.csproj -f net10.0-maccatalyst
+
+# Run on iOS simulator
+dotnet build -f net10.0-ios -t:Run
+
+# Run on Android simulator
+dotnet build -f net10.0-android -t:Run
 ```
 
 ## Run backend locally
