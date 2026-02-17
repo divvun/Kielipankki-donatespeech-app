@@ -122,9 +122,15 @@ namespace Recorder.Services
             }
 
             Debug.WriteLine($"Found {count} pending recordings in database");
+            Console.WriteLine("Starting upload loop...");
+            int uploadIndex = 0;
             foreach (Recording rec in pendingRecordings)
             {
-                var metadataString = rec.Metadata!;
+                try
+                {
+                    uploadIndex++;
+                    Console.WriteLine($"=== Processing recording {uploadIndex}/{count}: RecID={rec.RecordingId}, File={rec.FileName} ===");
+                    var metadataString = rec.Metadata!;
                 Debug.WriteLine($"metadata = '{metadataString}'");
 
                 int lastSlashPosition = rec.FileName!.LastIndexOf('/');
@@ -140,51 +146,66 @@ namespace Recorder.Services
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
 
-                var metadataObject = JsonConvert.DeserializeObject<RecordingMetadata>(metadataString, metadataJsonSerializerSettings);
-                var uploadDescription = await RecorderApi.InitUploadAsync(rec, metadataObject!);
-                string url = uploadDescription.PreSignedUrl;
+                    Console.WriteLine("Deserializing metadata...");
+                    var metadataObject = JsonConvert.DeserializeObject<RecordingMetadata>(metadataString, metadataJsonSerializerSettings);
+                    Console.WriteLine("Calling InitUploadAsync...");
+                    var uploadDescription = await RecorderApi.InitUploadAsync(rec, metadataObject!);
+                    string url = uploadDescription.PreSignedUrl;
+                    Console.WriteLine($"Got pre-signed URL, length={url.Length}");
                 Debug.WriteLine($"Got pre-signed URL for recID '{rec.RecordingId}' from server, length = {url.Length} characters");
 
 #if DEBUG
                 // Replace Docker hostname with localhost for local development
                 // Docker containers use 'azurite' as hostname, but simulator needs 'localhost'
-                if (url.Contains("azurite:10000"))
-                {
-                    url = url.Replace("azurite:10000", "localhost:10000");
-                    uploadDescription.PreSignedUrl = url;
-                    Debug.WriteLine($"Fixed SAS URL for simulator: replaced azurite with localhost");
-                }
+                    if (url.Contains("azurite:10000"))
+                    {
+                        url = url.Replace("azurite:10000", "localhost:10000");
+                        uploadDescription.PreSignedUrl = url;
+                        Console.WriteLine("Fixed SAS URL: azurite -> localhost");
+                        Debug.WriteLine($"Fixed SAS URL for simulator: replaced azurite with localhost");
+                    }
 #endif
 
-                // If this is a metadata-only entry, just don't use the pre-signed URL and let it expire.
-                // Mark the metadata item as uploaded.
-                if (rec.FileName.Contains(Constants.MetadataWithoutRecording))
-                {
-                    Debug.WriteLine($"Recording with ID '{rec.RecordingId} is metadata without recording; no media will be sent to the server.");
-                    rec.UploadStatus = UploadStatus.Uploaded;
-                    int result = await App.Database.UpdateRecordingUploadStatusAsync(rec);
-                    Debug.WriteLine($"Status of recording '{rec.RecordingId}' updated to '{UploadStatus.Uploaded}'");
-                    continue;
-                }
+                    // If this is a metadata-only entry, just don't use the pre-signed URL and let it expire.
+                    // Mark the metadata item as uploaded.
+                    if (rec.FileName.Contains(Constants.MetadataWithoutRecording))
+                    {
+                        Console.WriteLine("Metadata-only entry, marking as uploaded");
+                        Debug.WriteLine($"Recording with ID '{rec.RecordingId} is metadata without recording; no media will be sent to the server.");
+                        rec.UploadStatus = UploadStatus.Uploaded;
+                        int result = await App.Database.UpdateRecordingUploadStatusAsync(rec);
+                        Debug.WriteLine($"Status of recording '{rec.RecordingId}' updated to '{UploadStatus.Uploaded}'");
+                        continue;
+                    }
 
-                // The recordings are stored in the Documents folder. We only save the filename in the database
-                // (because deleting and reinstalling the app may cause the full path to change), so we need to
-                // construct the full pathname again:
-                var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string recordingFileName = Path.Combine(documentsFolder, rec.FileName!);
+                    // The recordings are stored in the Documents folder. We only save the filename in the database
+                    // (because deleting and reinstalling the app may cause the full path to change), so we need to
+                    // construct the full pathname again:
+                    var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    string recordingFileName = Path.Combine(documentsFolder, rec.FileName!);
+                    Console.WriteLine($"Uploading: {recordingFileName}");
 
-                bool success = await RecorderApi.UploadRecordingAsync(recordingFileName, uploadDescription.PreSignedUrl, metadataObject!.ContentType!);
-                if (success)
-                {
-                    rec.UploadStatus = UploadStatus.Uploaded;
-                    int result = await App.Database.UpdateRecordingUploadStatusAsync(rec);
-                    Debug.WriteLine($"Status of recording '{rec.RecordingId}' updated to '{UploadStatus.Uploaded}'");
+                        bool success = await RecorderApi.UploadRecordingAsync(recordingFileName, uploadDescription.PreSignedUrl, metadataObject!.ContentType!);
+                    if (success)
+                    {
+                        Console.WriteLine($"Upload SUCCESS for '{rec.RecordingId}'");
+                        rec.UploadStatus = UploadStatus.Uploaded;
+                        int result = await App.Database.UpdateRecordingUploadStatusAsync(rec);
+                        Debug.WriteLine($"Status of recording '{rec.RecordingId}' updated to '{UploadStatus.Uploaded}'");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Upload FAILED for '{rec.RecordingId}'");
+                        Debug.WriteLine($"Upload of recording '{rec.RecordingId}' failed, status not updated");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Debug.WriteLine($"Upload of recording '{rec.RecordingId}' failed, status not updated");
+                    Console.WriteLine($"EXCEPTION uploading recording {uploadIndex}: {ex.GetType().Name}: {ex.Message}");
+                    Debug.WriteLine($"Upload exception: {ex}");
                 }
             }
+            Console.WriteLine("=== Upload loop completed ===");
         }
 
         public void SaveAnswer(string id, string value)
