@@ -363,9 +363,12 @@ namespace Recorder.ViewModels
 
         private void StopRecording()
         {
+            Console.WriteLine($"=== StopRecording called, Answer='{ItemViewModel.Answer}' ===");
             recordingManager.FinalizeRecording(ItemViewModel.Answer);
+            Console.WriteLine("FinalizeRecording returned");
             DisplayState = ScheduleItemStateType.Finish;
             elapsedTimeModel.Stop();
+            Console.WriteLine("=== StopRecording completed ===");
         }
 
         private void MoveBy(int indexOffset)

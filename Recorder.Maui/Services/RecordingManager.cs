@@ -34,8 +34,11 @@ namespace Recorder.Services
 
         public void StartRecording(string itemId)
         {
+            Console.WriteLine($"=== StartRecording called, itemId='{itemId}' ===");
+            
             if (IsRecording)
             {
+                Console.WriteLine("ERROR: Already recording!");
                 throw new Exception("Cannot start recording when already recording");
             }
 
@@ -48,20 +51,27 @@ namespace Recorder.Services
             };
 
             Debug.WriteLine($"About to start recording, rec ID = '{itemId}'");
+            Console.WriteLine($"Recording prepared: RecID={recording.RecordingId}, ClientID={recording.ClientId}");
             recorder.Start();
+            Console.WriteLine($"Recorder.Start() called, IsRecording={IsRecording}");
         }
 
         public void FinalizeRecording(string answer)
         {
+            Console.WriteLine($"=== FinalizeRecording called, IsRecording={IsRecording} ===");
+            
             if (!IsRecording)
             {
                 Debug.WriteLine("Skipping recording finalize since not recording");
+                Console.WriteLine("SKIP: Not currently recording");
                 return;
             }
 
             Debug.WriteLine($"RecordingManager.FinalizeRecording, item ID = '{recording!.ItemId}'");
+            Console.WriteLine($"FinalizeRecording: item ID = '{recording!.ItemId}'");
 
             var file = recorder.Stop();
+            Console.WriteLine($"Recorder stopped, file: {file.FileName}");
             
             RecordingMetadata metadata = new RecordingMetadata(recording.RecordingId!)
             {
@@ -86,7 +96,9 @@ namespace Recorder.Services
             recording.Metadata = metadataString;
 
             recording.UploadStatus = UploadStatus.Pending;
+            Console.WriteLine($"About to save recording to database: ID={recording.RecordingId}, File={recording.FileName}");
             App.Database.SaveRecordingAsync(recording);
+            Console.WriteLine($"SaveRecordingAsync called (not awaited) for '{recording.RecordingId}'");
             Debug.WriteLine($"Saved recording information for '{recording.RecordingId}' in the database");
 
             var dict = new Dictionary<string, string>

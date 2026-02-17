@@ -109,10 +109,12 @@ namespace Recorder.Services
 
         public async Task UploadPendingRecordings()
         {
+            Console.WriteLine("=== UploadPendingRecordings called ===");
             Debug.WriteLine("Uploading pending recordings");
 
             List<Recording> pendingRecordings = await App.Database.GetRecordingsByUploadStatusAsync(UploadStatus.Pending);
             var count = pendingRecordings.Count;
+            Console.WriteLine($"Found {count} pending recordings");
             if (count == 0)
             {
                 Debug.WriteLine("No pending recordings in database");

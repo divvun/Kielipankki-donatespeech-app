@@ -195,17 +195,21 @@ namespace Recorder
         private void StartUploadScheduler(long timerLock)
         {
             Debug.WriteLine("Starting timer for lock value {0}", timerLock);
+            Console.WriteLine($"=== StartUploadScheduler: timerLock={timerLock} ===");
             Dispatcher.StartTimer(TimeSpan.FromSeconds(Constants.PendingUploadsTimerIntervalSeconds), () =>
             {
                 Debug.WriteLine("Running upload task");
+                Console.WriteLine($"=== Upload timer tick, lock={timerLock}, current={schedulerLockCounter} ===");
                 if (timerLock != schedulerLockCounter)
                 {
                     Debug.WriteLine("Initialized lock {0} doesn't match the current {1}", timerLock, schedulerLockCounter);
+                    Console.WriteLine($"Timer cancelled: lock mismatch");
                     return false;
                 }
 
                 if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
+                    Console.WriteLine("Network available, starting upload task");
                     Task.Run(async () =>
                     {
                         try
