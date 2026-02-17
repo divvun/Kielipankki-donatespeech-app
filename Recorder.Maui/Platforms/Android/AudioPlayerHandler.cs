@@ -1,13 +1,13 @@
 using System;
 using System.Diagnostics;
 using Android.Media;
-using Android.Views;
+using AndroidView = Android.Views.View;
 using Microsoft.Maui;
 using Microsoft.Maui.Handlers;
 
 namespace Recorder.Maui.Platforms.Android
 {
-    public class AudioPlayerHandler : ViewHandler<AudioPlayer, View>
+    public class AudioPlayerHandler : ViewHandler<AudioPlayer, AndroidView>
     {
         private MediaPlayer? mediaPlayer;
         private bool isDisposed = false;
@@ -22,10 +22,10 @@ namespace Recorder.Maui.Platforms.Android
         {
         }
 
-        protected override View CreatePlatformView()
+        protected override AndroidView CreatePlatformView()
         {
             // Audio doesn't need a visual component on Android
-            var view = new View(Context);
+            var view = new AndroidView(Context);
             
             mediaPlayer = new MediaPlayer();
             mediaPlayer.SetAudioAttributes(
@@ -40,7 +40,7 @@ namespace Recorder.Maui.Platforms.Android
             return view;
         }
 
-        protected override void ConnectHandler(View platformView)
+        protected override void ConnectHandler(AndroidView platformView)
         {
             base.ConnectHandler(platformView);
             
@@ -57,7 +57,7 @@ namespace Recorder.Maui.Platforms.Android
             }
         }
 
-        protected override void DisconnectHandler(View platformView)
+        protected override void DisconnectHandler(AndroidView platformView)
         {
             if (VirtualView != null)
             {
