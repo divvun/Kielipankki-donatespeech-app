@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Android.Content;
 using Android.Media;
 using AndroidView = Android.Views.View;
 using Microsoft.Maui;
@@ -35,6 +36,10 @@ namespace Recorder.Maui.Platforms.Android
                     .Build()!
             );
             
+            // Set volume to maximum (left and right channels, 0.0 to 1.0)
+            mediaPlayer.SetVolume(1.0f, 1.0f);
+            
+            Console.WriteLine("[Android AudioPlayer] Created MediaPlayer with volume=1.0");
             Debug.WriteLine("AudioPlayer: Created platform view and MediaPlayer", "AudioPlayerHandler");
             
             return view;
@@ -111,24 +116,32 @@ namespace Recorder.Maui.Platforms.Android
         private void UpdateSource()
         {
             if (VirtualView?.Source == null || mediaPlayer == null || isDisposed)
+            {
+                Console.WriteLine($"[Android AudioPlayer] UpdateSource: VirtualView.Source={VirtualView?.Source}, mediaPlayer={mediaPlayer}, isDisposed={isDisposed}");
                 return;
+            }
 
             try
             {
+                Console.WriteLine($"[Android AudioPlayer] UpdateSource: Resetting and loading {VirtualView.Source.Uri}");
                 mediaPlayer.Reset();
                 mediaPlayer.SetDataSource(VirtualView.Source.Uri);
                 mediaPlayer.PrepareAsync();
+                Console.WriteLine($"[Android AudioPlayer] PrepareAsync called for {VirtualView.Source.Uri}");
                 
                 Debug.WriteLine($"AudioPlayer: Loading source {VirtualView.Source.Uri}", "AudioPlayerHandler");
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[Android AudioPlayer] ERROR setting data source: {ex.Message}");
+                Console.WriteLine($"[Android AudioPlayer] Stack trace: {ex.StackTrace}");
                 Debug.WriteLine($"AudioPlayer: Error setting data source: {ex.Message}", "AudioPlayerHandler");
             }
         }
 
         private void OnMediaPlayerPrepared(object? sender, EventArgs e)
         {
+            Console.WriteLine("[Android AudioPlayer] OnMediaPlayerPrepared: Media is ready");
             Debug.WriteLine("AudioPlayer: Media prepared", "AudioPlayerHandler");
             
             // Seek to start time if specified
@@ -157,15 +170,67 @@ namespace Recorder.Maui.Platforms.Android
         private void UpdatePlayback()
         {
             if (mediaPlayer == null || isDisposed || VirtualView == null)
+            {
+                Console.WriteLine($"[Android AudioPlayer] UpdatePlayback: Cannot play - mediaPlayer={mediaPlayer}, isDisposed={isDisposed}, VirtualView={VirtualView}");
                 return;
+            }
 
             try
             {
+                Console.WriteLine($"[Android AudioPlayer] UpdatePlayback: VirtualView.Play={VirtualView.Play}");
                 if (VirtualView.Play)
                 {
                     if (!mediaPlayer.IsPlaying)
                     {
+                        Console.WriteLine("[Android AudioPlayer] Starting playback...");
+                        
+                        // Check system volume
+                        try
+                        {
+                            var audioManager = Context?.GetSystemService(Context.AudioService) as AudioManager;
+                            if (audioManager != null)
+                            {
+                                var currentVolume = audioManager.GetStreamVolume(global::Android.Media.Stream.Music);
+                                var maxVolume = audioManager.GetStreamMaxVolume(global::Android.Media.Stream.Music);
+                                Console.WriteLine($"[Android AudioPlayer] System volume - Music stream: {currentVolume}/{maxVolume}");
+                                
+                                if (currentVolume == 0)
+                                {
+                                    Console.WriteLine("[Android AudioPlayer] WARNING: System music volume is 0! User needs to turn up device volume.");
+                                }
+                            }
+                        }
+                        catch (Exception volEx)
+                        {
+                            Console.WriteLine($"[Android AudioPlayer] Could not check system volume: {volEx.Message}");
+                        }
+                        
+                        // Log media info
+                        try
+                        {
+                            var duration = mediaPlayer.Duration;
+                            var position = mediaPlayer.CurrentPosition;
+                            Console.WriteLine($"[Android AudioPlayer] Media info - Duration: {duration}ms, Current position: {position}ms");
+                            
+                            // If playback is at or near the end, seek back to start
+                            if (position >= duration - 100)
+                            {
+                                Console.WriteLine("[Android AudioPlayer] Position is at end, seeking to start...");
+                                mediaPlayer.SeekTo(VirtualView.StartTime * 1000);
+                                Console.WriteLine($"[Android AudioPlayer] Seeked to {VirtualView.StartTime}s");
+                            }
+                        }
+                        catch (Exception infoEx)
+                        {
+                            Console.WriteLine($"[Android AudioPlayer] Could not get media info: {infoEx.Message}");
+                        }
+                        
+                        // Ensure volume is set
+                        mediaPlayer.SetVolume(1.0f, 1.0f);
+                        Console.WriteLine("[Android AudioPlayer] Volume set to 1.0f");
+                        
                         mediaPlayer.Start();
+                        Console.WriteLine($"[Android AudioPlayer] Playback STARTED - IsPlaying: {mediaPlayer.IsPlaying}");
                         Debug.WriteLine("AudioPlayer: Started playback", "AudioPlayerHandler");
                     }
                 }

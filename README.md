@@ -1,20 +1,28 @@
-# Recorder app for iOS and Android
+# Recorder app for iOS, Android, and macOS
 
-This application is built with Xamarin.Forms: Open the `Recorder.sln` in Visual
-Studio for Mac and you're good to go.
+This .NET MAUI application supports iOS, Android, and Mac Catalyst. The project
+has been migrated from Xamarin.Forms to .NET MAUI.
 
-## Run from CLI (macOS)
+## Quick Start
 
-The MAUI app lives in `Recorder.Maui` and supports Mac Catalyst. You need Xcode
-and the MAUI workload installed.
+### Prerequisites
+- .NET 10 SDK
+- Xcode (for iOS/macOS builds)
+- Android SDK (for Android builds)
+- MAUI workload: `dotnet workload install maui`
+
+### Build and Run
 
 ```bash
-# one-time setup
-dotnet workload install maui
-
-# from repo root
+# Restore dependencies
 dotnet restore Recorder.Maui/Recorder.Maui.csproj
-dotnet build -f net10.0-maccatalyst Recorder.Maui/Recorder.Maui.csproj
+
+# Build for specific platform
+dotnet build Recorder.Maui/Recorder.Maui.csproj -f net10.0-maccatalyst  # macOS
+dotnet build Recorder.Maui/Recorder.Maui.csproj -f net10.0-android      # Android
+dotnet build Recorder.Maui/Recorder.Maui.csproj -f net10.0-ios          # iOS
+
+# Run on Mac Catalyst
 dotnet run --project Recorder.Maui/Recorder.Maui.csproj -f net10.0-maccatalyst
 ```
 
@@ -31,7 +39,7 @@ cd ../Kielipankki-donatespeech-backend/recorder-backend
 Base URL defaults to `http://localhost:8000` in the app config. For Android
 emulator it is remapped to `http://10.0.2.2:8000` automatically. For physical
 devices, set `RecorderApiUrl` in the relevant
-`Recorder/BuildConfig/<Config>/appconfiguration.json` to your Mac LAN IP.
+`Recorder.Maui/BuildConfig/<Config>/appconfiguration.json` to your Mac LAN IP.
 
 Troubleshooting:
 
@@ -45,126 +53,41 @@ curl http://localhost:8000/v1/theme
 - If you see connection errors on devices, ensure the backend allows HTTP and
   your device can reach the host (same network, firewall allows port 8000).
 
-## Development model
+## Development Model
 
-We're doing trunk-based development here, which means that the latest
-development version is always in `master` and each release is branched under
-`release`. The app version is set in the main solution options, which is then
-propagated to the project option files and through MSBuild steps to the platform
-specific configuration files (AndroidManifest.xml/Info.plist).
+Trunk-based development: the latest development version is in the default
+branch, and releases are tagged. App version is configured in
+`Recorder.Maui.csproj`.
 
-## CI/CD
+## Deployment
 
-You may want to consider a CI/CD solution like
-[Visual Studio App Center](https://appcenter.ms), where the app is automatically
-built when a commit is pushed. You will need to register iOS devices and
-provision the iOS builds from `master` to run on those. Android builds do not
-have this kind of limitation. The builds are then "automatically" distributed
-using App Center Distribute.
+### Google Play (Android)
 
-### Google Play deployment
+Build the app in Release configuration:
+```bash
+dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-android
+```
 
-The release branch build configuration in App Center can be cloned from previous
-release branch to the new one. The resulting builds can then by uploaded to
-Google Play Console and published to a closed alpha group, to public beta or to
-production.
+The AAB file will be in `Recorder.Maui/bin/Release/net10.0-android/`. Upload to
+Google Play Console and publish to your desired track (internal, alpha, beta, or
+production).
 
-### App Store deployment
+### App Store (iOS/macOS)
 
-The process is similar to Google Play, but you need to submit the build using
+Build for iOS:
+```bash
+dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-ios
+```
+
+Submit the build using
 [Apple Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12).
-Once the build has been processed by App Store, you can publish the build to
-TestFlight beta test or to production.
+Once processed by App Store Connect, publish to TestFlight or production.
 
-## #Build number setting in project file
+## Migration Notes
 
-Once your project is in Git version control, you can add the following target to
-the respective Visual Studio project file to automatically set the build number.
-
-### Android
-
-    <Target Name="SetAppVersion" BeforeTargets="BeforeBuild">
-        <Exec Command="git show-ref --quiet refs/heads/master &amp;&amp; echo master || echo origin/master" ConsoleToMsBuild="true">
-            <Output TaskParameter="ConsoleOutput" PropertyName="GitBranchName" />
-        </Exec>
-        <Exec Command="git rev-list --count --first-parent HEAD" ConsoleToMsBuild="true">
-            <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitCount" />
-        </Exec>
-        <Exec Command="git rev-list --count --first-parent $(GitBranchName).." ConsoleToMsBuild="true">
-            <Output TaskParameter="ConsoleOutput" PropertyName="GitBranchCommitCount" />
-        </Exec>
-        <CreateProperty Value="$([System.String]::Format('{0}{1:000}', $([MSBuild]::Subtract($(GitCommitCount), $(GitBranchCommitCount))), $([System.Int32]::Parse($(GitBranchCommitCount)))))">
-            <Output TaskParameter="Value" PropertyName="BuildNumber" />
-        </CreateProperty>
-        <Message Text="Version: $(ReleaseVersion), Build: $(BuildNumber)" />
-        <PropertyGroup>
-            <AndroidManifestPlaceholders>versionCode=$(BuildNumber);versionName=$(ReleaseVersion)</AndroidManifestPlaceholders>
-            
-              
-                
-        </PropertyGroup>
-    </Target>
-
-Also make the following settings in `AndroidManifest.xml`:
-
-    Version number = `${versionCode}` Version name = `${versionName}`
-
-This allows the build script to substitute the values.
-
-### iOS
-
-    <Target Name="SetInfoPlistAppVersion" AfterTargets="_CompileAppManifest">
-        <Exec Command="git show-ref --quiet refs/heads/master &amp;&amp; echo master || echo origin/master" ConsoleToMsBuild="true">
-            <Output TaskParameter="ConsoleOutput" PropertyName="GitBranchName" />
-        </Exec>
-        <Exec Command="git rev-list --count --first-parent HEAD" ConsoleToMsBuild="true">
-            <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitCount" />
-        </Exec>
-        <Exec Command="git rev-list --count --first-parent $(GitBranchName).." ConsoleToMsBuild="true">
-            <Output TaskParameter="ConsoleOutput" PropertyName="GitBranchCommitCount" />
-        </Exec>
-        <CreateProperty Value="$([System.String]::Format('{0}{1:000}', $([MSBuild]::Subtract($(GitCommitCount), $(GitBranchCommitCount))), $([System.Int32]::Parse($(GitBranchCommitCount)))))">
-            <Output TaskParameter="Value" PropertyName="BuildNumber" />
-        </CreateProperty>
-        <Message Text="Version: $(ReleaseVersion), Build: $(BuildNumber)" />
-        <Exec Command="plutil -replace CFBundleShortVersionString -string '$(ReleaseVersion)' '$(_AppBundlePath)Info.plist'" />
-        <Exec Command="plutil -replace CFBundleVersion -string '$(BuildNumber)' '$(_AppBundlePath)Info.plist'" />
-    </Target>
-
-## Font scaling
-
-Depending on the font used, you may want to add font scaling definitions to XAML
-elements. These use the `ResponsiveStyleProp` class included in the app project.
-
-For `PageTitleStyle`:
-
-    <Setter Property="FontSize">
-        <Setter.Value> <app:PlatformFontSize iOS="Title" Android="28.0">
-        <app:PlatformFontSize.iOSFontScale> <app:ResponsiveStyleProp
-        x:TypeArguments="x:Double" Normal="1" Medium="1.1429" Large="1.2857" />
-        </app:PlatformFontSize.iOSFontScale>
-        <app:PlatformFontSize.AndroidFontScale> <app:ResponsiveStyleProp
-        x:TypeArguments="x:Double" Normal="1" Medium="1.1429" Large="1.2857" />
-        </app:PlatformFontSize.AndroidFontScale> </app:PlatformFontSize>
-        </Setter.Value>
-    </Setter>
-
-For `BodyTextStyle`:
-
-    <Setter Property="FontSize">
-        <Setter.Value> <app:PlatformFontSize iOS="Body" Android="17.0">
-        <app:PlatformFontSize.iOSFontScale> <app:ResponsiveStyleProp
-        x:TypeArguments="x:Double" Normal="1" Medium="1.1176" Large="1.1176" />
-        </app:PlatformFontSize.iOSFontScale>
-        <app:PlatformFontSize.AndroidFontScale> <app:ResponsiveStyleProp
-        x:TypeArguments="x:Double" Normal="1" Medium="1.1176" Large="1.1176" />
-        </app:PlatformFontSize.AndroidFontScale> </app:PlatformFontSize>
-        </Setter.Value>
-    </Setter>
-
-## Firebase analytics
-
-To use Firebase analytics you need to set up a new Firebase project for the app.
-See the Firebase documentation
-[for iOS](https://firebase.google.com/docs/ios/setup) and
-[for Android](https://firebase.google.com/docs/android/setup) to find out more.
+This project has been migrated from Xamarin.Forms to .NET MAUI. See
+`Recorder.Maui/MIGRATION_NOTES.md` for details on:
+- FLAC audio recording status
+- Video playback implementation
+- Resource migration
+- Breaking changes and known differences

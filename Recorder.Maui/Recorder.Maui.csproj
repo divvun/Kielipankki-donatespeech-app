@@ -60,11 +60,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!-- Exclude MAUI template files that we don't use -->
-		<MauiXaml Remove="AppShell.xaml" Condition="Exists('AppShell.xaml')" />
-		<Compile Remove="AppShell.xaml.cs" Condition="Exists('AppShell.xaml.cs')" />
-		<MauiXaml Remove="MainPage.xaml" Condition="Exists('MainPage.xaml')" />
-		<Compile Remove="MainPage.xaml.cs" Condition="Exists('MainPage.xaml.cs')" />
 		<!-- Exclude Xamarin.Forms Effects that are incompatible with MAUI -->
 		<Compile Remove="Effects\*.cs" />
 	</ItemGroup>
@@ -89,6 +84,7 @@
 		<PackageReference Include="Microsoft.Kiota.Bundle" Version="1.21.2" />
 		<PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.21.2" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="14.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="5.0.0" />
 	</ItemGroup>
 
 	<Target Name="CopyAppConfiguration" BeforeTargets="PrepareResources">

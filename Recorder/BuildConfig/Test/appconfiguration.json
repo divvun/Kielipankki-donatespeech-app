@@ -1,6 +1,0 @@
-﻿{
-  "RecorderApiUrl": "http://localhost:8000",
-  "RecorderApiKey": "recorder-api-key",
-  "MaxRecordingMinutes": 10,
-  "BuildType": "test"
-}

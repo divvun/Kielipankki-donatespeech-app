@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Shapes;
+using CommunityToolkit.Maui.Views;
 
 using Recorder.Models;
 using Recorder.ViewModels;
@@ -99,27 +100,48 @@ namespace Recorder.Converters
                 return CreatePlaceholderView("No video URL");
             }
 
-            // For now, show placeholder until video playback is implemented
-            var videoLabel = new Label
+            try
             {
-                Text = "📹 Video Available\n(Playback coming soon)",
-                FontSize = 18,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
-                Padding = 20
-            };
+                var mediaElement = new MediaElement
+                {
+                    BindingContext = model,
+                    Source = MediaSource.FromUri(url),
+                    ShouldAutoPlay = !model.IsRecordingEnabled, // Auto-play if not recording
+                    ShouldShowPlaybackControls = true,
+                    ShouldMute = false,
+                    HeightRequest = MediaHeight,
+                    Aspect = Aspect.AspectFill
+                };
 
-            if (model.IsRecordingEnabled)
-            {
-                var image = CreateImage(model, nameof(model.VideoItemImageUrl));
-                Grid grid = new Grid();
-                grid.Children.Add(videoLabel);
-                grid.Children.Add(image);
-                return grid;
+                // Bind play state to model if needed
+                mediaElement.SetBinding(MediaElement.ShouldAutoPlayProperty, 
+                    new Binding(nameof(model.VideoPlay), BindingMode.OneWay, source: model));
+
+                // Handle video reset event
+                model.VideoReset += (s, e) =>
+                {
+                    Debug.WriteLine("Video reset requested - seeking to start");
+                    if (mediaElement.CurrentState != CommunityToolkit.Maui.Core.Primitives.MediaElementState.None)
+                    {
+                        mediaElement.SeekTo(TimeSpan.Zero);
+                    }
+                };
+
+                // If recording is enabled, overlay the video with an image
+                if (model.IsRecordingEnabled && !string.IsNullOrWhiteSpace(model.VideoItemImageUrl))
+                {
+                    var grid = new Grid();
+                    grid.Children.Add(mediaElement);
+                    grid.Children.Add(CreateImage(model, nameof(model.VideoItemImageUrl)));
+                    return grid;
+                }
+
+                return mediaElement;
             }
-            else
+            catch (Exception ex)
             {
-                return videoLabel;
+                Debug.WriteLine($"CreateVideo: Failed to create MediaElement: {ex.Message}");
+                return CreatePlaceholderView($"Video playback error: {ex.Message}");
             }
         }
 
