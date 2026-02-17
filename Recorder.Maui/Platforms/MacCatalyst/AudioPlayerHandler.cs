@@ -13,7 +13,9 @@ namespace Recorder.Maui.Platforms.MacCatalyst
         private AVPlayer? player;
         private AVPlayerItem? playerItem;
         private IDisposable? timeObserver;
+        private IDisposable? statusObserver;
         private bool isInitialized = false;
+        private bool shouldPlayWhenReady = false;
 
         public static PropertyMapper<AudioPlayer, AudioPlayerHandler> AudioPlayerMapper = new PropertyMapper<AudioPlayer, AudioPlayerHandler>(ViewMapper)
         {
@@ -33,9 +35,12 @@ namespace Recorder.Maui.Platforms.MacCatalyst
             view.BackgroundColor = UIColor.Clear;
             
             player = new AVPlayer();
+            player.Volume = 1.0f; // Ensure volume is at maximum
+            player.AllowsExternalPlayback = false; // Keep audio local
+            
             isInitialized = true;
             
-            Console.WriteLine("AudioPlayer: Created platform view and AVPlayer");
+            Console.WriteLine($"AudioPlayer: Created platform view and AVPlayer (Volume={player.Volume})");
             
             // Immediately apply Source and Play if they're already set on the VirtualView
             if (VirtualView != null)
@@ -79,6 +84,10 @@ namespace Recorder.Maui.Platforms.MacCatalyst
 
         private void CleanupPlayer()
         {
+            shouldPlayWhenReady = false;
+            statusObserver?.Dispose();
+            statusObserver = null;
+            
             if (player != null)
             {
                 player.Pause();
@@ -87,6 +96,8 @@ namespace Recorder.Maui.Platforms.MacCatalyst
                 timeObserver = null;
                 player = null;
             }
+            
+            playerItem = null;
         }
 
         private static void MapSource(AudioPlayerHandler handler, AudioPlayer audioPlayer)
@@ -101,7 +112,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
             handler.UpdatePlayback();
         }
 
-        private void UpdateSource()
+        private async void UpdateSource()
         {
             Console.WriteLine($"AudioPlayer: UpdateSource called, source={VirtualView?.Source?.Uri ?? "null"}, player={player != null}");
             Debug.WriteLine($"AudioPlayer: UpdateSource called, source={VirtualView?.Source?.Uri ?? "null"}, player={player != null}");
@@ -123,17 +134,92 @@ namespace Recorder.Maui.Platforms.MacCatalyst
 
             try
             {
-                // Log the URI we're about to use
-                Console.WriteLine($"AudioPlayer: Creating NSUrl from URI: '{uri}'");
-                Debug.WriteLine($"AudioPlayer: Creating NSUrl from URI: '{uri}'");
+                NSUrl url;
                 
-                NSUrl url = new NSUrl(uri);
+                // Check if URL is HTTP - if so, download it first to work around iOS requiring
+                // Content-Length and Accept-Ranges headers for HTTP audio streaming
+                if (uri.StartsWith("http://") || uri.StartsWith("https://"))
+                {
+                    Console.WriteLine($"AudioPlayer: HTTP URL detected, downloading file first...");
+                    Debug.WriteLine($"AudioPlayer: HTTP URL detected, downloading file first...");
+                    
+                    try
+                    {
+                        using var httpClient = new System.Net.Http.HttpClient();
+                        var audioData = await httpClient.GetByteArrayAsync(uri);
+                        
+                        // Save to temp file
+                        var tempPath = Path.Combine(Path.GetTempPath(), $"audio_{Guid.NewGuid()}.m4a");
+                        await File.WriteAllBytesAsync(tempPath, audioData);
+                        
+                        Console.WriteLine($"AudioPlayer: Downloaded {audioData.Length} bytes to {tempPath}");
+                        Debug.WriteLine($"AudioPlayer: Downloaded {audioData.Length} bytes to {tempPath}");
+                        url = NSUrl.FromFilename(tempPath);
+                    }
+                    catch (Exception downloadEx)
+                    {
+                        Console.WriteLine($"AudioPlayer: Download failed: {downloadEx.Message}");
+                        Debug.WriteLine($"AudioPlayer: Download failed: {downloadEx.Message}");
+                        // Fall back to direct URL
+                        url = new NSUrl(uri);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"AudioPlayer: Creating NSUrl from URI: '{uri}'");
+                    Debug.WriteLine($"AudioPlayer: Creating NSUrl from URI: '{uri}'");
+                    url = new NSUrl(uri);
+                }
+                
                 Console.WriteLine($"AudioPlayer: NSUrl created successfully from '{uri}'");
                 Debug.WriteLine($"AudioPlayer: NSUrl created successfully from '{uri}'");
                 
                 playerItem = AVPlayerItem.FromUrl(url);
                 Console.WriteLine($"AudioPlayer: AVPlayerItem created from URL, status={playerItem.Status}");
                 Debug.WriteLine($"AudioPlayer: AVPlayerItem created from URL, status={playerItem.Status}");
+                
+                // Observe status changes
+                statusObserver?.Dispose();
+                statusObserver = playerItem.AddObserver("status", NSKeyValueObservingOptions.New, change =>
+                {
+                    var status = playerItem.Status;
+                    Console.WriteLine($"AudioPlayer: PlayerItem status changed to: {status}");
+                    Debug.WriteLine($"AudioPlayer: PlayerItem status changed to: {status}");
+                    
+                    if (status == AVPlayerItemStatus.Failed)
+                    {
+                        var error = playerItem.Error;
+                        if (error != null)
+                        {
+                            Console.WriteLine($"AudioPlayer: PlayerItem FAILED with error:");
+                            Console.WriteLine($"  Description: {error.LocalizedDescription}");
+                            Console.WriteLine($"  Domain: {error.Domain}");
+                            Console.WriteLine($"  Code: {error.Code}");
+                            Console.WriteLine($"  UserInfo: {error.UserInfo}");
+                            Debug.WriteLine($"AudioPlayer: PlayerItem FAILED - Domain: {error.Domain}, Code: {error.Code}, Desc: {error.LocalizedDescription}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"AudioPlayer: PlayerItem FAILED with unknown error");
+                            Debug.WriteLine($"AudioPlayer: PlayerItem FAILED with unknown error");
+                        }
+                    }
+                    else if (status == AVPlayerItemStatus.ReadyToPlay)
+                    {
+                        Console.WriteLine("AudioPlayer: PlayerItem is READY TO PLAY!");
+                        Debug.WriteLine("AudioPlayer: PlayerItem is READY TO PLAY!");
+                        
+                        // If we should be playing, start now that we're ready
+                        if (shouldPlayWhenReady && player != null)
+                        {
+                            Console.WriteLine("AudioPlayer: Starting playback now that item is ready");
+                            Debug.WriteLine("AudioPlayer: Starting playback now that item is ready");
+                            player.Play();
+                            Console.WriteLine($"AudioPlayer: Playback started. Rate={player.Rate}, Status={player.TimeControlStatus}");
+                            Debug.WriteLine($"AudioPlayer: Playback started. Rate={player.Rate}, Status={player.TimeControlStatus}");
+                        }
+                    }
+                });
                 
                 player.ReplaceCurrentItemWithPlayerItem(playerItem);
                 Console.WriteLine($"AudioPlayer: PlayerItem replaced in AVPlayer");
@@ -200,9 +286,53 @@ namespace Recorder.Maui.Platforms.MacCatalyst
                 
                 try
                 {
-                    Console.WriteLine($"AudioPlayer: About to call Play() on AVPlayer. Current item status: {playerItem?.Status ?? AVPlayerItemStatus.Unknown}");
-                    player.Play();
-                    Console.WriteLine($"AudioPlayer: play() completed. Rate: {player.Rate}");
+                    Console.WriteLine($"AudioPlayer: About to play. Current item status: {playerItem?.Status ?? AVPlayerItemStatus.Unknown}");
+                    
+                    // Check for errors on the player item
+                    if (playerItem?.Error != null)
+                    {
+                        Console.WriteLine($"AudioPlayer: PlayerItem has error: {playerItem.Error.LocalizedDescription}");
+                        Debug.WriteLine($"AudioPlayer: PlayerItem has error: {playerItem.Error.LocalizedDescription}");
+                        return;
+                    }
+                    
+                    // Check player volume
+                    Console.WriteLine($"AudioPlayer: Player volume: {player.Volume}, Muted: {player.Muted}");
+                    Debug.WriteLine($"AudioPlayer: Player volume: {player.Volume}, Muted: {player.Muted}");
+                    
+                    // Ensure volume is not zero and not muted
+                    if (player.Volume < 0.1f)
+                    {
+                        player.Volume = 1.0f;
+                        Console.WriteLine("AudioPlayer: Set player volume to 1.0");
+                        Debug.WriteLine("AudioPlayer: Set player volume to 1.0");
+                    }
+                    
+                    if (player.Muted)
+                    {
+                        player.Muted = false;
+                        Console.WriteLine("AudioPlayer: Unmuted player");
+                        Debug.WriteLine("AudioPlayer: Unmuted player");
+                    }
+                    
+                    // Check if player item is ready
+                    if (playerItem?.Status == AVPlayerItemStatus.ReadyToPlay)
+                    {
+                        // Player item is ready, start playback immediately
+                        Console.WriteLine($"AudioPlayer: PlayerItem is ready, starting playback now");
+                        Debug.WriteLine($"AudioPlayer: PlayerItem is ready, starting playback now");
+                        shouldPlayWhenReady = false;
+                        player.Play();
+                        Console.WriteLine($"AudioPlayer: play() completed. Rate: {player.Rate}, Volume: {player.Volume}, Muted: {player.Muted}, TimeControlStatus: {player.TimeControlStatus}");
+                        Debug.WriteLine($"AudioPlayer: play() completed. Rate: {player.Rate}, Volume: {player.Volume}, Muted: {player.Muted}, TimeControlStatus: {player.TimeControlStatus}");
+                    }
+                    else
+                    {
+                        // Player item not ready yet, set flag to play when it becomes ready
+                        Console.WriteLine($"AudioPlayer: PlayerItem not ready (status={playerItem?.Status}), will play when ready");
+                        Debug.WriteLine($"AudioPlayer: PlayerItem not ready (status={playerItem?.Status}), will play when ready");
+                        shouldPlayWhenReady = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -211,6 +341,7 @@ namespace Recorder.Maui.Platforms.MacCatalyst
             }
             else
             {
+                shouldPlayWhenReady = false;
                 player.Pause();
                 Console.WriteLine("AudioPlayer: Paused playback");
             }
