@@ -89,31 +89,45 @@ namespace Recorder.Converters
 
         private View CreateVideo(ScheduleItemViewModel model)
         {
-            var url = model.Item switch
+            try
             {
-                VideoMediaItem v => v.Url,
-                YleVideoMediaItem yv => yv.Url,
-                _ => null
-            };
+                Console.WriteLine($"CreateVideo: Platform={DeviceInfo.Platform}");
+                var url = model.Item switch
+                {
+                    VideoMediaItem v => v.Url,
+                    YleVideoMediaItem yv => yv.Url,
+                    _ => null
+                };
 
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                Debug.WriteLine($"CreateVideo: Missing or invalid URL for video item {model.Item.GetType().Name}");
-                return CreatePlaceholderView("No video URL");
+                Console.WriteLine($"CreateVideo: URL={url}");
+                
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    Console.WriteLine($"CreateVideo: Missing or invalid URL for video item {model.Item.GetType().Name}");
+                    return CreatePlaceholderView("No video URL");
+                }
+
+                // For HTTP URLs on iOS/Mac, need to download first due to AVPlayer limitations
+                if ((url.StartsWith("http://") || url.StartsWith("https://")) && 
+                    (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst))
+                {
+                    Console.WriteLine("CreateVideo: Using HTTP download workaround");
+                    return CreateVideoWithHttpDownload(model, url);
+                }
+
+                Console.WriteLine("CreateVideo: Creating video element directly");
+                return CreateVideoElement(model, url);
             }
-
-            // For HTTP URLs on iOS/Mac, need to download first due to AVPlayer limitations
-            if ((url.StartsWith("http://") || url.StartsWith("https://")) && 
-                (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.MacCatalyst))
+            catch (Exception ex)
             {
-                return CreateVideoWithHttpDownload(model, url);
+                Console.WriteLine($"CreateVideo: CRASH - {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
+                return CreatePlaceholderView($"Video error: {ex.Message}");
             }
-
-            return CreateVideoElement(model, url);
         }
 
         private View CreateVideoWithHttpDownload(ScheduleItemViewModel model, string httpUrl)
         {
+            Console.WriteLine($"CreateVideoWithHttpDownload: Starting download from {httpUrl}");
             // Use a ContentView wrapper so we can update the content
             var wrapper = new ContentView
             {
@@ -125,24 +139,29 @@ namespace Recorder.Converters
             {
                 try
                 {
+                    Console.WriteLine($"CreateVideoWithHttpDownload: Downloading from {httpUrl}");
                     using var httpClient = new System.Net.Http.HttpClient();
                     httpClient.Timeout = TimeSpan.FromMinutes(5); // Videos can be large
                     
                     var videoData = await httpClient.GetByteArrayAsync(httpUrl);
+                    Console.WriteLine($"CreateVideoWithHttpDownload: Downloaded {videoData.Length} bytes");
                     
                     // Save to temp file
                     var extension = System.IO.Path.GetExtension(httpUrl) ?? ".mp4";
                     var tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"video_{Guid.NewGuid()}{extension}");
                     await File.WriteAllBytesAsync(tempPath, videoData);
+                    Console.WriteLine($"CreateVideoWithHttpDownload: Saved to {tempPath}");
                     
                     // Update content on main thread
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
+                        Console.WriteLine("CreateVideoWithHttpDownload: Creating video element from downloaded file");
                         wrapper.Content = CreateVideoElement(model, tempPath);
                     });
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine($"CreateVideoWithHttpDownload: CRASH - {ex.GetType().Name}: {ex.Message}\nStackTrace: {ex.StackTrace}");
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
                         wrapper.Content = CreatePlaceholderView($"Failed to load video: {ex.Message}");
@@ -157,16 +176,20 @@ namespace Recorder.Converters
         {
             try
             {
+                Console.WriteLine($"CreateVideoElement: Starting with videoPath={videoPath}");
                 var shouldAutoPlay = !model.IsRecordingEnabled;
+                Console.WriteLine($"CreateVideoElement: shouldAutoPlay={shouldAutoPlay}");
 
                 MediaSource source;
                 if (videoPath.StartsWith("http://") || videoPath.StartsWith("https://"))
                 {
+                    Console.WriteLine("CreateVideoElement: Creating URI source");
                     source = MediaSource.FromUri(videoPath);
                 }
                 else
                 {
                     // Local file path
+                    Console.WriteLine("CreateVideoElement: Creating file source");
                     source = MediaSource.FromFile(videoPath);
                 }
                 
@@ -182,12 +205,15 @@ namespace Recorder.Converters
                     // Mobile platforms can use the full calculated height
                     HeightRequest = DeviceInfo.Platform == DevicePlatform.MacCatalyst ? 500 : MediaHeight
                 };
+                Console.WriteLine("CreateVideoElement: MediaElement created successfully");
 
                 // Start playback when media opens
                 mediaElement.MediaOpened += (s, e) =>
                 {
+                    Console.WriteLine("CreateVideoElement: MediaOpened event");
                     if (shouldAutoPlay)
                     {
+                        Console.WriteLine("CreateVideoElement: Calling Play()");
                         mediaElement.Play();
                     }
                 };
@@ -224,7 +250,7 @@ namespace Recorder.Converters
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"CreateVideoElement: Failed to create MediaElement: {ex.Message}");
+                Console.WriteLine($"CreateVideoElement: CRASH - {ex.GetType().Name}: {ex.Message}\nStackTrace: {ex.StackTrace}");
                 return CreatePlaceholderView($"Video playback error: {ex.Message}");
             }
         }
