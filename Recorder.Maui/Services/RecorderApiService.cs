@@ -152,6 +152,7 @@ namespace Recorder.Services
                     {
                         var k = wrapperItem.AudioMediaItem;
                         Console.WriteLine($"Mapping AudioMediaItem: itemId={k.ItemId}, url={k.Url}, typeId={k.TypeId}");
+                        Console.WriteLine($"  isRecording from backend: {k.IsRecording} (null: {k.IsRecording == null})");
                         Console.WriteLine($"  AdditionalData keys: {string.Join(", ", k.AdditionalData?.Keys ?? new string[0])}");
                         if (k.AdditionalData != null)
                         {
@@ -160,11 +161,13 @@ namespace Recorder.Services
                                 Debug.WriteLine($"  AdditionalData[{kvp.Key}] = {kvp.Value}");
                             }
                         }
+                        var isRecording = k.IsRecording ?? false;
+                        Console.WriteLine($"  Final IsRecording value: {isRecording}");
                         item = new Models.AudioMediaItem
                         {
                             ItemId = k.ItemId ?? $"audio-{index}",
                             Description = k.Description ?? "Audio item",
-                            IsRecording = k.IsRecording ?? false,
+                            IsRecording = isRecording,
                             Url = ResolveMediaUrl(k.Url) ?? string.Empty,
                             TypeId = k.TypeId ?? "audio/unknown"
                         };
@@ -173,6 +176,7 @@ namespace Recorder.Services
                     {
                         var k = wrapperItem.VideoMediaItem;
                         Console.WriteLine($"Mapping VideoMediaItem: itemId={k.ItemId}, url={k.Url}, typeId={k.TypeId}");
+                        Console.WriteLine($"  isRecording from backend: {k.IsRecording} (null: {k.IsRecording == null})");
                         Console.WriteLine($"  AdditionalData keys: {string.Join(", ", k.AdditionalData?.Keys ?? new string[0])}");
                         if (k.AdditionalData != null)
                         {
@@ -181,11 +185,13 @@ namespace Recorder.Services
                                 Debug.WriteLine($"  AdditionalData[{kvp.Key}] = {kvp.Value}");
                             }
                         }
+                        var isRecording = k.IsRecording ?? false;
+                        Console.WriteLine($"  Final IsRecording value: {isRecording}");
                         item = new Models.VideoMediaItem
                         {
                             ItemId = k.ItemId ?? $"video-{index}",
                             Description = k.Description ?? "Video item",
-                            IsRecording = k.IsRecording ?? false,
+                            IsRecording = isRecording,
                             Url = ResolveMediaUrl(k.Url) ?? string.Empty,
                             TypeId = k.TypeId ?? "video/unknown"
                         };
