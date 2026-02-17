@@ -177,15 +177,11 @@ namespace Recorder.Converters
                     ShouldAutoPlay = false, // Control playback manually
                     ShouldShowPlaybackControls = true,
                     ShouldMute = false,
-                    Aspect = Aspect.AspectFit
+                    Aspect = Aspect.AspectFit,
+                    // Mac Catalyst runs in a window, so use a reasonable fixed height
+                    // Mobile platforms can use the full calculated height
+                    HeightRequest = DeviceInfo.Platform == DevicePlatform.MacCatalyst ? 500 : MediaHeight
                 };
-
-                // On Mac Catalyst, let the layout system size the video naturally
-                // On mobile platforms, use calculated height based on display dimensions
-                if (DeviceInfo.Platform != DevicePlatform.MacCatalyst)
-                {
-                    mediaElement.HeightRequest = MediaHeight;
-                }
 
                 // Start playback when media opens
                 mediaElement.MediaOpened += (s, e) =>
