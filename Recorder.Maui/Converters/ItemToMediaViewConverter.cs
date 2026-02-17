@@ -216,7 +216,8 @@ namespace Recorder.Converters
                     BackgroundColor = Colors.Green,
                     TextColor = Colors.White,
                     HorizontalOptions = LayoutOptions.Center,
-                    Padding = 10
+                    Padding = 10,
+                    Margin = new Thickness(0, 10, 0, 0)
                 };
                 playButton.Clicked += (s, e) =>
                 {
@@ -249,7 +250,7 @@ namespace Recorder.Converters
                 return new Border()
                 {
                     Content = stackLayout,
-                    HeightRequest = 220,
+                    HeightRequest = 280,
                     Padding = 10,
                     Margin = new Thickness(20, 20),
                     StrokeShape = new RoundRectangle { CornerRadius = 20 },
