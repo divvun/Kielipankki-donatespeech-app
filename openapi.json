@@ -1,1 +1,1174 @@
-{"openapi":"3.1.0","info":{"title":"Kielipankki Recorder Backend","description":"Speech donation recorder backend with Azure Blob Storage","version":"2.0.0"},"paths":{"/":{"get":{"summary":"Root","description":"Health check endpoint.","operationId":"root__get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}},"/v1/upload":{"post":{"summary":"Init Upload","description":"Initialize an upload by storing metadata and generating a SAS URL.\n\nThis endpoint:\n1. Validates the filename and metadata\n2. Stores metadata as JSON in Azure Blob Storage\n3. Returns a SAS URL for the client to upload the audio file directly","operationId":"init_upload_v1_upload_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/InitUploadRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/InitUploadResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/v1/recordings/{client_id}":{"delete":{"summary":"Delete By Client Id","description":"Delete all recordings for a given client ID.","operationId":"delete_by_client_id_v1_recordings__client_id__delete","parameters":[{"name":"client_id","in":"path","required":true,"schema":{"type":"string","description":"Client UUID","title":"Client Id"},"description":"Client UUID"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/v1/recordings/{client_id}/{session_id}":{"delete":{"summary":"Delete By Session Id","description":"Delete all recordings for a given session.","operationId":"delete_by_session_id_v1_recordings__client_id___session_id__delete","parameters":[{"name":"client_id","in":"path","required":true,"schema":{"type":"string","description":"Client UUID","title":"Client Id"},"description":"Client UUID"},{"name":"session_id","in":"path","required":true,"schema":{"type":"string","description":"Session UUID","title":"Session Id"},"description":"Session UUID"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/v1/recordings/{client_id}/{session_id}/{recording_id}":{"delete":{"summary":"Delete By Recording Id","description":"Delete a specific recording.","operationId":"delete_by_recording_id_v1_recordings__client_id___session_id___recording_id__delete","parameters":[{"name":"client_id","in":"path","required":true,"schema":{"type":"string","description":"Client UUID","title":"Client Id"},"description":"Client UUID"},{"name":"session_id","in":"path","required":true,"schema":{"type":"string","description":"Session UUID","title":"Session Id"},"description":"Session UUID"},{"name":"recording_id","in":"path","required":true,"schema":{"type":"string","description":"Recording UUID","title":"Recording Id"},"description":"Recording UUID"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/v1/schedule/{schedule_id}":{"get":{"summary":"Load Schedule","description":"Load a specific schedule file.","operationId":"load_schedule_v1_schedule__schedule_id__get","parameters":[{"name":"schedule_id","in":"path","required":true,"schema":{"type":"string","description":"Schedule ID","title":"Schedule Id"},"description":"Schedule ID"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Schedule"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/v1/schedule":{"get":{"summary":"Load All Schedules","description":"Load all schedule files.","operationId":"load_all_schedules_v1_schedule_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"items":{"$ref":"#/components/schemas/ScheduleListItem"},"type":"array","title":"Response Load All Schedules V1 Schedule Get"}}}}}}},"/v1/theme/{theme_id}":{"get":{"summary":"Load Theme","description":"Load a specific theme file.","operationId":"load_theme_v1_theme__theme_id__get","parameters":[{"name":"theme_id","in":"path","required":true,"schema":{"type":"string","description":"Theme ID","title":"Theme Id"},"description":"Theme ID"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Theme"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/v1/theme":{"get":{"summary":"Load All Themes","description":"Load all theme files.","operationId":"load_all_themes_v1_theme_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"items":{"$ref":"#/components/schemas/ThemeListItem"},"type":"array","title":"Response Load All Themes V1 Theme Get"}}}}}}},"/v1/media/{filename}":{"get":{"summary":"Serve Media","description":"Serve media files (audio/video) for playback in the client app.\n\nMedia files are stored in the `media/` prefix in blob storage.\nSupports audio (m4a, mp3, wav, etc.) and video (mp4, etc.) files.","operationId":"serve_media_v1_media__filename__get","parameters":[{"name":"filename","in":"path","required":true,"schema":{"type":"string","description":"Media filename","title":"Filename"},"description":"Media filename"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}}},"components":{"schemas":{"AudioMediaItem":{"properties":{"itemType":{"type":"string","const":"audio","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"url":{"type":"string","title":"Url","description":"Direct URL to audio file"},"typeId":{"type":"string","title":"Typeid","description":"MIME type (e.g., 'audio/m4a', 'audio/mpeg')"},"description":{"type":"string","title":"Description"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","url","typeId","description","isRecording"],"title":"AudioMediaItem","description":"Audio media item with direct URL"},"ChoicePromptItem":{"properties":{"itemType":{"type":"string","const":"choice","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"description":{"type":"string","title":"Description","description":"Question text shown to user"},"options":{"items":{"type":"string"},"type":"array","title":"Options","description":"Answer options to choose from"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","description","options","isRecording"],"title":"ChoicePromptItem","description":"Single choice prompt item"},"HTTPValidationError":{"properties":{"detail":{"items":{"$ref":"#/components/schemas/ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"},"ImageMediaItem":{"properties":{"itemType":{"type":"string","const":"image","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"url":{"type":"string","title":"Url","description":"Direct URL to image file"},"typeId":{"type":"string","title":"Typeid","description":"MIME type (e.g., 'image/jpeg', 'image/png')"},"description":{"type":"string","title":"Description"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","url","typeId","description","isRecording"],"title":"ImageMediaItem","description":"Image media item"},"InitUploadRequest":{"properties":{"filename":{"type":"string","title":"Filename","description":"Name of the audio file to upload"},"metadata":{"$ref":"#/components/schemas/UploadMetadata"}},"type":"object","required":["filename","metadata"],"title":"InitUploadRequest","description":"Request body for initializing an upload"},"InitUploadResponse":{"properties":{"presignedUrl":{"type":"string","title":"Presignedurl"}},"type":"object","required":["presignedUrl"],"title":"InitUploadResponse","description":"Response containing the SAS URL for direct upload"},"MultiChoicePromptItem":{"properties":{"itemType":{"type":"string","const":"multi-choice","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"description":{"type":"string","title":"Description","description":"Question text shown to user"},"options":{"items":{"type":"string"},"type":"array","title":"Options","description":"Multiple answer options"},"isRecording":{"type":"boolean","title":"Isrecording"},"otherEntryLabel":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Otherentrylabel","description":"Label for text entry field allowing custom answers"}},"type":"object","required":["itemType","itemId","description","options","isRecording"],"title":"MultiChoicePromptItem","description":"Multiple choice prompt item with optional text entry"},"Schedule":{"properties":{"id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Id"},"scheduleId":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Scheduleid"},"description":{"type":"string","title":"Description"},"items":{"items":{"oneOf":[{"$ref":"#/components/schemas/AudioMediaItem"},{"$ref":"#/components/schemas/VideoMediaItem"},{"$ref":"#/components/schemas/YleAudioMediaItem"},{"$ref":"#/components/schemas/YleVideoMediaItem"},{"$ref":"#/components/schemas/TextContentItem"},{"$ref":"#/components/schemas/ImageMediaItem"},{"$ref":"#/components/schemas/ChoicePromptItem"},{"$ref":"#/components/schemas/MultiChoicePromptItem"},{"$ref":"#/components/schemas/SuperChoicePromptItem"},{"$ref":"#/components/schemas/TextInputItem"}],"discriminator":{"propertyName":"itemType","mapping":{"audio":"#/components/schemas/AudioMediaItem","choice":"#/components/schemas/ChoicePromptItem","image":"#/components/schemas/ImageMediaItem","multi-choice":"#/components/schemas/MultiChoicePromptItem","super-choice":"#/components/schemas/SuperChoicePromptItem","text-content":"#/components/schemas/TextContentItem","text-input":"#/components/schemas/TextInputItem","video":"#/components/schemas/VideoMediaItem","yle-audio":"#/components/schemas/YleAudioMediaItem","yle-video":"#/components/schemas/YleVideoMediaItem"}}},"type":"array","title":"Items"}},"type":"object","required":["description","items"],"title":"Schedule","description":"Schedule (playlist) containing items to present to user"},"ScheduleListItem":{"properties":{"id":{"type":"string","title":"Id"},"content":{"$ref":"#/components/schemas/Schedule"}},"type":"object","required":["id","content"],"title":"ScheduleListItem","description":"Single schedule in list response"},"SuperChoicePromptItem":{"properties":{"itemType":{"type":"string","const":"super-choice","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"description":{"type":"string","title":"Description","description":"Question text shown to user"},"options":{"items":{"type":"string"},"type":"array","title":"Options","description":"Super choice answer options"},"isRecording":{"type":"boolean","title":"Isrecording"},"otherEntryLabel":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Otherentrylabel","description":"Label for text entry field allowing custom answers"}},"type":"object","required":["itemType","itemId","description","options","isRecording"],"title":"SuperChoicePromptItem","description":"Super choice prompt item with optional text entry"},"TextContentItem":{"properties":{"itemType":{"type":"string","const":"text-content","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"url":{"type":"string","title":"Url","description":"URL to text content"},"typeId":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Typeid","description":"MIME type (e.g., 'text/plain', 'text/html')"},"description":{"type":"string","title":"Description"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","url","description","isRecording"],"title":"TextContentItem","description":"Text content item"},"TextInputItem":{"properties":{"itemType":{"type":"string","const":"text-input","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"description":{"type":"string","title":"Description","description":"Question text shown to user"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","description","isRecording"],"title":"TextInputItem","description":"Text input prompt item"},"Theme":{"properties":{"id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Id"},"description":{"type":"string","title":"Description"},"image":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Image"},"scheduleIds":{"items":{"type":"string"},"type":"array","title":"Scheduleids"}},"type":"object","required":["description"],"title":"Theme","description":"Theme containing multiple schedule IDs"},"ThemeListItem":{"properties":{"id":{"type":"string","title":"Id"},"content":{"$ref":"#/components/schemas/Theme"}},"type":"object","required":["id","content"],"title":"ThemeListItem","description":"Single theme in list response"},"UploadMetadata":{"properties":{"clientId":{"type":"string","title":"Clientid","description":"UUID v4 client identifier"},"sessionId":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Sessionid","description":"UUID v4 session identifier"},"recordingId":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Recordingid","description":"UUID v4 recording identifier"},"contentType":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Contenttype","description":"MIME type of the audio file"},"timestamp":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Timestamp"},"duration":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Duration"},"language":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Language"}},"type":"object","required":["clientId"],"title":"UploadMetadata","description":"Metadata associated with an upload"},"ValidationError":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"},"input":{"title":"Input"},"ctx":{"type":"object","title":"Context"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"VideoMediaItem":{"properties":{"itemType":{"type":"string","const":"video","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"url":{"type":"string","title":"Url","description":"Direct URL to video file"},"typeId":{"type":"string","title":"Typeid","description":"MIME type (e.g., 'video/mp4', 'video/webm')"},"description":{"type":"string","title":"Description"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","url","typeId","description","isRecording"],"title":"VideoMediaItem","description":"Video media item with direct URL"},"YleAudioMediaItem":{"properties":{"itemType":{"type":"string","const":"yle-audio","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"url":{"type":"string","title":"Url","description":"YLE program ID"},"description":{"type":"string","title":"Description"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","url","description","isRecording"],"title":"YleAudioMediaItem","description":"YLE audio program item"},"YleVideoMediaItem":{"properties":{"itemType":{"type":"string","const":"yle-video","title":"Itemtype"},"itemId":{"type":"string","title":"Itemid","description":"UUID v4 of the item"},"url":{"type":"string","title":"Url","description":"YLE program ID"},"description":{"type":"string","title":"Description"},"isRecording":{"type":"boolean","title":"Isrecording"}},"type":"object","required":["itemType","itemId","url","description","isRecording"],"title":"YleVideoMediaItem","description":"YLE video program item"}}}}
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Kielipankki Recorder Backend",
+        "description": "Speech donation recorder backend with Azure Blob Storage",
+        "version": "2.0.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "summary": "Root",
+                "description": "Health check endpoint.",
+                "operationId": "root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/upload": {
+            "post": {
+                "summary": "Init Upload",
+                "description": "Initialize an upload by storing metadata and generating a SAS URL.\n\nThis endpoint:\n1. Validates the filename and metadata\n2. Stores metadata as JSON in Azure Blob Storage\n3. Returns a SAS URL for the client to upload the audio file directly",
+                "operationId": "init_upload_v1_upload_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InitUploadRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InitUploadResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/recordings/{client_id}": {
+            "delete": {
+                "summary": "Delete By Client Id",
+                "description": "Delete all recordings for a given client ID.",
+                "operationId": "delete_by_client_id_v1_recordings__client_id__delete",
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Client UUID",
+                            "title": "Client Id"
+                        },
+                        "description": "Client UUID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/recordings/{client_id}/{session_id}": {
+            "delete": {
+                "summary": "Delete By Session Id",
+                "description": "Delete all recordings for a given session.",
+                "operationId": "delete_by_session_id_v1_recordings__client_id___session_id__delete",
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Client UUID",
+                            "title": "Client Id"
+                        },
+                        "description": "Client UUID"
+                    },
+                    {
+                        "name": "session_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Session UUID",
+                            "title": "Session Id"
+                        },
+                        "description": "Session UUID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/recordings/{client_id}/{session_id}/{recording_id}": {
+            "delete": {
+                "summary": "Delete By Recording Id",
+                "description": "Delete a specific recording.",
+                "operationId": "delete_by_recording_id_v1_recordings__client_id___session_id___recording_id__delete",
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Client UUID",
+                            "title": "Client Id"
+                        },
+                        "description": "Client UUID"
+                    },
+                    {
+                        "name": "session_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Session UUID",
+                            "title": "Session Id"
+                        },
+                        "description": "Session UUID"
+                    },
+                    {
+                        "name": "recording_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Recording UUID",
+                            "title": "Recording Id"
+                        },
+                        "description": "Recording UUID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/schedule/{schedule_id}": {
+            "get": {
+                "summary": "Load Schedule",
+                "description": "Load a specific schedule file.",
+                "operationId": "load_schedule_v1_schedule__schedule_id__get",
+                "parameters": [
+                    {
+                        "name": "schedule_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Schedule ID",
+                            "title": "Schedule Id"
+                        },
+                        "description": "Schedule ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Schedule"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/schedule": {
+            "get": {
+                "summary": "Load All Schedules",
+                "description": "Load all schedule files.",
+                "operationId": "load_all_schedules_v1_schedule_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/ScheduleListItem"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Load All Schedules V1 Schedule Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/theme/{theme_id}": {
+            "get": {
+                "summary": "Load Theme",
+                "description": "Load a specific theme file.",
+                "operationId": "load_theme_v1_theme__theme_id__get",
+                "parameters": [
+                    {
+                        "name": "theme_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Theme ID",
+                            "title": "Theme Id"
+                        },
+                        "description": "Theme ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Theme"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/theme": {
+            "get": {
+                "summary": "Load All Themes",
+                "description": "Load all theme files.",
+                "operationId": "load_all_themes_v1_theme_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/ThemeListItem"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Load All Themes V1 Theme Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/media/{filename}": {
+            "get": {
+                "summary": "Serve Media",
+                "description": "Serve media files (audio/video) for playback in the client app.\n\nSupports HTTP range requests for streaming and seeking.\nRequired for AVPlayer on iOS/macOS.\n\nMedia files are stored in the `media/` prefix in blob storage.\nSupports audio (m4a, mp3, wav, etc.) and video (mp4, etc.) files.",
+                "operationId": "serve_media_v1_media__filename__get",
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Media filename",
+                            "title": "Filename"
+                        },
+                        "description": "Media filename"
+                    },
+                    {
+                        "name": "range",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "description": "HTTP Range header",
+                            "title": "Range"
+                        },
+                        "description": "HTTP Range header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AudioMediaItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "audio",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "url": {
+                        "type": "string",
+                        "title": "Url",
+                        "description": "Direct URL to audio file"
+                    },
+                    "typeId": {
+                        "type": "string",
+                        "title": "Typeid",
+                        "description": "MIME type (e.g., 'audio/m4a', 'audio/mpeg')"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "url",
+                    "typeId",
+                    "description",
+                    "isRecording"
+                ],
+                "title": "AudioMediaItem",
+                "description": "Audio media item with direct URL"
+            },
+            "ChoicePromptItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "choice",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description",
+                        "description": "Question text shown to user"
+                    },
+                    "options": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Options",
+                        "description": "Answer options to choose from"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "description",
+                    "options",
+                    "isRecording"
+                ],
+                "title": "ChoicePromptItem",
+                "description": "Single choice prompt item"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "ImageMediaItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "image",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "url": {
+                        "type": "string",
+                        "title": "Url",
+                        "description": "Direct URL to image file"
+                    },
+                    "typeId": {
+                        "type": "string",
+                        "title": "Typeid",
+                        "description": "MIME type (e.g., 'image/jpeg', 'image/png')"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "url",
+                    "typeId",
+                    "description",
+                    "isRecording"
+                ],
+                "title": "ImageMediaItem",
+                "description": "Image media item"
+            },
+            "InitUploadRequest": {
+                "properties": {
+                    "filename": {
+                        "type": "string",
+                        "title": "Filename",
+                        "description": "Name of the audio file to upload"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/UploadMetadata"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "filename",
+                    "metadata"
+                ],
+                "title": "InitUploadRequest",
+                "description": "Request body for initializing an upload"
+            },
+            "InitUploadResponse": {
+                "properties": {
+                    "presignedUrl": {
+                        "type": "string",
+                        "title": "Presignedurl"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "presignedUrl"
+                ],
+                "title": "InitUploadResponse",
+                "description": "Response containing the SAS URL for direct upload"
+            },
+            "MultiChoicePromptItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "multi-choice",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description",
+                        "description": "Question text shown to user"
+                    },
+                    "options": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Options",
+                        "description": "Multiple answer options"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    },
+                    "otherEntryLabel": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Otherentrylabel",
+                        "description": "Label for text entry field allowing custom answers"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "description",
+                    "options",
+                    "isRecording"
+                ],
+                "title": "MultiChoicePromptItem",
+                "description": "Multiple choice prompt item with optional text entry"
+            },
+            "Schedule": {
+                "properties": {
+                    "id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Id"
+                    },
+                    "scheduleId": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Scheduleid"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "items": {
+                        "items": {
+                            "oneOf": [
+                                {
+                                    "$ref": "#/components/schemas/AudioMediaItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/VideoMediaItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/YleAudioMediaItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/YleVideoMediaItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/TextContentItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/ImageMediaItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/ChoicePromptItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/MultiChoicePromptItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/SuperChoicePromptItem"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/TextInputItem"
+                                }
+                            ],
+                            "discriminator": {
+                                "propertyName": "itemType",
+                                "mapping": {
+                                    "audio": "#/components/schemas/AudioMediaItem",
+                                    "choice": "#/components/schemas/ChoicePromptItem",
+                                    "image": "#/components/schemas/ImageMediaItem",
+                                    "multi-choice": "#/components/schemas/MultiChoicePromptItem",
+                                    "super-choice": "#/components/schemas/SuperChoicePromptItem",
+                                    "text-content": "#/components/schemas/TextContentItem",
+                                    "text-input": "#/components/schemas/TextInputItem",
+                                    "video": "#/components/schemas/VideoMediaItem",
+                                    "yle-audio": "#/components/schemas/YleAudioMediaItem",
+                                    "yle-video": "#/components/schemas/YleVideoMediaItem"
+                                }
+                            }
+                        },
+                        "type": "array",
+                        "title": "Items"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "description",
+                    "items"
+                ],
+                "title": "Schedule",
+                "description": "Schedule (playlist) containing items to present to user"
+            },
+            "ScheduleListItem": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Schedule"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "content"
+                ],
+                "title": "ScheduleListItem",
+                "description": "Single schedule in list response"
+            },
+            "SuperChoicePromptItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "super-choice",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description",
+                        "description": "Question text shown to user"
+                    },
+                    "options": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Options",
+                        "description": "Super choice answer options"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    },
+                    "otherEntryLabel": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Otherentrylabel",
+                        "description": "Label for text entry field allowing custom answers"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "description",
+                    "options",
+                    "isRecording"
+                ],
+                "title": "SuperChoicePromptItem",
+                "description": "Super choice prompt item with optional text entry"
+            },
+            "TextContentItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "text-content",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "url": {
+                        "type": "string",
+                        "title": "Url",
+                        "description": "URL to text content"
+                    },
+                    "typeId": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Typeid",
+                        "description": "MIME type (e.g., 'text/plain', 'text/html')"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "url",
+                    "description",
+                    "isRecording"
+                ],
+                "title": "TextContentItem",
+                "description": "Text content item"
+            },
+            "TextInputItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "text-input",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description",
+                        "description": "Question text shown to user"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "description",
+                    "isRecording"
+                ],
+                "title": "TextInputItem",
+                "description": "Text input prompt item"
+            },
+            "Theme": {
+                "properties": {
+                    "id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Id"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "image": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Image"
+                    },
+                    "scheduleIds": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Scheduleids"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "description"
+                ],
+                "title": "Theme",
+                "description": "Theme containing multiple schedule IDs"
+            },
+            "ThemeListItem": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "content": {
+                        "$ref": "#/components/schemas/Theme"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "content"
+                ],
+                "title": "ThemeListItem",
+                "description": "Single theme in list response"
+            },
+            "UploadMetadata": {
+                "properties": {
+                    "clientId": {
+                        "type": "string",
+                        "title": "Clientid",
+                        "description": "UUID v4 client identifier"
+                    },
+                    "sessionId": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Sessionid",
+                        "description": "UUID v4 session identifier"
+                    },
+                    "recordingId": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Recordingid",
+                        "description": "UUID v4 recording identifier"
+                    },
+                    "contentType": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Contenttype",
+                        "description": "MIME type of the audio file"
+                    },
+                    "timestamp": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Timestamp"
+                    },
+                    "duration": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Duration"
+                    },
+                    "language": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Language"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "clientId"
+                ],
+                "title": "UploadMetadata",
+                "description": "Metadata associated with an upload"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    },
+                    "input": {
+                        "title": "Input"
+                    },
+                    "ctx": {
+                        "type": "object",
+                        "title": "Context"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            },
+            "VideoMediaItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "video",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "url": {
+                        "type": "string",
+                        "title": "Url",
+                        "description": "Direct URL to video file"
+                    },
+                    "typeId": {
+                        "type": "string",
+                        "title": "Typeid",
+                        "description": "MIME type (e.g., 'video/mp4', 'video/webm')"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "url",
+                    "typeId",
+                    "description",
+                    "isRecording"
+                ],
+                "title": "VideoMediaItem",
+                "description": "Video media item with direct URL"
+            },
+            "YleAudioMediaItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "yle-audio",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "url": {
+                        "type": "string",
+                        "title": "Url",
+                        "description": "YLE program ID"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "url",
+                    "description",
+                    "isRecording"
+                ],
+                "title": "YleAudioMediaItem",
+                "description": "YLE audio program item"
+            },
+            "YleVideoMediaItem": {
+                "properties": {
+                    "itemType": {
+                        "type": "string",
+                        "const": "yle-video",
+                        "title": "Itemtype"
+                    },
+                    "itemId": {
+                        "type": "string",
+                        "title": "Itemid",
+                        "description": "UUID v4 of the item"
+                    },
+                    "url": {
+                        "type": "string",
+                        "title": "Url",
+                        "description": "YLE program ID"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "itemType",
+                    "itemId",
+                    "url",
+                    "description",
+                    "isRecording"
+                ],
+                "title": "YleVideoMediaItem",
+                "description": "YLE video program item"
+            }
+        }
+    }
+}

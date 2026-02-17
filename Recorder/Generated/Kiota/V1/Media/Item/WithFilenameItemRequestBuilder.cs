@@ -34,7 +34,7 @@ namespace Recorder.Api.V1.Media.Item
         {
         }
         /// <summary>
-        /// Serve media files (audio/video) for playback in the client app.Media files are stored in the `media/` prefix in blob storage.Supports audio (m4a, mp3, wav, etc.) and video (mp4, etc.) files.
+        /// Serve media files (audio/video) for playback in the client app.Supports HTTP range requests for streaming and seeking.Required for AVPlayer on iOS/macOS.Media files are stored in the `media/` prefix in blob storage.Supports audio (m4a, mp3, wav, etc.) and video (mp4, etc.) files.
         /// </summary>
         /// <returns>A <see cref="UntypedNode"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -57,7 +57,7 @@ namespace Recorder.Api.V1.Media.Item
             return await RequestAdapter.SendAsync<UntypedNode>(requestInfo, UntypedNode.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Serve media files (audio/video) for playback in the client app.Media files are stored in the `media/` prefix in blob storage.Supports audio (m4a, mp3, wav, etc.) and video (mp4, etc.) files.
+        /// Serve media files (audio/video) for playback in the client app.Supports HTTP range requests for streaming and seeking.Required for AVPlayer on iOS/macOS.Media files are stored in the `media/` prefix in blob storage.Supports audio (m4a, mp3, wav, etc.) and video (mp4, etc.) files.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
