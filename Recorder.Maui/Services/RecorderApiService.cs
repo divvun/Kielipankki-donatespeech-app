@@ -341,19 +341,25 @@ namespace Recorder.Services
             int lastSlashPosition = filePath.LastIndexOf('/');
             string fileNamePart = filePath.Substring(lastSlashPosition + 1);
 
+            Console.WriteLine($"=== UploadRecordingAsync: file={fileNamePart}, url length={url.Length} ===");
             Debug.WriteLine($"UploadRecordingAsync: about to start uploading file '{fileNamePart}' with a PUT request");
             bool success = false;
             try
             {
                 StreamContent strm = new StreamContent(new FileStream(filePath, FileMode.Open, FileAccess.Read));
                 strm.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+                Console.WriteLine($"Content-Type: {strm.Headers.ContentType}");
                 Debug.WriteLine($"Stream content headers --> Content-Type: '{strm.Headers.ContentType}'");
+                Console.WriteLine($"Sending PUT request to URL...");
                 HttpResponseMessage responseMessage = await uploadHttpClient.PutAsync(url, strm);
+                Console.WriteLine($"Upload response: {responseMessage.StatusCode} - {responseMessage.ReasonPhrase}");
                 Debug.WriteLine($"Upload response: status={responseMessage.StatusCode} description={responseMessage.ReasonPhrase}");
                 success = responseMessage.StatusCode == HttpStatusCode.OK || responseMessage.StatusCode == HttpStatusCode.Created;
+                Console.WriteLine($"Upload success={success} (OK or Created)");
             }
             catch (Exception e)
             {
+                Console.WriteLine($"EXCEPTION in UploadRecordingAsync: {e.GetType().Name}: {e.Message}");
                 Debug.WriteLine($"Exception uploading file, message = '{e.Message}'");
                 success = false;
             }
