@@ -178,7 +178,7 @@ namespace Recorder.Converters
                     ShouldShowPlaybackControls = true,
                     ShouldMute = false,
                     HeightRequest = MediaHeight,
-                    Aspect = Aspect.AspectFill
+                    Aspect = Aspect.AspectFit
                 };
 
                 // Start playback when media opens
