@@ -143,6 +143,17 @@ namespace Recorder.Services
                 string url = uploadDescription.PreSignedUrl;
                 Debug.WriteLine($"Got pre-signed URL for recID '{rec.RecordingId}' from server, length = {url.Length} characters");
 
+#if DEBUG
+                // Replace Docker hostname with localhost for local development
+                // Docker containers use 'azurite' as hostname, but simulator needs 'localhost'
+                if (url.Contains("azurite:10000"))
+                {
+                    url = url.Replace("azurite:10000", "localhost:10000");
+                    uploadDescription.PreSignedUrl = url;
+                    Debug.WriteLine($"Fixed SAS URL for simulator: replaced azurite with localhost");
+                }
+#endif
+
                 // If this is a metadata-only entry, just don't use the pre-signed URL and let it expire.
                 // Mark the metadata item as uploaded.
                 if (rec.FileName.Contains(Constants.MetadataWithoutRecording))
