@@ -348,7 +348,9 @@ namespace Recorder.Services
             {
                 StreamContent strm = new StreamContent(new FileStream(filePath, FileMode.Open, FileAccess.Read));
                 strm.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+                strm.Headers.Add("x-ms-blob-type", "BlockBlob");
                 Console.WriteLine($"Content-Type: {strm.Headers.ContentType}");
+                Console.WriteLine($"x-ms-blob-type: BlockBlob");
                 Debug.WriteLine($"Stream content headers --> Content-Type: '{strm.Headers.ContentType}'");
                 Console.WriteLine($"Sending PUT request to URL...");
                 HttpResponseMessage responseMessage = await uploadHttpClient.PutAsync(url, strm);
