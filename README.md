@@ -6,6 +6,7 @@ has been migrated from Xamarin.Forms to .NET MAUI.
 ## Quick Start
 
 ### Prerequisites
+
 - .NET 10 SDK
 - Xcode (for iOS/macOS builds)
 - Android SDK (for Android builds)
@@ -62,6 +63,47 @@ curl http://localhost:8000/v1/theme
 - If you see connection errors on devices, ensure the backend allows HTTP and
   your device can reach the host (same network, firewall allows port 8000).
 
+## Configuration: Localhost vs Dev Endpoint
+
+The app supports different backend endpoints based on build configuration:
+
+- **Debug configuration** → `http://localhost:8000` (for local API development)
+- **Release configuration** →
+  `https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io`
+  (for app feature development)
+
+### Switching Configurations
+
+**In Visual Studio:**
+
+Use the configuration dropdown at the top of the IDE to select Debug (localhost)
+or Release (dev endpoint).
+
+**From command line:**
+
+```bash
+# Use localhost (Debug)
+dotnet build Recorder.Maui/Recorder.Maui.csproj -c Debug -f net10.0-maccatalyst
+dotnet run --project Recorder.Maui/Recorder.Maui.csproj -c Debug -f net10.0-maccatalyst
+
+# Use dev endpoint (Release)
+dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-android
+dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-ios
+```
+
+### How It Works
+
+The build system automatically copies the appropriate configuration file during
+build:
+
+- Configuration files are located in
+  `Recorder.Maui/BuildConfig/{Debug,Release}/appconfiguration.json`
+- The `CopyAppConfiguration` MSBuild target in `Recorder.Maui.csproj` copies the
+  selected configuration to `BuildConfig/appconfiguration.json`
+- The app loads this configuration at runtime
+
+To modify endpoints, edit the JSON files in `Recorder.Maui/BuildConfig/`.
+
 ## Development Model
 
 Trunk-based development: the latest development version is in the default
@@ -73,6 +115,7 @@ branch, and releases are tagged. App version is configured in
 ### Google Play (Android)
 
 Build the app in Release configuration:
+
 ```bash
 dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-android
 ```
@@ -84,6 +127,7 @@ production).
 ### App Store (iOS/macOS)
 
 Build for iOS:
+
 ```bash
 dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-ios
 ```
@@ -96,6 +140,7 @@ Once processed by App Store Connect, publish to TestFlight or production.
 
 This project has been migrated from Xamarin.Forms to .NET MAUI. See
 `Recorder.Maui/MIGRATION_NOTES.md` for details on:
+
 - FLAC audio recording status
 - Video playback implementation
 - Resource migration

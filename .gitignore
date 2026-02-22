@@ -416,3 +416,11 @@ ASALocalRun/
 
 # config file copied during build
 **/BuildConfig/appconfiguration.json
+
+# Allow BuildConfig source configuration directories (not build outputs)
+!**/BuildConfig/Debug/
+!**/BuildConfig/Release/
+!**/BuildConfig/Test/
+!**/BuildConfig/Debug/*.json
+!**/BuildConfig/Release/*.json
+!**/BuildConfig/Test/*.json

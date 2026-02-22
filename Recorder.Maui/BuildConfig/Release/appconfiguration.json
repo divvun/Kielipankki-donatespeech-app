@@ -1,0 +1,6 @@
+{
+  "RecorderApiUrl": "https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io",
+  "RecorderApiKey": "recorder-api-key",
+  "MaxRecordingMinutes": 10,
+  "BuildType": "release"
+}
