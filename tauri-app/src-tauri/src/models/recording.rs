@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use super::UploadStatus;
+
 /// Represents a recording entry in the database.
 ///
 /// Ported from Recorder.Core/Models/Recording.cs
@@ -21,8 +23,8 @@ pub struct Recording {
     /// UTC timestamp of when the recording was created
     pub timestamp: String, // ISO 8601 format
     
-    /// Upload status - see UploadStatus constants
-    pub upload_status: Option<String>,
+    /// Upload status - see UploadStatus enum
+    pub upload_status: Option<UploadStatus>,
     
     /// JSON payload of recording metadata
     pub metadata: Option<String>,

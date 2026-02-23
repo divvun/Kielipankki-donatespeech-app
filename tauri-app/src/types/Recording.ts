@@ -1,3 +1,5 @@
+import { UploadStatus } from './UploadStatus';
+
 /**
  * Represents a recording entry in the database.
  * 
@@ -20,8 +22,8 @@ export interface Recording {
   /** UTC timestamp of when the recording was created (ISO 8601 format) */
   timestamp: string;
   
-  /** Upload status - see UploadStatus constants */
-  uploadStatus?: string;
+  /** Upload status - see UploadStatus enum */
+  uploadStatus?: UploadStatus;
   
   /** JSON payload of recording metadata */
   metadata?: string;
