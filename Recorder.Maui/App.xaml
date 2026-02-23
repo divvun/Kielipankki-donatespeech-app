@@ -24,7 +24,7 @@
         <Color x:Key="BodyTextColor">#000000</Color>
         <Color x:Key="InverseBodyTextColor">#FFFFFF</Color>
         <Color x:Key="ThemeImageBorderColor">#F0F0F0</Color>
-        <Color x:Key="RecordedMinutesTextColor">#F0F0F0</Color>
+        <Color x:Key="RecordedMinutesTextColor">#000000</Color>
 
         <!-- implicit default style for Buttons -->
         <Style TargetType="Button">

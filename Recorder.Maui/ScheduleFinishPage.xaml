@@ -83,7 +83,7 @@
             </StackLayout>
         </AbsoluteLayout>
 
-        <app:NavigationBarView />
+        <app:NavigationBarView x:Name="navigationBarView" />
 
     </Grid>
 </ContentPage>

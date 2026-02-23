@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Maui.Storage;
+using Recorder;
 
 namespace Recorder.ViewModels
 {
@@ -21,6 +22,7 @@ namespace Recorder.ViewModels
         {
             int seconds = Preferences.Get(Constants.TotalRecordedSecondsKey, 0);
             int minutes = seconds / 60;
+            
             if (minutes < 1)
             {
                 TotalRecordedMinutes = $"<1 min";

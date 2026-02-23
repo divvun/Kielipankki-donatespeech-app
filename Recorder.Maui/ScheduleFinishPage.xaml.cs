@@ -23,6 +23,12 @@ namespace Recorder
             rewardImage.HeightRequest = DeviceDisplay.MainDisplayInfo.GetHeightInSixteenNine();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            navigationBarView.Update();
+        }
+
         async void InviteButtonClicked(object sender, EventArgs e)
         {
             int seconds = Preferences.Get(Constants.TotalRecordedSecondsKey, 0);
