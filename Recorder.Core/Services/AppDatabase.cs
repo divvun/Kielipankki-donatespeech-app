@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,7 +7,7 @@ using SQLite;
 using Recorder.Core.Models;
 using Recorder.Core.Services;
 
-namespace Recorder.Services
+namespace Recorder.Core.Services
 {
     public class AppDatabase : IAppDatabase
     {
@@ -19,7 +19,7 @@ namespace Recorder.Services
         {
             lazyInitializer = new Lazy<SQLiteAsyncConnection>(() =>
             {
-                return new SQLiteAsyncConnection(fileSystemProvider.GetDatabasePath(), Constants.DatabaseFlags);
+                return new SQLiteAsyncConnection(fileSystemProvider.GetDatabasePath(), DatabaseConstants.DatabaseFlags);
             });
 
             database = lazyInitializer.Value;
@@ -93,15 +93,5 @@ namespace Recorder.Services
             Debug.WriteLine("About to delete all recordings from the database");
             database.ExecuteScalarAsync<int>("DELETE FROM Recording");
         }
-    }
-
-    public class UploadStatus
-    {
-        public static readonly string Unknown = "unknown";
-        public static readonly string Pending = "pending";
-        public static readonly string Uploaded = "uploaded";
-        public static readonly string Deleted = "deleted";
-
-        private UploadStatus() { }
     }
 }

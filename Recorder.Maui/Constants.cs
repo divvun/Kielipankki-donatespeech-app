@@ -30,28 +30,5 @@ namespace Recorder
         public const string MetadataWithoutRecording = "MetadataWithoutRecording.wav"; // special "filename" for metadata items
 
         public const int ScheduleVersion = 2;  // used to identify schedule file formats in HTTP request
-
-        //
-        // Constants for local SQLite database (used with the sqlite-net-pcl NuGet package)
-        //
-
-        /// <value>The filename of the SQLite database file.</value>
-        public const string DatabaseFilename = "Recorder.sqlitedb";
-
-        /// <value>The platform-specific full pathname of the database file.</value>
-        public static string DatabasePath
-        {
-            get
-            {
-                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                return Path.Combine(basePath, DatabaseFilename);
-            }
-        }
-
-        /// <value>Creation flags for the local SQLite database.</value>
-        public const SQLite.SQLiteOpenFlags DatabaseFlags =            
-            SQLite.SQLiteOpenFlags.ReadWrite |  // open the database in read/write mode
-            SQLite.SQLiteOpenFlags.Create |     // create the database if it doesn't exist            
-            SQLite.SQLiteOpenFlags.SharedCache; // enable multi-threaded database access
     }
 }
