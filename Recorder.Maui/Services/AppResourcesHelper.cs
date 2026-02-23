@@ -55,5 +55,15 @@ namespace Recorder.Services
         public static string TermsAdditionalEmail => AppResources.TermsAdditionalEmail;
         public static string TermsAcceptBody => AppResources.TermsAcceptBody;
         public static string TermsAccept => AppResources.TermsAccept;
+        public static string ChooseLanguageTitle => AppResources.ChooseLanguageTitle;
+        public static string LanguageFinnish => AppResources.LanguageFinnish;
+        public static string LanguageNorwegian => AppResources.LanguageNorwegian;
+        public static string LanguageNorthSami => AppResources.LanguageNorthSami;
+        public static string LanguageLuleSami => AppResources.LanguageLuleSami;
+        public static string LanguageSouthSami => AppResources.LanguageSouthSami;
+        public static string LanguageInariSami => AppResources.LanguageInariSami;
+        public static string LanguageSkoltSami => AppResources.LanguageSkoltSami;
+        public static string LanguageSwedish => AppResources.LanguageSwedish;
+        public static string LanguageNynorsk => AppResources.LanguageNynorsk;
     }
 }
