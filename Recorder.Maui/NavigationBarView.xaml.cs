@@ -93,8 +93,14 @@ namespace Recorder
 
         private async void OnLanguageButtonClicked(object sender, EventArgs e)
         {
+            Console.WriteLine("============================================");
+            Console.WriteLine("[LANGUAGE] Globe button CLICKED - handler started");
+            Console.WriteLine("============================================");
+            
             try
             {
+                Console.WriteLine("[LANGUAGE] Inside try block");
+                
                 // Language options with their codes
                 var languages = new Dictionary<string, string>
                 {
@@ -122,22 +128,46 @@ namespace Recorder
                     languageNames.ToArray()
                 );
 
+                Console.WriteLine($"[LANGUAGE] User selected: {action}");
+                
                 if (action != null && languages.ContainsKey(action))
                 {
                     var selectedLanguageCode = languages[action];
                     var currentLanguage = Preferences.Get(Constants.UserLanguageKey, "nb");
+                    Console.WriteLine($"[LANGUAGE] Selected code: {selectedLanguageCode}, Current: {currentLanguage}");
 
                     // Only change if different language selected
                     if (selectedLanguageCode != currentLanguage)
                     {
+                        Console.WriteLine($"[LANGUAGE] Changing language from {currentLanguage} to {selectedLanguageCode}");
+                        
                         // Save the new language preference
                         Preferences.Set(Constants.UserLanguageKey, selectedLanguageCode);
 
-                        // Update the culture
-                        var culture = new System.Globalization.CultureInfo(selectedLanguageCode);
+                        // Update the culture - use safe culture creation for minority languages
+                        Console.WriteLine($"[LANGUAGE] Calling CreateCultureSafe for: {selectedLanguageCode}");
+                        var culture = App.CreateCultureSafe(selectedLanguageCode);
+                        
+                        Console.WriteLine($"[LANGUAGE] Setting CurrentCulture and CurrentUICulture to: {culture.Name}");
                         System.Globalization.CultureInfo.CurrentCulture = culture;
                         System.Globalization.CultureInfo.CurrentUICulture = culture;
                         AppResources.Culture = culture;
+                        
+                        Console.WriteLine($"[LANGUAGE] Culture changed successfully. AppResources.Culture: {AppResources.Culture?.Name}");
+                        
+                        // Test ResourceManager - try to get a string directly
+                        try
+                        {
+                            var testString = AppResources.ResourceManager.GetString("ThemesPageTitleText", culture);
+                            Console.WriteLine($"[LANGUAGE] ResourceManager.GetString('ThemesPageTitleText', {culture.Name}) = '{testString}'");
+                            
+                            var testString2 = AppResources.ThemesPageTitleText;
+                            Console.WriteLine($"[LANGUAGE] AppResources.ThemesPageTitleText = '{testString2}'");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"[LANGUAGE] ResourceManager test failed: {ex.Message}");
+                        }
 
                         // Recreate the main page to reflect language changes
                         // This is necessary because MAUI doesn't automatically refresh 
@@ -167,6 +197,10 @@ namespace Recorder
             }
             catch (Exception ex)
             {
+                Console.WriteLine("============================================");
+                Console.WriteLine($"[LANGUAGE] !!! EXCEPTION !!! {ex.GetType().Name}: {ex.Message}");
+                Console.WriteLine($"[LANGUAGE] Stack trace: {ex.StackTrace}");
+                Console.WriteLine("============================================");
                 System.Diagnostics.Debug.WriteLine($"Error in language selection: {ex}");
             }
         }

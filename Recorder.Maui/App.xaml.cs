@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
 
 using Microsoft.Maui.Controls;
@@ -33,6 +34,10 @@ namespace Recorder
 
         public App()
         {
+            Console.WriteLine("============================================");
+            Console.WriteLine("[APP STARTUP] App constructor called");
+            Console.WriteLine("============================================");
+            
             try
             {
                 InitializeComponent();
@@ -56,11 +61,29 @@ namespace Recorder
 
                 // Set the culture for resource files based on user language preference
                 string userLang = Preferences.Get(Constants.UserLanguageKey, "nb");
-                var culture = new System.Globalization.CultureInfo(userLang);
+                
+                // Create culture - for minority languages, we create a neutral culture
+                // that matches our .resx file naming even if it's not in .NET's culture database
+                var culture = CreateCultureSafe(userLang);
+                
                 System.Globalization.CultureInfo.CurrentCulture = culture;
                 System.Globalization.CultureInfo.CurrentUICulture = culture;
                 Recorder.ResX.AppResources.Culture = culture;
-                Debug.WriteLine($"Set UI culture to: {userLang}");
+                Console.WriteLine($"[CULTURE] Set UI culture to: {userLang} (Culture.Name: {culture.Name})");
+                
+                // Test ResourceManager - try to get a string directly
+                try
+                {
+                    var testString = Recorder.ResX.AppResources.ResourceManager.GetString("ThemesPageTitleText", culture);
+                    Console.WriteLine($"[CULTURE] ResourceManager.GetString('ThemesPageTitleText', {culture.Name}) = '{testString}'");
+                    
+                    var testString2 = Recorder.ResX.AppResources.ThemesPageTitleText;
+                    Console.WriteLine($"[CULTURE] AppResources.ThemesPageTitleText = '{testString2}'");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[CULTURE] ResourceManager test failed: {ex.Message}");
+                }
 
                 // Initialize the total number of seconds recorded from preferences.
                 // If this preference is not found, it is initialized to zero.
@@ -242,6 +265,88 @@ namespace Recorder
 
                 return true;
             });
+        }
+
+        public static CultureInfo CreateCultureSafe(string cultureCode)
+        {
+            // Map unsupported Sami cultures to recognized "carrier" cultures
+            // .NET doesn't recognize smj/sma/sms as valid cultures, so we use recognized cultures
+            // to carry the translations via their satellite assemblies:
+            string effectiveCulture = cultureCode switch
+            {
+                "smj" => "is",  // Lule Sami → Icelandic (carrier culture)
+                "sma" => "fo",  // Southern Sami → Faroese (carrier culture)
+                "sms" => "kl",  // Skolt Sami → Kalaallisut/Greenlandic (carrier culture)
+                _ => cultureCode
+            };
+
+            if (effectiveCulture != cultureCode)
+            {
+                Console.WriteLine($"[CULTURE] Mapping unsupported culture {cultureCode} → {effectiveCulture}");
+            }
+
+            try
+            {
+                // Try to get the culture directly first
+                var culture = CultureInfo.GetCultureInfo(effectiveCulture);
+                Console.WriteLine($"[CULTURE] Using recognized culture: {effectiveCulture}");
+                return culture;
+            }
+            catch (CultureNotFoundException)
+            {
+                // Culture not recognized, try region-specific variants
+                var regionalVariants = new[] { $"{effectiveCulture}-NO", $"{effectiveCulture}-SE", $"{effectiveCulture}-FI" };
+                
+                foreach (var variant in regionalVariants)
+                {
+                    try
+                    {
+                        var culture = CultureInfo.GetCultureInfo(variant);
+                        Console.WriteLine($"[CULTURE] Using regional variant: {variant} for {effectiveCulture}");
+                        return culture;
+                    }
+                    catch (CultureNotFoundException)
+                    {
+                        continue;
+                    }
+                }
+                
+                // If no regional variant works, create a custom CultureInfo
+                // by using the invariant culture as a base and setting the name
+                Console.WriteLine($"[CULTURE] Creating custom culture for: {effectiveCulture}");
+                
+                try
+                {
+                    // Use CultureInfo constructor with useUserOverride: false
+                    // This creates a read-only culture but allows for custom culture codes
+                    var invariant = CultureInfo.InvariantCulture;
+                    var cultureCopy = new CultureInfo(invariant.Name);
+                    
+                    // Try to override the name through reflection
+                    var nameField = typeof(CultureInfo).GetField("_name", 
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    
+                    if (nameField == null)
+                    {
+                        nameField = typeof(CultureInfo).GetField("m_name",
+                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    }
+                    
+                    if (nameField != null)
+                    {
+                        nameField.SetValue(cultureCopy, effectiveCulture);
+                        Console.WriteLine($"[CULTURE] Created custom culture with name: {effectiveCulture}");
+                        return cultureCopy;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[CULTURE] Failed to create custom culture: {ex.Message}");
+                }
+
+                Console.WriteLine($"[CULTURE] Falling back to invariant culture for: {effectiveCulture}");
+                return CultureInfo.InvariantCulture;
+            }
         }
 
         private static IAppDatabase GetDatabase()

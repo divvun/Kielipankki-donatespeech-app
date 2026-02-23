@@ -70,6 +70,30 @@
 			<LastGenOutput>AppResources.Designer.cs</LastGenOutput>
 			<LogicalName>Recorder.ResX.AppResources.resources</LogicalName>
 		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.nb.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.nn.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.sv.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.se.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.is.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.fo.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.smn.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="ResX\AppResources.kl.resx">
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
