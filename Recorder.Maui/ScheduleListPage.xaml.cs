@@ -8,7 +8,6 @@ using Recorder.Core.Models;
 using Recorder.ViewModels;
 using Recorder.Services;
 using Recorder.Core.Services;
-using Recorder.Core.Models;
 using Microsoft.Maui.ApplicationModel;
 using static Microsoft.Maui.ApplicationModel.Permissions;
 using System.Threading.Tasks;

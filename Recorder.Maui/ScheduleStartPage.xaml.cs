@@ -7,7 +7,6 @@ using Recorder.Core.Models;
 using Recorder.ResX;
 using Recorder.Services;
 using Recorder.Core.Services;
-using Recorder.Core.Models;
 using Recorder.ViewModels;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
