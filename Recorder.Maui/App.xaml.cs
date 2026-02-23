@@ -47,8 +47,20 @@ namespace Recorder
                 }
                 Debug.WriteLine(string.Format("From preferences, clientID = {0}", Preferences.Get(Constants.ClientIdKey, "unknown")));
 
-                // Force the user language for testing:
-                Preferences.Set(Constants.UserLanguageKey, "fi");
+                // Initialize user language preference if not set
+                if (!Preferences.ContainsKey(Constants.UserLanguageKey))
+                {
+                    // Default to Norwegian Bokmål, or use "fi" for Finnish
+                    Preferences.Set(Constants.UserLanguageKey, "nb");
+                }
+
+                // Set the culture for resource files based on user language preference
+                string userLang = Preferences.Get(Constants.UserLanguageKey, "nb");
+                var culture = new System.Globalization.CultureInfo(userLang);
+                System.Globalization.CultureInfo.CurrentCulture = culture;
+                System.Globalization.CultureInfo.CurrentUICulture = culture;
+                Recorder.ResX.AppResources.Culture = culture;
+                Debug.WriteLine($"Set UI culture to: {userLang}");
 
                 // Initialize the total number of seconds recorded from preferences.
                 // If this preference is not found, it is initialized to zero.
