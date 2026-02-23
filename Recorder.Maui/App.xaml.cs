@@ -355,7 +355,26 @@ namespace Recorder
         {
             if (_database == null)
             {
-                _database = new AppDatabase();
+                IFileSystemProvider? fileSystemProvider = null;
+                
+                // Try to get IFileSystemProvider from DI
+                try
+                {
+                    fileSystemProvider = Application.Current?.Handler?.MauiContext?.Services?.GetService(typeof(IFileSystemProvider)) as IFileSystemProvider;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Failed to get IFileSystemProvider from DI: {ex.Message}");
+                }
+                
+                // Fallback to creating a new instance if DI is not available
+                if (fileSystemProvider == null)
+                {
+                    fileSystemProvider = new MauiFileSystemProvider();
+                    Debug.WriteLine("Created MauiFileSystemProvider directly");
+                }
+                
+                _database = new AppDatabase(fileSystemProvider);
             }
 
             return _database;

@@ -51,6 +51,9 @@ public static class MauiProgram
 		System.Diagnostics.Debug.WriteLine("Registered NullAudioRecorder");
 #endif
 
+		// Register file system provider
+		builder.Services.AddSingleton<IFileSystemProvider, MauiFileSystemProvider>();
+
 		// Register RecordingManager as a service
 		builder.Services.AddSingleton<IRecordingManager>(sp =>
 		{

@@ -11,16 +11,19 @@ namespace Recorder.Services
 {
     public class AppDatabase : IAppDatabase
     {
-        static readonly Lazy<SQLiteAsyncConnection> lazyInitializer = new Lazy<SQLiteAsyncConnection>(() =>
-        {
-            return new SQLiteAsyncConnection(Constants.DatabasePath, Constants.DatabaseFlags);
-        });
+        private readonly Lazy<SQLiteAsyncConnection> lazyInitializer;
+        private readonly SQLiteAsyncConnection database;
+        private bool initialized = false;
 
-        public static SQLiteAsyncConnection Database => lazyInitializer.Value;
-        static bool initialized = false;
-
-        public AppDatabase()
+        public AppDatabase(IFileSystemProvider fileSystemProvider)
         {
+            lazyInitializer = new Lazy<SQLiteAsyncConnection>(() =>
+            {
+                return new SQLiteAsyncConnection(fileSystemProvider.GetDatabasePath(), Constants.DatabaseFlags);
+            });
+
+            database = lazyInitializer.Value;
+
             // Uses task extension as instructed by Microsoft in their SQLite tutorial:
             // https://docs.microsoft.com/en-us/xamarin/xamarin-forms/data-cloud/data/databases
             InitializeAsync().SafeFireAndForget(false);
@@ -30,10 +33,10 @@ namespace Recorder.Services
         {
             if (!initialized)
             {
-                if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Recording).Name))
+                if (!database.TableMappings.Any(m => m.MappedType.Name == typeof(Recording).Name))
                 {
                     //Debug.WriteLine("Creating database tables");
-                    await Database.CreateTablesAsync(CreateFlags.None, typeof(Recording)).ConfigureAwait(false);
+                    await database.CreateTablesAsync(CreateFlags.None, typeof(Recording)).ConfigureAwait(false);
                     initialized = true;
                 }
                 else
@@ -43,52 +46,52 @@ namespace Recorder.Services
             }
             else
             {
-                Debug.WriteLine(String.Format("Connected to database at '{0}'", Database.DatabasePath));
+                Debug.WriteLine(String.Format("Connected to database at '{0}'", database.DatabasePath));
             }
         }
 
         public Task<int> GetRecordingCountAsync()
         {
-            return Database.Table<Recording>().CountAsync();
+            return database.Table<Recording>().CountAsync();
         }
 
         public Task<List<Recording>> GetRecordingsAsync()
         {
-            var query = Database.Table<Recording>();
+            var query = database.Table<Recording>();
             return query.ToListAsync();
         }
 
         public Task<List<Recording>> GetRecordingsByUploadStatusAsync(string uploadStatus)
         {
-            var query = Database.Table<Recording>().Where(r => r.UploadStatus!.Equals(uploadStatus));
+            var query = database.Table<Recording>().Where(r => r.UploadStatus!.Equals(uploadStatus));
             return query.ToListAsync();
         }
 
         public Task<Recording> GetRecordingAsync(string recordingId)
         {
-            return Database.Table<Recording>().Where(i => i.RecordingId == recordingId).FirstOrDefaultAsync();
+            return database.Table<Recording>().Where(i => i.RecordingId == recordingId).FirstOrDefaultAsync();
         }
 
         public Task<int> SaveRecordingAsync(Recording item)
         {
             Debug.WriteLine(String.Format("Saving item with RecordingID = {0}", item.RecordingId));
-            return Database.InsertAsync(item);
+            return database.InsertAsync(item);
         }
 
         public Task<int> DeleteRecordingAsync(Recording item)
         {
-            return Database.DeleteAsync(item);
+            return database.DeleteAsync(item);
         }
 
         public Task<int> UpdateRecordingUploadStatusAsync(Recording item)
         {
-            return Database.UpdateAsync(item);
+            return database.UpdateAsync(item);
         }
 
         public void DeleteAllRecordings()
         {
             Debug.WriteLine("About to delete all recordings from the database");
-            Database.ExecuteScalarAsync<int>("DELETE FROM Recording");
+            database.ExecuteScalarAsync<int>("DELETE FROM Recording");
         }
     }
 
