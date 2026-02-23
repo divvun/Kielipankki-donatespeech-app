@@ -4,9 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using SQLite;
-
-using Recorder.Models;
 using Recorder.Core.Models;
+using Recorder.Core.Services;
 
 namespace Recorder.Services
 {

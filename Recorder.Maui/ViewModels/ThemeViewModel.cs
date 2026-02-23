@@ -1,8 +1,7 @@
 ﻿using System;
-
-using Recorder.Models;
-using Recorder.Core.Models;
 using Microsoft.Maui.Controls;
+using Recorder.Core.Models;
+using Recorder.Core.ViewModels;
 
 namespace Recorder.ViewModels
 {

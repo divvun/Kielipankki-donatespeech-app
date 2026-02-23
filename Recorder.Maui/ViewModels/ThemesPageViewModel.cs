@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Recorder.Models;
 using Recorder.Core.Models;
-using Recorder.Services;
 using Recorder.Core.Services;
-using Recorder.Core.Models;
+using Recorder.Core.ViewModels;
 
 namespace Recorder.ViewModels
 {

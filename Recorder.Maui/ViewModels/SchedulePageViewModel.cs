@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using Recorder.Models;
+using Microsoft.Maui.Controls;
 using Recorder.Core.Models;
+using Recorder.Core.Services;
+using Recorder.Core.ViewModels;
 using Recorder.ResX;
 using Recorder.Services;
-using Recorder.Core.Services;
-using Recorder.Core.Models;
-using Microsoft.Maui.Controls;
 
 namespace Recorder.ViewModels
 {

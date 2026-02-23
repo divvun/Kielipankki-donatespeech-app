@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Recorder.Models;
+using Microsoft.Maui.Controls;
 using Recorder.Core.Models;
-using Recorder.ResX;
-using Recorder.Services;
 using Recorder.Core.Services;
-using Recorder.Core.Models;
+using Recorder.Core.ViewModels;
+using Recorder.ResX;
 
 namespace Recorder.ViewModels
 {

@@ -7,13 +7,10 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Media;
-using Recorder.Models;
-using Recorder.Core.Models;
-using Recorder.Services;
-using Recorder.Core.Services;
-using Recorder.Core.Models;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
+using Recorder.Core.Models;
+using Recorder.Core.Services;
 
 [assembly: Dependency(typeof(Recorder.Maui.Platforms.Android.AudioRecorder))]
 

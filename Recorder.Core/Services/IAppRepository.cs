@@ -1,14 +1,8 @@
-using Recorder.Core.Services;
-using Recorder.Core.Models;
-
-﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using Recorder.Models;
 using Recorder.Core.Models;
 
-namespace Recorder.Services
+namespace Recorder.Core.Services
 {
     public interface IAppRepository
     {

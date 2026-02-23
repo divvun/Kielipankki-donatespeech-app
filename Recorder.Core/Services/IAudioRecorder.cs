@@ -1,8 +1,7 @@
-﻿using System;
-using Recorder.Models;
+using System;
 using Recorder.Core.Models;
 
-namespace Recorder.Services
+namespace Recorder.Core.Services
 {
     public class RecordingException : Exception
     {

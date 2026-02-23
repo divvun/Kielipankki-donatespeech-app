@@ -3,12 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using AVFoundation;
 using Foundation;
-using Recorder.Models;
-using Recorder.Core.Models;
-using Recorder.Services;
-using Recorder.Core.Services;
-using Recorder.Core.Models;
 using Microsoft.Maui.Controls;
+using Recorder.Core.Models;
+using Recorder.Core.Services;
 
 [assembly: Dependency(typeof(Recorder.Maui.Platforms.MacCatalyst.AudioRecorder))]
 

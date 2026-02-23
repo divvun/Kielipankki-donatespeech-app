@@ -1,6 +1,6 @@
 using System;
-using Recorder.Models;
 using Recorder.Core.Models;
+using Recorder.Core.Services;
 
 namespace Recorder.Services
 {

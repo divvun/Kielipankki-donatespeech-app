@@ -1,15 +1,10 @@
-using Recorder.Core.Services;
-using Recorder.Core.Models;
-
-﻿using System;
-using System.Diagnostics;
-
-using Microsoft.Maui.Controls;
-
-using Recorder.Models;
-using Recorder.Core.Models;
-using Microsoft.Maui.Storage;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
+using Recorder.Core.Models;
+using Recorder.Core.Services;
 
 namespace Recorder.Services
 {
