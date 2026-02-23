@@ -8,7 +8,10 @@ using Microsoft.Maui.Networking;
 using Microsoft.Maui.Storage;
 
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.Services;
+using Recorder.Core.Services;
+using Recorder.Core.Models;
 
 namespace Recorder
 {

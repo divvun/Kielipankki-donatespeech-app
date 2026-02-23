@@ -4,8 +4,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.ResX;
 using Recorder.Services;
+using Recorder.Core.Services;
+using Recorder.Core.Models;
 using Microsoft.Maui.Controls;
 
 namespace Recorder.ViewModels

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
 using Recorder.Services;
+using Recorder.Core.Services;
+using Recorder.Core.Models;
 using CommunityToolkit.Maui;
 
 #if MACCATALYST

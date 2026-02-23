@@ -1,3 +1,6 @@
+using Recorder.Core.Services;
+using Recorder.Core.Models;
+
 ﻿using System;
 using System.IO;
 using System.Reflection;

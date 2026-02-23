@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Recorder.Models;
+using Recorder.Core.Models;
 
 
 namespace Recorder

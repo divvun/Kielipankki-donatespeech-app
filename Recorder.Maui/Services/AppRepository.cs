@@ -1,3 +1,6 @@
+using Recorder.Core.Services;
+using Recorder.Core.Models;
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +9,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using Recorder.Models;
+using Recorder.Services;
+using Recorder.Core.Services;
+using Recorder.Core.Models;
 
 namespace Recorder.Services
 {

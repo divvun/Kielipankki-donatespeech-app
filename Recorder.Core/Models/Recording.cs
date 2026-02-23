@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite;
 
-namespace Recorder.Models
+namespace Recorder.Core.Models
 {
     public class Recording
     {

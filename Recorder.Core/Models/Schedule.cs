@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Recorder.Models
+namespace Recorder.Core.Models
 {
     public class Schedule
     {

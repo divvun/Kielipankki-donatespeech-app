@@ -111,6 +111,10 @@
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="5.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Recorder.Core\Recorder.Core.csproj" />
+	</ItemGroup>
+
 	<Target Name="CopyAppConfiguration" BeforeTargets="PrepareResources">
 		<Copy SourceFiles="BuildConfig\$(Configuration)\appconfiguration.json" DestinationFiles="BuildConfig\appconfiguration.json" />
 	</Target>

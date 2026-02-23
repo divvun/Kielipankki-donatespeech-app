@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Recorder.Models;
+using Recorder.Core.Models;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices;
 

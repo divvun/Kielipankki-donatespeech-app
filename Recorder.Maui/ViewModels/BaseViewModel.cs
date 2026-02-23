@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Recorder.Models;
+using Recorder.Core.Models;
 
 namespace Recorder.ViewModels
 {

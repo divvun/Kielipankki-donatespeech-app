@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Microsoft.Maui.Storage;
+using Recorder.Core;
 
 namespace Recorder.Models
 {
@@ -48,12 +48,7 @@ namespace Recorder.Models
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (string k in this.Strings.Keys)
-            {
-                sb.Append($"{k}='{this.Strings[k]}' ");
-            }
-            return sb.ToString();
+            return Localized ?? string.Empty;
         }
     }
 }

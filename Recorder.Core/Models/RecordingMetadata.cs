@@ -1,11 +1,8 @@
 ﻿using System;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Microsoft.Maui.Devices;
-using Microsoft.Maui.Storage;
 
-namespace Recorder.Models
+namespace Recorder.Core.Models
 {
     public class RecordingMetadata
     {
@@ -23,18 +20,12 @@ namespace Recorder.Models
 
         public UserMetadata User = null!;
 
-        public RecordingMetadata(string recordingId)
+        public RecordingMetadata(string recordingId, string clientId, string platformName, string platformVersion)
         {
             this.RecordingId = recordingId;
-
-            if (Preferences.ContainsKey(Constants.ClientIdKey))
-            {
-                this.ClientId = Preferences.Get(Constants.ClientIdKey, "unknown");
-            }
-
-            this.ClientPlatformName = DeviceInfo.Platform.ToString();
-            this.ClientPlatformVersion = DeviceInfo.VersionString;
-
+            this.ClientId = clientId;
+            this.ClientPlatformName = platformName;
+            this.ClientPlatformVersion = platformVersion;
             this.User = new UserMetadata();
         }
 
@@ -45,7 +36,7 @@ namespace Recorder.Models
                     new JProperty(Constants.ClientIdKey, this.ClientId),
                     new JProperty(Constants.RecordingIdKey, this.RecordingId),
                     new JProperty(Constants.ClientPlatformNameKey, this.ClientPlatformName),
-                    new JProperty(Constants.ClientPlatformVersionKey, DeviceInfo.VersionString),
+                    new JProperty(Constants.ClientPlatformVersionKey, this.ClientPlatformVersion),
                     new JProperty(Constants.TimestampKey, this.RecordingTimestamp),
                     new JProperty(Constants.RecordingDurationKey, this.RecordingDuration),
                     new JProperty(Constants.RecordingBitDepthKey, this.RecordingBitDepth),

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
 
-namespace Recorder.Models
+namespace Recorder.Core.Models
 {
     public class UserAnswer
     {

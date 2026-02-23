@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Recorder.Models
+namespace Recorder.Core.Models
 {
     public class ScheduleItemJsonConverter : JsonConverter<ScheduleItem>
     {

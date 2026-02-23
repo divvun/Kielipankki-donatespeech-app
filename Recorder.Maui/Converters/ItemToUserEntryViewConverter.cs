@@ -4,6 +4,7 @@ using System.Globalization;
 using Microsoft.Maui.Controls;
 
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.ViewModels;
 using Recorder.ResX;
 using Recorder.Views;

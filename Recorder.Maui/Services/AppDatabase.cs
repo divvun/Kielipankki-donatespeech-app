@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SQLite;
 
 using Recorder.Models;
+using Recorder.Core.Models;
 
 namespace Recorder.Services
 {

@@ -8,6 +8,7 @@ using Microsoft.Maui.Controls.Shapes;
 using CommunityToolkit.Maui.Views;
 
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.ViewModels;
 using Microsoft.Maui.Devices;
 

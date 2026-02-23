@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Microsoft.Maui.Controls;
 
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.ViewModels;
 using System.ComponentModel;
 using Microsoft.Maui.Devices;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.ResX;
 using Recorder.ViewModels;
 using Microsoft.Maui.ApplicationModel.DataTransfer;

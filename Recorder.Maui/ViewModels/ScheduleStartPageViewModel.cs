@@ -4,7 +4,10 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Input;
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.Services;
+using Recorder.Core.Services;
+using Recorder.Core.Models;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 

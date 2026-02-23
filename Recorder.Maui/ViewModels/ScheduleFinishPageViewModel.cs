@@ -1,4 +1,5 @@
 ﻿using Recorder.Models;
+using Recorder.Core.Models;
 
 namespace Recorder.ViewModels
 {

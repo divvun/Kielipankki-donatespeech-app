@@ -4,7 +4,10 @@ using System.IO;
 using AVFoundation;
 using Foundation;
 using Recorder.Models;
+using Recorder.Core.Models;
 using Recorder.Services;
+using Recorder.Core.Services;
+using Recorder.Core.Models;
 using Microsoft.Maui.Controls;
 
 [assembly: Dependency(typeof(Recorder.Maui.Platforms.iOS.AudioRecorder))]

@@ -1,9 +1,13 @@
+using Recorder.Core.Services;
+using Recorder.Core.Models;
+
 ﻿using System;
 using System.Diagnostics;
 
 using Microsoft.Maui.Controls;
 
 using Recorder.Models;
+using Recorder.Core.Models;
 using Microsoft.Maui.Storage;
 using System.Collections.Generic;
 
@@ -73,9 +77,12 @@ namespace Recorder.Services
             var file = recorder.Stop();
             Console.WriteLine($"Recorder stopped, file: {file.FileName}");
             
-            RecordingMetadata metadata = new RecordingMetadata(recording.RecordingId!)
+            RecordingMetadata metadata = new RecordingMetadata(
+                recording.RecordingId!,
+                recording.ClientId!,
+                Microsoft.Maui.Devices.DeviceInfo.Platform.ToString(),
+                Microsoft.Maui.Devices.DeviceInfo.VersionString)
             {
-                ClientId = recording.ClientId!,
                 ItemId = recording.ItemId!,
                 RecordingTimestamp = file.CreatedOn,
                 RecordingDuration = file.Duration,
@@ -136,9 +143,12 @@ namespace Recorder.Services
                 UploadStatus = UploadStatus.Pending
             };
 
-            RecordingMetadata metadata = new RecordingMetadata(rec.RecordingId);
+            RecordingMetadata metadata = new RecordingMetadata(
+                rec.RecordingId,
+                rec.ClientId,
+                Microsoft.Maui.Devices.DeviceInfo.Platform.ToString(),
+                Microsoft.Maui.Devices.DeviceInfo.VersionString);
 
-            metadata.ClientId = rec.ClientId;
             metadata.ItemId = rec.ItemId;
             metadata.RecordingTimestamp = rec.Timestamp;
 

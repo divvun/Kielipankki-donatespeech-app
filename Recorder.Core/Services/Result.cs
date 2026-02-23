@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Recorder.Services
+namespace Recorder.Core.Services
 {
     public class Result <T>
     {

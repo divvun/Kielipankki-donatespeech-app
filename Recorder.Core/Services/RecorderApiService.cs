@@ -5,13 +5,12 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Maui.Devices;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
-using Recorder.Models;
+using Recorder.Core.Models;
 using KiotaApi = Recorder.Api;
 
-namespace Recorder.Services
+namespace Recorder.Core.Services
 {
     public class RecorderApiService : IRecorderApi
     {
@@ -413,29 +412,10 @@ namespace Recorder.Services
 
         private string ResolveBaseUrl()
         {
-            if (!string.IsNullOrWhiteSpace(appConfiguration.RecorderApiUrl))
-            {
-                var configuredUrl = appConfiguration.RecorderApiUrl;
-#if ANDROID
-                if (DeviceInfo.DeviceType == DeviceType.Virtual)
-                {
-                    configuredUrl = configuredUrl
-                        .Replace("http://localhost", "http://10.0.2.2")
-                        .Replace("http://127.0.0.1", "http://10.0.2.2");
-                }
-#endif
-                return configuredUrl;
-            }
-
-#if ANDROID
-            return DeviceInfo.DeviceType == DeviceType.Virtual
-                ? "http://10.0.2.2:8000"
+            // Use configured URL if available, otherwise default to localhost
+            return !string.IsNullOrWhiteSpace(appConfiguration.RecorderApiUrl)
+                ? appConfiguration.RecorderApiUrl
                 : "http://localhost:8000";
-#elif IOS || MACCATALYST
-            return "http://localhost:8000";
-#else
-            return "http://localhost:8000";
-#endif
         }
 
         private static string NormalizeBaseUrl(string url)

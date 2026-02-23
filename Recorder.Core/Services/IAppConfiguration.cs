@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Recorder.Services
+namespace Recorder.Core.Services
 {
     public interface IAppConfiguration
     {

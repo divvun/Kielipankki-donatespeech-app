@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Recorder.Models
+namespace Recorder.Core.Models
 {
     public class AudioFile
     {
