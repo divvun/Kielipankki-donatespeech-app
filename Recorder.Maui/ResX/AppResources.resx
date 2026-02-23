@@ -154,4 +154,15 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
     <data name="RecordingStoppedLimitMessage"><value>Äänityksen enimmäisaika tuli täyteen ja äänitys keskeytettiin automaattisesti. Kiitos lahjoituksesta!</value></data>
     <data name="AlertDismissOk"><value>OK</value></data>
 
+    <data name="ChooseLanguageTitle"><value>Valitse kieli</value></data>
+    <data name="LanguageFinnish"><value>Suomi</value></data>
+    <data name="LanguageNorwegian"><value>Norja (bokmål)</value></data>
+    <data name="LanguageNorthSami"><value>Pohjoissaame</value></data>
+    <data name="LanguageLuleSami"><value>Luulajansaame</value></data>
+    <data name="LanguageSouthSami"><value>Eteläsaame</value></data>
+    <data name="LanguageInariSami"><value>Inarinsaame</value></data>
+    <data name="LanguageSkoltSami"><value>Koltansaame</value></data>
+    <data name="LanguageSwedish"><value>Ruotsi</value></data>
+    <data name="LanguageNynorsk"><value>Norja (nynorsk)</value></data>
+
 </root>

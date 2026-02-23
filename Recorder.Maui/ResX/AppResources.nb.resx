@@ -154,4 +154,15 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
     <data name="RecordingStoppedLimitMessage"><value>Maksimal opptakstid ble nådd og opptaket ble automatisk stoppet. Takk for donasjonen!</value></data>
     <data name="AlertDismissOk"><value>OK</value></data>
 
+    <data name="ChooseLanguageTitle"><value>Velg språk</value></data>
+    <data name="LanguageFinnish"><value>Finsk</value></data>
+    <data name="LanguageNorwegian"><value>Norsk (bokmål)</value></data>
+    <data name="LanguageNorthSami"><value>Nordsamisk</value></data>
+    <data name="LanguageLuleSami"><value>Lulesamisk</value></data>
+    <data name="LanguageSouthSami"><value>Sørsamisk</value></data>
+    <data name="LanguageInariSami"><value>Enaresamisk</value></data>
+    <data name="LanguageSkoltSami"><value>Skoltesamisk</value></data>
+    <data name="LanguageSwedish"><value>Svensk</value></data>
+    <data name="LanguageNynorsk"><value>Norsk (nynorsk)</value></data>
+
 </root>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    
+    <data name="PromptMetaTitle"><value>Hjelp forskaren</value></data>
+    <data name="MediaMetaTitle"><value>Donasjon {0}/{1}</value></data>
+    <data name="NonRecordingMediaMetaTitle"><value>Sjå eller lytt</value></data>
+    
+    <data name="ThemesPageTitleText"><value>La oss byggje betre tenester!</value></data>
+    <data name="ThemesPageBody1Text"><value>Vel eit tema du vil snakke om. Tenesta vil rettleie deg vidare.</value></data>
+    
+    <data name="StartButtonText"><value>Start</value></data>    
+    <data name="StartRecording"><value>Ta opp</value></data>
+    <data name="StopRecording"><value>Stopp opptak</value></data>
+    <data name="ContinueSchedule"><value>Hald fram</value></data>
+    <data name="SkipScheduleItem"><value>Hopp over</value></data>
+    <data name="RetryScheduleItem"><value>Prøv igjen</value></data>
+    
+    <data name="RecordingFinishTitle"><value>Godt fortalt, tusen takk!</value></data>
+    
+    <data name="DetailsButtonText"><value>Meir informasjon</value></data>
+    <data name="CloseButtonText"><value>Lukk</value></data>
+    <data name="ExitButtonText"><value>Avslutt</value></data>
+    <data name="DonatedLabelText"><value>DU HAR DONERT</value></data>
+    
+    <data name="ChooseOptionText"><value>Vel eit alternativ:</value></data>
+    <data name="PrimaryNativeLanguageLabelText"><value>Første morsmål:</value></data>
+    <data name="SecondaryNativeLanguageLabelText"><value>Andre morsmål:</value></data>
+    
+    <data name="ReadMoreLinkLabelText"><value>Les meir om personvern.</value></data>
+    <data name="PrivacyPolicyUrl"><value>https://example.com</value></data>
+    
+    <data name="InviteFriendButtonText"><value>Fortel ein ven</value></data>
+    <data name="DonateMoreButtonText"><value>Doner meir</value></data>
+    
+    <data name="NextButtonText"><value>Neste</value></data>
+    <data name="TryAgainButtonText"><value>Prøv igjen</value></data>
+    
+    <data name="LoadFailedAlertTitle"><value>Feil</value></data>
+    <data name="LoadFailedAlertMessage"><value>Lasting av innhald feila. Sjekk nettverkstilkoplinga og prøv igjen ved å trykke Hald fram.</value></data>
+    <data name="LoadFailedAlertContinue"><value>Hald fram</value></data>
+    <data name="LoadFailedAlertCancel"><value>Avslutt</value></data>
+    
+    <data name="StartTypingLabelText"><value>Skriv nokre få bokstavar frå byrjinga av namnet og vel deretter frå lista:</value></data>
+    
+    <data name="InviteFriendTitle"><value>Fortel ein ven</value></data>    
+    <data name="InviteFriendTemplate"><value>Eg donerte {0} minutt av mi tale. Doner du òg! #hashtag https://example.com</value></data>
+    <data name="InviteFriendNewbieTemplate"><value>Eg har nettopp donert mi tale. Doner du òg! #hashtag https://example.com</value></data>
+    
+    <data name="OnboardingTitle"><value>Velkomen</value></data>
+    <data name="OnboardingBody"><value>Onboarding-tekst som forklarer kva dette handlar om.
+
+Linjeskift lagt til dette elementet blir vist i sluttresultatet.
+
+Dette er tredje linje av onboarding-teksten.</value></data>
+    
+    <data name="DetailsGeneralTitle"><value>Detaljar om tenesta</value></data>
+    <data name="DetailsGeneralBody"><value>Detaljside som gir meir informasjon om emnet.
+
+Linjeskift lagt til dette elementet blir vist i sluttresultatet.
+
+Applikasjonen er ikkje meint for delt bruk, kvar brukar må bruke si eiga eining. Dette gjer det mogleg for alle å godta denne informasjonen sjølv og om nødvendig slette opptaka basert på einings-ID. ID-en finn du nedst på denne sida.</value></data>
+    <data name="DetailsGeneralLinkTitle"><value>Les meir på prosjektet si nettside</value></data>
+
+    <data name="DetailsPrivacyTitle"><value>Personvernet ditt er viktig for oss</value></data>
+    <data name="DetailsPrivacyBody"><value>Her er plass for tekst om personvernsspørsmål.
+
+Linjeskift lagt til dette elementet blir vist i sluttresultatet.
+
+Dette er tredje avsnitt av personvernteksten.</value></data>
+    <data name="DetailsPrivacyLinkTitle"><value>Les meir om personvern</value></data>
+
+    <data name="DetailsRemoveTitle"><value>Sletting av opptak</value></data>
+    <data name="DetailsRemoveBody1"><value>Ta vare på denne ID-en slik at du kan trekkje tilbake donasjonar gjort med denne appinstallasjonen om du ønskjer det. For å slette donasjonane dine må du sende ID-en til </value></data>
+    <data name="DetailsRemoveEmail"><value>your-feedback-email</value></data>
+    <data name="DetailsRemoveEmailLink"><value>your-feedback-email</value></data>
+    <data name="DetailsRemoveBody2"><value> og informere om at du ønskjer å slette alle donasjonane dine frå prosjektadministratoren si database.
+
+Om du slettar applikasjonen og installerer han på nytt, må du ta vare på ein ny ID. Du kan berre sjå gjeldande ID i appen, ikkje tidlegare. Når du brukar tenesta i nettlesaren, må du ta vare på din nettlesarspesifikke ID.
+
+Din installasjons-ID for denne appen er:</value></data>
+    <data name="DetailsRemoveButtonTitle"><value>KOPIER ID</value></data>
+    <data name="DetailsRemoveButtonClickedTitle"><value>KOPIERT</value></data>
+    <data name="DetailsRemoveButtonMessage"><value>Hugs å lagre den kopierte ID-en!</value></data>
+    
+    <data name="PermissionRationaleTitle"><value>Løyve til opptak</value></data>
+    <data name="PermissionRationaleMessage"><value>Applikasjonen treng løyve til å bruke eininga sin mikrofon for å ta opp talen din for donasjonen.</value></data>
+    <data name="PermissionRationaleDismiss"><value>OK</value></data>
+    
+    <data name="PermissionDeniedTitle"><value>Opptak blokkert</value></data>
+    <data name="PermissionDeniedMessage"><value>Dessverre er applikasjonen sitt løyve til opptak blokkert. Du kan fikse situasjonen ved å gi løyve i eininga sine innstillingar.</value></data>
+    <data name="PermissionDeniedDismiss"><value>OK</value></data>
+
+    <data name="NoChoiceOption"><value>Inga val</value></data>
+    
+    <data name="TermsHelloTitle"><value>Takk for at du kom.</value></data>
+    <data name="TermsHelloBody"><value>Les først denne grunnleggjande informasjonen om prosjektet. Deretter kan du velje eit emne som interesserer deg og donere talen din.</value></data>
+
+    <data name="TermsGeneralTitle"><value>Brukarvilkår</value></data>
+    <data name="TermsGeneralBody"><value>Denne sida inneheld informasjon om tenestevilkåra.
+    
+Linjeskift lagt til dette elementet blir vist i sluttresultatet.
+
+Dette er tredje avsnitt av brukarvilkårssida.</value></data>
+    <data name="TermsGeneralLink"><value>Meir informasjon om kampanjen</value></data>
+    <data name="TermsGeneralUrl"><value>https://example.com</value></data>
+
+    <data name="TermsOwnershipTitle"><value>Kven?</value></data>
+    <data name="TermsOwnershipBody1"><value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque </value></data>
+    <data name="TermsOwnershipLink"><value>Personvern</value></data>
+    <data name="TermsOwnershipLinkUrl"><value>https://example.com/tietosuoja</value></data>
+    <data name="TermsOwnershipBody2"><value> i samsvar med prinsippa presentert på sida.</value></data>
+
+    <data name="TermsVoluntaryTitle"><value>Heilt frivillig!</value></data>
+    <data name="TermsVoluntaryBody"><value>Donasjon av tale og oppgåve av personopplysningar er heilt frivillig.</value></data>
+
+    <data name="TermsPrivacyTitle"><value>Korleis blir personopplysningar behandla?</value></data>
+    <data name="TermsPrivacyBody"><value>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.</value></data>
+    <data name="TermsPrivacyLink"><value>Meir informasjon om behandling av personopplysningar</value></data>
+    <data name="TermsPrivacyUrl"><value>https://example.com/tietosuoja</value></data>
+
+    <data name="TermsRightsTitle"><value>Rettar til tale</value></data>
+    <data name="TermsRightsBody"><value>Curabitur dignissim hendrerit luctus. Maecenas ut ex pellentesque, feugiat nulla non, pretium ante. Quisque nisi nibh, cursus id felis at, scelerisque convallis augue. Nam in sapien eu dui maximus blandit. 
+
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.</value></data>
+
+    <data name="TermsAppropriateUseTitle"><value>Bruk av applikasjonen</value></data>
+    <data name="TermsAppropriateUseBody"><value>Denne applikasjonen er ikkje meint for delt bruk. Alle donatorar må bruke si eiga eining når dei donerer.</value></data>
+
+    <data name="TermsAdditionalTitle"><value>Meir informasjon</value></data>
+    <data name="TermsAdditionalWebsite"><value>Kampanjen si nettside: </value></data>
+    <data name="TermsAdditionalWebsiteLink"><value>example.com</value></data>
+    <data name="TermsAdditionalWebsiteUrl"><value>https://example.com</value></data>
+    <data name="TermsAdditionalContact"><value>Universitetet i Helsinki, Språkbanken</value></data>
+    <data name="TermsAdditionalLink"><value>www.kielipankki.fi</value></data>   
+    <data name="TermsAdditionalUrl"><value>https://www.kielipankki.fi</value></data>   
+    <data name="TermsAdditionalEmail"><value>hankkeen-nimi@kielipankki.fi</value></data>   
+    
+    <data name="TermsAcceptBody"><value>Ved å trykke på Eg godtar-knappen nedanfor godtar eg vilkåra ovanfor for taledonasjon. Om eg er under 18 år, godtar verja mi vilkåra på mine vegne.</value></data>
+    <data name="TermsAccept"><value>Eg godtar</value></data>
+
+    <data name="RecordingStoppedLimitTitle"><value>Opptak avbrote</value></data>
+    <data name="RecordingStoppedLimitMessage"><value>Maksimal opptakstid vart nådd og opptaket vart automatisk stoppa. Takk for donasjonen!</value></data>
+    <data name="AlertDismissOk"><value>OK</value></data>
+
+    <data name="ChooseLanguageTitle"><value>Vel språk</value></data>
+    <data name="LanguageFinnish"><value>Finsk</value></data>
+    <data name="LanguageNorwegian"><value>Norsk (bokmål)</value></data>
+    <data name="LanguageNorthSami"><value>Nordsamisk</value></data>
+    <data name="LanguageLuleSami"><value>Lulesamisk</value></data>
+    <data name="LanguageSouthSami"><value>Sørsamisk</value></data>
+    <data name="LanguageInariSami"><value>Enaresamisk</value></data>
+    <data name="LanguageSkoltSami"><value>Skoltesamisk</value></data>
+    <data name="LanguageSwedish"><value>Svensk</value></data>
+    <data name="LanguageNynorsk"><value>Norsk (nynorsk)</value></data>
+
+</root>

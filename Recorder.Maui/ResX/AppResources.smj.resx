@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    
+    <data name="PromptMetaTitle"><value>smj Hjelp forskeren</value></data>
+    <data name="MediaMetaTitle"><value>smj Donasjon {0}/{1}</value></data>
+    <data name="NonRecordingMediaMetaTitle"><value>smj Se eller lytt</value></data>
+    
+    <data name="ThemesPageTitleText"><value>smj La oss bygge bedre tjenester!</value></data>
+    <data name="ThemesPageBody1Text"><value>smj Velg et tema du vil snakke om. Tjenesten vil veilede deg videre.</value></data>
+    
+    <data name="StartButtonText"><value>smj Start</value></data>    
+    <data name="StartRecording"><value>smj Ta opp</value></data>
+    <data name="StopRecording"><value>smj Stopp opptak</value></data>
+    <data name="ContinueSchedule"><value>smj Fortsett</value></data>
+    <data name="SkipScheduleItem"><value>smj Hopp over</value></data>
+    <data name="RetryScheduleItem"><value>smj Prøv igjen</value></data>
+    
+    <data name="RecordingFinishTitle"><value>smj Godt fortalt, tusen takk!</value></data>
+    
+    <data name="DetailsButtonText"><value>smj Mer informasjon</value></data>
+    <data name="CloseButtonText"><value>smj Lukk</value></data>
+    <data name="ExitButtonText"><value>smj Avslutt</value></data>
+    <data name="DonatedLabelText"><value>smj DU HAR DONERT</value></data>
+    
+    <data name="ChooseOptionText"><value>smj Velg et alternativ:</value></data>
+    <data name="PrimaryNativeLanguageLabelText"><value>smj Første morsmål:</value></data>
+    <data name="SecondaryNativeLanguageLabelText"><value>smj Andre morsmål:</value></data>
+    
+    <data name="ReadMoreLinkLabelText"><value>smj Les mer om personvern.</value></data>
+    <data name="PrivacyPolicyUrl"><value>https://example.com</value></data>
+    
+    <data name="InviteFriendButtonText"><value>smj Fortell en venn</value></data>
+    <data name="DonateMoreButtonText"><value>smj Doner mer</value></data>
+    
+    <data name="NextButtonText"><value>smj Neste</value></data>
+    <data name="TryAgainButtonText"><value>smj Prøv igjen</value></data>
+    
+    <data name="LoadFailedAlertTitle"><value>smj Feil</value></data>
+    <data name="LoadFailedAlertMessage"><value>smj Lasting av innhold mislyktes. Sjekk nettverkstilkoblingen og prøv igjen ved å trykke Fortsett.</value></data>
+    <data name="LoadFailedAlertContinue"><value>smj Fortsett</value></data>
+    <data name="LoadFailedAlertCancel"><value>smj Avslutt</value></data>
+    
+    <data name="StartTypingLabelText"><value>smj Skriv noen få bokstaver fra begynnelsen av navnet og velg deretter fra listen:</value></data>
+    
+    <data name="InviteFriendTitle"><value>smj Fortell en venn</value></data>    
+    <data name="InviteFriendTemplate"><value>smj Jeg donerte {0} minutter av min tale. Doner du også! #hashtag https://example.com</value></data>
+    <data name="InviteFriendNewbieTemplate"><value>smj Jeg har nettopp donert min tale. Doner du også! #hashtag https://example.com</value></data>
+    
+    <data name="OnboardingTitle"><value>smj Velkommen</value></data>
+    <data name="OnboardingBody"><value>smj Onboarding-tekst som forklarer hva dette handler om.
+
+Linjeskift lagt til dette elementet vises i sluttresultatet.
+
+Dette er tredje linje av onboarding-teksten.</value></data>
+    
+    <data name="DetailsGeneralTitle"><value>smj Detaljer om tjenesten</value></data>
+    <data name="DetailsGeneralBody"><value>smj Detaljside som gir mer informasjon om emnet.
+
+Linjeskift lagt til dette elementet vises i sluttresultatet.
+
+Applikasjonen er ikke ment for delt bruk, hver bruker må bruke sin egen enhet. Dette gjør det mulig for alle å godta denne informasjonen selv og om nødvendig slette opptakene basert på enhets-ID. ID-en finner du nederst på denne siden.</value></data>
+    <data name="DetailsGeneralLinkTitle"><value>smj Les mer på prosjektets nettside</value></data>
+
+    <data name="DetailsPrivacyTitle"><value>smj Personvernet ditt er viktig for oss</value></data>
+    <data name="DetailsPrivacyBody"><value>smj Her er plass for tekst om personvernspørsmål.
+
+Linjeskift lagt til dette elementet vises i sluttresultatet.
+
+Dette er tredje avsnitt av personvernteksten.</value></data>
+    <data name="DetailsPrivacyLinkTitle"><value>smj Les mer om personvern</value></data>
+
+    <data name="DetailsRemoveTitle"><value>smj Sletting av opptak</value></data>
+    <data name="DetailsRemoveBody1"><value>smj Ta vare på denne ID-en slik at du kan trekke tilbake donasjoner gjort med denne appinstallasjonen hvis du ønsker det. For å slette dine donasjoner må du sende ID-en til </value></data>
+    <data name="DetailsRemoveEmail"><value>your-feedback-email</value></data>
+    <data name="DetailsRemoveEmailLink"><value>your-feedback-email</value></data>
+    <data name="DetailsRemoveBody2"><value>smj  og informere om at du ønsker å slette alle dine donasjoner fra prosjektadministratorens database.
+
+Hvis du sletter applikasjonen og installerer den på nytt, må du ta vare på en ny ID. Du kan kun se gjeldende ID i appen, ikke tidligere. Når du bruker tjenesten i nettleseren, må du ta vare på din nettleserspesifikke ID.
+
+Din installasjons-ID for denne appen er:</value></data>
+    <data name="DetailsRemoveButtonTitle"><value>smj KOPIER ID</value></data>
+    <data name="DetailsRemoveButtonClickedTitle"><value>smj KOPIERT</value></data>
+    <data name="DetailsRemoveButtonMessage"><value>smj Husk å lagre den kopierte ID-en!</value></data>
+    
+    <data name="PermissionRationaleTitle"><value>smj Tillatelse til opptak</value></data>
+    <data name="PermissionRationaleMessage"><value>smj Applikasjonen trenger tillatelse til å bruke enhetens mikrofon for å ta opp talen din for donasjonen.</value></data>
+    <data name="PermissionRationaleDismiss"><value>smj OK</value></data>
+    
+    <data name="PermissionDeniedTitle"><value>smj Opptak blokkert</value></data>
+    <data name="PermissionDeniedMessage"><value>smj Dessverre er applikasjonens tillatelse til opptak blokkert. Du kan fikse situasjonen ved å gi tillatelse i enhetens innstillinger.</value></data>
+    <data name="PermissionDeniedDismiss"><value>smj OK</value></data>
+
+    <data name="NoChoiceOption"><value>smj Ingen valg</value></data>
+    
+    <data name="TermsHelloTitle"><value>smj Takk for at du kom.</value></data>
+    <data name="TermsHelloBody"><value>smj Les først denne grunnleggende informasjonen om prosjektet. Deretter kan du velge et emne som interesserer deg og donere talen din.</value></data>
+
+    <data name="TermsGeneralTitle"><value>smj Brukervilkår</value></data>
+    <data name="TermsGeneralBody"><value>smj Denne siden inneholder informasjon om tjenestevilkårene.
+    
+Linjeskift lagt til dette elementet vises i sluttresultatet.
+
+Dette er tredje avsnitt av brukervilkårssiden.</value></data>
+    <data name="TermsGeneralLink"><value>smj Mer informasjon om kampanjen</value></data>
+    <data name="TermsGeneralUrl"><value>https://example.com</value></data>
+
+    <data name="TermsOwnershipTitle"><value>smj Hvem?</value></data>
+    <data name="TermsOwnershipBody1"><value>smj Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque </value></data>
+    <data name="TermsOwnershipLink"><value>smj Personvern</value></data>
+    <data name="TermsOwnershipLinkUrl"><value>https://example.com/tietosuoja</value></data>
+    <data name="TermsOwnershipBody2"><value>smj  i henhold til prinsippene presentert på siden.</value></data>
+
+    <data name="TermsVoluntaryTitle"><value>smj Helt frivillig!</value></data>
+    <data name="TermsVoluntaryBody"><value>smj Donasjon av tale og oppgivelse av personopplysninger er helt frivillig.</value></data>
+
+    <data name="TermsPrivacyTitle"><value>smj Hvordan behandles personopplysninger?</value></data>
+    <data name="TermsPrivacyBody"><value>smj Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.</value></data>
+    <data name="TermsPrivacyLink"><value>smj Mer informasjon om behandling av personopplysninger</value></data>
+    <data name="TermsPrivacyUrl"><value>https://example.com/tietosuoja</value></data>
+
+    <data name="TermsRightsTitle"><value>smj Rettigheter til tale</value></data>
+    <data name="TermsRightsBody"><value>smj Curabitur dignissim hendrerit luctus. Maecenas ut ex pellentesque, feugiat nulla non, pretium ante. Quisque nisi nibh, cursus id felis at, scelerisque convallis augue. Nam in sapien eu dui maximus blandit. 
+
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.</value></data>
+
+    <data name="TermsAppropriateUseTitle"><value>smj Bruk av applikasjonen</value></data>
+    <data name="TermsAppropriateUseBody"><value>smj Denne applikasjonen er ikke ment for delt bruk. Alle donorer må bruke sin egen enhet når de donerer.</value></data>
+
+    <data name="TermsAdditionalTitle"><value>smj Mer informasjon</value></data>
+    <data name="TermsAdditionalWebsite"><value>smj Kampanjens nettside: </value></data>
+    <data name="TermsAdditionalWebsiteLink"><value>example.com</value></data>
+    <data name="TermsAdditionalWebsiteUrl"><value>https://example.com</value></data>
+    <data name="TermsAdditionalContact"><value>smj Universitetet i Helsinki, Språkbanken</value></data>
+    <data name="TermsAdditionalLink"><value>www.kielipankki.fi</value></data>   
+    <data name="TermsAdditionalUrl"><value>https://www.kielipankki.fi</value></data>   
+    <data name="TermsAdditionalEmail"><value>hankkeen-nimi@kielipankki.fi</value></data>   
+    
+    <data name="TermsAcceptBody"><value>smj Ved å trykke på Jeg godtar-knappen nedenfor godtar jeg vilkårene ovenfor for taledonasjon. Hvis jeg er under 18 år, godtar min verge vilkårene på mine vegne.</value></data>
+    <data name="TermsAccept"><value>smj Jeg godtar</value></data>
+
+    <data name="RecordingStoppedLimitTitle"><value>smj Opptak avbrutt</value></data>
+    <data name="RecordingStoppedLimitMessage"><value>smj Maksimal opptakstid ble nådd og opptaket ble automatisk stoppet. Takk for donasjonen!</value></data>
+    <data name="AlertDismissOk"><value>smj OK</value></data>
+
+    <data name="ChooseLanguageTitle"><value>smj Velg språk</value></data>
+    <data name="LanguageFinnish"><value>smj Finsk</value></data>
+    <data name="LanguageNorwegian"><value>smj Norsk (bokmål)</value></data>
+    <data name="LanguageNorthSami"><value>smj Nordsamisk</value></data>
+    <data name="LanguageLuleSami"><value>smj Lulesamisk</value></data>
+    <data name="LanguageSouthSami"><value>smj Sørsamisk</value></data>
+    <data name="LanguageInariSami"><value>smj Enaresamisk</value></data>
+    <data name="LanguageSkoltSami"><value>smj Skoltesamisk</value></data>
+    <data name="LanguageSwedish"><value>smj Svensk</value></data>
+    <data name="LanguageNynorsk"><value>smj Norsk (nynorsk)</value></data>
+
+</root>
