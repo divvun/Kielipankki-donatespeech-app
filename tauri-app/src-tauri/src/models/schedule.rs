@@ -11,135 +11,187 @@ pub struct Schedule {
     pub items: Vec<ScheduleItem>,
 }
 
-/// Schedule item with polymorphic variants based on itemType discriminator
+/// Schedule item with polymorphic variants using inline structs
+/// The itemType field acts as the discriminator for JSON deserialization
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "itemType", rename_all = "kebab-case")]
 pub enum ScheduleItem {
     // Media items
-    Audio(AudioMediaItem),
-    Video(VideoMediaItem),
-    Image(ImageMediaItem),
+    Audio {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        url: String,
+        #[serde(rename = "typeId")]
+        type_id: String,
+    },
+    Video {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        url: String,
+        #[serde(rename = "typeId")]
+        type_id: String,
+    },
+    Image {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        url: String,
+        #[serde(rename = "typeId")]
+        type_id: String,
+    },
     #[serde(rename = "text-content")]
-    TextContent(TextContentItem),
+    TextContent {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        url: String,
+        #[serde(rename = "typeId")]
+        type_id: Option<String>,
+    },
     #[serde(rename = "yle-audio")]
-    YleAudio(YleAudioMediaItem),
+    YleAudio {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        url: String, // YLE program ID
+    },
     #[serde(rename = "yle-video")]
-    YleVideo(YleVideoMediaItem),
+    YleVideo {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        url: String, // YLE program ID
+    },
     
     // Prompt items
-    Choice(ChoicePromptItem),
+    Choice {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        options: Vec<String>,
+    },
     #[serde(rename = "multi-choice")]
-    MultiChoice(MultiChoicePromptItem),
+    MultiChoice {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        options: Vec<String>,
+        #[serde(rename = "otherEntryLabel")]
+        other_entry_label: Option<String>,
+    },
     #[serde(rename = "super-choice")]
-    SuperChoice(SuperChoicePromptItem),
+    SuperChoice {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+        options: Vec<String>,
+        #[serde(rename = "otherEntryLabel")]
+        other_entry_label: Option<String>,
+    },
     #[serde(rename = "text-input")]
-    TextInput(TextInputItem),
+    TextInput {
+        #[serde(rename = "itemId")]
+        item_id: String,
+        description: String,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(default, rename = "startTime")]
+        start_time: i32,
+        #[serde(default, rename = "endTime")]
+        end_time: i32,
+    },
 }
 
-/// Base fields common to all schedule items
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct BaseScheduleItem {
-    pub item_id: String,
-    pub description: String,
-    pub is_recording: bool,
-    #[serde(default)]
-    pub start_time: i32,
-    #[serde(default)]
-    pub end_time: i32,
-}
+impl ScheduleItem {
+    /// Get the item_id regardless of variant
+    pub fn item_id(&self) -> &str {
+        match self {
+            ScheduleItem::Audio { item_id, .. } => item_id,
+            ScheduleItem::Video { item_id, .. } => item_id,
+            ScheduleItem::Image { item_id, .. } => item_id,
+            ScheduleItem::TextContent { item_id, .. } => item_id,
+            ScheduleItem::YleAudio { item_id, .. } => item_id,
+            ScheduleItem::YleVideo { item_id, .. } => item_id,
+            ScheduleItem::Choice { item_id, .. } => item_id,
+            ScheduleItem::MultiChoice { item_id, .. } => item_id,
+            ScheduleItem::SuperChoice { item_id, .. } => item_id,
+            ScheduleItem::TextInput { item_id, .. } => item_id,
+        }
+    }
 
-// ============================================================================
-// Media Items
-// ============================================================================
+    /// Check if this is a media item (vs prompt item)
+    pub fn is_media(&self) -> bool {
+        matches!(
+            self,
+            ScheduleItem::Audio { .. }
+                | ScheduleItem::Video { .. }
+                | ScheduleItem::Image { .. }
+                | ScheduleItem::TextContent { .. }
+                | ScheduleItem::YleAudio { .. }
+                | ScheduleItem::YleVideo { .. }
+        )
+    }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct AudioMediaItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub url: String,
-    pub type_id: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct VideoMediaItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub url: String,
-    pub type_id: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ImageMediaItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub url: String,
-    pub type_id: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TextContentItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub url: String,
-    pub type_id: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct YleAudioMediaItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub url: String, // YLE program ID
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct YleVideoMediaItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub url: String, // YLE program ID
-}
-
-// ============================================================================
-// Prompt Items
-// ============================================================================
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ChoicePromptItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub options: Vec<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct MultiChoicePromptItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub options: Vec<String>,
-    pub other_entry_label: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct SuperChoicePromptItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
-    pub options: Vec<String>,
-    pub other_entry_label: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct TextInputItem {
-    #[serde(flatten)]
-    pub base: BaseScheduleItem,
+    /// Check if this is a prompt item (vs media item)
+    pub fn is_prompt(&self) -> bool {
+        !self.is_media()
+    }
 }
 
 // ============================================================================
