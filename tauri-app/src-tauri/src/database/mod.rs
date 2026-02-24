@@ -148,3 +148,36 @@ pub fn insert_test_recording(connection: &Mutex<Connection>) -> Result<(), Strin
     println!("Inserted test recording: {}", recording_id);
     Ok(())
 }
+
+/// Save a recording to the database
+pub fn save_recording(connection: &Mutex<Connection>, recording: &Recording) -> Result<(), String> {
+    let conn = connection
+        .lock()
+        .map_err(|e| format!("Failed to lock connection: {}", e))?;
+    
+    let upload_status_str = match recording.upload_status {
+        Some(UploadStatus::Unknown) => Some("unknown"),
+        Some(UploadStatus::Pending) => Some("pending"),
+        Some(UploadStatus::Uploaded) => Some("uploaded"),
+        Some(UploadStatus::Deleted) => Some("deleted"),
+        None => None,
+    };
+    
+    conn.execute(
+        "INSERT INTO Recording (RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata) 
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        rusqlite::params![
+            &recording.recording_id,
+            &recording.item_id,
+            &recording.file_name,
+            &recording.client_id,
+            &recording.timestamp,
+            upload_status_str,
+            &recording.metadata,
+        ],
+    )
+    .map_err(|e| format!("Failed to insert recording: {}", e))?;
+    
+    println!("Saved recording: {}", recording.recording_id);
+    Ok(())
+}
