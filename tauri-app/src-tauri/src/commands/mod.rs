@@ -280,9 +280,17 @@ pub async fn upload_recording(
     let metadata: RecordingMetadata = serde_json::from_str(&metadata_str)
         .map_err(|e| format!("Failed to parse metadata: {}", e))?;
     
+    // Get clientId from metadata (primary source) or recording (fallback)
+    let client_id = metadata.client_id
+        .or_else(|| recording.client_id.clone())
+        .filter(|id| !id.is_empty())
+        .ok_or_else(|| format!("Recording {} has no valid clientId", recording_id))?;
+    
+    println!("Upload metadata - clientId: {}, recordingId: {:?}", client_id, metadata.recording_id);
+    
     // Create upload request
     let upload_metadata = api_client::UploadMetadata {
-        client_id: recording.client_id.clone().unwrap_or_default(),
+        client_id,
         session_id: None,  // We don't track session IDs in Tauri app
         recording_id: metadata.recording_id,
         content_type: metadata.content_type,
@@ -331,8 +339,14 @@ pub async fn upload_pending_recordings(
         UploadStatus::Pending
     )?;
     
-    let total_count = pending_recordings.len();
-    println!("Found {} pending recordings", total_count);
+    // Filter out test recordings (they don't have actual files)
+    let real_recordings: Vec<_> = pending_recordings
+        .into_iter()
+        .filter(|r| !r.recording_id.starts_with("test-"))
+        .collect();
+    
+    let total_count = real_recordings.len();
+    println!("Found {} real pending recordings (filtered out test recordings)", total_count);
     
     if total_count == 0 {
         return Ok("No pending recordings to upload".to_string());
@@ -341,7 +355,7 @@ pub async fn upload_pending_recordings(
     let mut uploaded_count = 0;
     let mut failed_count = 0;
     
-    for (index, recording) in pending_recordings.iter().enumerate() {
+    for (index, recording) in real_recordings.iter().enumerate() {
         let recording_id = recording.recording_id.clone();
         println!("Uploading recording {}/{}: {}", index + 1, total_count, recording_id);
         
@@ -410,9 +424,15 @@ async fn upload_recording_impl(
     let metadata: RecordingMetadata = serde_json::from_str(&metadata_str)
         .map_err(|e| format!("Failed to parse metadata: {}", e))?;
     
+    // Get clientId from metadata (primary source) or recording (fallback)
+    let client_id = metadata.client_id
+        .or_else(|| recording.client_id.clone())
+        .filter(|id| !id.is_empty())
+        .ok_or_else(|| format!("Recording {} has no valid clientId", recording_id))?;
+    
     // Create upload request
     let upload_metadata = api_client::UploadMetadata {
-        client_id: recording.client_id.clone().unwrap_or_default(),
+        client_id,
         session_id: None,
         recording_id: metadata.recording_id,
         content_type: metadata.content_type,
@@ -436,4 +456,58 @@ async fn upload_recording_impl(
     database::update_recording_status(db.connection(), &recording_id, UploadStatus::Uploaded)?;
     
     Ok(())
+}
+
+/// Tauri command to update recordings with test-client-id to use the provided real client ID
+#[tauri::command]
+pub fn fix_client_ids(
+    db: State<database::Database>,
+    real_client_id: String,
+) -> Result<usize, String> {
+    use rusqlite::params;
+    
+    println!("Updating recordings with test-client-id to use: {}", real_client_id);
+    
+    // Update the client_id in the recordings table
+    let updated = {
+        let conn = db.connection()
+            .lock()
+            .map_err(|e| format!("Failed to lock database: {}", e))?;
+        
+        conn.execute(
+            "UPDATE recordings SET client_id = ?1 WHERE client_id = ?2",
+            params![real_client_id, "test-client-id"],
+        ).map_err(|e| format!("Failed to update client IDs: {}", e))?
+    }; // Lock is released here
+    
+    // Also update the metadata JSON for these recordings
+    let recordings: Vec<Recording> = database::get_recordings(db.connection())?;
+    
+    for recording in recordings {
+        if let Some(metadata_str) = &recording.metadata {
+            if metadata_str.contains("\"clientId\":\"test-client-id\"") {
+                // Parse, update, and save back
+                if let Ok(mut metadata_json) = serde_json::from_str::<serde_json::Value>(metadata_str) {
+                    if let Some(obj) = metadata_json.as_object_mut() {
+                        obj.insert("clientId".to_string(), serde_json::Value::String(real_client_id.clone()));
+                        
+                        let updated_metadata = serde_json::to_string(&metadata_json)
+                            .map_err(|e| format!("Failed to serialize metadata: {}", e))?;
+                        
+                        let conn = db.connection()
+                            .lock()
+                            .map_err(|e| format!("Failed to lock database: {}", e))?;
+                        
+                        conn.execute(
+                            "UPDATE recordings SET metadata = ?1 WHERE recording_id = ?2",
+                            params![updated_metadata, recording.recording_id],
+                        ).map_err(|e| format!("Failed to update metadata: {}", e))?;
+                    }
+                }
+            }
+        }
+    }
+    
+    println!("Updated {} recordings with new client ID", updated);
+    Ok(updated)
 }

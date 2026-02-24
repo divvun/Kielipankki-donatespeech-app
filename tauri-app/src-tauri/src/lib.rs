@@ -41,7 +41,8 @@ pub fn run() {
             commands::download_media,
             commands::save_recording,
             commands::upload_recording,
-            commands::upload_pending_recordings
+            commands::upload_pending_recordings,
+            commands::fix_client_ids
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
