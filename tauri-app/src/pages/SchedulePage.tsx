@@ -207,7 +207,7 @@ export default function SchedulePage() {
         >
           ← Back
         </button>
-        
+
         {/* Donation Counter */}
         <div className="flex flex-col items-end">
           <div className="text-xs text-gray-600 uppercase tracking-wide">

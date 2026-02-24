@@ -56,7 +56,7 @@ export default function ThemesPage() {
       {/* Navigation Bar */}
       <div className="bg-white shadow-sm p-4 flex justify-between items-center">
         <div className="flex-1"></div>
-        
+
         {/* Donation Counter */}
         <div className="flex flex-col items-end mr-4">
           <div className="text-xs text-gray-600 uppercase tracking-wide">
@@ -66,7 +66,7 @@ export default function ThemesPage() {
             {totalRecorded.totalFormatted}
           </div>
         </div>
-        
+
         <button
           onClick={navigateToDetails}
           style={{
