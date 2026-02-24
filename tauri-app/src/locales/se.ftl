@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = se Se eller lytt
 
 ThemesPageTitleText = se La oss bygge bedre tjenester!
 
-ThemesPageBody1Text = se Velg et tema du vil snakke om. Tjenesten vil veilede deg videre.
+ThemesPageBody1Text = Váljjes fáttá man birra háliidat hupmat.
+
+ThemesPageBody2Text = Bálvalus láidesta du.
 
 StartButtonText = se Start
 

@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = Katso tai kuuntele
 
 ThemesPageTitleText = Pulistaan meille parempia palveluja!
 
-ThemesPageBody1Text = Valitse aihe, josta haluat puhua. Palvelu opastaa sinua eteenpäin.
+ThemesPageBody1Text = Valitse aihe, josta haluat puhua.
+
+ThemesPageBody2Text = Palvelu opastaa sinua eteenpäin.
 
 StartButtonText = Aloita
 

@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = Se eller lytt
 
 ThemesPageTitleText = La oss bygge bedre tjenester!
 
-ThemesPageBody1Text = Velg et tema du vil snakke om. Tjenesten vil veilede deg videre.
+ThemesPageBody1Text = Velg et tema du vil snakke om.
+
+ThemesPageBody2Text = Tjenesten vil veilede deg videre.
 
 StartButtonText = Start
 

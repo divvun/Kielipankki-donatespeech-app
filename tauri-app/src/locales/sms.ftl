@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = sms Katso tai kuuntele
 
 ThemesPageTitleText = sms Pulistaan meille parempia palveluja!
 
-ThemesPageBody1Text = sms Valitse aihe, josta haluat puhua. Palvelu opastaa sinua eteenpäin.
+ThemesPageBody1Text = sms Valitse aihe, josta haluat puhua.
+
+ThemesPageBody2Text = sms Palvelu opastaa sinua eteenpäin.
 
 StartButtonText = sms Aloita
 

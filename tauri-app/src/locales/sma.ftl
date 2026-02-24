@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = sma Se eller lytt
 
 ThemesPageTitleText = sma La oss bygge bedre tjenester!
 
-ThemesPageBody1Text = sma Velg et tema du vil snakke om. Tjenesten vil veilede deg videre.
+ThemesPageBody1Text = sma Velg et tema du vil snakke om. 
+
+ThemesPageBody2Text = sma Tjenesten vil veilede deg videre.
 
 StartButtonText = sma Start
 

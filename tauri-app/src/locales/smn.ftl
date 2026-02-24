@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = smn Katso tai kuuntele
 
 ThemesPageTitleText = smn Pulistaan meille parempia palveluja!
 
-ThemesPageBody1Text = smn Valitse aihe, josta haluat puhua. Palvelu opastaa sinua eteenpäin.
+ThemesPageBody1Text = smn Valitse aihe, josta haluat puhua.
+
+ThemesPageBody2Text = smn Palvelu opastaa sinua eteenpäin.
 
 StartButtonText = smn Aloita
 

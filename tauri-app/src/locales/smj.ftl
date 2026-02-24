@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = smj Se eller lytt
 
 ThemesPageTitleText = smj La oss bygge bedre tjenester!
 
-ThemesPageBody1Text = smj Velg et tema du vil snakke om. Tjenesten vil veilede deg videre.
+ThemesPageBody1Text = smj Velg et tema du vil snakke om.
+
+ThemesPageBody2Text = smj Tjenesten vil veilede deg videre.
 
 StartButtonText = smj Start
 

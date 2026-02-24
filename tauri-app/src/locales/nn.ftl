@@ -9,7 +9,9 @@ NonRecordingMediaMetaTitle = Sjå eller lytt
 
 ThemesPageTitleText = La oss byggje betre tenester!
 
-ThemesPageBody1Text = Vel eit tema du vil snakke om. Tenesta vil rettleie deg vidare.
+ThemesPageBody1Text = Vel eit tema du vil snakke om.
+
+ThemesPageBody2Text = Tenesta vil rettleie deg vidare.
 
 StartButtonText = Start
 
