@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { Theme } from "../types/Theme";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useAutoUpload } from "../hooks/useAutoUpload";
+import LanguageSelector from "../components/LanguageSelector";
 
 export default function ThemesPage() {
   const [themes, setThemes] = useState<Theme[]>([]);
@@ -59,7 +60,10 @@ export default function ThemesPage() {
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Navigation Bar */}
       <div className="bg-white shadow-sm p-4 flex justify-between items-center">
-        <div className="flex-1"></div>
+        {/* Language Selector */}
+        <div className="flex-1">
+          <LanguageSelector />
+        </div>
 
         {/* Donation Counter */}
         <div className="flex flex-col items-end mr-4">
