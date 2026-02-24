@@ -40,9 +40,30 @@ pub struct InitUploadResponse {
 
 impl ApiClient {
     pub fn new(base_url: String) -> Self {
+        // Remap localhost to 10.0.2.2 for Android emulator
+        let base_url = Self::remap_localhost_for_android(base_url);
+        
         Self {
             client: reqwest::Client::new(),
             base_url,
+        }
+    }
+
+    /// Remap localhost URLs to 10.0.2.2 for Android emulator
+    /// Android emulators use 10.0.2.2 to refer to the host machine's localhost
+    fn remap_localhost_for_android(url: String) -> String {
+        #[cfg(target_os = "android")]
+        {
+            return url
+                .replace("http://localhost:", "http://10.0.2.2:")
+                .replace("https://localhost:", "https://10.0.2.2:")
+                .replace("http://127.0.0.1:", "http://10.0.2.2:")
+                .replace("https://127.0.0.1:", "https://10.0.2.2:");
+        }
+        
+        #[cfg(not(target_os = "android"))]
+        {
+            url
         }
     }
 
@@ -145,7 +166,10 @@ impl ApiClient {
     pub async fn upload_file(&self, presigned_url: &str, file_data: Vec<u8>) -> Result<(), String> {
         // Fix Docker container hostname for local development
         // The backend returns URLs with "azurite" which won't resolve from the host machine
-        let upload_url = presigned_url.replace("http://azurite:", "http://localhost:");
+        let mut upload_url = presigned_url.replace("http://azurite:", "http://localhost:");
+        
+        // Remap localhost to 10.0.2.2 for Android emulator
+        upload_url = Self::remap_localhost_for_android(upload_url);
         
         println!("Uploading to URL: {}", upload_url);
         
