@@ -10,6 +10,8 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@fluent/bundle": "^0.19.1",
+    "@fluent/react": "^0.15.2",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
     "react": "^19.1.0",
@@ -26,6 +28,7 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.2.1",
     "typescript": "~5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "xml2js": "^0.6.2"
   }
 }
