@@ -511,3 +511,23 @@ pub fn fix_client_ids(
     println!("Updated {} recordings with new client ID", updated);
     Ok(updated)
 }
+
+/// Tauri command to read a file and return its contents as base64
+#[tauri::command]
+pub fn read_file_as_base64(file_path: String) -> Result<String, String> {
+    let data = std::fs::read(&file_path)
+        .map_err(|e| format!("Failed to read file {}: {}", file_path, e))?;
+    
+    let base64_data = base64::engine::general_purpose::STANDARD.encode(&data);
+    Ok(base64_data)
+}
+
+/// Tauri command to delete a file
+#[tauri::command]
+pub fn delete_file(file_path: String) -> Result<(), String> {
+    if std::path::Path::new(&file_path).exists() {
+        std::fs::remove_file(&file_path)
+            .map_err(|e| format!("Failed to delete file {}: {}", file_path, e))?;
+    }
+    Ok(())
+}

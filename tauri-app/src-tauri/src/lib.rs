@@ -16,6 +16,7 @@ fn greet(name: &str) -> String {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_audio_recorder::init())
         .setup(|app| {
             // Initialize database and manage it as state
             let db = database::Database::new(app.handle())
@@ -42,7 +43,9 @@ pub fn run() {
             commands::save_recording,
             commands::upload_recording,
             commands::upload_pending_recordings,
-            commands::fix_client_ids
+            commands::fix_client_ids,
+            commands::read_file_as_base64,
+            commands::delete_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
