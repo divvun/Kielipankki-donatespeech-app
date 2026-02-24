@@ -3,6 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
 import { isMediaItem, isPromptItem } from "../types/Schedule";
+import { useRecording, formatDuration } from "../hooks/useRecording";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -12,6 +13,9 @@ export default function SchedulePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
+  const [saving, setSaving] = useState(false);
+
+  const recording = useRecording();
 
   useEffect(() => {
     if (scheduleId) {
@@ -65,9 +69,36 @@ export default function SchedulePage() {
     }
   };
 
-  const handleRecord = () => {
-    // TODO: Implement recording functionality
-    console.log("Record button clicked");
+  const handleRecord = async () => {
+    if (recording.isRecording) {
+      // Stop recording
+      setSaving(true);
+      try {
+        const currentItem = schedule!.items[currentIndex];
+        const itemId = currentItem.itemId;
+        // TODO: Get clientId from app preferences/storage
+        const clientId = "test-client-id";
+
+        const savedRecording = await recording.stopRecording(itemId, clientId);
+        console.log("Recording saved:", savedRecording);
+
+        // Move to next item or finish
+        handleContinue();
+      } catch (err) {
+        console.error("Error saving recording:", err);
+        setError(err instanceof Error ? err.message : "Failed to save recording");
+      } finally {
+        setSaving(false);
+      }
+    } else {
+      // Start recording
+      try {
+        await recording.startRecording();
+      } catch (err) {
+        console.error("Error starting recording:", err);
+        setError(err instanceof Error ? err.message : "Failed to start recording");
+      }
+    }
   };
 
   const handleBack = () => {
@@ -267,23 +298,35 @@ export default function SchedulePage() {
       {/* Bottom Button Bar */}
       {isMedia && currentItem.isRecording && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center">
+          {saving && (
+            <div className="mb-4 text-blue-600 font-semibold">Saving recording...</div>
+          )}
+          {recording.error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {recording.error}
+            </div>
+          )}
           <button
             onClick={handleRecord}
+            disabled={saving}
             style={{
               width: "91px",
               height: "91px",
               borderRadius: "50%",
-              backgroundColor: "#EF4444",
+              backgroundColor: recording.isRecording ? "#10B981" : "#EF4444",
               color: "white",
               border: "none",
-              cursor: "pointer",
+              cursor: saving ? "not-allowed" : "pointer",
               fontSize: "1rem",
               fontWeight: "600",
+              opacity: saving ? 0.5 : 1,
             }}
           >
-            RECORD
+            {recording.isRecording ? "STOP" : "RECORD"}
           </button>
-          <div className="mt-3 text-2xl font-mono text-gray-700">0:00</div>
+          <div className="mt-3 text-2xl font-mono text-gray-700">
+            {formatDuration(recording.duration)}
+          </div>
         </div>
       )}
 
