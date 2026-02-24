@@ -2,6 +2,7 @@ mod api_client;
 mod commands;
 mod database;
 mod models;
+mod recording;
 
 use tauri::Manager;
 
@@ -34,7 +35,8 @@ pub fn run() {
             commands::fetch_themes,
             commands::fetch_theme,
             commands::fetch_schedules,
-            commands::fetch_schedule
+            commands::fetch_schedule,
+            commands::save_recording
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
