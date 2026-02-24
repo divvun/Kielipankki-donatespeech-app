@@ -120,3 +120,31 @@ pub fn get_recordings(connection: &Mutex<Connection>) -> Result<Vec<Recording>, 
     
     Ok(recordings)
 }
+
+/// Insert a test recording for IPC verification
+pub fn insert_test_recording(connection: &Mutex<Connection>) -> Result<(), String> {
+    let conn = connection
+        .lock()
+        .map_err(|e| format!("Failed to lock connection: {}", e))?;
+    
+    let recording_id = format!("test-{}", chrono::Utc::now().timestamp());
+    let timestamp = chrono::Utc::now().to_rfc3339();
+    
+    conn.execute(
+        "INSERT INTO Recording (RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata) 
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        rusqlite::params![
+            recording_id,
+            "test-item-123",
+            "test-recording.wav",
+            "test-client-456",
+            timestamp,
+            "pending",
+            r#"{"duration": 30, "sampleRate": 44100}"#,
+        ],
+    )
+    .map_err(|e| format!("Failed to insert test recording: {}", e))?;
+    
+    println!("Inserted test recording: {}", recording_id);
+    Ok(())
+}

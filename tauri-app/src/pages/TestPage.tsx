@@ -23,18 +23,44 @@ export default function TestPage() {
     }
   };
 
+  const insertTestRecording = async () => {
+    console.log("Inserting test recording...");
+    setLoading(true);
+    setError("");
+    try {
+      await invoke("insert_test_recording");
+      console.log("Test recording inserted successfully");
+      // Automatically fetch recordings after insert
+      await fetchRecordings();
+    } catch (err) {
+      console.error("Error inserting test recording:", err);
+      setError(String(err));
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Database Test Page</h1>
         
-        <button
-          onClick={fetchRecordings}
-          disabled={loading}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded disabled:opacity-50"
-        >
-          {loading ? "Loading..." : "Fetch Recordings"}
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={fetchRecordings}
+            disabled={loading}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded disabled:opacity-50"
+          >
+            {loading ? "Loading..." : "Fetch Recordings"}
+          </button>
+
+          <button
+            onClick={insertTestRecording}
+            disabled={loading}
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded disabled:opacity-50"
+          >
+            {loading ? "Loading..." : "Insert Test Recording"}
+          </button>
+        </div>
 
         {error && (
           <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
