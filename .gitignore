@@ -424,3 +424,6 @@ ASALocalRun/
 !**/BuildConfig/Debug/*.json
 !**/BuildConfig/Release/*.json
 !**/BuildConfig/Test/*.json
+
+# Tauri app - auto-generated localization files
+tauri-app/public/locales/*.ftl
