@@ -1,3 +1,4 @@
+mod api_client;
 mod commands;
 mod database;
 mod models;
@@ -19,12 +20,21 @@ pub fn run() {
             let db = database::Database::new(app.handle())
                 .map_err(|e| format!("Failed to initialize database: {}", e))?;
             app.manage(db);
+
+            // Initialize API client with localhost for development
+            let api_client = api_client::ApiClient::new("http://localhost:8000".to_string());
+            app.manage(api_client);
+            
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
             greet,
             commands::get_recordings,
-            commands::insert_test_recording
+            commands::insert_test_recording,
+            commands::fetch_themes,
+            commands::fetch_theme,
+            commands::fetch_schedules,
+            commands::fetch_schedule
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
