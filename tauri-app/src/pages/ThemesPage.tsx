@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../hooks/useTranslation";
 import type { Theme } from "../types/Theme";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useAutoUpload } from "../hooks/useAutoUpload";
@@ -11,6 +12,7 @@ export default function ThemesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+  const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
 
   // Auto-upload pending recordings in the background
@@ -68,7 +70,7 @@ export default function ThemesPage() {
         {/* Donation Counter */}
         <div className="flex flex-col items-end mr-4">
           <div className="text-xs text-gray-600 uppercase tracking-wide">
-            YOU HAVE DONATED
+            {getString("DonatedLabelText")}
           </div>
           <div className="text-lg font-semibold text-blue-600">
             {totalRecorded.totalFormatted}
@@ -87,7 +89,7 @@ export default function ThemesPage() {
             fontSize: "1rem",
           }}
         >
-          Details
+          {getString("DetailsButtonText")}
         </button>
       </div>
 
@@ -97,10 +99,10 @@ export default function ThemesPage() {
           {/* Header */}
           <div className="text-center mb-5">
             <h1 className="text-3xl font-bold mb-3 text-gray-900">
-              Choose a Theme
+              {getString("ThemesPageBody1Text")}
             </h1>
             <p className="text-base text-gray-600">
-              Select a theme to start recording
+              {getString("ThemesPageBody2Text")}
             </p>
           </div>
 

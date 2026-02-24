@@ -11,11 +11,13 @@ import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
 import { useAutoUpload } from "../hooks/useAutoUpload";
 import { getClientId } from "../utils/clientId";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
-
+  const { getString } = useTranslation();
+    
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -45,7 +47,7 @@ export default function SchedulePage() {
       console.log("Received schedule:", result);
 
       if (!result.items || result.items.length === 0) {
-        setError("Schedule has no items");
+        setError(getString("SchedulePageNoItemsError"));
         return;
       }
 
@@ -216,7 +218,7 @@ export default function SchedulePage() {
         {/* Donation Counter */}
         <div className="flex flex-col items-end">
           <div className="text-xs text-gray-600 uppercase tracking-wide">
-            YOU HAVE DONATED
+            {getString("DonatedLabelText")}
           </div>
           <div className="text-lg font-semibold text-blue-600">
             {totalRecorded.totalFormatted}
@@ -399,7 +401,7 @@ export default function SchedulePage() {
               opacity: saving ? 0.5 : 1,
             }}
           >
-            {recording.isRecording ? "STOP" : "RECORD"}
+            {recording.isRecording ? getString("StopRecording") : getString("StartRecording")}
           </button>
           <div className="mt-3 text-2xl font-mono text-gray-700">
             {formatDuration(recording.duration)}
@@ -423,7 +425,7 @@ export default function SchedulePage() {
               minWidth: "220px",
             }}
           >
-            {isLastItem ? "FINISH" : "CONTINUE"}
+            {isLastItem ? getString("ExitButtonText") : getString("ContinueSchedule")}
           </button>
         </div>
       )}
