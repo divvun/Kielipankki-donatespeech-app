@@ -1,4 +1,7 @@
-import { useLocalization, SUPPORTED_LANGUAGES } from "../contexts/LocalizationContext";
+import {
+  useLocalization,
+  SUPPORTED_LANGUAGES,
+} from "../contexts/LocalizationContext";
 import type { LanguageCode } from "../contexts/LocalizationContext";
 
 export default function LanguageSelector() {
