@@ -48,7 +48,14 @@ export default function TestPage() {
           <button
             onClick={fetchRecordings}
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded disabled:opacity-50"
+            style={{
+              backgroundColor: loading ? '#9CA3AF' : '#3B82F6',
+              color: 'white',
+              padding: '0.5rem 1.5rem',
+              borderRadius: '0.25rem',
+              border: 'none',
+              cursor: loading ? 'not-allowed' : 'pointer',
+            }}
           >
             {loading ? "Loading..." : "Fetch Recordings"}
           </button>
@@ -56,7 +63,14 @@ export default function TestPage() {
           <button
             onClick={insertTestRecording}
             disabled={loading}
-            className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded disabled:opacity-50"
+            style={{
+              backgroundColor: loading ? '#9CA3AF' : '#10B981',
+              color: 'white',
+              padding: '0.5rem 1.5rem',
+              borderRadius: '0.25rem',
+              border: 'none',
+              cursor: loading ? 'not-allowed' : 'pointer',
+            }}
           >
             {loading ? "Loading..." : "Insert Test Recording"}
           </button>
