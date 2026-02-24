@@ -36,6 +36,8 @@ pub fn run() {
             commands::fetch_theme,
             commands::fetch_schedules,
             commands::fetch_schedule,
+            commands::get_api_base_url,
+            commands::download_media,
             commands::save_recording
         ])
         .run(tauri::generate_context!())

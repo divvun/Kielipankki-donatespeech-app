@@ -41,6 +41,12 @@ pub async fn fetch_schedule(api_client: State<'_, api_client::ApiClient>, schedu
     api_client.get_schedule(&schedule_id).await
 }
 
+/// Tauri command to get the API base URL
+#[tauri::command]
+pub fn get_api_base_url(api_client: State<'_, api_client::ApiClient>) -> Result<String, String> {
+    Ok(api_client.base_url().to_string())
+}
+
 /// Tauri command to save a recording
 /// 
 /// Receives WAV audio data as base64 string, saves it as FLAC, and creates database entry
@@ -107,4 +113,62 @@ pub fn save_recording(
     
     println!("Recording saved successfully: {}", recording_id);
     Ok(recording)
+}
+
+/// Tauri command to download a media file and cache it locally
+/// 
+/// Downloads media from the API server and saves to local cache directory.
+/// Returns the file data as base64 for creating a blob URL in the frontend.
+#[tauri::command]
+pub async fn download_media(
+    app_handle: AppHandle,
+    api_client: State<'_, api_client::ApiClient>,
+    url: String,
+) -> Result<Vec<u8>, String> {
+    println!("download_media called for URL: {}", url);
+    
+    // Always extract just the filename from any URL format
+    // This handles "/v1/media/file.mp4", "http://server/v1/media/file.mp4", or just "file.mp4"
+    let filename = url.split('/')
+        .last()
+        .ok_or_else(|| "Invalid URL: cannot extract filename".to_string())?
+        .to_string();
+    
+    println!("Extracted filename: {}", filename);
+    
+    // Get cache directory
+    let app_data_dir = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+    
+    let cache_dir = app_data_dir.join("media_cache");
+    
+    // Create cache directory if it doesn't exist
+    std::fs::create_dir_all(&cache_dir)
+        .map_err(|e| format!("Failed to create cache directory: {}", e))?;
+    
+    let local_path = cache_dir.join(&filename);
+    
+    // Check if file already exists in cache
+    if local_path.exists() {
+        println!("File already cached at: {}", local_path.display());
+        // Read and return the cached file
+        return std::fs::read(&local_path)
+            .map_err(|e| format!("Failed to read cached file: {}", e));
+    }
+    
+    // Download the file
+    println!("Downloading media file: {}", filename);
+    let file_data = api_client.download_media(&filename).await?;
+    
+    println!("Downloaded {} bytes", file_data.len());
+    
+    // Save to cache
+    std::fs::write(&local_path, &file_data)
+        .map_err(|e| format!("Failed to write file to cache: {}", e))?;
+    
+    println!("Cached media file at: {}", local_path.display());
+    
+    Ok(file_data)
 }

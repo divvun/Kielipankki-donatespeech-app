@@ -38,6 +38,11 @@ impl ApiClient {
         }
     }
 
+    /// Get the base URL for the API
+    pub fn base_url(&self) -> &str {
+        &self.base_url
+    }
+
     /// Fetch all themes from the backend
     pub async fn get_themes(&self) -> Result<Vec<Theme>, String> {
         let url = format!("{}/v1/theme", self.base_url);
@@ -146,6 +151,21 @@ impl ApiClient {
             .map_err(|e| format!("Failed to send request: {}", e))?;
         
         Ok(())
+    }
+
+    /// Download media file from the API
+    pub async fn download_media(&self, filename: &str) -> Result<Vec<u8>, String> {
+        let url = format!("{}/v1/media/{}", self.base_url, filename);
+        
+        self.client
+            .get(&url)
+            .send()
+            .await
+            .map_err(|e| format!("Failed to download media: {}", e))?
+            .bytes()
+            .await
+            .map_err(|e| format!("Failed to read media bytes: {}", e))
+            .map(|b| b.to_vec())
     }
 
     /// Delete a specific recording by recording ID

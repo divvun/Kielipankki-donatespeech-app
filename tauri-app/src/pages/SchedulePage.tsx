@@ -4,6 +4,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
 import { isMediaItem, isPromptItem } from "../types/Schedule";
 import { useRecording, formatDuration } from "../hooks/useRecording";
+import { AudioPlayer } from "../components/AudioPlayer";
+import { VideoPlayer } from "../components/VideoPlayer";
+import { getMediaUrl } from "../utils/mediaUrl";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -14,6 +17,8 @@ export default function SchedulePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const [saving, setSaving] = useState(false);
+  const [currentMediaUrl, setCurrentMediaUrl] = useState<string>("");
+  const [mediaError, setMediaError] = useState<string>("");
 
   const recording = useRecording();
 
@@ -47,6 +52,33 @@ export default function SchedulePage() {
       setLoading(false);
     }
   };
+
+  // Load media URL when current item changes
+  useEffect(() => {
+    const loadMediaUrl = async () => {
+      if (schedule && schedule.items[currentIndex]) {
+        const item = schedule.items[currentIndex];
+        if ("url" in item && item.url) {
+          try {
+            setCurrentMediaUrl(""); // Reset to show loading spinner
+            setMediaError(""); // Clear any previous errors
+            const fullUrl = await getMediaUrl(item.url);
+            setCurrentMediaUrl(fullUrl);
+          } catch (err) {
+            console.error("Failed to load media URL:", err);
+            setMediaError(
+              err instanceof Error ? err.message : "Failed to load media file",
+            );
+            setCurrentMediaUrl("");
+          }
+        } else {
+          setCurrentMediaUrl("");
+          setMediaError("");
+        }
+      }
+    };
+    loadMediaUrl();
+  }, [schedule, currentIndex]);
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
@@ -86,7 +118,9 @@ export default function SchedulePage() {
         handleContinue();
       } catch (err) {
         console.error("Error saving recording:", err);
-        setError(err instanceof Error ? err.message : "Failed to save recording");
+        setError(
+          err instanceof Error ? err.message : "Failed to save recording",
+        );
       } finally {
         setSaving(false);
       }
@@ -96,7 +130,9 @@ export default function SchedulePage() {
         await recording.startRecording();
       } catch (err) {
         console.error("Error starting recording:", err);
-        setError(err instanceof Error ? err.message : "Failed to start recording");
+        setError(
+          err instanceof Error ? err.message : "Failed to start recording",
+        );
       }
     }
   };
@@ -169,32 +205,46 @@ export default function SchedulePage() {
           {/* Media Content */}
           {isMedia && (
             <div className="mb-6">
-              {currentItem.itemType === "image" && "url" in currentItem && (
-                <img
-                  src={currentItem.url}
-                  alt={currentItem.description}
-                  className="w-full rounded-lg shadow-md"
-                  style={{ maxHeight: "300px", objectFit: "cover" }}
-                />
+              {mediaError && (
+                <div className="bg-red-100 border border-red-400 text-red-700 rounded-lg p-4 mb-4">
+                  <strong>Media Error:</strong> {mediaError}
+                </div>
               )}
+              {currentItem.itemType === "image" &&
+                "url" in currentItem &&
+                currentMediaUrl && (
+                  <img
+                    src={currentMediaUrl}
+                    alt={currentItem.description}
+                    className="w-full rounded-lg shadow-md"
+                    style={{ maxHeight: "300px", objectFit: "cover" }}
+                  />
+                )}
               {(currentItem.itemType === "video" ||
                 currentItem.itemType === "yle-video") &&
-                "url" in currentItem && (
-                  <div className="bg-gray-200 rounded-lg shadow-md p-8 text-center">
-                    <p className="text-gray-600 mb-2">
-                      Video player coming soon
-                    </p>
-                    <p className="text-sm text-gray-500">{currentItem.url}</p>
-                  </div>
+                "url" in currentItem &&
+                currentMediaUrl && (
+                  <VideoPlayer
+                    url={currentMediaUrl}
+                    description={currentItem.description}
+                  />
                 )}
               {(currentItem.itemType === "audio" ||
                 currentItem.itemType === "yle-audio") &&
-                "url" in currentItem && (
+                "url" in currentItem &&
+                currentMediaUrl && (
+                  <AudioPlayer
+                    url={currentMediaUrl}
+                    description={currentItem.description}
+                  />
+                )}
+              {!currentMediaUrl &&
+                !mediaError &&
+                "url" in currentItem &&
+                currentItem.url && (
                   <div className="bg-gray-200 rounded-lg shadow-md p-8 text-center">
-                    <p className="text-gray-600 mb-2">
-                      Audio player coming soon
-                    </p>
-                    <p className="text-sm text-gray-500">{currentItem.url}</p>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                    <p className="text-gray-600">Loading media...</p>
                   </div>
                 )}
               {currentItem.itemType === "text-content" &&
@@ -299,7 +349,9 @@ export default function SchedulePage() {
       {isMedia && currentItem.isRecording && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center">
           {saving && (
-            <div className="mb-4 text-blue-600 font-semibold">Saving recording...</div>
+            <div className="mb-4 text-blue-600 font-semibold">
+              Saving recording...
+            </div>
           )}
           {recording.error && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
