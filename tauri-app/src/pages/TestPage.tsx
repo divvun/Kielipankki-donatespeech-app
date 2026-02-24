@@ -8,13 +8,16 @@ export default function TestPage() {
   const [loading, setLoading] = useState(false);
 
   const fetchRecordings = async () => {
+    console.log("Fetching recordings...");
     setLoading(true);
     setError("");
     try {
       const result = await invoke<Recording[]>("get_recordings");
+      console.log("Received recordings:", result);
       setRecordings(result);
     } catch (err) {
-      setError(err as string);
+      console.error("Error fetching recordings:", err);
+      setError(String(err));
     } finally {
       setLoading(false);
     }
@@ -99,6 +102,16 @@ export default function TestPage() {
             No recordings found. Click "Fetch Recordings" to query the database.
           </div>
         )}
+
+        {/* Debug Info */}
+        <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded">
+          <h3 className="font-semibold mb-2">Debug Info:</h3>
+          <div className="text-sm font-mono">
+            <div>Loading: {loading ? "true" : "false"}</div>
+            <div>Recordings count: {recordings.length}</div>
+            <div>Error: {error || "(none)"}</div>
+          </div>
+        </div>
       </div>
     </div>
   );
