@@ -11,7 +11,7 @@ export default function ThemesPage() {
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const totalRecorded = useTotalRecorded();
-  
+
   // Auto-upload pending recordings in the background
   useAutoUpload();
 

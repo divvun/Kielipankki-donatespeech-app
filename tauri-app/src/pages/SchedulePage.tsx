@@ -10,6 +10,7 @@ import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
 import { useAutoUpload } from "../hooks/useAutoUpload";
+import { getClientId } from "../utils/clientId";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -113,8 +114,7 @@ export default function SchedulePage() {
       try {
         const currentItem = schedule!.items[currentIndex];
         const itemId = currentItem.itemId;
-        // TODO: Get clientId from app preferences/storage
-        const clientId = "test-client-id";
+        const clientId = getClientId();
 
         const response = await recording.stopRecording(itemId, clientId);
         console.log("Recording saved:", response);

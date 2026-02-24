@@ -4,13 +4,35 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { useEffect } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import ThemesPage from "./pages/ThemesPage";
 import SchedulePage from "./pages/SchedulePage";
 import TestPage from "./pages/TestPage";
 import DetailsPage from "./pages/DetailsPage";
+import { getClientId } from "./utils/clientId";
 import "./App.css";
 
 function App() {
+  // Fix any existing recordings that have test-client-id
+  useEffect(() => {
+    const fixExistingRecordings = async () => {
+      try {
+        const clientId = getClientId();
+        const updated = await invoke<number>("fix_client_ids", {
+          realClientId: clientId,
+        });
+        if (updated > 0) {
+          console.log(`Fixed client IDs for ${updated} recordings`);
+        }
+      } catch (error) {
+        console.error("Failed to fix client IDs:", error);
+      }
+    };
+
+    fixExistingRecordings();
+  }, []);
+
   return (
     <Router>
       <Routes>

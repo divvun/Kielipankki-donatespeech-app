@@ -3,10 +3,10 @@ import { invoke } from "@tauri-apps/api/core";
 
 /**
  * Hook to automatically upload pending recordings
- * 
+ *
  * - On mount: uploads pending recordings immediately
  * - Sets up periodic check every 20 seconds (matches C# MAUI behavior)
- * 
+ *
  * Returns a manual trigger function for uploading after new recordings
  */
 export function useAutoUpload() {
