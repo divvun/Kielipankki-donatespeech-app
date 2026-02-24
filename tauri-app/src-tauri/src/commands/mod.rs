@@ -4,6 +4,14 @@ use crate::models::{theme::Theme, schedule::Schedule, Recording, UploadStatus};
 use crate::recording;
 use tauri::{AppHandle, State, Manager};
 use base64::Engine;
+use serde::Serialize;
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SaveRecordingResponse {
+    pub recording: Recording,
+    pub duration_seconds: f64,
+}
 
 /// Tauri command to get all recordings from the database
 #[tauri::command]
@@ -57,7 +65,7 @@ pub fn save_recording(
     item_id: String,
     client_id: String,
     audio_data_base64: String,
-) -> Result<Recording, String> {
+) -> Result<SaveRecordingResponse, String> {
     println!("save_recording called for item: {}", item_id);
     
     // Decode base64 audio data
@@ -81,6 +89,9 @@ pub fn save_recording(
     
     // Generate recording ID from filename (without extension)
     let recording_id = audio_metadata.filename.trim_end_matches(".flac").to_string();
+    
+    // Store duration for response
+    let duration_seconds = audio_metadata.duration_seconds;
     
     // Create metadata JSON
     let metadata_json = serde_json::json!({
@@ -112,7 +123,11 @@ pub fn save_recording(
     database::save_recording(db.connection(), &recording)?;
     
     println!("Recording saved successfully: {}", recording_id);
-    Ok(recording)
+    
+    Ok(SaveRecordingResponse {
+        recording,
+        duration_seconds,
+    })
 }
 
 /// Tauri command to download a media file and cache it locally

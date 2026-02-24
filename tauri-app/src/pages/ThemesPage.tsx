@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
 import type { Theme } from "../types/Theme";
+import { useTotalRecorded } from "../hooks/useTotalRecorded";
 
 export default function ThemesPage() {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+  const totalRecorded = useTotalRecorded();
 
   useEffect(() => {
     loadThemes();
@@ -54,6 +56,17 @@ export default function ThemesPage() {
       {/* Navigation Bar */}
       <div className="bg-white shadow-sm p-4 flex justify-between items-center">
         <div className="flex-1"></div>
+        
+        {/* Donation Counter */}
+        <div className="flex flex-col items-end mr-4">
+          <div className="text-xs text-gray-600 uppercase tracking-wide">
+            YOU HAVE DONATED
+          </div>
+          <div className="text-lg font-semibold text-blue-600">
+            {totalRecorded.totalFormatted}
+          </div>
+        </div>
+        
         <button
           onClick={navigateToDetails}
           style={{

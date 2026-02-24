@@ -7,6 +7,8 @@ import { useRecording, formatDuration } from "../hooks/useRecording";
 import { AudioPlayer } from "../components/AudioPlayer";
 import { VideoPlayer } from "../components/VideoPlayer";
 import { getMediaUrl } from "../utils/mediaUrl";
+import { useTotalRecorded } from "../hooks/useTotalRecorded";
+import { addRecordedSeconds } from "../utils/preferences";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -21,6 +23,7 @@ export default function SchedulePage() {
   const [mediaError, setMediaError] = useState<string>("");
 
   const recording = useRecording();
+  const totalRecorded = useTotalRecorded();
 
   useEffect(() => {
     if (scheduleId) {
@@ -111,8 +114,15 @@ export default function SchedulePage() {
         // TODO: Get clientId from app preferences/storage
         const clientId = "test-client-id";
 
-        const savedRecording = await recording.stopRecording(itemId, clientId);
-        console.log("Recording saved:", savedRecording);
+        const response = await recording.stopRecording(itemId, clientId);
+        console.log("Recording saved:", response);
+
+        // Update total recorded time
+        if (response) {
+          const durationSeconds = Math.floor(response.durationSeconds);
+          addRecordedSeconds(durationSeconds);
+          totalRecorded.refresh();
+        }
 
         // Move to next item or finish
         handleContinue();
@@ -197,6 +207,16 @@ export default function SchedulePage() {
         >
           ← Back
         </button>
+        
+        {/* Donation Counter */}
+        <div className="flex flex-col items-end">
+          <div className="text-xs text-gray-600 uppercase tracking-wide">
+            YOU HAVE DONATED
+          </div>
+          <div className="text-lg font-semibold text-blue-600">
+            {totalRecorded.totalFormatted}
+          </div>
+        </div>
       </div>
 
       {/* Main Content */}

@@ -2,6 +2,11 @@ import { useState, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import type { Recording } from "../types/Recording";
 
+export interface SaveRecordingResponse {
+  recording: Recording;
+  durationSeconds: number;
+}
+
 export interface UseRecordingResult {
   isRecording: boolean;
   duration: number;
@@ -10,7 +15,7 @@ export interface UseRecordingResult {
   stopRecording: (
     itemId: string,
     clientId: string,
-  ) => Promise<Recording | null>;
+  ) => Promise<SaveRecordingResponse | null>;
   resetError: () => void;
 }
 
@@ -91,7 +96,7 @@ export function useRecording(): UseRecordingResult {
   const stopRecording = async (
     itemId: string,
     clientId: string,
-  ): Promise<Recording | null> => {
+  ): Promise<SaveRecordingResponse | null> => {
     try {
       stopTimer();
       setIsRecording(false);
@@ -140,15 +145,15 @@ export function useRecording(): UseRecordingResult {
         sampleRate: sampleRateRef.current,
       });
 
-      const recording = await invoke<Recording>("save_recording", {
+      const response = await invoke<SaveRecordingResponse>("save_recording", {
         itemId,
         clientId,
         audioDataBase64: audioBase64,
       });
 
-      console.log("Recording saved:", recording);
+      console.log("Recording saved:", response);
       audioChunksRef.current = [];
-      return recording;
+      return response;
     } catch (err) {
       console.error("Error saving recording:", err);
       setError(err instanceof Error ? err.message : "Failed to save recording");
