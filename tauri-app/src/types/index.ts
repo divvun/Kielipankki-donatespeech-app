@@ -1,2 +1,3 @@
-export * from './Recording';
-export * from './UploadStatus';
+export * from "./Recording";
+export * from "./Theme";
+export * from "./UploadStatus";
