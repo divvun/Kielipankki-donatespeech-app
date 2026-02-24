@@ -111,21 +111,46 @@ impl ApiClient {
     pub async fn init_upload(&self, request: InitUploadRequest) -> Result<InitUploadResponse, String> {
         let url = format!("{}/v1/upload", self.base_url);
         
-        self.client
+        // Debug: print request payload
+        if let Ok(json_str) = serde_json::to_string(&request) {
+            println!("Init upload request: {}", json_str);
+        }
+        
+        let response = self.client
             .post(&url)
             .json(&request)
             .send()
             .await
-            .map_err(|e| format!("Failed to send request: {}", e))?
-            .json::<InitUploadResponse>()
-            .await
-            .map_err(|e| format!("Failed to parse response: {}", e))
+            .map_err(|e| format!("Failed to send request: {}", e))?;
+        
+        // Check if response is successful
+        let status = response.status();
+        if !status.is_success() {
+            let error_text = response.text().await
+                .unwrap_or_else(|_| "Unable to read error response".to_string());
+            return Err(format!("Upload init failed with status {}: {}", status, error_text));
+        }
+        
+        // Try to parse the response
+        let response_text = response.text().await
+            .map_err(|e| format!("Failed to read response body: {}", e))?;
+        
+        println!("Init upload response: {}", response_text);
+        
+        serde_json::from_str::<InitUploadResponse>(&response_text)
+            .map_err(|e| format!("Failed to parse response: {}. Response was: {}", e, response_text))
     }
 
     /// Upload a file to a presigned URL (e.g., Azure Blob Storage SAS URL)
     pub async fn upload_file(&self, presigned_url: &str, file_data: Vec<u8>) -> Result<(), String> {
+        // Fix Docker container hostname for local development
+        // The backend returns URLs with "azurite" which won't resolve from the host machine
+        let upload_url = presigned_url.replace("http://azurite:", "http://localhost:");
+        
+        println!("Uploading to URL: {}", upload_url);
+        
         self.client
-            .put(presigned_url)
+            .put(&upload_url)
             .header("x-ms-blob-type", "BlockBlob")
             .body(file_data)
             .send()
