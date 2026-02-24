@@ -25,14 +25,15 @@ export default function DetailsPage() {
     setError("");
     try {
       const result = await invoke<Recording[]>("get_recordings");
-      
+
       // Parse metadata to extract duration
       const recordingsWithDuration = result.map((rec) => {
         let duration: number | undefined;
         if (rec.metadata) {
           try {
             const metadata = JSON.parse(rec.metadata);
-            duration = metadata.recordingDuration || metadata.recording_duration;
+            duration =
+              metadata.recordingDuration || metadata.recording_duration;
           } catch (e) {
             console.error("Failed to parse metadata for", rec.recordingId, e);
           }
@@ -71,7 +72,7 @@ export default function DetailsPage() {
 
       // Remove from local state
       setRecordings((prev) =>
-        prev.filter((r) => r.recordingId !== recording.recordingId)
+        prev.filter((r) => r.recordingId !== recording.recordingId),
       );
 
       // Refresh total recorded time display
@@ -144,9 +145,7 @@ export default function DetailsPage() {
       {/* Content */}
       <div className="flex-1 p-6">
         {loading && (
-          <div className="text-center text-gray-600">
-            Loading recordings...
-          </div>
+          <div className="text-center text-gray-600">Loading recordings...</div>
         )}
 
         {error && (
@@ -198,7 +197,7 @@ export default function DetailsPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeColor(
-                          recording.uploadStatus
+                          recording.uploadStatus,
                         )}`}
                       >
                         {recording.uploadStatus || "Unknown"}

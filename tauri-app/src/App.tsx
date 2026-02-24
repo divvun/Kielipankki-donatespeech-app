@@ -25,7 +25,7 @@ function App() {
 
         {/* Schedule page - display schedule items */}
         <Route path="/schedule/:scheduleId" element={<SchedulePage />} />
-        
+
         {/* Details page - view and manage recordings */}
         <Route path="/details" element={<DetailsPage />} />
       </Routes>
