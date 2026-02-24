@@ -4,8 +4,10 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import OnboardingPage from "./pages/OnboardingPage";
+import TermsPage from "./pages/TermsPage";
 import ThemesPage from "./pages/ThemesPage";
 import SchedulePage from "./pages/SchedulePage";
 import TestPage from "./pages/TestPage";
@@ -14,6 +16,14 @@ import { getClientId } from "./utils/clientId";
 import "./App.css";
 
 function App() {
+  const [onboardingCompleted, setOnboardingCompleted] = useState<boolean | null>(null);
+
+  // Check if onboarding is completed
+  useEffect(() => {
+    const completed = localStorage.getItem("onboardingCompleted") === "true";
+    setOnboardingCompleted(completed);
+  }, []);
+
   // Fix any existing recordings that have test-client-id
   useEffect(() => {
     const fixExistingRecordings = async () => {
@@ -33,13 +43,27 @@ function App() {
     fixExistingRecordings();
   }, []);
 
+  // Show loading state while checking onboarding status
+  if (onboardingCompleted === null) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
   return (
     <Router>
       <Routes>
-        {/* Default route - redirect to themes */}
-        <Route path="/" element={<Navigate to="/themes" replace />} />
+        {/* Default route - redirect based on onboarding status */}
+        <Route 
+          path="/" 
+          element={
+            <Navigate to={onboardingCompleted ? "/themes" : "/onboarding"} replace />
+          } 
+        />
 
-        {/* Themes page - main entry point */}
+        {/* Onboarding flow */}
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+
+        {/* Themes page - main entry point after onboarding */}
         <Route path="/themes" element={<ThemesPage />} />
 
         {/* Test page for development */}
