@@ -7,6 +7,7 @@ import {
 import ThemesPage from "./pages/ThemesPage";
 import SchedulePage from "./pages/SchedulePage";
 import TestPage from "./pages/TestPage";
+import DetailsPage from "./pages/DetailsPage";
 import "./App.css";
 
 function App() {
@@ -24,10 +25,9 @@ function App() {
 
         {/* Schedule page - display schedule items */}
         <Route path="/schedule/:scheduleId" element={<SchedulePage />} />
-        <Route
-          path="/details"
-          element={<div>Details page coming soon...</div>}
-        />
+        
+        {/* Details page - view and manage recordings */}
+        <Route path="/details" element={<DetailsPage />} />
       </Routes>
     </Router>
   );

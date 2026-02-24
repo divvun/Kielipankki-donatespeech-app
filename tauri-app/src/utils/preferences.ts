@@ -22,6 +22,16 @@ export function addRecordedSeconds(seconds: number): void {
 }
 
 /**
+ * Subtract seconds from the total recorded time
+ * Used when deleting recordings
+ */
+export function subtractRecordedSeconds(seconds: number): void {
+  const current = getTotalRecordedSeconds();
+  const newTotal = Math.max(0, current - Math.abs(seconds));
+  localStorage.setItem(TOTAL_RECORDED_SECONDS_KEY, newTotal.toString());
+}
+
+/**
  * Format total recorded seconds as minutes display
  */
 export function formatTotalRecorded(seconds: number): string {

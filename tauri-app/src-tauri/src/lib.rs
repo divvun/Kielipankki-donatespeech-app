@@ -31,6 +31,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             commands::get_recordings,
+            commands::delete_recording,
             commands::insert_test_recording,
             commands::fetch_themes,
             commands::fetch_theme,

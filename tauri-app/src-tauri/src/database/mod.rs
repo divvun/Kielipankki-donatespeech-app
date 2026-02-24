@@ -181,3 +181,52 @@ pub fn save_recording(connection: &Mutex<Connection>, recording: &Recording) -> 
     println!("Saved recording: {}", recording.recording_id);
     Ok(())
 }
+
+/// Delete a recording from the database by recording ID
+pub fn delete_recording_by_id(connection: &Mutex<Connection>, recording_id: &str) -> Result<Recording, String> {
+    let conn = connection
+        .lock()
+        .map_err(|e| format!("Failed to lock connection: {}", e))?;
+    
+    // First, fetch the recording to return its data (especially file_name for file deletion)
+    let recording: Recording = conn
+        .query_row(
+            "SELECT RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata FROM Recording WHERE RecordingId = ?1",
+            rusqlite::params![recording_id],
+            |row| {
+                Ok(Recording {
+                    recording_id: row.get(0)?,
+                    item_id: row.get(1)?,
+                    file_name: row.get(2)?,
+                    client_id: row.get(3)?,
+                    timestamp: row.get(4)?,
+                    upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
+                        match s.to_lowercase().as_str() {
+                            "unknown" => Some(UploadStatus::Unknown),
+                            "pending" => Some(UploadStatus::Pending),
+                            "uploaded" => Some(UploadStatus::Uploaded),
+                            "deleted" => Some(UploadStatus::Deleted),
+                            _ => None,
+                        }
+                    }),
+                    metadata: row.get(6)?,
+                })
+            }
+        )
+        .map_err(|e| format!("Failed to fetch recording before delete: {}", e))?;
+    
+    // Now delete the recording
+    let deleted = conn
+        .execute(
+            "DELETE FROM Recording WHERE RecordingId = ?1",
+            rusqlite::params![recording_id],
+        )
+        .map_err(|e| format!("Failed to delete recording: {}", e))?;
+    
+    if deleted == 0 {
+        return Err(format!("Recording not found: {}", recording_id));
+    }
+    
+    println!("Deleted recording: {}", recording_id);
+    Ok(recording)
+}

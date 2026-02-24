@@ -19,6 +19,41 @@ pub fn get_recordings(db: State<database::Database>) -> Result<Vec<Recording>, S
     database::get_recordings(db.connection())
 }
 
+/// Tauri command to delete a recording by ID
+/// Deletes both the database entry and the FLAC file from disk
+#[tauri::command]
+pub fn delete_recording(
+    db: State<database::Database>,
+    app_handle: AppHandle,
+    recording_id: String,
+) -> Result<(), String> {
+    // Delete from database and get recording info (for file path)
+    let recording = database::delete_recording_by_id(db.connection(), &recording_id)?;
+    
+    // Delete FLAC file from disk if filename exists
+    if let Some(filename) = recording.file_name {
+        let app_data_dir = app_handle
+            .path()
+            .app_data_dir()
+            .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+        
+        let recordings_dir = app_data_dir.join("recordings");
+        let file_path = recordings_dir.join(&filename);
+        
+        // Attempt to delete the file (don't fail if file doesn't exist)
+        if file_path.exists() {
+            std::fs::remove_file(&file_path)
+                .map_err(|e| format!("Failed to delete recording file: {}", e))?;
+            println!("Deleted recording file: {}", file_path.display());
+        } else {
+            println!("Recording file not found (already deleted?): {}", file_path.display());
+        }
+    }
+    
+    println!("Recording deleted successfully: {}", recording_id);
+    Ok(())
+}
+
 /// Tauri command to insert a test recording
 #[tauri::command]
 pub fn insert_test_recording(db: State<database::Database>) -> Result<(), String> {
