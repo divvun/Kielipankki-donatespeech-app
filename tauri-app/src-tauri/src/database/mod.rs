@@ -2,6 +2,7 @@ use rusqlite::{Connection, OpenFlags};
 use std::path::PathBuf;
 use std::sync::Mutex;
 use tauri::Manager;
+use crate::models::{Recording, UploadStatus};
 
 const DATABASE_FILENAME: &str = "Recorder.sqlitedb";
 
@@ -46,6 +47,10 @@ pub struct Database {
 impl Database {
     pub fn new(app_handle: &tauri::AppHandle) -> Result<Self, String> {
         let connection = init_connection(app_handle)?;
+        
+        // Initialize tables
+        initialize_tables(&connection)?;
+        
         Ok(Self {
             connection: Mutex::new(connection),
         })
@@ -54,4 +59,64 @@ impl Database {
     pub fn connection(&self) -> &Mutex<Connection> {
         &self.connection
     }
+}
+
+/// Initialize database tables
+fn initialize_tables(connection: &Connection) -> Result<(), String> {
+    // Create Recording table matching C# schema
+    connection
+        .execute(
+            "CREATE TABLE IF NOT EXISTS Recording (
+                RecordingId TEXT PRIMARY KEY,
+                ItemId TEXT,
+                FileName TEXT,
+                ClientId TEXT,
+                Timestamp TEXT NOT NULL,
+                UploadStatus TEXT,
+                Metadata TEXT
+            )",
+            [],
+        )
+        .map_err(|e| format!("Failed to create Recording table: {}", e))?;
+    
+    println!("Database tables initialized");
+    Ok(())
+}
+
+/// Get all recordings from the database
+pub fn get_recordings(connection: &Mutex<Connection>) -> Result<Vec<Recording>, String> {
+    let conn = connection
+        .lock()
+        .map_err(|e| format!("Failed to lock connection: {}", e))?;
+    
+    let mut stmt = conn
+        .prepare("SELECT RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata FROM Recording")
+        .map_err(|e| format!("Failed to prepare statement: {}", e))?;
+    
+    let recordings = stmt
+        .query_map([], |row| {
+            Ok(Recording {
+                recording_id: row.get(0)?,
+                item_id: row.get(1)?,
+                file_name: row.get(2)?,
+                client_id: row.get(3)?,
+                timestamp: row.get(4)?,
+                upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
+                    // Parse string to UploadStatus enum
+                    match s.to_lowercase().as_str() {
+                        "unknown" => Some(UploadStatus::Unknown),
+                        "pending" => Some(UploadStatus::Pending),
+                        "uploaded" => Some(UploadStatus::Uploaded),
+                        "deleted" => Some(UploadStatus::Deleted),
+                        _ => None,
+                    }
+                }),
+                metadata: row.get(6)?,
+            })
+        })
+        .map_err(|e| format!("Failed to query recordings: {}", e))?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|e| format!("Failed to collect recordings: {}", e))?;
+    
+    Ok(recordings)
 }
