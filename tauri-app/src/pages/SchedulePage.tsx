@@ -9,6 +9,7 @@ import { VideoPlayer } from "../components/VideoPlayer";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
+import { useAutoUpload } from "../hooks/useAutoUpload";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -24,6 +25,7 @@ export default function SchedulePage() {
 
   const recording = useRecording();
   const totalRecorded = useTotalRecorded();
+  const autoUpload = useAutoUpload();
 
   useEffect(() => {
     if (scheduleId) {
@@ -123,6 +125,9 @@ export default function SchedulePage() {
           addRecordedSeconds(durationSeconds);
           totalRecorded.refresh();
         }
+
+        // Trigger auto-upload of pending recordings
+        autoUpload.uploadNow();
 
         // Move to next item or finish
         handleContinue();

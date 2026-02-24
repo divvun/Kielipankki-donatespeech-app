@@ -39,7 +39,9 @@ pub fn run() {
             commands::fetch_schedule,
             commands::get_api_base_url,
             commands::download_media,
-            commands::save_recording
+            commands::save_recording,
+            commands::upload_recording,
+            commands::upload_pending_recordings
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

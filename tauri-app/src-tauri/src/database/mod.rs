@@ -230,3 +230,107 @@ pub fn delete_recording_by_id(connection: &Mutex<Connection>, recording_id: &str
     println!("Deleted recording: {}", recording_id);
     Ok(recording)
 }
+
+/// Get recordings by upload status
+pub fn get_recordings_by_status(connection: &Mutex<Connection>, status: UploadStatus) -> Result<Vec<Recording>, String> {
+    let conn = connection
+        .lock()
+        .map_err(|e| format!("Failed to lock connection: {}", e))?;
+    
+    let status_str = match status {
+        UploadStatus::Unknown => "unknown",
+        UploadStatus::Pending => "pending",
+        UploadStatus::Uploaded => "uploaded",
+        UploadStatus::Deleted => "deleted",
+    };
+    
+    let mut stmt = conn
+        .prepare("SELECT RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata FROM Recording WHERE UploadStatus = ?1")
+        .map_err(|e| format!("Failed to prepare statement: {}", e))?;
+    
+    let recordings = stmt
+        .query_map(rusqlite::params![status_str], |row| {
+            Ok(Recording {
+                recording_id: row.get(0)?,
+                item_id: row.get(1)?,
+                file_name: row.get(2)?,
+                client_id: row.get(3)?,
+                timestamp: row.get(4)?,
+                upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
+                    match s.to_lowercase().as_str() {
+                        "unknown" => Some(UploadStatus::Unknown),
+                        "pending" => Some(UploadStatus::Pending),
+                        "uploaded" => Some(UploadStatus::Uploaded),
+                        "deleted" => Some(UploadStatus::Deleted),
+                        _ => None,
+                    }
+                }),
+                metadata: row.get(6)?,
+            })
+        })
+        .map_err(|e| format!("Failed to query recordings: {}", e))?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|e| format!("Failed to collect recordings: {}", e))?;
+    
+    Ok(recordings)
+}
+
+/// Get a single recording by ID
+pub fn get_recording_by_id(connection: &Mutex<Connection>, recording_id: &str) -> Result<Recording, String> {
+    let conn = connection
+        .lock()
+        .map_err(|e| format!("Failed to lock connection: {}", e))?;
+    
+    conn.query_row(
+        "SELECT RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata FROM Recording WHERE RecordingId = ?1",
+        rusqlite::params![recording_id],
+        |row| {
+            Ok(Recording {
+                recording_id: row.get(0)?,
+                item_id: row.get(1)?,
+                file_name: row.get(2)?,
+                client_id: row.get(3)?,
+                timestamp: row.get(4)?,
+                upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
+                    match s.to_lowercase().as_str() {
+                        "unknown" => Some(UploadStatus::Unknown),
+                        "pending" => Some(UploadStatus::Pending),
+                        "uploaded" => Some(UploadStatus::Uploaded),
+                        "deleted" => Some(UploadStatus::Deleted),
+                        _ => None,
+                    }
+                }),
+                metadata: row.get(6)?,
+            })
+        }
+    )
+    .map_err(|e| format!("Failed to get recording: {}", e))
+}
+
+/// Update recording upload status
+pub fn update_recording_status(connection: &Mutex<Connection>, recording_id: &str, status: UploadStatus) -> Result<(), String> {
+    let conn = connection
+        .lock()
+        .map_err(|e| format!("Failed to lock connection: {}", e))?;
+    
+    let status_str = match status {
+        UploadStatus::Unknown => "unknown",
+        UploadStatus::Pending => "pending",
+        UploadStatus::Uploaded => "uploaded",
+        UploadStatus::Deleted => "deleted",
+    };
+    
+    let updated = conn
+        .execute(
+            "UPDATE Recording SET UploadStatus = ?1 WHERE RecordingId = ?2",
+            rusqlite::params![status_str, recording_id],
+        )
+        .map_err(|e| format!("Failed to update recording status: {}", e))?;
+    
+    if updated == 0 {
+        return Err(format!("Recording not found: {}", recording_id));
+    }
+    
+    println!("Updated recording {} status to {}", recording_id, status_str);
+    Ok(())
+}

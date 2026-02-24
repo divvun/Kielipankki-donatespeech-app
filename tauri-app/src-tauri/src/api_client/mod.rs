@@ -18,10 +18,18 @@ pub struct InitUploadRequest {
 #[serde(rename_all = "camelCase")]
 pub struct UploadMetadata {
     pub client_id: String,
-    pub session_id: String,
-    pub recording_id: String,
-    pub schedule_id: String,
-    pub item_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub session_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub recording_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub content_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub timestamp: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub duration: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]

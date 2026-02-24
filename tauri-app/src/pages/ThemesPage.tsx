@@ -3,6 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
 import type { Theme } from "../types/Theme";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
+import { useAutoUpload } from "../hooks/useAutoUpload";
 
 export default function ThemesPage() {
   const [themes, setThemes] = useState<Theme[]>([]);
@@ -10,6 +11,9 @@ export default function ThemesPage() {
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const totalRecorded = useTotalRecorded();
+  
+  // Auto-upload pending recordings in the background
+  useAutoUpload();
 
   useEffect(() => {
     loadThemes();

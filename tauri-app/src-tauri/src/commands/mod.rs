@@ -4,13 +4,24 @@ use crate::models::{theme::Theme, schedule::Schedule, Recording, UploadStatus};
 use crate::recording;
 use tauri::{AppHandle, State, Manager};
 use base64::Engine;
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SaveRecordingResponse {
     pub recording: Recording,
     pub duration_seconds: f64,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RecordingMetadata {
+    recording_id: Option<String>,
+    client_id: Option<String>,
+    item_id: Option<String>,
+    recording_timestamp: Option<String>,
+    recording_duration: Option<f64>,
+    content_type: Option<String>,
 }
 
 /// Tauri command to get all recordings from the database
@@ -221,4 +232,208 @@ pub async fn download_media(
     println!("Cached media file at: {}", local_path.display());
     
     Ok(file_data)
+}
+
+/// Tauri command to upload a single recording to the backend
+/// 
+/// Uploads a recording by ID, reads the FLAC file, sends to Azure Blob Storage, 
+/// and updates the database status to "Uploaded"
+#[tauri::command]
+pub async fn upload_recording(
+    app_handle: AppHandle,
+    db: State<'_, database::Database>,
+    api_client: State<'_, api_client::ApiClient>,
+    recording_id: String,
+) -> Result<(), String> {
+    println!("upload_recording called for: {}", recording_id);
+    
+    // Get the recording from database
+    let recording = database::get_recording_by_id(db.connection(), &recording_id)?;
+    
+    // Get the FLAC file path
+    let filename = recording.file_name
+        .ok_or_else(|| "Recording has no filename".to_string())?;
+    
+    let app_data_dir = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+    
+    let recordings_dir = app_data_dir.join("recordings");
+    let file_path = recordings_dir.join(&filename);
+    
+    // Check if file exists
+    if !file_path.exists() {
+        return Err(format!("Recording file not found: {}", file_path.display()));
+    }
+    
+    // Read the FLAC file
+    let file_data = std::fs::read(&file_path)
+        .map_err(|e| format!("Failed to read recording file: {}", e))?;
+    
+    println!("Read {} bytes from {}", file_data.len(), filename);
+    
+    // Parse metadata
+    let metadata_str = recording.metadata
+        .ok_or_else(|| "Recording has no metadata".to_string())?;
+    
+    let metadata: RecordingMetadata = serde_json::from_str(&metadata_str)
+        .map_err(|e| format!("Failed to parse metadata: {}", e))?;
+    
+    // Create upload request
+    let upload_metadata = api_client::UploadMetadata {
+        client_id: recording.client_id.clone().unwrap_or_default(),
+        session_id: None,  // We don't track session IDs in Tauri app
+        recording_id: metadata.recording_id,
+        content_type: metadata.content_type,
+        timestamp: metadata.recording_timestamp,
+        duration: metadata.recording_duration,
+        language: None,  // Not tracked yet
+    };
+    
+    let init_request = api_client::InitUploadRequest {
+        filename: filename.clone(),
+        metadata: upload_metadata,
+    };
+    
+    // Get presigned URL from backend
+    println!("Requesting presigned URL...");
+    let upload_response = api_client.init_upload(init_request).await?;
+    
+    println!("Got presigned URL, uploading file...");
+    
+    // Upload file to Azure Blob Storage
+    api_client.upload_file(&upload_response.presigned_url, file_data).await?;
+    
+    println!("Upload successful, updating database status...");
+    
+    // Update status in database
+    database::update_recording_status(db.connection(), &recording_id, UploadStatus::Uploaded)?;
+    
+    println!("Recording {} uploaded successfully", recording_id);
+    Ok(())
+}
+
+/// Tauri command to upload all pending recordings
+/// 
+/// Finds all recordings with "Pending" status and uploads them one by one
+#[tauri::command]
+pub async fn upload_pending_recordings(
+    app_handle: AppHandle,
+    db: State<'_, database::Database>,
+    api_client: State<'_, api_client::ApiClient>,
+) -> Result<String, String> {
+    println!("=== upload_pending_recordings called ===");
+    
+    // Get all pending recordings
+    let pending_recordings = database::get_recordings_by_status(
+        db.connection(), 
+        UploadStatus::Pending
+    )?;
+    
+    let total_count = pending_recordings.len();
+    println!("Found {} pending recordings", total_count);
+    
+    if total_count == 0 {
+        return Ok("No pending recordings to upload".to_string());
+    }
+    
+    let mut uploaded_count = 0;
+    let mut failed_count = 0;
+    
+    for (index, recording) in pending_recordings.iter().enumerate() {
+        let recording_id = recording.recording_id.clone();
+        println!("Uploading recording {}/{}: {}", index + 1, total_count, recording_id);
+        
+        // Upload using the single upload command logic
+        match upload_recording_impl(
+            &app_handle,
+            &db,
+            &api_client,
+            recording_id.clone(),
+        ).await {
+            Ok(()) => {
+                println!("✓ Upload successful: {}", recording_id);
+                uploaded_count += 1;
+            }
+            Err(e) => {
+                println!("✗ Upload failed for {}: {}", recording_id, e);
+                failed_count += 1;
+            }
+        }
+    }
+    
+    let message = format!(
+        "Upload complete: {} successful, {} failed out of {} total",
+        uploaded_count, failed_count, total_count
+    );
+    println!("=== {} ===", message);
+    
+    Ok(message)
+}
+
+/// Internal implementation of upload_recording (reused by upload_pending_recordings)
+async fn upload_recording_impl(
+    app_handle: &AppHandle,
+    db: &State<'_, database::Database>,
+    api_client: &State<'_, api_client::ApiClient>,
+    recording_id: String,
+) -> Result<(), String> {
+    // Get the recording from database
+    let recording = database::get_recording_by_id(db.connection(), &recording_id)?;
+    
+    // Get the FLAC file path
+    let filename = recording.file_name
+        .ok_or_else(|| "Recording has no filename".to_string())?;
+    
+    let app_data_dir = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+    
+    let recordings_dir = app_data_dir.join("recordings");
+    let file_path = recordings_dir.join(&filename);
+    
+    // Check if file exists
+    if !file_path.exists() {
+        return Err(format!("Recording file not found: {}", file_path.display()));
+    }
+    
+    // Read the FLAC file
+    let file_data = std::fs::read(&file_path)
+        .map_err(|e| format!("Failed to read recording file: {}", e))?;
+    
+    // Parse metadata
+    let metadata_str = recording.metadata
+        .ok_or_else(|| "Recording has no metadata".to_string())?;
+    
+    let metadata: RecordingMetadata = serde_json::from_str(&metadata_str)
+        .map_err(|e| format!("Failed to parse metadata: {}", e))?;
+    
+    // Create upload request
+    let upload_metadata = api_client::UploadMetadata {
+        client_id: recording.client_id.clone().unwrap_or_default(),
+        session_id: None,
+        recording_id: metadata.recording_id,
+        content_type: metadata.content_type,
+        timestamp: metadata.recording_timestamp,
+        duration: metadata.recording_duration,
+        language: None,
+    };
+    
+    let init_request = api_client::InitUploadRequest {
+        filename: filename.clone(),
+        metadata: upload_metadata,
+    };
+    
+    // Get presigned URL from backend
+    let upload_response = api_client.init_upload(init_request).await?;
+    
+    // Upload file to Azure Blob Storage
+    api_client.upload_file(&upload_response.presigned_url, file_data).await?;
+    
+    // Update status in database
+    database::update_recording_status(db.connection(), &recording_id, UploadStatus::Uploaded)?;
+    
+    Ok(())
 }
