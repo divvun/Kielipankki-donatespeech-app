@@ -33,9 +33,17 @@ const LocalizationContext = createContext<LocalizationContextType | null>(null);
 
 // Load Fluent file content
 async function loadMessages(locale: LanguageCode): Promise<FluentResource> {
-  const response = await fetch(`/locales/${locale}.ftl`);
-  const messages = await response.text();
-  return new FluentResource(messages);
+  try {
+    const response = await fetch(`/locales/${locale}.ftl`);
+    if (!response.ok) {
+      throw new Error(`Failed to load ${locale}.ftl: ${response.status}`);
+    }
+    const messages = await response.text();
+    return new FluentResource(messages);
+  } catch (error) {
+    console.error(`Error loading messages for ${locale}:`, error);
+    throw error;
+  }
 }
 
 // Create bundles for the given locales
@@ -43,10 +51,16 @@ async function createBundles(locales: LanguageCode[]): Promise<FluentBundle[]> {
   const bundles: FluentBundle[] = [];
 
   for (const locale of locales) {
-    const bundle = new FluentBundle(locale);
-    const resource = await loadMessages(locale);
-    bundle.addResource(resource);
-    bundles.push(bundle);
+    try {
+      const bundle = new FluentBundle(locale);
+      const resource = await loadMessages(locale);
+      bundle.addResource(resource);
+      bundles.push(bundle);
+      console.log(`Loaded translations for ${locale}`);
+    } catch (error) {
+      console.error(`Failed to load bundle for ${locale}:`, error);
+      // Continue with other locales
+    }
   }
 
   return bundles;
@@ -73,13 +87,31 @@ export function FluentLocalizationProvider({
   // Load and set up localization
   useEffect(() => {
     async function setupLocalization() {
-      // Load current language and fallback to Finnish
-      const locales: LanguageCode[] =
-        currentLanguage === "fi" ? ["fi"] : [currentLanguage, "fi"];
+      try {
+        console.log("Loading localization for:", currentLanguage);
 
-      const bundles = await createBundles(locales);
-      const localization = new ReactLocalization(bundles);
-      setL10n(localization);
+        // Load current language and fallback to Finnish
+        const locales: LanguageCode[] =
+          currentLanguage === "fi" ? ["fi"] : [currentLanguage, "fi"];
+
+        const bundles = await createBundles(locales);
+
+        if (bundles.length === 0) {
+          console.error("No bundles loaded, creating empty localization");
+          // Create a minimal working localization even if loading failed
+          const emptyBundle = new FluentBundle("en");
+          setL10n(new ReactLocalization([emptyBundle]));
+        } else {
+          const localization = new ReactLocalization(bundles);
+          setL10n(localization);
+          console.log("Localization ready");
+        }
+      } catch (error) {
+        console.error("Error setting up localization:", error);
+        // Create a fallback to prevent app from being stuck
+        const fallbackBundle = new FluentBundle("en");
+        setL10n(new ReactLocalization([fallbackBundle]));
+      }
     }
 
     setupLocalization();
@@ -91,7 +123,11 @@ export function FluentLocalizationProvider({
   };
 
   if (!l10n) {
-    return <div>Loading translations...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-xl text-gray-700">Loading translations...</div>
+      </div>
+    );
   }
 
   const contextValue: LocalizationContextType = {

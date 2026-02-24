@@ -117,7 +117,9 @@ export default function TermsPage() {
               <p>
                 {getString("TermsAdditionalWebsite")}
                 <button
-                  onClick={() => openLink(getString("TermsAdditionalWebsiteUrl"))}
+                  onClick={() =>
+                    openLink(getString("TermsAdditionalWebsiteUrl"))
+                  }
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
                   {getString("TermsAdditionalWebsiteLink")}

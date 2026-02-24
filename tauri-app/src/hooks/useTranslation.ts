@@ -1,4 +1,4 @@
-import { useLocalization as useFluentLocalization } from "@fluent/react";
+import { useLocalization } from "../contexts/LocalizationContext";
 
 /**
  * Hook for accessing translations
@@ -6,11 +6,13 @@ import { useLocalization as useFluentLocalization } from "@fluent/react";
  *        const text = getString("ThemesPageTitleText");
  */
 export function useTranslation() {
-  const { getString } = useFluentLocalization();
+  const { l10n } = useLocalization();
 
   return {
     getString: (id: string, args?: Record<string, unknown>) => {
-      return getString(id, args);
+      const message = l10n.getString(id, args);
+      // Fluent returns the ID if translation is missing
+      return message || id;
     },
   };
 }

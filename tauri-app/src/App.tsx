@@ -16,7 +16,9 @@ import { getClientId } from "./utils/clientId";
 import "./App.css";
 
 function App() {
-  const [onboardingCompleted, setOnboardingCompleted] = useState<boolean | null>(null);
+  const [onboardingCompleted, setOnboardingCompleted] = useState<
+    boolean | null
+  >(null);
 
   // Check if onboarding is completed
   useEffect(() => {
@@ -45,18 +47,25 @@ function App() {
 
   // Show loading state while checking onboarding status
   if (onboardingCompleted === null) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   return (
     <Router>
       <Routes>
         {/* Default route - redirect based on onboarding status */}
-        <Route 
-          path="/" 
+        <Route
+          path="/"
           element={
-            <Navigate to={onboardingCompleted ? "/themes" : "/onboarding"} replace />
-          } 
+            <Navigate
+              to={onboardingCompleted ? "/themes" : "/onboarding"}
+              replace
+            />
+          }
         />
 
         {/* Onboarding flow */}
