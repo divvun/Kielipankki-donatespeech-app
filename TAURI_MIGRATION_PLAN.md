@@ -10,6 +10,12 @@ needed)
 
 ## Development Notes
 
+**Working Directories:**
+
+- **Git operations** (add, commit, status): Always run from repo root
+  `/Users/bga001/repos/divvun/Kielipankki-donatespeech-app`
+- **pnpm operations** (build, dev, install): Run from `tauri-app/` subdirectory
+
 **Package Manager:** Use `pnpm` for all npm operations in the `tauri-app/`
 directory.
 
@@ -24,6 +30,9 @@ format:
 - `test:` for adding tests
 
 ```bash
+# pnpm operations - run from tauri-app/ directory:
+cd tauri-app
+
 # Install dependencies
 pnpm install
 
@@ -38,6 +47,16 @@ pnpm tauri dev
 
 # Build Tauri app
 pnpm tauri build
+
+# Git operations - ALWAYS run from repo root:
+cd /Users/bga001/repos/divvun/Kielipankki-donatespeech-app
+
+# Check status
+git status
+
+# Add and commit changes
+git add <files>
+git commit -m "message"
 ```
 
 
