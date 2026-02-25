@@ -203,6 +203,8 @@ RecordingStoppedLimitTitle = smj Opptak avbrutt
 
 RecordingStoppedLimitMessage = smj Maksimal opptakstid ble nådd og opptaket ble automatisk stoppet. Takk for donasjonen!
 
+RecordingApproachingLimitMessage = smj Maksimal opptakstid nærmer seg. Du har omtrent ett minutt igjen.
+
 AlertDismissOk = smj OK
 
 ChooseLanguageTitle = smj Velg språk

@@ -203,6 +203,8 @@ RecordingStoppedLimitTitle = Inspelning avbruten
 
 RecordingStoppedLimitMessage = Maximal inspelningstid nåddes och inspelningen stoppades automatiskt. Tack för donationen!
 
+RecordingApproachingLimitMessage = Maximal inspelningstid närmar sig. Du har ungefär en minut kvar.
+
 AlertDismissOk = OK
 
 ChooseLanguageTitle = Välj språk

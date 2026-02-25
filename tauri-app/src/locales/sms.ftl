@@ -203,6 +203,8 @@ RecordingStoppedLimitTitle = sms Äänitys keskeytetty
 
 RecordingStoppedLimitMessage = sms Äänityksen enimmäisaika tuli täyteen ja äänitys keskeytettiin automaattisesti. Kiitos lahjoituksesta!
 
+RecordingApproachingLimitMessage = sms Äänityksen enimmäisaika lähestyy. Sinulla on noin yksi minuutti aikaa jäljellä.
+
 AlertDismissOk = sms OK
 
 ChooseLanguageTitle = sms Valitse kieli

@@ -30,7 +30,53 @@ export default function SchedulePage() {
   // Store answers for prompt items (itemId -> answer)
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
-  const recording = useRecording();
+  // Callback when max recording time is reached
+  const handleMaxTimeReached = async () => {
+    // Auto-stop recording and save it
+    setSaving(true);
+    try {
+      if (!schedule) return;
+
+      const currentItem = schedule.items[currentIndex];
+      const itemId = currentItem.itemId;
+      const clientId = getClientId();
+
+      const response = await recording.stopRecording(itemId, clientId);
+      console.log("Recording auto-stopped at max time:", response);
+
+      // Update total recorded time
+      if (response) {
+        const durationSeconds = Math.floor(response.durationSeconds);
+        addRecordedSeconds(durationSeconds);
+        totalRecorded.refresh();
+      }
+
+      // Trigger auto-upload
+      autoUpload.uploadNow();
+
+      // Show alert
+      alert(
+        `${getString("RecordingStoppedLimitTitle")}\n\n${getString("RecordingStoppedLimitMessage")}`,
+      );
+
+      // Move to next item or finish
+      handleContinue();
+    } catch (err) {
+      console.error("Error auto-stopping recording:", err);
+      setError(
+        err instanceof Error ? err.message : "Failed to save recording",
+      );
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Callback when approaching max recording time (9 minutes)
+  const handleWarningThreshold = () => {
+    alert(getString("RecordingApproachingLimitMessage"));
+  };
+
+  const recording = useRecording(handleMaxTimeReached, handleWarningThreshold);
   const totalRecorded = useTotalRecorded();
   const autoUpload = useAutoUpload();
 

@@ -203,6 +203,8 @@ RecordingStoppedLimitTitle = sma Opptak avbrutt
 
 RecordingStoppedLimitMessage = sma Maksimal opptakstid ble nådd og opptaket ble automatisk stoppet. Takk for donasjonen!
 
+RecordingApproachingLimitMessage = sma Maksimal opptakstid nærmer seg. Du har omtrent ett minutt igjen.
+
 AlertDismissOk = sma OK
 
 ChooseLanguageTitle = sma Velg språk

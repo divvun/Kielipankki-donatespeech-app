@@ -203,6 +203,8 @@ RecordingStoppedLimitTitle = Äänitys keskeytetty
 
 RecordingStoppedLimitMessage = Äänityksen enimmäisaika tuli täyteen ja äänitys keskeytettiin automaattisesti. Kiitos lahjoituksesta!
 
+RecordingApproachingLimitMessage = Äänityksen enimmäisaika lähestyy. Sinulla on noin yksi minuutti aikaa jäljellä.
+
 AlertDismissOk = OK
 
 ChooseLanguageTitle = Valitse kieli

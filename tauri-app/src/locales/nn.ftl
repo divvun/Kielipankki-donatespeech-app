@@ -203,6 +203,8 @@ RecordingStoppedLimitTitle = Opptak avbrote
 
 RecordingStoppedLimitMessage = Maksimal opptakstid vart nådd og opptaket vart automatisk stoppa. Takk for donasjonen!
 
+RecordingApproachingLimitMessage = Maksimal opptakstid nærmar seg. Du har omtrent eitt minutt igjen.
+
 AlertDismissOk = OK
 
 ChooseLanguageTitle = Vel språk

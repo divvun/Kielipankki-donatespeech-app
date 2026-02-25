@@ -202,7 +202,7 @@ TermsAccept = se Jeg godtar
 RecordingStoppedLimitTitle = se Opptak avbrutt
 
 RecordingStoppedLimitMessage = se Maksimal opptakstid ble nådd og opptaket ble automatisk stoppet. Takk for donasjonen!
-
+RecordingApproachingLimitMessage = se Maksimal opptakstid nærmer seg. Du har omtrent ett minutt igjen.
 AlertDismissOk = se OK
 
 ChooseLanguageTitle = se Velg språk

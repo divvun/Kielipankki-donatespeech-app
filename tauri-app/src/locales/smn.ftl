@@ -203,6 +203,8 @@ RecordingStoppedLimitTitle = smn Äänitys keskeytetty
 
 RecordingStoppedLimitMessage = smn Äänityksen enimmäisaika tuli täyteen ja äänitys keskeytettiin automaattisesti. Kiitos lahjoituksesta!
 
+RecordingApproachingLimitMessage = smn Äänityksen enimmäisaika lähestyy. Sinulla on noin yksi minuutti aikaa jäljellä.
+
 AlertDismissOk = smn OK
 
 ChooseLanguageTitle = smn Valitse kieli

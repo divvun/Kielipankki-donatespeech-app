@@ -5,6 +5,10 @@ import { tempDir, join } from "@tauri-apps/api/path";
 import type { Recording } from "../types/Recording";
 import { useWakeLock } from "./useWakeLock";
 
+// Recording time limits
+const MAX_RECORDING_SECONDS = 600; // 10 minutes
+const WARNING_THRESHOLD_SECONDS = 540; // 9 minutes (1 minute before limit)
+
 export interface SaveRecordingResponse {
   recording: Recording;
   durationSeconds: number;
@@ -20,9 +24,14 @@ export interface UseRecordingResult {
     clientId: string,
   ) => Promise<SaveRecordingResponse | null>;
   resetError: () => void;
+  onMaxTimeReached?: () => void;
+  onWarningThreshold?: () => void;
 }
 
-export function useRecording(): UseRecordingResult {
+export function useRecording(
+  onMaxTimeReached?: () => void,
+  onWarningThreshold?: () => void,
+): UseRecordingResult {
   const [isRecording, setIsRecording] = useState(false);
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +39,7 @@ export function useRecording(): UseRecordingResult {
   const timerRef = useRef<number | null>(null);
   const outputPathRef = useRef<string | null>(null);
   const wakeLock = useWakeLock();
+  const warningShownRef = useRef(false);
 
   const startRecording = async () => {
     try {
@@ -69,8 +79,29 @@ export function useRecording(): UseRecordingResult {
 
       // Start duration timer
       setDuration(0);
+      warningShownRef.current = false;
       timerRef.current = window.setInterval(() => {
-        setDuration((prev) => prev + 1);
+        setDuration((prev) => {
+          const newDuration = prev + 1;
+
+          // Check if max recording time reached
+          if (newDuration >= MAX_RECORDING_SECONDS) {
+            // Auto-stop recording when limit is reached
+            onMaxTimeReached?.();
+            return newDuration;
+          }
+
+          // Check if warning threshold reached (only show once)
+          if (
+            newDuration >= WARNING_THRESHOLD_SECONDS &&
+            !warningShownRef.current
+          ) {
+            warningShownRef.current = true;
+            onWarningThreshold?.();
+          }
+
+          return newDuration;
+        });
       }, 1000);
 
       setIsRecording(true);
