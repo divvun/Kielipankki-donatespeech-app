@@ -13,6 +13,16 @@ needed)
 **Package Manager:** Use `pnpm` for all npm operations in the `tauri-app/`
 directory.
 
+**Git Commit Policy:** Commit after completing each bullet point in the
+migration plan. Use descriptive commit messages following conventional commits
+format:
+
+- `feat:` for new features
+- `fix:` for bug fixes
+- `docs:` for documentation updates
+- `refactor:` for code refactoring
+- `test:` for adding tests
+
 ```bash
 # Install dependencies
 pnpm install
