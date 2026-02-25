@@ -60,10 +60,10 @@ testing and optimization, (3) Deployment as new app
 
 #### 1.2 Add Separate Flow Pages
 
-- [ ] Create `ScheduleStartPage.tsx` - intro screen before schedule begins
-- [ ] Create `ScheduleFinishPage.tsx` - completion summary and stats
-- [ ] Update `App.tsx` routes to include new pages
-- [ ] Update `SchedulePage.tsx` navigation to route through start/finish pages
+- [x] Create `ScheduleStartPage.tsx` - intro screen before schedule begins
+- [x] Create `ScheduleFinishPage.tsx` - completion summary and stats
+- [x] Update `App.tsx` routes to include new pages
+- [x] Update `SchedulePage.tsx` navigation to route through start/finish pages
 
 **Files to modify:**
 
@@ -269,11 +269,11 @@ Before production launch, verify:
 
 ## Progress Tracking
 
-**Phase 1 Progress:** 1/5 sections complete (1.1 ✓)  
+**Phase 1 Progress:** 2/5 sections complete (1.1 ✓, 1.2 ✓)  
 **Phase 2 Progress:** 1/4 sections complete (M4A upload verified)  
 **Phase 3 Progress:** 0/4 sections complete  
 
-**Overall Progress:** 14% (2/14 major sections)
+**Overall Progress:** 21% (3/14 major sections)
 
 ## Notes & Updates
 
@@ -287,6 +287,11 @@ Before production launch, verify:
   - Commits: 4b9964a, 7e54044, 7eb13da, 6d3cfa4
   - Components handle choice/multi-choice/super-choice prompt types
   - Fixed TypeScript type error with FluentVariable
+- **Completed 1.2:** Added ScheduleStartPage and ScheduleFinishPage
+  - Commits: b11245b, 637265a, efd7aec, af414c2, f18a7f1
+  - Start page shows schedule preview before beginning
+  - Finish page displays completion stats with share functionality
+  - Updated routing: themes → start → schedule → finish
 - Branch: `feature/tauri-migration`
 
 ### Future Updates
