@@ -3,9 +3,24 @@ import {
   SUPPORTED_LANGUAGES,
 } from "../contexts/LocalizationContext";
 import type { LanguageCode } from "../contexts/LocalizationContext";
+import { useTranslation } from "../hooks/useTranslation";
+
+// Map language codes to localization keys
+const LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
+  fi: "LanguageFinnish",
+  nb: "LanguageNorwegian",
+  nn: "LanguageNynorsk",
+  se: "LanguageNorthSami",
+  sma: "LanguageSouthSami",
+  smj: "LanguageLuleSami",
+  smn: "LanguageInariSami",
+  sms: "LanguageSkoltSami",
+  sv: "LanguageSwedish",
+};
 
 export default function LanguageSelector() {
   const { currentLanguage, setLanguage } = useLocalization();
+  const { getString } = useTranslation();
 
   return (
     <div className="relative">
@@ -13,12 +28,18 @@ export default function LanguageSelector() {
         value={currentLanguage}
         onChange={(e) => setLanguage(e.target.value as LanguageCode)}
         className="appearance-none bg-white border border-gray-300 rounded px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label={getString("ChooseLanguageTitle")}
       >
-        {Object.entries(SUPPORTED_LANGUAGES).map(([code, name]) => (
-          <option key={code} value={code}>
-            {name}
-          </option>
-        ))}
+        {Object.keys(SUPPORTED_LANGUAGES).map((code) => {
+          const langCode = code as LanguageCode;
+          const nameKey = LANGUAGE_NAME_KEYS[langCode];
+          const displayName = getString(nameKey);
+          return (
+            <option key={code} value={code}>
+              {displayName}
+            </option>
+          );
+        })}
       </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
         <svg

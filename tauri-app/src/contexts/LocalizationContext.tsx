@@ -8,17 +8,17 @@ import {
 import { FluentBundle, FluentResource } from "@fluent/bundle";
 import { ReactLocalization, LocalizationProvider } from "@fluent/react";
 
-// Supported languages with their names
+// Supported language codes
 export const SUPPORTED_LANGUAGES = {
-  fi: "Suomi",
-  se: "Northern Sámi",
-  sma: "Southern Sámi",
-  smj: "Lule Sámi",
-  sms: "Skolt Sámi",
-  smn: "Inari Sámi",
-  nb: "Norsk Bokmål",
-  nn: "Norsk Nynorsk",
-  sv: "Svenska",
+  fi: true,
+  se: true,
+  sma: true,
+  smj: true,
+  sms: true,
+  smn: true,
+  nb: true,
+  nn: true,
+  sv: true,
 } as const;
 
 export type LanguageCode = keyof typeof SUPPORTED_LANGUAGES;
