@@ -1,147 +1,301 @@
-# Recorder app for iOS, Android, and macOS
+# Recorder App - Tauri Implementation
 
-This .NET MAUI application supports iOS, Android, and Mac Catalyst. The project
-has been migrated from Xamarin.Forms to .NET MAUI.
+Cross-platform speech donation application built with Tauri v2, React, and
+TypeScript. Supports iOS, Android, macOS, Windows, and Linux.
+
+This is the Tauri implementation that replaces the .NET MAUI version. See
+[TAURI_MIGRATION_PLAN.md](TAURI_MIGRATION_PLAN.md) for migration details.
 
 ## Quick Start
 
 ### Prerequisites
 
-- .NET 10 SDK
-- Xcode (for iOS/macOS builds)
-- Android SDK (for Android builds)
-- MAUI workload: `dotnet workload install maui`
+- **Node.js 18+** and **pnpm** (package manager)
+- **Rust** (latest stable)
+- **Tauri CLI**: `cargo install tauri-cli`
+
+**Platform-specific:**
+- iOS/macOS: Xcode 15+
+- Android: Android Studio, Android SDK 21+
+- Windows: Visual Studio Build Tools
+- Linux: Development packages (see
+  [Tauri prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites))
 
 ### Build and Run
 
-- List Android emulators: `emulator -list-avds`
-- Run Android emulator: `emulator -avd <emulator_name>`
-
 ```bash
-# Restore dependencies
-dotnet restore Recorder.Maui/Recorder.Maui.csproj
+# Install dependencies
+pnpm install
 
-# Build for specific platform
-dotnet build Recorder.Maui/Recorder.Maui.csproj -f net10.0-maccatalyst  # macOS
-dotnet build Recorder.Maui/Recorder.Maui.csproj -f net10.0-android      # Android
-dotnet build Recorder.Maui/Recorder.Maui.csproj -f net10.0-ios          # iOS
+# Desktop development (hot reload)
+pnpm tauri dev
 
-# Run on Mac Catalyst
-dotnet run --project Recorder.Maui/Recorder.Maui.csproj -f net10.0-maccatalyst
+# Build for desktop
+pnpm tauri build
 
-# Run on iOS simulator
-dotnet build -f net10.0-ios -t:Run
+# Mobile development
+pnpm tauri ios dev      # iOS
+pnpm tauri android dev  # Android
 
-# Run on Android simulator
-dotnet build -f net10.0-android -t:Run
+# Mobile build
+pnpm tauri ios build
+pnpm tauri android build
 ```
 
-## Run backend locally
+## Recommended IDE Setup
 
-The app expects the recorder backend to be running for schedules/themes/uploads.
-From the backend repo:
+- [VS Code](https://code.visualstudio.com/) +
+  [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode)
+  +
+  [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+
+## Backend Setup
+
+The app requires the recorder backend to be running for schedules, themes, and
+uploads.
+
+### Running Backend Locally
+
+From the backend repository:
 
 ```bash
 cd ../Kielipankki-donatespeech-backend/recorder-backend
 ./setup-local.sh
 ```
 
-Base URL defaults to `http://localhost:8000` in the app config. For Android
-emulator it is remapped to `http://10.0.2.2:8000` automatically. For physical
-devices, set `RecorderApiUrl` in the relevant
-`Recorder.Maui/BuildConfig/<Config>/appconfiguration.json` to your Mac LAN IP.
+The backend runs on `http://localhost:8000` by default.
 
-Troubleshooting:
-
-- Verify backend is reachable:
+**Verify backend is reachable:**
 
 ```bash
 curl http://localhost:8000/v1/schedule
 curl http://localhost:8000/v1/theme
 ```
 
-- If you see connection errors on devices, ensure the backend allows HTTP and
-  your device can reach the host (same network, firewall allows port 8000).
+### Backend Configuration
 
-## Configuration: Localhost vs Dev Endpoint
+The app uses Tauri build profiles to configure the API endpoint:
 
-The app supports different backend endpoints based on build configuration:
+- **Development** (`tauri.conf.json`): Uses `http://localhost:8000`
+- **Release** (`tauri.conf.release.json`): Uses Azure dev endpoint
 
-- **Debug configuration** → `http://localhost:8000` (for local API development)
-- **Release configuration** →
-  `https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io`
-  (for app feature development)
-
-### Switching Configurations
-
-**In Visual Studio:**
-
-Use the configuration dropdown at the top of the IDE to select Debug (localhost)
-or Release (dev endpoint).
-
-**From command line:**
+**Build with different profiles:**
 
 ```bash
-# Use localhost (Debug)
-dotnet build Recorder.Maui/Recorder.Maui.csproj -c Debug -f net10.0-maccatalyst
-dotnet run --project Recorder.Maui/Recorder.Maui.csproj -c Debug -f net10.0-maccatalyst
+# Development build (localhost:8000)
+pnpm tauri:dev                    # Desktop
+pnpm tauri:android:dev            # Android
 
-# Use dev endpoint (Release)
-dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-android
-dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-ios
+# Production build (Azure endpoint)
+pnpm tauri:build                  # Desktop
+pnpm tauri:android:build          # Android
 ```
 
-### How It Works
+**Change API endpoint:** Edit the `plugins.recorder.apiBaseUrl` in:
+- `src-tauri/tauri.conf.json` (development)
+- `src-tauri/tauri.conf.release.json` (production)
 
-The build system automatically copies the appropriate configuration file during
-build:
+**Verify configuration:** The console will log the API URL on startup:
+```
+Initializing API client with base URL: http://localhost:8000
+```
 
-- Configuration files are located in
-  `Recorder.Maui/BuildConfig/{Debug,Release}/appconfiguration.json`
-- The `CopyAppConfiguration` MSBuild target in `Recorder.Maui.csproj` copies the
-  selected configuration to `BuildConfig/appconfiguration.json`
-- The app loads this configuration at runtime
+## Development
 
-To modify endpoints, edit the JSON files in `Recorder.Maui/BuildConfig/`.
+### Desktop Development
 
-## Development Model
+Run `pnpm tauri dev` for hot-reload development mode.
 
-Trunk-based development: the latest development version is in the default
-branch, and releases are tagged. App version is configured in
-`Recorder.Maui.csproj`.
+### Mobile Development
+
+#### Android
+
+**Android Emulator:**
+```bash
+# List available emulators
+emulator -list-avds
+
+# Start an emulator
+emulator -avd <emulator_name>
+
+# Run app
+pnpm tauri android dev
+```
+
+**Android Localhost:** The app automatically remaps `localhost` and `127.0.0.1`
+to `10.0.2.2` (Android emulator's host address).
+
+**Physical Android Device:**
+1. Find your computer's LAN IP: `ifconfig | grep "inet " | grep -v 127.0.0.1`
+   (macOS/Linux)
+2. Start backend on all interfaces:
+   `python -m uvicorn main:app --host 0.0.0.0 --port 8000`
+3. Update API URL in `src-tauri/src/lib.rs` to `http://YOUR_IP:8000`
+4. Ensure firewall allows port 8000
+
+#### iOS
+
+```bash
+pnpm tauri ios dev
+```
+
+iOS automatically handles localhost properly on simulators. For physical
+devices, use the same LAN IP approach as Android.
+
+### Testing Onboarding Flow
+
+The app shows onboarding pages (welcome and terms) to first-time users. To reset
+during development:
+
+```javascript
+// In browser DevTools console (F12 or Cmd+Option+I):
+localStorage.removeItem("onboardingCompleted")
+```
+
+Then refresh the app (F5 or Cmd+R).
+
+### Testing Language Switching
+
+The app supports 9 languages. Language preference is stored in localStorage and
+persists across sessions. See
+[LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) for details.
 
 ## Deployment
 
 ### Google Play (Android)
 
-Build the app in Release configuration:
+1. Build release APK/AAB:
+   ```bash
+   pnpm tauri android build --release
+   ```
 
+2. Signed build artifacts will be in `src-tauri/gen/android/app/build/outputs/`
+
+3. Upload to Google Play Console and publish to your desired track (internal,
+   alpha, beta, or production)
+
+**Note:** Ensure you have proper signing keys configured in Android Studio or
+via Tauri configuration.
+
+### App Store (iOS)
+
+1. Build release IPA:
+   ```bash
+   pnpm tauri ios build --release
+   ```
+
+2. Submit using
+   [Apple Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12)
+   or Xcode
+
+3. Once processed by App Store Connect, publish to TestFlight or production
+
+**Note:** Requires valid Apple Developer account and proper provisioning
+profiles.
+
+### Desktop Builds
+
+**macOS:**
 ```bash
-dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-android
+pnpm tauri build --target universal-apple-darwin
 ```
+Produces `.dmg` and `.app` in `src-tauri/target/release/bundle/`
 
-The AAB file will be in `Recorder.Maui/bin/Release/net10.0-android/`. Upload to
-Google Play Console and publish to your desired track (internal, alpha, beta, or
-production).
-
-### App Store (iOS/macOS)
-
-Build for iOS:
-
+**Windows:**
 ```bash
-dotnet build Recorder.Maui/Recorder.Maui.csproj -c Release -f net10.0-ios
+pnpm tauri build
 ```
+Produces `.msi` installer in `src-tauri/target/release/bundle/`
 
-Submit the build using
-[Apple Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12).
-Once processed by App Store Connect, publish to TestFlight or production.
+**Linux:**
+```bash
+pnpm tauri build
+```
+Produces `.deb`, `.AppImage`, or other formats depending on configuration.
 
-## Migration Notes
+## Development Model
 
-This project has been migrated from Xamarin.Forms to .NET MAUI. See
-`Recorder.Maui/MIGRATION_NOTES.md` for details on:
+Trunk-based development: the latest development version is in the
+`feature/tauri-migration` branch during migration, then will move to the default
+`main` branch. Releases are tagged with semantic versioning.
 
-- FLAC audio recording status
-- Video playback implementation
-- Resource migration
-- Breaking changes and known differences
+App version is configured in:
+- `package.json` → Frontend version
+- `src-tauri/Cargo.toml` → Rust/Tauri version
+- `src-tauri/tauri.conf.json` → App bundle version
+
+## Troubleshooting
+
+### Backend Connection Issues
+
+**Problem:** App can't fetch themes/schedules
+
+**Solutions:**
+1. Verify backend is running: `curl http://localhost:8000/v1/theme`
+2. Check if backend allows HTTP connections
+3. For physical devices, verify:
+   - Device is on same network as development machine
+   - Firewall allows port 8000
+   - API URL points to your LAN IP, not localhost
+
+### Android Build Issues
+
+**Problem:** Build fails with SDK errors
+
+**Solutions:**
+1. Ensure Android SDK 21+ is installed
+2. Set `ANDROID_HOME` and `NDK_HOME` environment variables
+3. Accept all Android SDK licenses: `sdkmanager --licenses`
+
+### iOS Build Issues  
+
+**Problem:** Build fails with Xcode errors
+
+**Solutions:**
+1. Ensure Xcode 15+ is installed
+2. Install Xcode Command Line Tools: `xcode-select --install`
+3. Open project in Xcode and resolve signing issues
+
+### Audio Recording Issues
+
+**Problem:** Recording fails or produces no audio
+
+**Solutions:**
+1. Check microphone permissions are granted
+2. Verify no other app is using the microphone
+3. On mobile, ensure app has proper audio session configuration
+4. Check console logs for detailed error messages
+
+## Architecture
+
+- **Frontend:** React 19 + TypeScript + TailwindCSS
+- **Backend:** Tauri v2 (Rust)
+- **Database:** SQLite (via rusqlite)
+- **Audio:** tauri-plugin-audio-recorder (WAV on desktop, M4A on mobile)
+- **Localization:** Fluent (9 languages: Finnish, 2 Norwegian, Swedish, 5 Sámi
+  variants)
+- **Navigation:** React Router v7
+
+**Recording Format:**
+- **Desktop (macOS/Windows/Linux):** WAV (PCM) → Converted to FLAC for upload
+- **Mobile (iOS/Android):** M4A (AAC) → Uploaded as-is
+
+## Documentation
+
+- **Migration Plan:** [TAURI_MIGRATION_PLAN.md](TAURI_MIGRATION_PLAN.md) -
+  Feature parity tracking
+- **Localization:** [LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) -
+  Language support details
+
+## Contributing
+
+When adding features:
+1. Follow the migration plan priorities
+2. Commit per feature/bullet point (conventional commits format)
+3. Ensure all 9 language files are updated with new strings
+4. Test on at least 2 platforms (desktop + mobile)
+5. Update documentation as needed
+
+## License
+
+See [LICENSE](LICENSE) file in repository root.

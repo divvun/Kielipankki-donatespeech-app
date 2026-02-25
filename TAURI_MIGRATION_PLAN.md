@@ -8,14 +8,12 @@ needed)
 
 ## Development Notes
 
-**Working Directories:**
+**Working Directory:**
 
-- **Git operations** (add, commit, status): Always run from repo root
-  `/Users/bga001/repos/divvun/Kielipankki-donatespeech-app`
-- **pnpm operations** (build, dev, install): Run from `tauri-app/` subdirectory
+All operations (git, pnpm, tauri) run from repo root:
+`/Users/bga001/repos/divvun/Kielipankki-donatespeech-app`
 
-**Package Manager:** Use `pnpm` for all npm operations in the `tauri-app/`
-directory.
+**Package Manager:** Use `pnpm` for all npm operations.
 
 **Git Commit Policy:** Commit after completing each bullet point in the
 migration plan. Use descriptive commit messages following conventional commits
@@ -28,8 +26,8 @@ format:
 - `test:` for adding tests
 
 ```bash
-# pnpm operations - run from tauri-app/ directory:
-cd tauri-app
+# Working from repository root:
+cd /Users/bga001/repos/divvun/Kielipankki-donatespeech-app
 
 # Install dependencies
 pnpm install
@@ -46,8 +44,11 @@ pnpm tauri dev
 # Build Tauri app
 pnpm tauri build
 
-# Git operations - ALWAYS run from repo root:
-cd /Users/bga001/repos/divvun/Kielipankki-donatespeech-app
+# Git operations
+git status
+git add <files>
+git commit -m "message"
+```
 
 # Check status
 git status
@@ -73,15 +74,15 @@ testing and optimization, (3) Deployment as new app
   `Recorder.Maui/Views/MultiChoiceUserEntryView.xaml` functionality
 - [x] Create `SuggestInputView.tsx` matching
   `Recorder.Maui/Views/SuggestUserEntryView.xaml`
-- [x] Integrate both components into `tauri-app/src/pages/SchedulePage.tsx`
+- [x] Integrate both components into `src/pages/SchedulePage.tsx`
   schedule item rendering
 - [x] Test with all schedule item types from backend API
 
 **Files to modify:**
 
-- `tauri-app/src/components/MultiChoiceView.tsx` (new)
-- `tauri-app/src/components/SuggestInputView.tsx` (new)
-- `tauri-app/src/pages/SchedulePage.tsx`
+- `src/components/MultiChoiceView.tsx` (new)
+- `src/components/SuggestInputView.tsx` (new)
+- `src/pages/SchedulePage.tsx`
 
 #### 1.2 Add Separate Flow Pages
 
@@ -92,10 +93,10 @@ testing and optimization, (3) Deployment as new app
 
 **Files to modify:**
 
-- `tauri-app/src/pages/ScheduleStartPage.tsx` (new)
-- `tauri-app/src/pages/ScheduleFinishPage.tsx` (new)
-- `tauri-app/src/App.tsx`
-- `tauri-app/src/pages/SchedulePage.tsx`
+- `src/pages/ScheduleStartPage.tsx` (new)
+- `src/pages/ScheduleFinishPage.tsx` (new)
+- `src/App.tsx`
+- `src/pages/SchedulePage.tsx`
 
 #### 1.3 Implement Analytics
 
@@ -115,22 +116,22 @@ testing and optimization, (3) Deployment as new app
 
 **Files to create/modify:**
 
-- `tauri-app/src/utils/analytics.ts` (new)
+- `src/utils/analytics.ts` (new)
 - Update all page components with tracking
 
 #### 1.4 Add Recording Features
 
 - [x] Implement keep-screen-on during recording using Wake Lock API
 - [x] Add max recording time enforcement (10 minutes) to
-  `tauri-app/src/hooks/useRecording.ts`
+  `src/hooks/useRecording.ts`
 - [x] Add warning/alert when approaching max duration (at 9 minutes)
 - [ ] Test on both Android and iOS with screen timeout settings
 
 **Files modified:**
 
-- `tauri-app/src/hooks/useRecording.ts`
-- `tauri-app/src/pages/SchedulePage.tsx`
-- `tauri-app/src/locales/*.ftl` (added RecordingApproachingLimitMessage)
+- `src/hooks/useRecording.ts`
+- `src/pages/SchedulePage.tsx`
+- `src/locales/*.ftl` (added RecordingApproachingLimitMessage)
 
 #### 1.5 Localization Alignment
 
@@ -146,17 +147,17 @@ testing and optimization, (3) Deployment as new app
 **Tasks:**
 
 - [x] Review language coverage comparison
-- [x] Verify all UI strings are translated in `tauri-app/src/locales/`
+- [x] Verify all UI strings are translated in `src/locales/`
 - [x] Use localized language names in language selector
 - [ ] Test language switching on all platforms (deferred to Phase 2)
 
 **Files modified:**
 
-- `tauri-app/src/components/LanguageSelector.tsx` - Now uses localized language
+- `src/components/LanguageSelector.tsx` - Now uses localized language
   names
-- `tauri-app/src/contexts/LocalizationContext.tsx` - Removed hardcoded English
+- `src/contexts/LocalizationContext.tsx` - Removed hardcoded English
   names
-- `tauri-app/LOCALIZATION_COVERAGE.md` (new) - Comprehensive coverage report
+- `LOCALIZATION_COVERAGE.md` (new) - Comprehensive coverage report
 
 **Key Findings:**
 
@@ -210,7 +211,7 @@ testing and optimization, (3) Deployment as new app
 #### 2.4 Error Handling Enhancement
 
 - [ ] Add comprehensive error boundaries to React app
-- [ ] Improve error messages in `tauri-app/src-tauri/src/recording/mod.rs`
+- [ ] Improve error messages in `src-tauri/src/recording/mod.rs`
 - [ ] Add Sentry or error reporting service
 - [ ] Test error scenarios: disk full, network failures, invalid audio,
   corrupted database
@@ -229,7 +230,7 @@ testing and optimization, (3) Deployment as new app
   - ✓ Android localhost remapping preserved in API client
   - ✓ Build scripts added to package.json: `tauri:dev`, `tauri:build`,
     `tauri:android:dev`, `tauri:android:build`
-- [ ] Configure Android build in `tauri-app/src-tauri/android/build.gradle`
+- [ ] Configure Android build in `src-tauri/android/build.gradle`
 - [ ] Set up iOS build in Xcode project
 - [ ] Configure signing certificates for iOS and Android
 - [ ] Test release builds on all platforms
@@ -368,11 +369,11 @@ Before production launch, verify:
   - Verified all 9 languages have complete translations (102 keys each)
   - All 100 .NET MAUI translation keys present in Tauri
   - Implemented localized language names in language selector
-  - Created comprehensive coverage report: `tauri-app/LOCALIZATION_COVERAGE.md`
+  - Created comprehensive coverage report: `LOCALIZATION_COVERAGE.md`
   - Remaining: Manual testing of language switching on mobile platforms
 - **Documentation Transfer:** Comprehensive README update
   - Commit: 2af0c6c
-  - Transferred all essential MAUI documentation to `tauri-app/README.md`
+  - Transferred all essential MAUI documentation to `README.md`
   - Added backend setup, deployment procedures, troubleshooting
   - Documented architecture and contributing guidelines
 - **Build Configuration System:** Implemented Tauri build profiles (Phase 3.1)
@@ -391,7 +392,7 @@ Before production launch, verify:
 ## Resources
 
 - .NET MAUI Implementation: `Recorder.Maui/` and `Recorder.Core/`
-- Tauri Implementation: `tauri-app/`
+- Tauri Implementation: ``
 - Migration Notes: `Recorder.Maui/MIGRATION_NOTES.md` (Xamarin → .NET MAUI)
 - Repository: CSCfi/Kielipankki-donatespeech-app
 - Branch: feature/tauri-migration
