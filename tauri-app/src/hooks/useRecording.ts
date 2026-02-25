@@ -42,20 +42,25 @@ export function useRecording(): UseRecordingResult {
             throw new Error("Microphone permission denied");
           }
         } else {
-          throw new Error("Microphone permission permanently denied. Please enable it in settings.");
+          throw new Error(
+            "Microphone permission permanently denied. Please enable it in settings.",
+          );
         }
       }
 
       // Generate output path for the recording
       const tempDirPath = await tempDir();
       const timestamp = Date.now();
-      const outputPath = await join(tempDirPath, `recording_${timestamp}.wav`);
+      // Don't specify extension - plugin will use .wav on desktop, .m4a on mobile
+      const outputPath = await join(tempDirPath, `recording_${timestamp}`);
       outputPathRef.current = outputPath;
 
       // Start recording with the plugin
+      // Plugin automatically chooses format based on platform:
+      // - Desktop: WAV (PCM)
+      // - iOS/Android: M4A (AAC)
       await audioRecorder.startRecording({
         outputPath,
-        format: "wav",
         quality: "high",
         maxDuration: 0, // No limit
       });
@@ -85,10 +90,21 @@ export function useRecording(): UseRecordingResult {
 
       // Stop recording using the plugin
       const result = await audioRecorder.stopRecording();
-      
-      console.log("Recording stopped:", result);
+
+      // Detect the format based on file extension
+      const extension = result.filePath.split(".").pop();
+      console.log("Recording stopped:", {
+        ...result,
+        format:
+          extension === "wav"
+            ? "WAV (Desktop)"
+            : extension === "m4a"
+              ? "M4A (Mobile)"
+              : "Unknown",
+      });
 
       // Read the audio file and convert to base64
+      // Backend will handle format detection and conversion/storage appropriately
       const audioBase64 = await invoke<string>("read_file_as_base64", {
         filePath: result.filePath,
       });
@@ -109,12 +125,12 @@ export function useRecording(): UseRecordingResult {
       });
 
       console.log("Recording saved:", response);
-      
+
       // Clean up the temporary file
       await invoke("delete_file", {
         filePath: result.filePath,
       });
-      
+
       outputPathRef.current = null;
       return response;
     } catch (err) {

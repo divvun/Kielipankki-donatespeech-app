@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -156,61 +155,4 @@ pub enum ScheduleItem {
         #[serde(default, rename = "endTime")]
         end_time: i32,
     },
-}
-
-impl ScheduleItem {
-    /// Get the item_id regardless of variant
-    pub fn item_id(&self) -> &str {
-        match self {
-            ScheduleItem::Audio { item_id, .. } => item_id,
-            ScheduleItem::Video { item_id, .. } => item_id,
-            ScheduleItem::Image { item_id, .. } => item_id,
-            ScheduleItem::TextContent { item_id, .. } => item_id,
-            ScheduleItem::YleAudio { item_id, .. } => item_id,
-            ScheduleItem::YleVideo { item_id, .. } => item_id,
-            ScheduleItem::Choice { item_id, .. } => item_id,
-            ScheduleItem::MultiChoice { item_id, .. } => item_id,
-            ScheduleItem::SuperChoice { item_id, .. } => item_id,
-            ScheduleItem::TextInput { item_id, .. } => item_id,
-        }
-    }
-
-    /// Check if this is a media item (vs prompt item)
-    pub fn is_media(&self) -> bool {
-        matches!(
-            self,
-            ScheduleItem::Audio { .. }
-                | ScheduleItem::Video { .. }
-                | ScheduleItem::Image { .. }
-                | ScheduleItem::TextContent { .. }
-                | ScheduleItem::YleAudio { .. }
-                | ScheduleItem::YleVideo { .. }
-        )
-    }
-
-    /// Check if this is a prompt item (vs media item)
-    pub fn is_prompt(&self) -> bool {
-        !self.is_media()
-    }
-}
-
-// ============================================================================
-// Schedule Item State
-// ============================================================================
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ScheduleItemState {
-    pub title: Option<HashMap<String, String>>,
-    pub body1: Option<HashMap<String, String>>,
-    pub body2: Option<HashMap<String, String>>,
-    pub image_url: Option<String>,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum ScheduleItemStateType {
-    Start,
-    Recording,
-    Finish,
 }
