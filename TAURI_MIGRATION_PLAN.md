@@ -134,15 +134,36 @@ testing and optimization, (3) Deployment as new app
 
 #### 1.5 Localization Alignment
 
-**Decision needed:** Language coverage strategy
+**Decision:** Keep Tauri languages - all 9 languages match .NET MAUI coverage ✓
 
-- [ ] Keep Tauri languages (Finnish + more Sámi variants)
+**Supported Languages:**
+
+- Finnish (fi), Swedish (sv)
+- Norwegian Bokmål (nb), Norwegian Nynorsk (nn)
+- Northern Sámi (se), Southern Sámi (sma), Lule Sámi (smj), Inari Sámi (smn),
+  Skolt Sámi (sms)
 
 **Tasks:**
 
-- [ ] Review language coverage comparison
-- [ ] Verify all UI strings are translated in `tauri-app/src/locales/`
-- [ ] Test language switching on all platforms
+- [x] Review language coverage comparison
+- [x] Verify all UI strings are translated in `tauri-app/src/locales/`
+- [x] Use localized language names in language selector
+- [ ] Test language switching on all platforms (deferred to Phase 2)
+
+**Files modified:**
+
+- `tauri-app/src/components/LanguageSelector.tsx` - Now uses localized language
+  names
+- `tauri-app/src/contexts/LocalizationContext.tsx` - Removed hardcoded English
+  names
+- `tauri-app/LOCALIZATION_COVERAGE.md` (new) - Comprehensive coverage report
+
+**Key Findings:**
+
+- All 100 .NET MAUI translation keys present in Tauri ✓
+- Tauri has 2 additional keys (RecordingApproachingLimitMessage,
+  ThemesPageBody2Text)
+- All 9 language files synchronized with 102 keys each ✓
 
 ### Phase 2: Quality Assurance
 
@@ -273,18 +294,19 @@ Before production launch, verify:
 
 ### Features in .NET MAUI Missing in Tauri (Phase 1)
 
-1. Multi-choice user entry view
-2. Suggest user entry view
-3. Separate schedule start page
-4. Separate schedule finish page
-5. Firebase Analytics integration
-6. Keep screen on during recording
-7. Max recording time enforcement
+1. ~~Multi-choice user entry view~~ ✓ (Section 1.1)
+2. ~~Suggest user entry view~~ ✓ (Section 1.1)
+3. ~~Separate schedule start page~~ ✓ (Section 1.2)
+4. ~~Separate schedule finish page~~ ✓ (Section 1.2)
+5. Firebase Analytics integration (Section 1.3 - pending decision)
+6. ~~Keep screen on during recording~~ ✓ (Section 1.4)
+7. ~~Max recording time enforcement~~ ✓ (Section 1.4)
 
 ### Features in Tauri Not in .NET MAUI
 
 1. Debug/Test page (database inspection)
 2. Modern web stack (TailwindCSS, React Router)
+3. Localized language names in language selector
 
 ### Architectural Differences
 
@@ -294,11 +316,18 @@ Before production launch, verify:
 
 ## Progress Tracking
 
-**Phase 1 Progress:** 3/5 sections complete (1.1 ✓, 1.2 ✓, 1.4 mostly ✓)  
+**Phase 1 Progress:** 4/5 sections complete (1.1 ✓, 1.2 ✓, 1.4 mostly ✓, 1.5 ✓)  
 **Phase 2 Progress:** 1/4 sections complete (M4A upload verified)  
 **Phase 3 Progress:** 0/4 sections complete  
 
-**Overall Progress:** 29% (4/14 major sections)
+**Overall Progress:** 36% (5/14 major sections)
+
+**Remaining in Phase 1:**
+
+- Section 1.3: Analytics implementation (decision needed on provider)
+- Section 1.4: Mobile device testing (quality assurance task)
+- Section 1.5: Language switching testing on all platforms (quality assurance
+  task)
 
 ## Notes & Updates
 
@@ -324,6 +353,13 @@ Before production launch, verify:
   - Shows warning alert at 9 minutes (1 minute before limit)
   - Added RecordingApproachingLimitMessage localization to all languages
   - Remaining: Mobile testing (Android/iOS) with screen timeout settings
+- **Completed 1.5:** Localization alignment
+  - Commits: 9e8c0c6, 81dff15
+  - Verified all 9 languages have complete translations (102 keys each)
+  - All 100 .NET MAUI translation keys present in Tauri
+  - Implemented localized language names in language selector
+  - Created comprehensive coverage report: `tauri-app/LOCALIZATION_COVERAGE.md`
+  - Remaining: Manual testing of language switching on mobile platforms
 - Branch: `feature/tauri-migration`
 
 ### Future Updates
