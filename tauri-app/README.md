@@ -1,8 +1,10 @@
 # Recorder App - Tauri Implementation
 
-Cross-platform speech donation application built with Tauri v2, React, and TypeScript. Supports iOS, Android, macOS, Windows, and Linux.
+Cross-platform speech donation application built with Tauri v2, React, and
+TypeScript. Supports iOS, Android, macOS, Windows, and Linux.
 
-This is the Tauri implementation that replaces the .NET MAUI version. See [TAURI_MIGRATION_PLAN.md](../TAURI_MIGRATION_PLAN.md) for migration details.
+This is the Tauri implementation that replaces the .NET MAUI version. See
+[TAURI_MIGRATION_PLAN.md](../TAURI_MIGRATION_PLAN.md) for migration details.
 
 ## Quick Start
 
@@ -16,7 +18,8 @@ This is the Tauri implementation that replaces the .NET MAUI version. See [TAURI
 - iOS/macOS: Xcode 15+
 - Android: Android Studio, Android SDK 21+
 - Windows: Visual Studio Build Tools
-- Linux: Development packages (see [Tauri prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites))
+- Linux: Development packages (see
+  [Tauri prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites))
 
 ### Build and Run
 
@@ -42,12 +45,14 @@ pnpm tauri android build
 ## Recommended IDE Setup
 
 - [VS Code](https://code.visualstudio.com/) +
-  [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) +
+  [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode)
+  +
   [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
 
 ## Backend Setup
 
-The app requires the recorder backend to be running for schedules, themes, and uploads.
+The app requires the recorder backend to be running for schedules, themes, and
+uploads.
 
 ### Running Backend Locally
 
@@ -69,20 +74,31 @@ curl http://localhost:8000/v1/theme
 
 ### Backend Configuration
 
-**Current implementation:** The API base URL is hardcoded in `src-tauri/src/lib.rs`:
+The app uses Tauri build profiles to configure the API endpoint:
 
-```rust
-let api_client = api_client::ApiClient::new("http://localhost:8000".to_string());
+- **Development** (`tauri.conf.json`): Uses `http://localhost:8000`
+- **Release** (`tauri.conf.release.json`): Uses Azure dev endpoint
+
+**Build with different profiles:**
+
+```bash
+# Development build (localhost:8000)
+pnpm tauri:dev                    # Desktop
+pnpm tauri:android:dev            # Android
+
+# Production build (Azure endpoint)
+pnpm tauri:build                  # Desktop
+pnpm tauri:android:build          # Android
 ```
 
-**For testing against dev environment:** Temporarily edit the URL to:
-```
-https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io
-```
+**Change API endpoint:** Edit the `plugins.recorder.apiBaseUrl` in:
+- `src-tauri/tauri.conf.json` (development)
+- `src-tauri/tauri.conf.release.json` (production)
 
-**TODO (Phase 3):** Implement build configuration system similar to .NET MAUI to switch between:
-- **Debug/Development** → `http://localhost:8000`
-- **Release/Production** → Azure dev endpoint or production endpoint
+**Verify configuration:** The console will log the API URL on startup:
+```
+Initializing API client with base URL: http://localhost:8000
+```
 
 ## Development
 
@@ -106,11 +122,14 @@ emulator -avd <emulator_name>
 pnpm tauri android dev
 ```
 
-**Android Localhost:** The app automatically remaps `localhost` and `127.0.0.1` to `10.0.2.2` (Android emulator's host address).
+**Android Localhost:** The app automatically remaps `localhost` and `127.0.0.1`
+to `10.0.2.2` (Android emulator's host address).
 
 **Physical Android Device:**
-1. Find your computer's LAN IP: `ifconfig | grep "inet " | grep -v 127.0.0.1` (macOS/Linux)
-2. Start backend on all interfaces: `python -m uvicorn main:app --host 0.0.0.0 --port 8000`
+1. Find your computer's LAN IP: `ifconfig | grep "inet " | grep -v 127.0.0.1`
+   (macOS/Linux)
+2. Start backend on all interfaces:
+   `python -m uvicorn main:app --host 0.0.0.0 --port 8000`
 3. Update API URL in `src-tauri/src/lib.rs` to `http://YOUR_IP:8000`
 4. Ensure firewall allows port 8000
 
@@ -120,11 +139,13 @@ pnpm tauri android dev
 pnpm tauri ios dev
 ```
 
-iOS automatically handles localhost properly on simulators. For physical devices, use the same LAN IP approach as Android.
+iOS automatically handles localhost properly on simulators. For physical
+devices, use the same LAN IP approach as Android.
 
 ### Testing Onboarding Flow
 
-The app shows onboarding pages (welcome and terms) to first-time users. To reset during development:
+The app shows onboarding pages (welcome and terms) to first-time users. To reset
+during development:
 
 ```javascript
 // In browser DevTools console (F12 or Cmd+Option+I):
@@ -135,7 +156,9 @@ Then refresh the app (F5 or Cmd+R).
 
 ### Testing Language Switching
 
-The app supports 9 languages. Language preference is stored in localStorage and persists across sessions. See [LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) for details.
+The app supports 9 languages. Language preference is stored in localStorage and
+persists across sessions. See
+[LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) for details.
 
 ## Deployment
 
@@ -148,9 +171,11 @@ The app supports 9 languages. Language preference is stored in localStorage and 
 
 2. Signed build artifacts will be in `src-tauri/gen/android/app/build/outputs/`
 
-3. Upload to Google Play Console and publish to your desired track (internal, alpha, beta, or production)
+3. Upload to Google Play Console and publish to your desired track (internal,
+   alpha, beta, or production)
 
-**Note:** Ensure you have proper signing keys configured in Android Studio or via Tauri configuration.
+**Note:** Ensure you have proper signing keys configured in Android Studio or
+via Tauri configuration.
 
 ### App Store (iOS)
 
@@ -159,11 +184,14 @@ The app supports 9 languages. Language preference is stored in localStorage and 
    pnpm tauri ios build --release
    ```
 
-2. Submit using [Apple Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12) or Xcode
+2. Submit using
+   [Apple Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12)
+   or Xcode
 
 3. Once processed by App Store Connect, publish to TestFlight or production
 
-**Note:** Requires valid Apple Developer account and proper provisioning profiles.
+**Note:** Requires valid Apple Developer account and proper provisioning
+profiles.
 
 ### Desktop Builds
 
@@ -187,7 +215,9 @@ Produces `.deb`, `.AppImage`, or other formats depending on configuration.
 
 ## Development Model
 
-Trunk-based development: the latest development version is in the `feature/tauri-migration` branch during migration, then will move to the default `main` branch. Releases are tagged with semantic versioning.
+Trunk-based development: the latest development version is in the
+`feature/tauri-migration` branch during migration, then will move to the default
+`main` branch. Releases are tagged with semantic versioning.
 
 App version is configured in:
 - `package.json` → Frontend version
@@ -242,7 +272,8 @@ App version is configured in:
 - **Backend:** Tauri v2 (Rust)
 - **Database:** SQLite (via rusqlite)
 - **Audio:** tauri-plugin-audio-recorder (WAV on desktop, M4A on mobile)
-- **Localization:** Fluent (9 languages: Finnish, 2 Norwegian, Swedish, 5 Sámi variants)
+- **Localization:** Fluent (9 languages: Finnish, 2 Norwegian, Swedish, 5 Sámi
+  variants)
 - **Navigation:** React Router v7
 
 **Recording Format:**
@@ -251,9 +282,13 @@ App version is configured in:
 
 ## Documentation
 
-- **Migration Plan:** [TAURI_MIGRATION_PLAN.md](../TAURI_MIGRATION_PLAN.md) - Feature parity tracking
-- **Localization:** [LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) - Language support details
-- **MAUI Migration:** [Recorder.Maui/MIGRATION_NOTES.md](../Recorder.Maui/MIGRATION_NOTES.md) - Xamarin to .NET MAUI migration
+- **Migration Plan:** [TAURI_MIGRATION_PLAN.md](../TAURI_MIGRATION_PLAN.md) -
+  Feature parity tracking
+- **Localization:** [LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) -
+  Language support details
+- **MAUI Migration:**
+  [Recorder.Maui/MIGRATION_NOTES.md](../Recorder.Maui/MIGRATION_NOTES.md) -
+  Xamarin to .NET MAUI migration
 
 ## Contributing
 

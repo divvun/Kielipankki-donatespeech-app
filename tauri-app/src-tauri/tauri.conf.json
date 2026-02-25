@@ -9,6 +9,11 @@
     "beforeBuildCommand": "pnpm build",
     "frontendDist": "../dist"
   },
+  "plugins": {
+    "recorder": {
+      "apiBaseUrl": "http://localhost:8000"
+    }
+  },
   "app": {
     "windows": [
       {

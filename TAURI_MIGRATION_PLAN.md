@@ -219,11 +219,16 @@ testing and optimization, (3) Deployment as new app
 
 #### 3.1 Build System Setup
 
-- [ ] **Implement build configuration system** - Replace hardcoded API URL with environment-based configuration
-  - Currently: `localhost:8000` hardcoded in `src-tauri/src/lib.rs`
-  - Target: Match .NET MAUI approach (Debug→localhost, Release→Azure dev endpoint)
-  - Options: Tauri build profiles, environment variables, or config files
-  - Ensure Android localhost remapping (10.0.2.2) still works
+- [x] **Implement build configuration system** - Replace hardcoded API URL with
+  environment-based configuration
+  - ✓ Uses Tauri build profiles: `tauri.conf.json` (dev) and
+    `tauri.conf.release.json` (production)
+  - ✓ Development: `http://localhost:8000`
+  - ✓ Production: Azure dev endpoint
+  - ✓ Configured in `plugins.recorder.apiBaseUrl`
+  - ✓ Android localhost remapping preserved in API client
+  - ✓ Build scripts added to package.json: `tauri:dev`, `tauri:build`,
+    `tauri:android:dev`, `tauri:android:build`
 - [ ] Configure Android build in `tauri-app/src-tauri/android/build.gradle`
 - [ ] Set up iOS build in Xcode project
 - [ ] Configure signing certificates for iOS and Android
@@ -370,10 +375,13 @@ Before production launch, verify:
   - Transferred all essential MAUI documentation to `tauri-app/README.md`
   - Added backend setup, deployment procedures, troubleshooting
   - Documented architecture and contributing guidelines
-  - **Gap identified:** Build configuration system needs implementation (Phase 3.1)
-    - MAUI has Debug/Release configs for API endpoints
-    - Tauri currently hardcodes `localhost:8000` in `src-tauri/src/lib.rs`
-    - Plan: Implement environment-based config before production deployment
+- **Build Configuration System:** Implemented Tauri build profiles (Phase 3.1)
+  - Uses `tauri.conf.json` (dev→localhost:8000) and `tauri.conf.release.json`
+    (prod→Azure)
+  - Matches .NET MAUI Debug/Release behavior
+  - Android localhost remapping preserved
+  - Build scripts: `tauri:dev`, `tauri:build`, `tauri:android:dev`,
+    `tauri:android:build`
 - Branch: `feature/tauri-migration`
 
 ### Future Updates

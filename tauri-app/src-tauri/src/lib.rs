@@ -5,6 +5,23 @@ mod models;
 mod recording;
 
 use tauri::Manager;
+use serde::Deserialize;
+
+#[derive(Debug, Deserialize)]
+struct RecorderPluginConfig {
+    #[serde(rename = "apiBaseUrl")]
+    api_base_url: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct PluginsConfig {
+    recorder: RecorderPluginConfig,
+}
+
+#[derive(Debug, Deserialize)]
+struct AppConfig {
+    plugins: PluginsConfig,
+}
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -23,8 +40,17 @@ pub fn run() {
                 .map_err(|e| format!("Failed to initialize database: {}", e))?;
             app.manage(db);
 
-            // Initialize API client with localhost for development
-            let api_client = api_client::ApiClient::new("http://localhost:8000".to_string());
+            // Read API base URL from config
+            let config_value = serde_json::to_value(app.config())
+                .map_err(|e| format!("Failed to serialize config: {}", e))?;
+            let config: AppConfig = serde_json::from_value(config_value)
+                .map_err(|e| format!("Failed to parse config: {}", e))?;
+            
+            let api_base_url = config.plugins.recorder.api_base_url;
+            println!("Initializing API client with base URL: {}", api_base_url);
+
+            // Initialize API client with configured URL
+            let api_client = api_client::ApiClient::new(api_base_url);
             app.manage(api_client);
             
             Ok(())
