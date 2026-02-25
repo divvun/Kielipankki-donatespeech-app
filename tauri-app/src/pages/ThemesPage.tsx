@@ -46,11 +46,11 @@ export default function ThemesPage() {
   };
 
   const handleThemeClick = (theme: Theme) => {
-    // Navigate to the first schedule in the theme
+    // Navigate to the schedule start page
     const firstScheduleId = theme.content?.scheduleIds?.[0];
     if (firstScheduleId) {
-      console.log("Navigating to schedule:", firstScheduleId);
-      navigate(`/schedule/${firstScheduleId}`);
+      console.log("Navigating to schedule start page:", firstScheduleId);
+      navigate(`/schedule/${firstScheduleId}/start`);
     }
   };
 

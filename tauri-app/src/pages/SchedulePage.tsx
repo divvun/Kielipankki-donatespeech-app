@@ -19,7 +19,7 @@ export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
   const { getString } = useTranslation();
-    
+
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -108,8 +108,15 @@ export default function SchedulePage() {
     if (schedule && currentIndex < schedule.items.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // Schedule finished - navigate back to themes
-      navigate("/themes");
+      // Schedule finished - navigate to finish page
+      if (schedule && scheduleId) {
+        navigate(`/schedule/${scheduleId}/finish`, {
+          state: {
+            scheduleDescription: schedule.description,
+            itemsCompleted: schedule.items.length,
+          },
+        });
+      }
     }
   };
 
@@ -415,7 +422,9 @@ export default function SchedulePage() {
               opacity: saving ? 0.5 : 1,
             }}
           >
-            {recording.isRecording ? getString("StopRecording") : getString("StartRecording")}
+            {recording.isRecording
+              ? getString("StopRecording")
+              : getString("StartRecording")}
           </button>
           <div className="mt-3 text-2xl font-mono text-gray-700">
             {formatDuration(recording.duration)}
@@ -439,7 +448,9 @@ export default function SchedulePage() {
               minWidth: "220px",
             }}
           >
-            {isLastItem ? getString("ExitButtonText") : getString("ContinueSchedule")}
+            {isLastItem
+              ? getString("ExitButtonText")
+              : getString("ContinueSchedule")}
           </button>
         </div>
       )}
