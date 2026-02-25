@@ -1,0 +1,7 @@
+{
+  "plugins": {
+    "recorder": {
+      "apiBaseUrl": "https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io"
+    }
+  }
+}
