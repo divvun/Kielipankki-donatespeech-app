@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
+import { getTotalRecordedSeconds } from "../utils/preferences";
 import { useTranslation } from "../hooks/useTranslation";
 
 interface ScheduleFinishLocationState {
@@ -18,7 +19,8 @@ export default function ScheduleFinishPage() {
   const itemsCompleted = state?.itemsCompleted || 0;
 
   const handleInviteFriend = async () => {
-    const minutes = Math.floor(totalRecorded.totalSeconds / 60);
+    const totalSeconds = getTotalRecordedSeconds();
+    const minutes = Math.floor(totalSeconds / 60);
     
     let shareTemplate = getString("InviteFriendTemplate");
     if (minutes < 2) {
