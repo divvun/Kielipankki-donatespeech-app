@@ -277,6 +277,7 @@ App version is configured in:
 - **Navigation:** React Router v7
 
 **Recording Format:**
+
 - **Desktop (macOS/Windows/Linux):** WAV (PCM) → Converted to FLAC for upload
 - **Mobile (iOS/Android):** M4A (AAC) → Uploaded as-is
 
@@ -290,6 +291,7 @@ App version is configured in:
 ## Contributing
 
 When adding features:
+
 1. Follow the migration plan priorities
 2. Commit per feature/bullet point (conventional commits format)
 3. Ensure all 9 language files are updated with new strings

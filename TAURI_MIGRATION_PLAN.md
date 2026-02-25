@@ -50,14 +50,6 @@ git add <files>
 git commit -m "message"
 ```
 
-# Check status
-git status
-
-# Add and commit changes
-git add <files>
-git commit -m "message"
-```
-
 ## Executive Summary
 
 **TL;DR:** Development requires 3 phases: (1) Feature parity - implement 4
