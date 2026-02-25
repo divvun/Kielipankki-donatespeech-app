@@ -3,6 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import * as audioRecorder from "tauri-plugin-audio-recorder-api";
 import { tempDir, join } from "@tauri-apps/api/path";
 import type { Recording } from "../types/Recording";
+import { useWakeLock } from "./useWakeLock";
 
 export interface SaveRecordingResponse {
   recording: Recording;
@@ -28,6 +29,7 @@ export function useRecording(): UseRecordingResult {
 
   const timerRef = useRef<number | null>(null);
   const outputPathRef = useRef<string | null>(null);
+  const wakeLock = useWakeLock();
 
   const startRecording = async () => {
     try {
@@ -72,6 +74,9 @@ export function useRecording(): UseRecordingResult {
       }, 1000);
 
       setIsRecording(true);
+
+      // Keep screen on during recording
+      await wakeLock.requestWakeLock();
     } catch (err) {
       console.error("Error starting recording:", err);
       setError(
@@ -87,6 +92,9 @@ export function useRecording(): UseRecordingResult {
     try {
       stopTimer();
       setIsRecording(false);
+
+      // Release wake lock
+      await wakeLock.releaseWakeLock();
 
       // Stop recording using the plugin
       const result = await audioRecorder.stopRecording();
