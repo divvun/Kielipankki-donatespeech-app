@@ -1,4 +1,5 @@
 import { useLocalization } from "../contexts/LocalizationContext";
+import type { FluentVariable } from "@fluent/bundle";
 
 /**
  * Hook for accessing translations
@@ -9,7 +10,7 @@ export function useTranslation() {
   const { l10n } = useLocalization();
 
   return {
-    getString: (id: string, args?: Record<string, unknown>) => {
+    getString: (id: string, args?: Record<string, FluentVariable> | null) => {
       const message = l10n.getString(id, args);
       // Fluent returns the ID if translation is missing
       return message || id;
