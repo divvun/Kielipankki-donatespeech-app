@@ -254,7 +254,7 @@ Before production launch, verify:
 
 ### 2. Language Coverage Strategy  
 
-- [ ] **Keep Tauri languages** (Finnish + more Sámi variants) - recommended
+- [x] **Keep Tauri languages** (Finnish + more Sámi variants) - recommended
 
 ### 3. Deployment Approach
 
