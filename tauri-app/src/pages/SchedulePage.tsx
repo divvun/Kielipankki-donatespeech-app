@@ -6,6 +6,8 @@ import { isMediaItem, isPromptItem } from "../types/Schedule";
 import { useRecording, formatDuration } from "../hooks/useRecording";
 import { AudioPlayer } from "../components/AudioPlayer";
 import { VideoPlayer } from "../components/VideoPlayer";
+import { MultiChoiceView } from "../components/MultiChoiceView";
+import { SuggestInputView } from "../components/SuggestInputView";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -25,6 +27,8 @@ export default function SchedulePage() {
   const [saving, setSaving] = useState(false);
   const [currentMediaUrl, setCurrentMediaUrl] = useState<string>("");
   const [mediaError, setMediaError] = useState<string>("");
+  // Store answers for prompt items (itemId -> answer)
+  const [answers, setAnswers] = useState<Record<string, string>>({});
 
   const recording = useRecording();
   const totalRecorded = useTotalRecorded();
@@ -335,35 +339,45 @@ export default function SchedulePage() {
             {/* Prompt Items */}
             {isPrompt && (
               <div className="mt-6">
-                {(currentItem.itemType === "choice" ||
-                  currentItem.itemType === "multi-choice" ||
+                {currentItem.itemType === "choice" &&
+                  "options" in currentItem && (
+                    <SuggestInputView
+                      item={currentItem}
+                      answer={answers[currentItem.itemId]}
+                      onAnswerChange={(answer) =>
+                        setAnswers((prev) => ({
+                          ...prev,
+                          [currentItem.itemId]: answer,
+                        }))
+                      }
+                    />
+                  )}
+                {(currentItem.itemType === "multi-choice" ||
                   currentItem.itemType === "super-choice") &&
                   "options" in currentItem && (
-                    <div className="space-y-3">
-                      {currentItem.options.map((option, idx) => (
-                        <button
-                          key={idx}
-                          className="w-full p-4 text-left bg-white border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors"
-                        >
-                          {option}
-                        </button>
-                      ))}
-                      {currentItem.itemType !== "choice" &&
-                        "otherEntryLabel" in currentItem &&
-                        currentItem.otherEntryLabel && (
-                          <input
-                            type="text"
-                            placeholder={currentItem.otherEntryLabel}
-                            className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
-                          />
-                        )}
-                    </div>
+                    <MultiChoiceView
+                      item={currentItem}
+                      answer={answers[currentItem.itemId]}
+                      onAnswerChange={(answer) =>
+                        setAnswers((prev) => ({
+                          ...prev,
+                          [currentItem.itemId]: answer,
+                        }))
+                      }
+                    />
                   )}
                 {currentItem.itemType === "text-input" && (
                   <textarea
+                    value={answers[currentItem.itemId] || ""}
+                    onChange={(e) =>
+                      setAnswers((prev) => ({
+                        ...prev,
+                        [currentItem.itemId]: e.target.value,
+                      }))
+                    }
                     placeholder="Enter your answer..."
                     rows={4}
-                    className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none"
+                    className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none mx-8"
                   ></textarea>
                 )}
               </div>
