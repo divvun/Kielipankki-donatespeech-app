@@ -9,7 +9,9 @@ import { invoke } from "@tauri-apps/api/core";
 import OnboardingPage from "./pages/OnboardingPage";
 import TermsPage from "./pages/TermsPage";
 import ThemesPage from "./pages/ThemesPage";
+import ScheduleStartPage from "./pages/ScheduleStartPage";
 import SchedulePage from "./pages/SchedulePage";
+import ScheduleFinishPage from "./pages/ScheduleFinishPage";
 import TestPage from "./pages/TestPage";
 import DetailsPage from "./pages/DetailsPage";
 import { getClientId } from "./utils/clientId";
@@ -78,8 +80,10 @@ function App() {
         {/* Test page for development */}
         <Route path="/test" element={<TestPage />} />
 
-        {/* Schedule page - display schedule items */}
+        {/* Schedule flow - start page, schedule items, finish page */}
+        <Route path="/schedule/:scheduleId/start" element={<ScheduleStartPage />} />
         <Route path="/schedule/:scheduleId" element={<SchedulePage />} />
+        <Route path="/schedule/:scheduleId/finish" element={<ScheduleFinishPage />} />
 
         {/* Details page - view and manage recordings */}
         <Route path="/details" element={<DetailsPage />} />
