@@ -6,8 +6,6 @@
 **Deployment:** New app with different name/organization (no user migration
 needed)
 
-
-
 ## Development Notes
 
 **Working Directories:**
@@ -58,8 +56,6 @@ git status
 git add <files>
 git commit -m "message"
 ```
-
-
 
 ## Executive Summary
 
@@ -124,17 +120,17 @@ testing and optimization, (3) Deployment as new app
 
 #### 1.4 Add Recording Features
 
-- [ ] Implement keep-screen-on during recording using `@tauri-apps/plugin-app`
-  or custom plugin
-- [ ] Add max recording time enforcement to
+- [x] Implement keep-screen-on during recording using Wake Lock API
+- [x] Add max recording time enforcement (10 minutes) to
   `tauri-app/src/hooks/useRecording.ts`
-- [ ] Add warning/alert when approaching max duration
+- [x] Add warning/alert when approaching max duration (at 9 minutes)
 - [ ] Test on both Android and iOS with screen timeout settings
 
-**Files to modify:**
+**Files modified:**
 
 - `tauri-app/src/hooks/useRecording.ts`
 - `tauri-app/src/pages/SchedulePage.tsx`
+- `tauri-app/src/locales/*.ftl` (added RecordingApproachingLimitMessage)
 
 #### 1.5 Localization Alignment
 
@@ -298,11 +294,11 @@ Before production launch, verify:
 
 ## Progress Tracking
 
-**Phase 1 Progress:** 2/5 sections complete (1.1 ✓, 1.2 ✓)  
+**Phase 1 Progress:** 3/5 sections complete (1.1 ✓, 1.2 ✓, 1.4 mostly ✓)  
 **Phase 2 Progress:** 1/4 sections complete (M4A upload verified)  
 **Phase 3 Progress:** 0/4 sections complete  
 
-**Overall Progress:** 21% (3/14 major sections)
+**Overall Progress:** 29% (4/14 major sections)
 
 ## Notes & Updates
 
@@ -321,6 +317,13 @@ Before production launch, verify:
   - Start page shows schedule preview before beginning
   - Finish page displays completion stats with share functionality
   - Updated routing: themes → start → schedule → finish
+- **Completed 1.4 (partial):** Recording time limits and warnings
+  - Commit: 0010eee
+  - Implemented Wake Lock API for keep-screen-on during recording
+  - Auto-stops recording at 10-minute max time limit
+  - Shows warning alert at 9 minutes (1 minute before limit)
+  - Added RecordingApproachingLimitMessage localization to all languages
+  - Remaining: Mobile testing (Android/iOS) with screen timeout settings
 - Branch: `feature/tauri-migration`
 
 ### Future Updates
