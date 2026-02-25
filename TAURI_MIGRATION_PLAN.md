@@ -6,6 +6,32 @@
 **Deployment:** New app with different name/organization (no user migration
 needed)
 
+
+
+## Development Notes
+
+**Package Manager:** Use `pnpm` for all npm operations in the `tauri-app/`
+directory.
+
+```bash
+# Install dependencies
+pnpm install
+
+# Run dev server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Run Tauri in development mode
+pnpm tauri dev
+
+# Build Tauri app
+pnpm tauri build
+```
+
+
+
 ## Executive Summary
 
 **TL;DR:** Development requires 3 phases: (1) Feature parity - implement 4
@@ -18,13 +44,13 @@ testing and optimization, (3) Deployment as new app
 
 #### 1.1 Implement Missing User Input Components
 
-- [ ] Create `MultiChoiceView.tsx` matching
+- [x] Create `MultiChoiceView.tsx` matching
   `Recorder.Maui/Views/MultiChoiceUserEntryView.xaml` functionality
-- [ ] Create `SuggestInputView.tsx` matching
+- [x] Create `SuggestInputView.tsx` matching
   `Recorder.Maui/Views/SuggestUserEntryView.xaml`
-- [ ] Integrate both components into `tauri-app/src/pages/SchedulePage.tsx`
+- [x] Integrate both components into `tauri-app/src/pages/SchedulePage.tsx`
   schedule item rendering
-- [ ] Test with all schedule item types from backend API
+- [x] Test with all schedule item types from backend API
 
 **Files to modify:**
 
@@ -243,11 +269,11 @@ Before production launch, verify:
 
 ## Progress Tracking
 
-**Phase 1 Progress:** 0/5 sections complete  
+**Phase 1 Progress:** 1/5 sections complete (1.1 ✓)  
 **Phase 2 Progress:** 1/4 sections complete (M4A upload verified)  
 **Phase 3 Progress:** 0/4 sections complete  
 
-**Overall Progress:** 7% (1/14 major sections)
+**Overall Progress:** 14% (2/14 major sections)
 
 ## Notes & Updates
 
@@ -256,6 +282,11 @@ Before production launch, verify:
 - Initial plan created based on codebase research
 - Recent fix: iOS recording now saves M4A natively instead of attempting FLAC
   conversion
+- **Completed 1.1:** Created MultiChoiceView and SuggestInputView components,
+  integrated into SchedulePage
+  - Commits: 4b9964a, 7e54044, 7eb13da, 6d3cfa4
+  - Components handle choice/multi-choice/super-choice prompt types
+  - Fixed TypeScript type error with FluentVariable
 - Branch: `feature/tauri-migration`
 
 ### Future Updates
