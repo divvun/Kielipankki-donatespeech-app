@@ -219,6 +219,11 @@ testing and optimization, (3) Deployment as new app
 
 #### 3.1 Build System Setup
 
+- [ ] **Implement build configuration system** - Replace hardcoded API URL with environment-based configuration
+  - Currently: `localhost:8000` hardcoded in `src-tauri/src/lib.rs`
+  - Target: Match .NET MAUI approach (Debug→localhost, Release→Azure dev endpoint)
+  - Options: Tauri build profiles, environment variables, or config files
+  - Ensure Android localhost remapping (10.0.2.2) still works
 - [ ] Configure Android build in `tauri-app/src-tauri/android/build.gradle`
 - [ ] Set up iOS build in Xcode project
 - [ ] Configure signing certificates for iOS and Android
@@ -360,6 +365,15 @@ Before production launch, verify:
   - Implemented localized language names in language selector
   - Created comprehensive coverage report: `tauri-app/LOCALIZATION_COVERAGE.md`
   - Remaining: Manual testing of language switching on mobile platforms
+- **Documentation Transfer:** Comprehensive README update
+  - Commit: 2af0c6c
+  - Transferred all essential MAUI documentation to `tauri-app/README.md`
+  - Added backend setup, deployment procedures, troubleshooting
+  - Documented architecture and contributing guidelines
+  - **Gap identified:** Build configuration system needs implementation (Phase 3.1)
+    - MAUI has Debug/Release configs for API endpoints
+    - Tauri currently hardcodes `localhost:8000` in `src-tauri/src/lib.rs`
+    - Plan: Implement environment-based config before production deployment
 - Branch: `feature/tauri-migration`
 
 ### Future Updates
