@@ -361,6 +361,20 @@ export default function SchedulePage() {
                     <p className="text-gray-600">Loading media...</p>
                   </div>
                 )}
+              {/* Fake YLE items - show unavailable message */}
+              {(currentItem.itemType === "fake-yle-audio" ||
+                currentItem.itemType === "fake-yle-video") && (
+                  <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg shadow-md p-8 text-center">
+                    <div className="text-4xl mb-4">⚠️</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {getString("YleContentUnavailable") || "YLE Content Unavailable"}
+                    </h3>
+                    <p className="text-gray-700">
+                      {getString("YleContentUnavailableMessage") ||
+                        "This content requires YLE API credentials to be configured."}
+                    </p>
+                  </div>
+                )}
               {currentItem.itemType === "text-content" &&
                 "url" in currentItem && (
                   <TextContentView item={currentItem} />
