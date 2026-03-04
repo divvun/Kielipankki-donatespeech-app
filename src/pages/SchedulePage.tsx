@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
@@ -14,11 +14,16 @@ import { addRecordedSeconds } from "../utils/preferences";
 import { useAutoUpload } from "../hooks/useAutoUpload";
 import { getClientId } from "../utils/clientId";
 import { useTranslation } from "../hooks/useTranslation";
+import { getLocalizedText } from "../utils/localization";
+import { useItemState } from "../hooks/useItemState";
+import { LocalizationContext } from "../contexts/LocalizationContext";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
   const { getString } = useTranslation();
+  const localizationContext = useContext(LocalizationContext);
+  const currentLanguage = localizationContext?.currentLanguage || "nb";
 
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -79,6 +84,13 @@ export default function SchedulePage() {
   const recording = useRecording(handleMaxTimeReached, handleWarningThreshold);
   const totalRecorded = useTotalRecorded();
   const autoUpload = useAutoUpload();
+
+  // Get current item and its state
+  const currentItem = schedule?.items[currentIndex] || null;
+  const { stateContent, transitionTo } = useItemState(
+    currentItem,
+    recording.isRecording,
+  );
 
   useEffect(() => {
     if (scheduleId) {
@@ -168,7 +180,8 @@ export default function SchedulePage() {
 
   const handleRecord = async () => {
     if (recording.isRecording) {
-      // Stop recording
+      // Stop recording and transition to finish state
+      transitionTo("finish");
       setSaving(true);
       try {
         const currentItem = schedule!.items[currentIndex];
@@ -199,9 +212,11 @@ export default function SchedulePage() {
         setSaving(false);
       }
     } else {
-      // Start recording
+      // Start recording and transition to start then recording state
+      transitionTo("start");
       try {
         await recording.startRecording();
+        // The useItemState hook will auto-transition to "recording" when isRecording becomes true
       } catch (err) {
         console.error("Error starting recording:", err);
         setError(
@@ -223,7 +238,7 @@ export default function SchedulePage() {
     );
   }
 
-  if (error || !schedule) {
+  if (error || !schedule || !currentItem) {
     return (
       <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-8">
         <div className="mb-5 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -246,12 +261,17 @@ export default function SchedulePage() {
     );
   }
 
-  const currentItem = schedule.items[currentIndex];
   const isMedia = isMediaItem(currentItem);
   const isPrompt = isPromptItem(currentItem);
   const canGoPrevious = currentIndex > 0;
   const canGoNext = currentIndex < schedule.items.length - 1;
   const isLastItem = currentIndex === schedule.items.length - 1;
+
+  // Get localized content from state
+  const title = getLocalizedText(stateContent.title, currentLanguage);
+  const body1 = getLocalizedText(stateContent.body1, currentLanguage);
+  const body2 = getLocalizedText(stateContent.body2, currentLanguage);
+  const stateImageUrl = stateContent.imageUrl;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -294,12 +314,21 @@ export default function SchedulePage() {
                   <strong>Media Error:</strong> {mediaError}
                 </div>
               )}
+              {/* Display state image if present */}
+              {stateImageUrl && (
+                <img
+                  src={stateImageUrl}
+                  alt={title}
+                  className="w-full rounded-lg shadow-md mb-4"
+                  style={{ maxHeight: "300px", objectFit: "cover" }}
+                />
+              )}
               {currentItem.itemType === "image" &&
                 "url" in currentItem &&
                 currentMediaUrl && (
                   <img
                     src={currentMediaUrl}
-                    alt={currentItem.description}
+                    alt={title}
                     className="w-full rounded-lg shadow-md"
                     style={{ maxHeight: "300px", objectFit: "cover" }}
                   />
@@ -310,7 +339,7 @@ export default function SchedulePage() {
                 currentMediaUrl && (
                   <VideoPlayer
                     url={currentMediaUrl}
-                    description={currentItem.description}
+                    description={title}
                   />
                 )}
               {(currentItem.itemType === "audio" ||
@@ -319,7 +348,7 @@ export default function SchedulePage() {
                 currentMediaUrl && (
                   <AudioPlayer
                     url={currentMediaUrl}
-                    description={currentItem.description}
+                    description={title}
                   />
                 )}
               {!currentMediaUrl &&
@@ -334,7 +363,7 @@ export default function SchedulePage() {
               {currentItem.itemType === "text-content" &&
                 "url" in currentItem && (
                   <div className="bg-white rounded-lg shadow-md p-6">
-                    <p className="text-gray-700">{currentItem.description}</p>
+                    <p className="text-gray-700">{title}</p>
                   </div>
                 )}
             </div>
@@ -385,9 +414,18 @@ export default function SchedulePage() {
 
           {/* Item Content */}
           <div className="px-4">
-            <h2 className="text-2xl font-bold text-center mb-4 text-gray-900">
-              {currentItem.description}
-            </h2>
+            {/* Display localized title and body text */}
+            {title && (
+              <h2 className="text-2xl font-bold text-center mb-4 text-gray-900">
+                {title}
+              </h2>
+            )}
+            {body1 && (
+              <p className="text-lg text-center mb-2 text-gray-700">{body1}</p>
+            )}
+            {body2 && (
+              <p className="text-base text-center mb-4 text-gray-600">{body2}</p>
+            )}
 
             {/* Prompt Items */}
             {isPrompt && (
