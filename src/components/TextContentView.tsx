@@ -1,15 +1,14 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { getLocalizedText } from "../utils/localization";
-import { LocalizationContext } from "../contexts/LocalizationContext";
-import type { TextMediaItem } from "../types/Schedule";
+import { useLocalization } from "../contexts/LocalizationContext";
+import type { TextContentItem } from "../types/Schedule";
 
 interface TextContentViewProps {
-  item: TextMediaItem;
+  item: TextContentItem;
 }
 
 export function TextContentView({ item }: TextContentViewProps) {
-  const localizationContext = useContext(LocalizationContext);
-  const currentLanguage = localizationContext?.currentLanguage || "nb";
+  const { currentLanguage } = useLocalization();
   
   const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);

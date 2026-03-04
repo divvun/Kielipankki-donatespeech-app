@@ -20,7 +20,6 @@ export default function ScheduleFinishPage() {
 
   const state = location.state as ScheduleFinishLocationState | undefined;
   const schedule = state?.schedule;
-  const itemsCompleted = state?.itemsCompleted || 0;
 
   const handleInviteFriend = async () => {
     const totalSeconds = getTotalRecordedSeconds();

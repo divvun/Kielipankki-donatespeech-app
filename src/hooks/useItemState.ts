@@ -51,27 +51,40 @@ export function useItemState(
       };
     }
 
+    // Check if item has state fields (not all media items do, e.g., fake-yle items)
+    const hasStateFields = "default" in item;
+    
+    if (!hasStateFields) {
+      // Return empty state for items without state fields
+      return {
+        title: {},
+        body1: {},
+        body2: {},
+        imageUrl: null,
+      };
+    }
+
     // Try to get the content for the current state
     let content: MediaState | null | undefined = null;
 
     switch (currentState) {
       case "start":
-        content = item.start;
+        content = "start" in item ? item.start : null;
         break;
       case "recording":
-        content = item.recording;
+        content = "recording" in item ? item.recording : null;
         break;
       case "finish":
-        content = item.finish;
+        content = "finish" in item ? item.finish : null;
         break;
       case "default":
       default:
-        content = item.default;
+        content = "default" in item ? item.default : null;
         break;
     }
 
     // If the specific state doesn't exist, fall back to default
-    if (!content) {
+    if (!content && "default" in item) {
       content = item.default;
     }
 
@@ -110,7 +123,7 @@ export function useItemState(
     };
   };
 
-  const stateContent = isMediaItem(item)
+  const stateContent = item && isMediaItem(item)
     ? getStateContent()
     : getPromptStateContent();
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
@@ -17,14 +17,13 @@ import { getClientId } from "../utils/clientId";
 import { useTranslation } from "../hooks/useTranslation";
 import { getLocalizedText } from "../utils/localization";
 import { useItemState } from "../hooks/useItemState";
-import { LocalizationContext } from "../contexts/LocalizationContext";
+import { useLocalization } from "../contexts/LocalizationContext";
 
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
   const { getString } = useTranslation();
-  const localizationContext = useContext(LocalizationContext);
-  const currentLanguage = localizationContext?.currentLanguage || "nb";
+  const { currentLanguage } = useLocalization();
 
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -491,7 +490,7 @@ export default function SchedulePage() {
       </div>
 
       {/* Bottom Button Bar */}
-      {isMedia && currentItem.isRecording && (
+      {isMedia && "isRecording" in currentItem && currentItem.isRecording && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center">
           {saving && (
             <div className="mb-4 text-blue-600 font-semibold">
@@ -529,7 +528,7 @@ export default function SchedulePage() {
         </div>
       )}
 
-      {(isPrompt || (isMedia && !currentItem.isRecording)) && (
+      {(isPrompt || (isMedia && !("isRecording" in currentItem && currentItem.isRecording))) && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
           <button
             onClick={handleContinue}

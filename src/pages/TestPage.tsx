@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import type { Recording } from "../types";
-import type { Theme } from "../types/Theme";
+import type { ThemeListItem } from "../types/Theme";
 import type { Schedule } from "../types/Schedule";
+import { getLocalizedText } from "../utils/localization";
+import { useLocalization } from "../contexts/LocalizationContext";
 
 export default function TestPage() {
+  const { currentLanguage } = useLocalization();
   const [recordings, setRecordings] = useState<Recording[]>([]);
-  const [themes, setThemes] = useState<Theme[]>([]);
+  const [themes, setThemes] = useState<ThemeListItem[]>([]);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -48,7 +51,7 @@ export default function TestPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<Theme[]>("fetch_themes");
+      const result = await invoke<ThemeListItem[]>("fetch_themes");
       console.log("Received themes:", result);
       setThemes(result);
     } catch (err) {
@@ -236,9 +239,19 @@ export default function TestPage() {
                     {theme.content && (
                       <div className="space-y-2">
                         <div>
-                          <span className="font-semibold">Description:</span>{" "}
-                          {theme.content.description || "N/A"}
+                          <span className="font-semibold">Title:</span>{" "}
+                          {getLocalizedText(theme.content.title, currentLanguage) || "N/A"}
                         </div>
+                        <div>
+                          <span className="font-semibold">Body 1:</span>{" "}
+                          {getLocalizedText(theme.content.body1, currentLanguage) || "N/A"}
+                        </div>
+                        {theme.content.body2 && (
+                          <div>
+                            <span className="font-semibold">Body 2:</span>{" "}
+                            {getLocalizedText(theme.content.body2, currentLanguage) || "N/A"}
+                          </div>
+                        )}
                         {theme.content.image && (
                           <div>
                             <span className="font-semibold">Image:</span>{" "}
@@ -280,10 +293,12 @@ export default function TestPage() {
                       <span className="font-semibold">Schedule ID:</span>{" "}
                       {schedule.id || schedule.scheduleId || "N/A"}
                     </div>
-                    <div className="mb-2">
-                      <span className="font-semibold">Description:</span>{" "}
-                      {schedule.description || "N/A"}
-                    </div>
+                    {schedule.title && (
+                      <div className="mb-2">
+                        <span className="font-semibold">Title:</span>{" "}
+                        {getLocalizedText(schedule.title, currentLanguage) || "N/A"}
+                      </div>
+                    )}
                     {schedule.items && schedule.items.length > 0 && (
                       <div>
                         <span className="font-semibold">Items:</span>{" "}

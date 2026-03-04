@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "../hooks/useTranslation";
 import { getLocalizedText } from "../utils/localization";
-import { LocalizationContext } from "../contexts/LocalizationContext";
+import { useLocalization } from "../contexts/LocalizationContext";
 import type { ChoicePromptItem } from "../types/Schedule";
 
 interface SuggestInputViewProps {
@@ -12,11 +12,10 @@ interface SuggestInputViewProps {
 
 export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputViewProps) {
   const { getString } = useTranslation();
-  const localizationContext = useContext(LocalizationContext);
-  const currentLanguage = localizationContext?.currentLanguage || "nb";
+  const { currentLanguage } = useLocalization();
   
   // Get localized options
-  const localizedOptions = item.options.map((opt) =>
+  const localizedOptions = item.options.map((opt: Record<string, string>) =>
     getLocalizedText(opt, currentLanguage),
   );
   
@@ -52,7 +51,7 @@ export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputV
 
     // Filter suggestions
     if (text.trim()) {
-      const filtered = localizedOptions.filter((option) =>
+      const filtered = localizedOptions.filter((option: string) =>
         option.toLowerCase().startsWith(text.toLowerCase())
       );
       setFilteredSuggestions(filtered);

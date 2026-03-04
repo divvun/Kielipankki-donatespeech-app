@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../hooks/useTranslation";
@@ -6,7 +6,7 @@ import type { ThemeListItem } from "../types/Theme";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useAutoUpload } from "../hooks/useAutoUpload";
 import { getLocalizedText } from "../utils/localization";
-import { LocalizationContext } from "../contexts/LocalizationContext";
+import { useLocalization } from "../contexts/LocalizationContext";
 import LanguageSelector from "../components/LanguageSelector";
 
 export default function ThemesPage() {
@@ -16,8 +16,7 @@ export default function ThemesPage() {
   const navigate = useNavigate();
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
-  const localizationContext = useContext(LocalizationContext);
-  const currentLanguage = localizationContext?.currentLanguage || "nb";
+  const { currentLanguage } = useLocalization();
 
   // Auto-upload pending recordings in the background
   useAutoUpload();
