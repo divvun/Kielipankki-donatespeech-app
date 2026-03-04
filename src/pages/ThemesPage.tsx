@@ -1,19 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../hooks/useTranslation";
-import type { Theme } from "../types/Theme";
+import type { ThemeListItem } from "../types/Theme";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useAutoUpload } from "../hooks/useAutoUpload";
+import { getLocalizedText } from "../utils/localization";
+import { LocalizationContext } from "../contexts/LocalizationContext";
 import LanguageSelector from "../components/LanguageSelector";
 
 export default function ThemesPage() {
-  const [themes, setThemes] = useState<Theme[]>([]);
+  const [themes, setThemes] = useState<ThemeListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
+  const localizationContext = useContext(LocalizationContext);
+  const currentLanguage = localizationContext?.currentLanguage || "nb";
 
   // Auto-upload pending recordings in the background
   useAutoUpload();
@@ -27,13 +31,13 @@ export default function ThemesPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<Theme[]>("fetch_themes");
+      const result = await invoke<ThemeListItem[]>("fetch_themes");
       console.log("Received themes:", result);
 
       // Filter themes that have scheduleIds
       const filteredThemes = result.filter(
-        (theme) =>
-          theme.content?.scheduleIds && theme.content.scheduleIds.length > 0,
+        (themeItem) =>
+          themeItem.content?.scheduleIds && themeItem.content.scheduleIds.length > 0,
       );
 
       setThemes(filteredThemes);
@@ -45,9 +49,9 @@ export default function ThemesPage() {
     }
   };
 
-  const handleThemeClick = (theme: Theme) => {
+  const handleThemeClick = (themeItem: ThemeListItem) => {
     // Navigate to the schedule start page
-    const firstScheduleId = theme.content?.scheduleIds?.[0];
+    const firstScheduleId = themeItem.content?.scheduleIds?.[0];
     if (firstScheduleId) {
       console.log("Navigating to schedule start page:", firstScheduleId);
       navigate(`/schedule/${firstScheduleId}/start`);
@@ -126,10 +130,13 @@ export default function ThemesPage() {
           {/* Themes List */}
           {!loading && themes.length > 0 && (
             <div className="space-y-4">
-              {themes.map((theme) => (
+              {themes.map((themeItem) => {
+                const theme = themeItem.content;
+                const title = getLocalizedText(theme.title, currentLanguage);
+                return (
                 <button
-                  key={theme.id}
-                  onClick={() => handleThemeClick(theme)}
+                  key={themeItem.id}
+                  onClick={() => handleThemeClick(themeItem)}
                   className="w-full"
                   style={{
                     backgroundColor: "#3B82F6", // FirstColor
@@ -153,7 +160,7 @@ export default function ThemesPage() {
                 >
                   <div className="flex items-center">
                     {/* Theme Image */}
-                    {theme.content?.image && (
+                    {theme.image && (
                       <div
                         style={{
                           borderRadius: "1.125rem",
@@ -162,8 +169,8 @@ export default function ThemesPage() {
                         }}
                       >
                         <img
-                          src={theme.content.image}
-                          alt={theme.content.description || "Theme"}
+                          src={theme.image}
+                          alt={title}
                           style={{
                             width: "62px",
                             height: "62px",
@@ -184,12 +191,13 @@ export default function ThemesPage() {
                           textTransform: "uppercase",
                         }}
                       >
-                        {theme.content?.description || "Untitled Theme"}
+                        {title || "Untitled Theme"}
                       </span>
                     </div>
                   </div>
                 </button>
-              ))}
+              );
+              })}
             </div>
           )}
 
