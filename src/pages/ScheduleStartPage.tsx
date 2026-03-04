@@ -3,11 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 import type { Schedule } from "../types/Schedule";
 import { useTranslation } from "../hooks/useTranslation";
+import { useTotalRecorded } from "../hooks/useTotalRecorded";
+import { getLocalizedText } from "../utils/localization";
+import { useLocalization } from "../contexts/LocalizationContext";
 
 export default function ScheduleStartPage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
   const { getString } = useTranslation();
+  const totalRecorded = useTotalRecorded();
+  const { currentLanguage } = useLocalization();
 
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [loading, setLoading] = useState(true);
@@ -100,39 +105,49 @@ export default function ScheduleStartPage() {
         >
           ← Back
         </button>
+
+        {/* Donation Counter */}
+        <div className="flex flex-col items-end">
+          <div className="text-xs text-gray-600 uppercase tracking-wide">
+            {getString("DonatedLabelText")}
+          </div>
+          <div className="text-lg font-semibold text-blue-600">
+            {totalRecorded.totalFormatted}
+          </div>
+        </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-32">
         <div className="max-w-2xl w-full">
-          {/* Optional image placeholder */}
-          <div className="mb-8 flex justify-center">
-            <div className="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-              <svg
-                className="w-24 h-24 text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path
-                  fillRule="evenodd"
-                  d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
+          {/* Optional image */}
+          {schedule?.start?.imageUrl && (
+            <div className="mb-8 flex justify-center">
+              <img
+                src={schedule.start.imageUrl}
+                alt=""
+                className="max-w-md w-full h-auto rounded-lg shadow-lg"
+              />
             </div>
-          </div>
+          )}
 
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">
-            {schedule?.description || "Ready to begin"}
+            {schedule?.start?.title
+              ? getLocalizedText(schedule.start.title, currentLanguage)
+              : "Ready to begin"}
           </h1>
 
           <div className="text-center text-gray-700 space-y-4 mb-8">
-            <p>
-              This schedule contains {schedule?.items?.length || 0} items to
-              complete.
-            </p>
-            <p>You'll be guided through each step.</p>
+            {schedule?.start?.body1 && (
+              <p className="text-lg">
+                {getLocalizedText(schedule.start.body1, currentLanguage)}
+              </p>
+            )}
+            {schedule?.start?.body2 && (
+              <p>
+                {getLocalizedText(schedule.start.body2, currentLanguage)}
+              </p>
+            )}
           </div>
         </div>
       </div>

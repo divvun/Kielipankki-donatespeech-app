@@ -171,7 +171,7 @@ export default function SchedulePage() {
       if (schedule && scheduleId) {
         navigate(`/schedule/${scheduleId}/finish`, {
           state: {
-            scheduleDescription: schedule.description,
+            schedule: schedule,
             itemsCompleted: schedule.items.length,
           },
         });

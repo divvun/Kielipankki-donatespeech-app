@@ -2,9 +2,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { getTotalRecordedSeconds } from "../utils/preferences";
 import { useTranslation } from "../hooks/useTranslation";
+import { Schedule } from "../types/Schedule";
+import { getLocalizedText } from "../utils/localization";
+import { useLocalization } from "../contexts/LocalizationContext";
 
 interface ScheduleFinishLocationState {
-  scheduleDescription?: string;
+  schedule?: Schedule;
   itemsCompleted?: number;
 }
 
@@ -13,9 +16,10 @@ export default function ScheduleFinishPage() {
   const location = useLocation();
   const totalRecorded = useTotalRecorded();
   const { getString } = useTranslation();
+  const { currentLanguage } = useLocalization();
 
   const state = location.state as ScheduleFinishLocationState | undefined;
-  const scheduleDescription = state?.scheduleDescription || "Schedule";
+  const schedule = state?.schedule;
   const itemsCompleted = state?.itemsCompleted || 0;
 
   const handleInviteFriend = async () => {
@@ -96,34 +100,52 @@ export default function ScheduleFinishPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-32">
         <div className="max-w-2xl w-full">
-          {/* Reward/Success Image */}
-          <div className="mb-8 flex justify-center">
-            <div className="w-64 h-64 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl">
-              <svg
-                className="w-32 h-32 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+          {/* Success Image */}
+          {schedule?.finish?.imageUrl ? (
+            <div className="mb-8 flex justify-center">
+              <img
+                src={schedule.finish.imageUrl}
+                alt=""
+                className="max-w-md w-full h-auto rounded-lg shadow-lg"
+              />
             </div>
-          </div>
+          ) : (
+            <div className="mb-8 flex justify-center">
+              <div className="w-64 h-64 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl">
+                <svg
+                  className="w-32 h-32 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          )}
 
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">
-            {getString("RecordingFinishTitle")}
+            {schedule?.finish?.title
+              ? getLocalizedText(schedule.finish.title, currentLanguage)
+              : getString("RecordingFinishTitle")}
           </h1>
 
           <div className="text-center text-gray-700 space-y-4 mb-8">
-            <p className="text-xl">
-              You completed <strong>{itemsCompleted}</strong> items from{" "}
-              <strong>{scheduleDescription}</strong>
-            </p>
+            {schedule?.finish?.body1 && (
+              <p className="text-xl">
+                {getLocalizedText(schedule.finish.body1, currentLanguage)}
+              </p>
+            )}
+            {schedule?.finish?.body2 && (
+              <p className="text-lg">
+                {getLocalizedText(schedule.finish.body2, currentLanguage)}
+              </p>
+            )}
             <p className="text-lg">
               Total contribution: <strong>{totalRecorded.totalFormatted}</strong>
             </p>
