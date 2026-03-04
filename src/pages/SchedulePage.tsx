@@ -8,6 +8,7 @@ import { AudioPlayer } from "../components/AudioPlayer";
 import { VideoPlayer } from "../components/VideoPlayer";
 import { MultiChoiceView } from "../components/MultiChoiceView";
 import { SuggestInputView } from "../components/SuggestInputView";
+import { TextContentView } from "../components/TextContentView";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -362,9 +363,7 @@ export default function SchedulePage() {
                 )}
               {currentItem.itemType === "text-content" &&
                 "url" in currentItem && (
-                  <div className="bg-white rounded-lg shadow-md p-6">
-                    <p className="text-gray-700">{title}</p>
-                  </div>
+                  <TextContentView item={currentItem} />
                 )}
             </div>
           )}
