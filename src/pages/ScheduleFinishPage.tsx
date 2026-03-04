@@ -59,11 +59,13 @@ export default function ScheduleFinishPage() {
   };
 
   const handleDonateMore = () => {
-    navigate("/themes");
+    console.log("Navigating to themes from donate more button");
+    navigate("/themes", { replace: true });
   };
 
   const handleBack = () => {
-    navigate("/themes");
+    console.log("Navigating to themes from back button");
+    navigate("/themes", { replace: true });
   };
 
   return (

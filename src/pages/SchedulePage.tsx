@@ -161,17 +161,30 @@ export default function SchedulePage() {
   };
 
   const handleContinue = () => {
+    console.log(
+      "handleContinue called, currentIndex:",
+      currentIndex,
+      "total items:",
+      schedule?.items.length,
+    );
     if (schedule && currentIndex < schedule.items.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
       // Schedule finished - navigate to finish page
       if (schedule && scheduleId) {
+        console.log("Navigating to finish page for schedule:", scheduleId);
         navigate(`/schedule/${scheduleId}/finish`, {
           state: {
             schedule: schedule,
             itemsCompleted: schedule.items.length,
           },
+          replace: true,
         });
+      } else {
+        console.error(
+          "Cannot navigate to finish: schedule or scheduleId missing",
+          { schedule, scheduleId },
+        );
       }
     }
   };
@@ -198,9 +211,6 @@ export default function SchedulePage() {
 
         // Trigger auto-upload of pending recordings
         autoUpload.uploadNow();
-
-        // Move to next item or finish
-        handleContinue();
       } catch (err) {
         console.error("Error saving recording:", err);
         setError(
@@ -208,6 +218,11 @@ export default function SchedulePage() {
         );
       } finally {
         setSaving(false);
+        // Always move to next item or finish, even if save failed
+        // The recording is still saved locally, upload can happen later
+        setTimeout(() => {
+          handleContinue();
+        }, 100);
       }
     } else {
       // Start recording and transition to start then recording state
