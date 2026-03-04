@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useTranslation } from "../hooks/useTranslation";
+import { getLocalizedText } from "../utils/localization";
+import { LocalizationContext } from "../contexts/LocalizationContext";
 import type { MultiChoicePromptItem, SuperChoicePromptItem } from "../types/Schedule";
 
 interface MultiChoiceViewProps {
@@ -10,6 +12,19 @@ interface MultiChoiceViewProps {
 
 export function MultiChoiceView({ item, answer, onAnswerChange }: MultiChoiceViewProps) {
   const { getString } = useTranslation();
+  const localizationContext = useContext(LocalizationContext);
+  const currentLanguage = localizationContext?.currentLanguage || "nb";
+  
+  // Get localized options
+  const localizedOptions = item.options.map((opt) =>
+    getLocalizedText(opt, currentLanguage),
+  );
+  
+  // Get localized otherEntryLabel if present
+  const otherEntryLabel = item.otherEntryLabel
+    ? getLocalizedText(item.otherEntryLabel, currentLanguage)
+    : null;
+  
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [otherText, setOtherText] = useState<string>("");
 
@@ -19,15 +34,15 @@ export function MultiChoiceView({ item, answer, onAnswerChange }: MultiChoiceVie
       try {
         const selections = JSON.parse(answer) as string[];
         if (selections && selections.length > 0) {
-          // Check if first selection matches a list option
-          if (item.options.includes(selections[0])) {
+          // Check if first selection matches a localized option
+          if (localizedOptions.includes(selections[0])) {
             setSelectedOption(selections[0]);
             if (selections.length > 1) {
               setOtherText(selections[1]);
             }
           } else {
             // This was manually typed, select "Other" (last option)
-            setSelectedOption(item.options[item.options.length - 1]);
+            setSelectedOption(localizedOptions[localizedOptions.length - 1]);
             setOtherText(selections[0]);
           }
         }
@@ -35,7 +50,7 @@ export function MultiChoiceView({ item, answer, onAnswerChange }: MultiChoiceVie
         console.error("Failed to parse multi-choice answer:", e);
       }
     }
-  }, [answer, item.options]);
+  }, [answer, localizedOptions]);
 
   // Update answer when selections change
   useEffect(() => {
@@ -43,7 +58,7 @@ export function MultiChoiceView({ item, answer, onAnswerChange }: MultiChoiceVie
 
     if (selectedOption) {
       // Don't include the last option ("Other") in the answer
-      if (selectedOption !== item.options[item.options.length - 1]) {
+      if (selectedOption !== localizedOptions[localizedOptions.length - 1]) {
         selections.push(selectedOption);
       }
     }
@@ -54,7 +69,7 @@ export function MultiChoiceView({ item, answer, onAnswerChange }: MultiChoiceVie
 
     const newAnswer = selections.length === 0 ? "" : JSON.stringify(selections);
     onAnswerChange(newAnswer);
-  }, [selectedOption, otherText, item.options, onAnswerChange]);
+  }, [selectedOption, otherText, localizedOptions, onAnswerChange]);
 
   const handleOtherTextChange = (text: string) => {
     // If text is entered but no option selected, clear selection
@@ -72,17 +87,17 @@ export function MultiChoiceView({ item, answer, onAnswerChange }: MultiChoiceVie
         className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-gray-900"
       >
         <option value="">{getString("ChooseOptionText")}</option>
-        {item.options.map((option, idx) => (
+        {localizedOptions.map((option, idx) => (
           <option key={idx} value={option}>
             {option}
           </option>
         ))}
       </select>
 
-      {item.otherEntryLabel && (
+      {otherEntryLabel && (
         <>
           <label className="block text-sm text-gray-700 ml-1">
-            {item.otherEntryLabel}
+            {otherEntryLabel}
           </label>
           <input
             type="text"
