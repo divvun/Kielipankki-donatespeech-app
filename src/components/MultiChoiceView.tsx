@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "../hooks/useTranslation";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
-import type { MultiChoicePromptItem, SuperChoicePromptItem } from "../types/Schedule";
+import type {
+  MultiChoicePromptItem,
+  SuperChoicePromptItem,
+} from "../types/Schedule";
 
 interface MultiChoiceViewProps {
   item: MultiChoicePromptItem | SuperChoicePromptItem;
@@ -10,20 +13,24 @@ interface MultiChoiceViewProps {
   onAnswerChange: (answer: string) => void;
 }
 
-export function MultiChoiceView({ item, answer, onAnswerChange }: MultiChoiceViewProps) {
+export function MultiChoiceView({
+  item,
+  answer,
+  onAnswerChange,
+}: MultiChoiceViewProps) {
   const { getString } = useTranslation();
   const { currentLanguage } = useLocalization();
-  
+
   // Get localized options
   const localizedOptions = item.options.map((opt) =>
     getLocalizedText(opt, currentLanguage),
   );
-  
+
   // Get localized otherEntryLabel if present
   const otherEntryLabel = item.otherEntryLabel
     ? getLocalizedText(item.otherEntryLabel, currentLanguage)
     : null;
-  
+
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [otherText, setOtherText] = useState<string>("");
 

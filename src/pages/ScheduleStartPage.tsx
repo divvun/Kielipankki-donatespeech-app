@@ -144,9 +144,7 @@ export default function ScheduleStartPage() {
               </p>
             )}
             {schedule?.start?.body2 && (
-              <p>
-                {getLocalizedText(schedule.start.body2, currentLanguage)}
-              </p>
+              <p>{getLocalizedText(schedule.start.body2, currentLanguage)}</p>
             )}
           </div>
         </div>

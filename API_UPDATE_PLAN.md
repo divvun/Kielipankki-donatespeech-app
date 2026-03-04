@@ -6,27 +6,35 @@
 **Branch**: `feature/api-spec-update`  
 **Total Commits**: 13  
 
-All implementation steps have been completed successfully. Both TypeScript and Rust builds pass without errors.
+All implementation steps have been completed successfully. Both TypeScript and
+Rust builds pass without errors.
 
----
+
 
 ## Overview
 
-Update the Kielipankki-donatespeech-app to match the updated API specification (openapi.json). The API now uses localized content fields, state-based rendering (default/start/recording/finish), and discriminator patterns with `kind` field.
+Update the Kielipankki-donatespeech-app to match the updated API specification
+(openapi.json). The API now uses localized content fields, state-based rendering
+(default/start/recording/finish), and discriminator patterns with `kind` field.
 
 ## Current State
 
-- **Types**: TypeScript and Rust types have simple structure with `description` string and `options: string[]`
-- **Localization**: Only UI strings localized, not API content. Fallback is Finnish ("fi")  
+- **Types**: TypeScript and Rust types have simple structure with `description`
+  string and `options: string[]`
+- **Localization**: Only UI strings localized, not API content. Fallback is
+  Finnish ("fi")  
 - **Rendering**: Single description field displayed, no state-based content
 - **Recording**: `isRecording` boolean already working correctly ✅
 
 ## Gaps
 
-1. **Type mismatches** (Critical): Missing `kind`, state objects, localized options, metaTitle
-2. **No API content localization** (Critical): No utility to extract localized strings
+1. **Type mismatches** (Critical): Missing `kind`, state objects, localized
+   options, metaTitle
+2. **No API content localization** (Critical): No utility to extract localized
+   strings
 3. **Wrong fallback language** (High): Currently "fi", should be "nb"
-4. **No state rendering** (High): Not using default/start/recording/finish states
+4. **No state rendering** (High): Not using default/start/recording/finish
+   states
 5. **Component updates** (Medium): Options, themes, schedules need localization
 6. **Missing types** (Low): TextMediaItem, fake-yle variants not supported
 
@@ -36,10 +44,9 @@ Update the Kielipankki-donatespeech-app to match the updated API specification (
 ```bash
 git checkout -b feature/api-spec-update
 ```
-**Status**: Complete
-**Commit**: Initial branch creation
+**Status**: Complete **Commit**: Initial branch creation
 
----
+
 
 ### 2. Add Localization Utility
 **File**: `src/utils/localization.ts` (new)
@@ -59,27 +66,26 @@ export function getLocalizedText(
 }
 ```
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 3. Update Fallback Language
 **File**: `src/contexts/LocalizationContext.tsx`
 
 **Changes**: Change fallback from `"fi"` to `"nb"` in language chain logic
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 4. Update TypeScript Types
 **File**: `src/types/Schedule.ts`
 
 **Key changes**:
 - Add `kind: "media" | "prompt"` discriminator
-- Replace `ScheduleItemState` with `MediaState`: `{title, body1, body2, imageUrl?}`
+- Replace `ScheduleItemState` with `MediaState`:
+  `{title, body1, body2, imageUrl?}`
 - Add `default`, `start?`, `recording?`, `finish?` state fields to media items
 - Add `metaTitle?: Record<string, string>` to media items
 - Change `options: string[]` → `options: Array<Record<string, string>>`
@@ -88,10 +94,9 @@ export function getLocalizedText(
 - Create `TextMediaItem`, `FakeYleAudioMediaItem`, `FakeYleVideoMediaItem`
 - Add `ScheduleState` for schedule start/finish
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 5. Update Rust Types
 **File**: `src-tauri/src/models/schedule.rs`
@@ -104,20 +109,19 @@ export function getLocalizedText(
 - Add new enum variants for text/fake-yle items
 - Update serde attributes for discriminators
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 6. Create State Management Hook
 **File**: `src/hooks/useItemState.ts` (new)
 
-**Purpose**: Track current state (default/start/recording/finish) and return appropriate MediaState content
+**Purpose**: Track current state (default/start/recording/finish) and return
+appropriate MediaState content
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 7. Update SchedulePage.tsx
 **File**: `src/pages/SchedulePage.tsx`
@@ -130,10 +134,9 @@ export function getLocalizedText(
 - Trigger state transitions when recording starts/finishes
 - For prompts, show image from `item.url`
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 8. Update MultiChoiceView.tsx
 **File**: `src/components/MultiChoiceView.tsx`
@@ -142,10 +145,9 @@ export function getLocalizedText(
 - Map `item.options` through `getLocalizedText()`
 - Handle `otherAnswer`, `otherEntryLabel` as localized objects
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 9. Update SuggestInputView.tsx
 **File**: `src/components/SuggestInputView.tsx`
@@ -154,10 +156,9 @@ export function getLocalizedText(
 - Map `item.options` through `getLocalizedText()`
 - Handle localized labels
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 10. Add TextContentView Component
 **File**: `src/components/TextContentView.tsx` (new)
@@ -167,10 +168,9 @@ export function getLocalizedText(
 - Handle text/plain and text/html via `typeId`
 - Display state-based localized title/body
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 11. Handle Fake-YLE Items
 **Files**: `src/pages/SchedulePage.tsx`, `src/components/`
@@ -179,10 +179,9 @@ export function getLocalizedText(
 - Detect `fake-yle-audio`, `fake-yle-video` types
 - Show placeholder/message for unavailable YLE content
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 12. Update ThemesPage.tsx
 **File**: `src/pages/ThemesPage.tsx`
@@ -191,22 +190,21 @@ export function getLocalizedText(
 - Use `getLocalizedText()` for theme titles
 - Display localized schedule start/finish states
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ### 13. Update Schedule Start/Finish Pages
 **Files**: `src/pages/ScheduleStartPage.tsx`, `src/pages/ScheduleFinishPage.tsx`
 
 **Changes**:
 - Use `schedule.start` and `schedule.finish` state objects
-- Display localized `title`, `body1`, `body2`, `imageUrl` using `getLocalizedText`
+- Display localized `title`, `body1`, `body2`, `imageUrl` using
+  `getLocalizedText`
 
-**Status**: 🔲 Not started
-**Commit**: 
+**Status**: 🔲 Not started **Commit**:
 
----
+
 
 ## Verification
 
@@ -218,14 +216,15 @@ export function getLocalizedText(
 - [ ] Switch app language → verify API content updates
 - [ ] Test nb fallback when content missing
 - [ ] Test recording flow → verify state transitions
-- [ ] Test all item types (audio, video, image, YLE, fake-yle, text, all prompts)
+- [ ] Test all item types (audio, video, image, YLE, fake-yle, text, all
+  prompts)
 - [ ] Verify localized options in multi-choice
 - [ ] Check metaTitle display
 
 ### Automated Tests
 - [ ] Run existing tests: `pnpm test`
 
----
+
 
 ## Key Decisions
 
@@ -236,7 +235,7 @@ export function getLocalizedText(
 | Localization | Single `getLocalizedText()` utility | DRY principle, consistent behavior |
 | Fallback chain | currentLang → nb → first → empty | User requirement: nb fallback |
 
----
+
 
 ## Progress Tracking
 
@@ -246,7 +245,7 @@ export function getLocalizedText(
 
 **Last Updated**: 2026-03-04
 
----
+
 
 ## Notes
 

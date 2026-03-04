@@ -24,17 +24,17 @@ export default function ScheduleFinishPage() {
   const handleInviteFriend = async () => {
     const totalSeconds = getTotalRecordedSeconds();
     const minutes = Math.floor(totalSeconds / 60);
-    
+
     let shareTemplate = getString("InviteFriendTemplate");
     if (minutes < 2) {
       shareTemplate = getString("InviteFriendNewbieTemplate");
     }
-    
+
     // Format the share text with minutes parameter
     const shareText = shareTemplate.replace("{$param0}", minutes.toString());
-    
+
     console.log("Share text:", shareText);
-    
+
     // Use Web Share API if available
     if (navigator.share) {
       try {
@@ -146,7 +146,8 @@ export default function ScheduleFinishPage() {
               </p>
             )}
             <p className="text-lg">
-              Total contribution: <strong>{totalRecorded.totalFormatted}</strong>
+              Total contribution:{" "}
+              <strong>{totalRecorded.totalFormatted}</strong>
             </p>
           </div>
         </div>

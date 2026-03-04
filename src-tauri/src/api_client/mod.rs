@@ -1,4 +1,4 @@
-use crate::models::{schedule::Schedule, theme::Theme};
+use crate::models::{schedule::Schedule, theme::{Theme, ThemeListItem}};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone)]
@@ -73,7 +73,7 @@ impl ApiClient {
     }
 
     /// Fetch all themes from the backend
-    pub async fn get_themes(&self) -> Result<Vec<Theme>, String> {
+    pub async fn get_themes(&self) -> Result<Vec<ThemeListItem>, String> {
         let url = format!("{}/v1/theme", self.base_url);
         
         self.client
@@ -81,7 +81,7 @@ impl ApiClient {
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?
-            .json::<Vec<Theme>>()
+            .json::<Vec<ThemeListItem>>()
             .await
             .map_err(|e| format!("Failed to parse response: {}", e))
     }

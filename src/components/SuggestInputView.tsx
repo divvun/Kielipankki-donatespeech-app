@@ -10,15 +10,19 @@ interface SuggestInputViewProps {
   onAnswerChange: (answer: string) => void;
 }
 
-export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputViewProps) {
+export function SuggestInputView({
+  item,
+  answer,
+  onAnswerChange,
+}: SuggestInputViewProps) {
   const { getString } = useTranslation();
   const { currentLanguage } = useLocalization();
-  
+
   // Get localized options
   const localizedOptions = item.options.map((opt: Record<string, string>) =>
     getLocalizedText(opt, currentLanguage),
   );
-  
+
   const [suggestText, setSuggestText] = useState<string>("");
   const [otherText, setOtherText] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
@@ -52,7 +56,7 @@ export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputV
     // Filter suggestions
     if (text.trim()) {
       const filtered = localizedOptions.filter((option: string) =>
-        option.toLowerCase().startsWith(text.toLowerCase())
+        option.toLowerCase().startsWith(text.toLowerCase()),
       );
       setFilteredSuggestions(filtered);
       setShowSuggestions(filtered.length > 0);
@@ -79,7 +83,7 @@ export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputV
       <label className="block text-sm text-gray-700 ml-1">
         {getString("StartTypingLabelText")}
       </label>
-      
+
       <div className="relative">
         <input
           type="text"
@@ -92,7 +96,7 @@ export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputV
           }}
           className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
         />
-        
+
         {showSuggestions && filteredSuggestions.length > 0 && (
           <div className="absolute z-10 w-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
             {filteredSuggestions.map((suggestion, idx) => (

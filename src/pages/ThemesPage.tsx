@@ -36,7 +36,8 @@ export default function ThemesPage() {
       // Filter themes that have scheduleIds
       const filteredThemes = result.filter(
         (themeItem) =>
-          themeItem.content?.scheduleIds && themeItem.content.scheduleIds.length > 0,
+          themeItem.content?.scheduleIds &&
+          themeItem.content.scheduleIds.length > 0,
       );
 
       setThemes(filteredThemes);
@@ -133,69 +134,69 @@ export default function ThemesPage() {
                 const theme = themeItem.content;
                 const title = getLocalizedText(theme.title, currentLanguage);
                 return (
-                <button
-                  key={themeItem.id}
-                  onClick={() => handleThemeClick(themeItem)}
-                  className="w-full"
-                  style={{
-                    backgroundColor: "#3B82F6", // FirstColor
-                    borderRadius: "1.5rem",
-                    padding: "0.5rem",
-                    border: "none",
-                    cursor: "pointer",
-                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-2px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 4px 8px rgba(0, 0, 0, 0.15)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow =
-                      "0 2px 4px rgba(0, 0, 0, 0.1)";
-                  }}
-                >
-                  <div className="flex items-center">
-                    {/* Theme Image */}
-                    {theme.image && (
-                      <div
-                        style={{
-                          borderRadius: "1.125rem",
-                          padding: "3px",
-                          backgroundColor: "white",
-                        }}
-                      >
-                        <img
-                          src={theme.image}
-                          alt={title}
+                  <button
+                    key={themeItem.id}
+                    onClick={() => handleThemeClick(themeItem)}
+                    className="w-full"
+                    style={{
+                      backgroundColor: "#3B82F6", // FirstColor
+                      borderRadius: "1.5rem",
+                      padding: "0.5rem",
+                      border: "none",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                      transition: "transform 0.2s, box-shadow 0.2s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow =
+                        "0 4px 8px rgba(0, 0, 0, 0.15)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow =
+                        "0 2px 4px rgba(0, 0, 0, 0.1)";
+                    }}
+                  >
+                    <div className="flex items-center">
+                      {/* Theme Image */}
+                      {theme.image && (
+                        <div
                           style={{
-                            width: "62px",
-                            height: "62px",
-                            borderRadius: "1rem",
-                            objectFit: "cover",
+                            borderRadius: "1.125rem",
+                            padding: "3px",
+                            backgroundColor: "white",
                           }}
-                        />
-                      </div>
-                    )}
+                        >
+                          <img
+                            src={theme.image}
+                            alt={title}
+                            style={{
+                              width: "62px",
+                              height: "62px",
+                              borderRadius: "1rem",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                      )}
 
-                    {/* Theme Title */}
-                    <div className="flex-1 px-4 text-left">
-                      <span
-                        style={{
-                          color: "white",
-                          fontSize: "1.125rem",
-                          fontWeight: "500",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {title || "Untitled Theme"}
-                      </span>
+                      {/* Theme Title */}
+                      <div className="flex-1 px-4 text-left">
+                        <span
+                          style={{
+                            color: "white",
+                            fontSize: "1.125rem",
+                            fontWeight: "500",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {title || "Untitled Theme"}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </button>
-              );
+                  </button>
+                );
               })}
             </div>
           )}

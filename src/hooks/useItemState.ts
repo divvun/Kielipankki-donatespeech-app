@@ -53,7 +53,7 @@ export function useItemState(
 
     // Check if item has state fields (not all media items do, e.g., fake-yle items)
     const hasStateFields = "default" in item;
-    
+
     if (!hasStateFields) {
       // Return empty state for items without state fields
       return {
@@ -89,12 +89,14 @@ export function useItemState(
     }
 
     // Ensure we always return a valid MediaState
-    return content || {
-      title: {},
-      body1: {},
-      body2: {},
-      imageUrl: null,
-    };
+    return (
+      content || {
+        title: {},
+        body1: {},
+        body2: {},
+        imageUrl: null,
+      }
+    );
   };
 
   /**
@@ -123,9 +125,8 @@ export function useItemState(
     };
   };
 
-  const stateContent = item && isMediaItem(item)
-    ? getStateContent()
-    : getPromptStateContent();
+  const stateContent =
+    item && isMediaItem(item) ? getStateContent() : getPromptStateContent();
 
   /**
    * Manually transition to a new state

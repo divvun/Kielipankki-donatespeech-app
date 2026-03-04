@@ -9,7 +9,7 @@ interface TextContentViewProps {
 
 export function TextContentView({ item }: TextContentViewProps) {
   const { currentLanguage } = useLocalization();
-  
+
   const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
@@ -48,8 +48,7 @@ export function TextContentView({ item }: TextContentViewProps) {
 
   // Determine if content is HTML or plain text
   const isHtml =
-    item.typeId?.toLowerCase().includes("html") ||
-    item.typeId === "text/html";
+    item.typeId?.toLowerCase().includes("html") || item.typeId === "text/html";
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">

@@ -68,9 +68,7 @@ export default function SchedulePage() {
       handleContinue();
     } catch (err) {
       console.error("Error auto-stopping recording:", err);
-      setError(
-        err instanceof Error ? err.message : "Failed to save recording",
-      );
+      setError(err instanceof Error ? err.message : "Failed to save recording");
     } finally {
       setSaving(false);
     }
@@ -337,19 +335,13 @@ export default function SchedulePage() {
                 currentItem.itemType === "yle-video") &&
                 "url" in currentItem &&
                 currentMediaUrl && (
-                  <VideoPlayer
-                    url={currentMediaUrl}
-                    description={title}
-                  />
+                  <VideoPlayer url={currentMediaUrl} description={title} />
                 )}
               {(currentItem.itemType === "audio" ||
                 currentItem.itemType === "yle-audio") &&
                 "url" in currentItem &&
                 currentMediaUrl && (
-                  <AudioPlayer
-                    url={currentMediaUrl}
-                    description={title}
-                  />
+                  <AudioPlayer url={currentMediaUrl} description={title} />
                 )}
               {!currentMediaUrl &&
                 !mediaError &&
@@ -363,21 +355,20 @@ export default function SchedulePage() {
               {/* Fake YLE items - show unavailable message */}
               {(currentItem.itemType === "fake-yle-audio" ||
                 currentItem.itemType === "fake-yle-video") && (
-                  <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg shadow-md p-8 text-center">
-                    <div className="text-4xl mb-4">⚠️</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {getString("YleContentUnavailable") || "YLE Content Unavailable"}
-                    </h3>
-                    <p className="text-gray-700">
-                      {getString("YleContentUnavailableMessage") ||
-                        "This content requires YLE API credentials to be configured."}
-                    </p>
-                  </div>
-                )}
+                <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg shadow-md p-8 text-center">
+                  <div className="text-4xl mb-4">⚠️</div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    {getString("YleContentUnavailable") ||
+                      "YLE Content Unavailable"}
+                  </h3>
+                  <p className="text-gray-700">
+                    {getString("YleContentUnavailableMessage") ||
+                      "This content requires YLE API credentials to be configured."}
+                  </p>
+                </div>
+              )}
               {currentItem.itemType === "text-content" &&
-                "url" in currentItem && (
-                  <TextContentView item={currentItem} />
-                )}
+                "url" in currentItem && <TextContentView item={currentItem} />}
             </div>
           )}
 
@@ -436,7 +427,9 @@ export default function SchedulePage() {
               <p className="text-lg text-center mb-2 text-gray-700">{body1}</p>
             )}
             {body2 && (
-              <p className="text-base text-center mb-4 text-gray-600">{body2}</p>
+              <p className="text-base text-center mb-4 text-gray-600">
+                {body2}
+              </p>
             )}
 
             {/* Prompt Items */}
@@ -528,7 +521,9 @@ export default function SchedulePage() {
         </div>
       )}
 
-      {(isPrompt || (isMedia && !("isRecording" in currentItem && currentItem.isRecording))) && (
+      {(isPrompt ||
+        (isMedia &&
+          !("isRecording" in currentItem && currentItem.isRecording))) && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
           <button
             onClick={handleContinue}

@@ -1,6 +1,6 @@
 use crate::api_client;
 use crate::database;
-use crate::models::{theme::Theme, schedule::Schedule, Recording, UploadStatus};
+use crate::models::{theme::{Theme, ThemeListItem}, schedule::Schedule, Recording, UploadStatus};
 use crate::recording;
 use tauri::{AppHandle, State, Manager};
 use base64::Engine;
@@ -73,7 +73,7 @@ pub fn insert_test_recording(db: State<database::Database>) -> Result<(), String
 
 /// Tauri command to fetch all themes from the backend API
 #[tauri::command]
-pub async fn fetch_themes(api_client: State<'_, api_client::ApiClient>) -> Result<Vec<Theme>, String> {
+pub async fn fetch_themes(api_client: State<'_, api_client::ApiClient>) -> Result<Vec<ThemeListItem>, String> {
     api_client.get_themes().await
 }
 

@@ -240,16 +240,25 @@ export default function TestPage() {
                       <div className="space-y-2">
                         <div>
                           <span className="font-semibold">Title:</span>{" "}
-                          {getLocalizedText(theme.content.title, currentLanguage) || "N/A"}
+                          {getLocalizedText(
+                            theme.content.title,
+                            currentLanguage,
+                          ) || "N/A"}
                         </div>
                         <div>
                           <span className="font-semibold">Body 1:</span>{" "}
-                          {getLocalizedText(theme.content.body1, currentLanguage) || "N/A"}
+                          {getLocalizedText(
+                            theme.content.body1,
+                            currentLanguage,
+                          ) || "N/A"}
                         </div>
                         {theme.content.body2 && (
                           <div>
                             <span className="font-semibold">Body 2:</span>{" "}
-                            {getLocalizedText(theme.content.body2, currentLanguage) || "N/A"}
+                            {getLocalizedText(
+                              theme.content.body2,
+                              currentLanguage,
+                            ) || "N/A"}
                           </div>
                         )}
                         {theme.content.image && (
@@ -296,7 +305,8 @@ export default function TestPage() {
                     {schedule.title && (
                       <div className="mb-2">
                         <span className="font-semibold">Title:</span>{" "}
-                        {getLocalizedText(schedule.title, currentLanguage) || "N/A"}
+                        {getLocalizedText(schedule.title, currentLanguage) ||
+                          "N/A"}
                       </div>
                     )}
                     {schedule.items && schedule.items.length > 0 && (
