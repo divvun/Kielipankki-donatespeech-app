@@ -1,5 +1,15 @@
 # API Update Plan
 
+## Status: ✅ COMPLETED
+
+**Completion Date**: January 2025  
+**Branch**: `feature/api-spec-update`  
+**Total Commits**: 13  
+
+All implementation steps have been completed successfully. Both TypeScript and Rust builds pass without errors.
+
+---
+
 ## Overview
 
 Update the Kielipankki-donatespeech-app to match the updated API specification (openapi.json). The API now uses localized content fields, state-based rendering (default/start/recording/finish), and discriminator patterns with `kind` field.
