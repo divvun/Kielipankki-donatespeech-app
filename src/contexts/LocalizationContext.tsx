@@ -72,7 +72,7 @@ function getStoredLanguage(): LanguageCode {
   if (stored && stored in SUPPORTED_LANGUAGES) {
     return stored as LanguageCode;
   }
-  return "fi"; // Default to Finnish
+  return "nb"; // Default to Norwegian Bokmål
 }
 
 export function FluentLocalizationProvider({
@@ -90,9 +90,9 @@ export function FluentLocalizationProvider({
       try {
         console.log("Loading localization for:", currentLanguage);
 
-        // Load current language and fallback to Finnish
+        // Load current language and fallback to Norwegian Bokmål
         const locales: LanguageCode[] =
-          currentLanguage === "fi" ? ["fi"] : [currentLanguage, "fi"];
+          currentLanguage === "nb" ? ["nb"] : [currentLanguage, "nb"];
 
         const bundles = await createBundles(locales);
 
