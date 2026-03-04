@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useTranslation } from "../hooks/useTranslation";
+import { getLocalizedText } from "../utils/localization";
+import { LocalizationContext } from "../contexts/LocalizationContext";
 import type { ChoicePromptItem } from "../types/Schedule";
 
 interface SuggestInputViewProps {
@@ -10,6 +12,14 @@ interface SuggestInputViewProps {
 
 export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputViewProps) {
   const { getString } = useTranslation();
+  const localizationContext = useContext(LocalizationContext);
+  const currentLanguage = localizationContext?.currentLanguage || "nb";
+  
+  // Get localized options
+  const localizedOptions = item.options.map((opt) =>
+    getLocalizedText(opt, currentLanguage),
+  );
+  
   const [suggestText, setSuggestText] = useState<string>("");
   const [otherText, setOtherText] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
@@ -18,8 +28,8 @@ export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputV
   // Initialize from existing answer
   useEffect(() => {
     if (answer) {
-      // Check if answer matches a suggestion option
-      if (item.options.includes(answer)) {
+      // Check if answer matches a localized suggestion option
+      if (localizedOptions.includes(answer)) {
         setSuggestText(answer);
         setOtherText("");
       } else {
@@ -28,7 +38,7 @@ export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputV
         setOtherText(answer);
       }
     }
-  }, [answer, item.options]);
+  }, [answer, localizedOptions]);
 
   // Update answer when text changes
   useEffect(() => {
@@ -42,7 +52,7 @@ export function SuggestInputView({ item, answer, onAnswerChange }: SuggestInputV
 
     // Filter suggestions
     if (text.trim()) {
-      const filtered = item.options.filter((option) =>
+      const filtered = localizedOptions.filter((option) =>
         option.toLowerCase().startsWith(text.toLowerCase())
       );
       setFilteredSuggestions(filtered);
