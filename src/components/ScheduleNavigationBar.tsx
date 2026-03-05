@@ -30,7 +30,9 @@ export function ScheduleNavigationBar({
         <div className="text-xs text-gray-600 uppercase tracking-wide">
           {donatedLabel}
         </div>
-        <div className="text-lg font-semibold text-blue-600">{totalRecorded}</div>
+        <div className="text-lg font-semibold text-blue-600">
+          {totalRecorded}
+        </div>
       </div>
     </div>
   );
