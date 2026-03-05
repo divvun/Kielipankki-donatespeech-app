@@ -18,28 +18,41 @@ const LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
   sv: "LanguageSwedish",
 };
 
+const selectClassName =
+  "appearance-none bg-white border border-gray-300 rounded px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500";
+
+function getLanguageOptions(
+  getString: (id: string) => string,
+): Array<{ code: LanguageCode; displayName: string }> {
+  return Object.keys(SUPPORTED_LANGUAGES).map((code) => {
+    const langCode = code as LanguageCode;
+    const nameKey = LANGUAGE_NAME_KEYS[langCode];
+
+    return {
+      code: langCode,
+      displayName: getString(nameKey),
+    };
+  });
+}
+
 export default function LanguageSelector() {
   const { currentLanguage, setLanguage } = useLocalization();
   const { getString } = useTranslation();
+  const languageOptions = getLanguageOptions(getString);
 
   return (
     <div className="relative">
       <select
         value={currentLanguage}
         onChange={(e) => setLanguage(e.target.value as LanguageCode)}
-        className="appearance-none bg-white border border-gray-300 rounded px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={selectClassName}
         aria-label={getString("ChooseLanguageTitle")}
       >
-        {Object.keys(SUPPORTED_LANGUAGES).map((code) => {
-          const langCode = code as LanguageCode;
-          const nameKey = LANGUAGE_NAME_KEYS[langCode];
-          const displayName = getString(nameKey);
-          return (
-            <option key={code} value={code}>
-              {displayName}
-            </option>
-          );
-        })}
+        {languageOptions.map((languageOption) => (
+          <option key={languageOption.code} value={languageOption.code}>
+            {languageOption.displayName}
+          </option>
+        ))}
       </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
         <svg
