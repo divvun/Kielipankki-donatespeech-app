@@ -12,11 +12,7 @@ interface ScheduleFieldRowProps {
   className?: string;
 }
 
-function ScheduleFieldRow({
-  label,
-  value,
-  className,
-}: ScheduleFieldRowProps) {
+function ScheduleFieldRow({ label, value, className }: ScheduleFieldRowProps) {
   return (
     <div className={className}>
       <span className="font-semibold">{label}:</span> {value}
