@@ -8,6 +8,7 @@ import { MultiChoiceView } from "../components/MultiChoiceView";
 import { SuggestInputView } from "../components/SuggestInputView";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
 import { ScheduleMediaSection } from "../components/ScheduleMediaSection";
+import { ScheduleItemNavigator } from "../components/ScheduleItemNavigator";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -326,48 +327,14 @@ export default function SchedulePage() {
             />
           )}
 
-          {/* Navigation Arrows and Counter */}
-          <div className="flex items-center justify-between mb-6 px-4">
-            <button
-              onClick={handlePrevious}
-              disabled={!canGoPrevious}
-              style={{
-                width: "50px",
-                height: "50px",
-                backgroundColor: "transparent",
-                border: "none",
-                cursor: canGoPrevious ? "pointer" : "not-allowed",
-                opacity: canGoPrevious ? 1 : 0,
-                fontSize: "2rem",
-                color: "#3B82F6",
-              }}
-            >
-              ‹
-            </button>
-
-            <div className="text-center flex-1">
-              <span className="text-lg font-semibold text-blue-600 uppercase">
-                {currentIndex + 1} / {schedule.items.length}
-              </span>
-            </div>
-
-            <button
-              onClick={handleNext}
-              disabled={!canGoNext}
-              style={{
-                width: "50px",
-                height: "50px",
-                backgroundColor: "transparent",
-                border: "none",
-                cursor: canGoNext ? "pointer" : "not-allowed",
-                opacity: canGoNext ? 1 : 0,
-                fontSize: "2rem",
-                color: "#3B82F6",
-              }}
-            >
-              ›
-            </button>
-          </div>
+          <ScheduleItemNavigator
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            canGoPrevious={canGoPrevious}
+            canGoNext={canGoNext}
+            currentIndex={currentIndex}
+            totalItems={schedule.items.length}
+          />
 
           {/* Item Content */}
           <div className="px-4">
