@@ -3,13 +3,23 @@
  */
 
 const TOTAL_RECORDED_SECONDS_KEY = "totalRecordedSeconds";
+const DEFAULT_TOTAL_RECORDED_SECONDS = 0;
+
+function parseRecordedSeconds(value: string | null): number {
+  if (!value) {
+    return DEFAULT_TOTAL_RECORDED_SECONDS;
+  }
+
+  const parsed = parseInt(value, 10);
+  return Number.isNaN(parsed) ? DEFAULT_TOTAL_RECORDED_SECONDS : parsed;
+}
 
 /**
  * Get the total recorded seconds
  */
 export function getTotalRecordedSeconds(): number {
   const value = localStorage.getItem(TOTAL_RECORDED_SECONDS_KEY);
-  return value ? parseInt(value, 10) : 0;
+  return parseRecordedSeconds(value);
 }
 
 /**
