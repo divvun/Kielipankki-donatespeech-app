@@ -19,6 +19,9 @@ import { getLocalizedText } from "../utils/localization";
 import { useItemState } from "../hooks/useItemState";
 import { useLocalization } from "../contexts/LocalizationContext";
 
+const isFakeYleMediaType = (itemType: string) =>
+  itemType === "fake-yle-audio" || itemType === "fake-yle-video";
+
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
@@ -126,6 +129,15 @@ export default function SchedulePage() {
     const loadMediaUrl = async () => {
       if (schedule && schedule.items[currentIndex]) {
         const item = schedule.items[currentIndex];
+
+        // Fake YLE items should keep the same flow as normal media items,
+        // but never attempt playback/download.
+        if (isFakeYleMediaType(item.itemType)) {
+          setCurrentMediaUrl("");
+          setMediaError("");
+          return;
+        }
+
         if ("url" in item && item.url) {
           try {
             setCurrentMediaUrl(""); // Reset to show loading spinner
@@ -279,6 +291,7 @@ export default function SchedulePage() {
   const canGoPrevious = currentIndex > 0;
   const canGoNext = currentIndex < schedule.items.length - 1;
   const isLastItem = currentIndex === schedule.items.length - 1;
+  const isFakeYleItem = isFakeYleMediaType(currentItem.itemType);
 
   // Get localized content from state
   const title = getLocalizedText(stateContent.title, currentLanguage);
@@ -322,7 +335,7 @@ export default function SchedulePage() {
           {/* Media Content */}
           {isMedia && (
             <div className="mb-6">
-              {mediaError && (
+              {mediaError && !isFakeYleItem && (
                 <div className="bg-red-100 border border-red-400 text-red-700 rounded-lg p-4 mb-4">
                   <strong>Media Error:</strong> {mediaError}
                 </div>
@@ -350,6 +363,7 @@ export default function SchedulePage() {
                 )}
               {!currentMediaUrl &&
                 !mediaError &&
+                !isFakeYleItem &&
                 "url" in currentItem &&
                 currentItem.url && (
                   <div className="bg-gray-200 rounded-lg shadow-md p-8 text-center">
@@ -358,8 +372,7 @@ export default function SchedulePage() {
                   </div>
                 )}
               {/* Fake YLE items - show unavailable message */}
-              {(currentItem.itemType === "fake-yle-audio" ||
-                currentItem.itemType === "fake-yle-video") && (
+              {isFakeYleItem && (
                 <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg shadow-md p-8 text-center">
                   <div className="text-4xl mb-4">⚠️</div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
