@@ -1,5 +1,9 @@
 import { useRef, useEffect } from "react";
 
+function isWakeLockSupported() {
+  return "wakeLock" in navigator;
+}
+
 /**
  * Hook to keep the screen awake during recording
  * Uses the Wake Lock API when available
@@ -10,7 +14,7 @@ export function useWakeLock() {
   const requestWakeLock = async () => {
     try {
       // Check if Wake Lock API is supported
-      if ("wakeLock" in navigator) {
+      if (isWakeLockSupported()) {
         wakeLockRef.current = await navigator.wakeLock.request("screen");
         console.log("Wake lock acquired - screen will stay on");
 
@@ -50,6 +54,6 @@ export function useWakeLock() {
   return {
     requestWakeLock,
     releaseWakeLock,
-    isSupported: "wakeLock" in navigator,
+    isSupported: isWakeLockSupported(),
   };
 }
