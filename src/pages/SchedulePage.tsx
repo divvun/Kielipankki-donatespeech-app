@@ -9,6 +9,7 @@ import { ScheduleMediaSection } from "../components/ScheduleMediaSection";
 import { ScheduleItemNavigator } from "../components/ScheduleItemNavigator";
 import { ScheduleItemContent } from "../components/ScheduleItemContent";
 import { ScheduleRecordingBar } from "../components/ScheduleRecordingBar";
+import { ScheduleContinueBar } from "../components/ScheduleContinueBar";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -366,38 +367,15 @@ export default function SchedulePage() {
       )}
 
       {showContinueButtonBar && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
-          {showManualContinueAfterFinish && saving && (
-            <div className="text-blue-600 font-semibold">
-              Saving recording...
-            </div>
-          )}
-          {showManualContinueAfterFinish && recording.error && (
-            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-              {recording.error}
-            </div>
-          )}
-          <button
-            onClick={handleContinue}
-            disabled={saving}
-            style={{
-              backgroundColor: "#3B82F6",
-              color: "white",
-              padding: "0.75rem 2rem",
-              borderRadius: "0.5rem",
-              border: "none",
-              cursor: saving ? "not-allowed" : "pointer",
-              fontSize: "1rem",
-              fontWeight: "600",
-              minWidth: "220px",
-              opacity: saving ? 0.5 : 1,
-            }}
-          >
-            {isLastItem
-              ? getString("ExitButtonText")
-              : getString("ContinueSchedule")}
-          </button>
-        </div>
+        <ScheduleContinueBar
+          showManualContinueAfterFinish={showManualContinueAfterFinish}
+          saving={saving}
+          recordingError={recording.error}
+          onContinue={handleContinue}
+          isLastItem={isLastItem}
+          exitLabel={getString("ExitButtonText")}
+          continueLabel={getString("ContinueSchedule")}
+        />
       )}
     </div>
   );
