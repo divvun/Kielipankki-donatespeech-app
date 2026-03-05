@@ -80,23 +80,14 @@ export interface YleVideoMediaItem extends BaseMediaItem {
   itemType: "yle-video";
 }
 
-// Fake YLE items (returned when YLE credentials not configured)
-export interface FakeYleAudioMediaItem {
-  kind: "media";
+// Fake YLE items use the same metadata/state fields as real YLE items,
+// but media playback is unavailable in the UI.
+export interface FakeYleAudioMediaItem extends BaseMediaItem {
   itemType: "fake-yle-audio";
-  itemId: string;
-  url: string; // YLE program ID (not decrypted)
-  startTime?: number;
-  endTime?: number;
 }
 
-export interface FakeYleVideoMediaItem {
-  kind: "media";
+export interface FakeYleVideoMediaItem extends BaseMediaItem {
   itemType: "fake-yle-video";
-  itemId: string;
-  url: string; // YLE program ID (not decrypted)
-  startTime?: number;
-  endTime?: number;
 }
 
 // Text content item

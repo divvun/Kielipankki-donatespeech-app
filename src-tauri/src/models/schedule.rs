@@ -223,7 +223,22 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // YLE program ID (not decrypted)
+        url: String, // YLE program ID
+        #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
+        type_id: Option<String>,
+        default: MediaState,
+        #[serde(default)]
+        options: Vec<serde_json::Value>, // Empty array for media items
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        start: Option<MediaState>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        recording: Option<MediaState>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        finish: Option<MediaState>,
+        #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
+        meta_title: Option<HashMap<String, String>>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -234,7 +249,22 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // YLE program ID (not decrypted)
+        url: String, // YLE program ID
+        #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
+        type_id: Option<String>,
+        default: MediaState,
+        #[serde(default)]
+        options: Vec<serde_json::Value>, // Empty array for media items
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        start: Option<MediaState>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        recording: Option<MediaState>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        finish: Option<MediaState>,
+        #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
+        meta_title: Option<HashMap<String, String>>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]

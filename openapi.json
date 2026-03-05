@@ -595,7 +595,81 @@
                     "url": {
                         "type": "string",
                         "title": "Url",
-                        "description": "YLE program ID (not decrypted)"
+                        "description": "YLE program ID"
+                    },
+                    "typeId": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Typeid",
+                        "description": "MIME type"
+                    },
+                    "default": {
+                        "$ref": "#/components/schemas/MediaState",
+                        "description": "Default/initial state"
+                    },
+                    "options": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Options",
+                        "description": "Empty list for media items"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    },
+                    "start": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State before recording starts"
+                    },
+                    "recording": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State during recording"
+                    },
+                    "finish": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State after recording finishes"
+                    },
+                    "metaTitle": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": {
+                                    "type": "string"
+                                },
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metatitle",
+                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -603,7 +677,9 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url"
+                    "url",
+                    "default",
+                    "isRecording"
                 ],
                 "title": "FakeYleAudioMediaItem",
                 "description": "Fake YLE audio item returned when YLE credentials are not configured"
@@ -628,7 +704,81 @@
                     "url": {
                         "type": "string",
                         "title": "Url",
-                        "description": "YLE program ID (not decrypted)"
+                        "description": "YLE program ID"
+                    },
+                    "typeId": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Typeid",
+                        "description": "MIME type"
+                    },
+                    "default": {
+                        "$ref": "#/components/schemas/MediaState",
+                        "description": "Default/initial state"
+                    },
+                    "options": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Options",
+                        "description": "Empty list for media items"
+                    },
+                    "isRecording": {
+                        "type": "boolean",
+                        "title": "Isrecording"
+                    },
+                    "start": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State before recording starts"
+                    },
+                    "recording": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State during recording"
+                    },
+                    "finish": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State after recording finishes"
+                    },
+                    "metaTitle": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": {
+                                    "type": "string"
+                                },
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metatitle",
+                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -636,7 +786,9 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url"
+                    "url",
+                    "default",
+                    "isRecording"
                 ],
                 "title": "FakeYleVideoMediaItem",
                 "description": "Fake YLE video item returned when YLE credentials are not configured"
