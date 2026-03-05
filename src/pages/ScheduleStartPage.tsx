@@ -6,6 +6,9 @@ import { useTranslation } from "../hooks/useTranslation";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
+import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
+import { ScheduleStartSummary } from "../components/ScheduleStartSummary";
+import { ScheduleStartActions } from "../components/ScheduleStartActions";
 
 export default function ScheduleStartPage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -59,6 +62,16 @@ export default function ScheduleStartPage() {
     navigate("/themes");
   };
 
+  const startTitle = schedule?.start?.title
+    ? getLocalizedText(schedule.start.title, currentLanguage)
+    : "Ready to begin";
+  const startBody1 = schedule?.start?.body1
+    ? getLocalizedText(schedule.start.body1, currentLanguage)
+    : "";
+  const startBody2 = schedule?.start?.body2
+    ? getLocalizedText(schedule.start.body2, currentLanguage)
+    : "";
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -89,86 +102,23 @@ export default function ScheduleStartPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Navigation Bar */}
-      <div className="bg-white shadow-sm p-4 flex justify-between items-center">
-        <button
-          onClick={handleBack}
-          style={{
-            backgroundColor: "transparent",
-            color: "#3B82F6",
-            padding: "0.5rem 1rem",
-            borderRadius: "0.25rem",
-            border: "1px solid #3B82F6",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-        >
-          ← Back
-        </button>
+      <ScheduleNavigationBar
+        onBack={handleBack}
+        donatedLabel={getString("DonatedLabelText")}
+        totalRecorded={totalRecorded.totalFormatted}
+      />
 
-        {/* Donation Counter */}
-        <div className="flex flex-col items-end">
-          <div className="text-xs text-gray-600 uppercase tracking-wide">
-            {getString("DonatedLabelText")}
-          </div>
-          <div className="text-lg font-semibold text-blue-600">
-            {totalRecorded.totalFormatted}
-          </div>
-        </div>
-      </div>
+      <ScheduleStartSummary
+        startImageUrl={schedule?.start?.imageUrl}
+        title={startTitle}
+        body1={startBody1}
+        body2={startBody2}
+      />
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-32">
-        <div className="max-w-2xl w-full">
-          {/* Optional image */}
-          {schedule?.start?.imageUrl && (
-            <div className="mb-8 flex justify-center">
-              <img
-                src={schedule.start.imageUrl}
-                alt=""
-                className="max-w-md w-full h-auto rounded-lg shadow-lg"
-              />
-            </div>
-          )}
-
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">
-            {schedule?.start?.title
-              ? getLocalizedText(schedule.start.title, currentLanguage)
-              : "Ready to begin"}
-          </h1>
-
-          <div className="text-center text-gray-700 space-y-4 mb-8">
-            {schedule?.start?.body1 && (
-              <p className="text-lg">
-                {getLocalizedText(schedule.start.body1, currentLanguage)}
-              </p>
-            )}
-            {schedule?.start?.body2 && (
-              <p>{getLocalizedText(schedule.start.body2, currentLanguage)}</p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex justify-center">
-        <button
-          onClick={handleStart}
-          style={{
-            backgroundColor: "#3B82F6",
-            color: "white",
-            padding: "0.75rem 2rem",
-            borderRadius: "0.5rem",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "1rem",
-            fontWeight: "600",
-            minWidth: "230px",
-          }}
-        >
-          {getString("StartButtonText")}
-        </button>
-      </div>
+      <ScheduleStartActions
+        onStart={handleStart}
+        startLabel={getString("StartButtonText")}
+      />
     </div>
   );
 }
