@@ -1,8 +1,40 @@
+import type { ReactNode } from "react";
+
 interface DetailsPrivacyTabProps {
   clientId: string;
   copiedClientId: boolean;
   onCopyClientId: () => void;
   onOpenLink: (url: string) => void;
+}
+
+interface InfoSectionProps {
+  title: string;
+  children: ReactNode;
+}
+
+const externalLinkClassName = "text-blue-600 hover:text-blue-800 underline";
+
+function InfoSection({ title, children }: InfoSectionProps) {
+  return (
+    <div className="mb-8">
+      <h2 className="text-2xl font-semibold text-gray-900 mb-4">{title}</h2>
+      {children}
+    </div>
+  );
+}
+
+function ExternalLink({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button onClick={onClick} className={externalLinkClassName}>
+      {children}
+    </button>
+  );
 }
 
 export function DetailsPrivacyTab({
@@ -13,50 +45,34 @@ export function DetailsPrivacyTab({
 }: DetailsPrivacyTabProps) {
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8">
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-          General Information
-        </h2>
+      <InfoSection title="General Information">
         <p className="text-gray-700 mb-4">
           This is additional information about the speech donation project. Your
           contributions help improve speech recognition technology for everyone.
         </p>
-        <button
-          onClick={() => onOpenLink("https://example.com")}
-          className="text-blue-600 hover:text-blue-800 underline"
-        >
+        <ExternalLink onClick={() => onOpenLink("https://example.com")}>
           Learn more about the project
-        </button>
-      </div>
+        </ExternalLink>
+      </InfoSection>
 
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-          Your Privacy Matters
-        </h2>
+      <InfoSection title="Your Privacy Matters">
         <p className="text-gray-700 mb-4">
           This is where privacy-related information would be displayed. We take
           your privacy seriously and handle your data responsibly.
         </p>
-        <button
+        <ExternalLink
           onClick={() => onOpenLink("https://example.com/tietosuoja")}
-          className="text-blue-600 hover:text-blue-800 underline"
         >
           Read our privacy policy
-        </button>
-      </div>
+        </ExternalLink>
+      </InfoSection>
 
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-          Removing Your Recordings
-        </h2>
+      <InfoSection title="Removing Your Recordings">
         <p className="text-gray-700 mb-4">
           Save this identifier so you can revoke donations made with this app
           installation if needed. To remove your donations, you must send this
           identifier to{" "}
-          <a
-            href="mailto:your-feedback-email"
-            className="text-blue-600 hover:text-blue-800 underline"
-          >
+          <a href="mailto:your-feedback-email" className={externalLinkClassName}>
             your-feedback-email
           </a>{" "}
           and request that all your donations be removed from the project
@@ -82,7 +98,7 @@ export function DetailsPrivacyTab({
             Client ID copied to clipboard
           </p>
         )}
-      </div>
+      </InfoSection>
     </div>
   );
 }
