@@ -7,6 +7,19 @@ interface ScheduleItemNavigatorProps {
   totalItems: number;
 }
 
+function getArrowButtonStyle(enabled: boolean) {
+  return {
+    width: "50px",
+    height: "50px",
+    backgroundColor: "transparent",
+    border: "none",
+    cursor: enabled ? "pointer" : "not-allowed",
+    opacity: enabled ? 1 : 0,
+    fontSize: "2rem",
+    color: "#3B82F6",
+  };
+}
+
 export function ScheduleItemNavigator({
   onPrevious,
   onNext,
@@ -18,18 +31,10 @@ export function ScheduleItemNavigator({
   return (
     <div className="flex items-center justify-between mb-6 px-4">
       <button
+        type="button"
         onClick={onPrevious}
         disabled={!canGoPrevious}
-        style={{
-          width: "50px",
-          height: "50px",
-          backgroundColor: "transparent",
-          border: "none",
-          cursor: canGoPrevious ? "pointer" : "not-allowed",
-          opacity: canGoPrevious ? 1 : 0,
-          fontSize: "2rem",
-          color: "#3B82F6",
-        }}
+        style={getArrowButtonStyle(canGoPrevious)}
       >
         ‹
       </button>
@@ -41,18 +46,10 @@ export function ScheduleItemNavigator({
       </div>
 
       <button
+        type="button"
         onClick={onNext}
         disabled={!canGoNext}
-        style={{
-          width: "50px",
-          height: "50px",
-          backgroundColor: "transparent",
-          border: "none",
-          cursor: canGoNext ? "pointer" : "not-allowed",
-          opacity: canGoNext ? 1 : 0,
-          fontSize: "2rem",
-          color: "#3B82F6",
-        }}
+        style={getArrowButtonStyle(canGoNext)}
       >
         ›
       </button>
