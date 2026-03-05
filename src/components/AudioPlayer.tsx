@@ -1,29 +1,32 @@
-import React from "react";
+import { type SyntheticEvent, useState } from "react";
 
 interface AudioPlayerProps {
   url: string;
   description?: string;
 }
 
-export const AudioPlayer: React.FC<AudioPlayerProps> = ({
-  url,
-  description,
-}) => {
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+const playerContainerClassName = "bg-gray-100 rounded-lg shadow-md p-6";
+const audioStyle = {
+  outline: "none",
+  maxWidth: "100%",
+};
+
+export function AudioPlayer({ url, description }: AudioPlayerProps) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const handleCanPlay = () => {
     setLoading(false);
   };
 
-  const handleError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+  const handleError = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
     console.error("Audio player error:", e);
     setError("Failed to load audio");
     setLoading(false);
   };
 
   return (
-    <div className="bg-gray-100 rounded-lg shadow-md p-6">
+    <div className={playerContainerClassName}>
       <div className="flex items-center justify-center mb-4">
         <span className="text-2xl mr-2">🔊</span>
         <h3 className="text-lg font-semibold text-gray-800">Audio Player</h3>
@@ -38,10 +41,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       <audio
         controls
         className="w-full"
-        style={{
-          outline: "none",
-          maxWidth: "100%",
-        }}
+        style={audioStyle}
         onCanPlay={handleCanPlay}
         onError={handleError}
       >
@@ -50,4 +50,4 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       </audio>
     </div>
   );
-};
+}
