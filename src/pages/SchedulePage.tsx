@@ -287,7 +287,9 @@ export default function SchedulePage() {
   const title = getLocalizedText(stateContent.title, currentLanguage);
   const body1 = getLocalizedText(stateContent.body1, currentLanguage);
   const body2 = getLocalizedText(stateContent.body2, currentLanguage);
-  const stateImageUrl = stateContent.imageUrl;
+  const stateImageUrl = stateContent.imageUrl?.startsWith("http")
+    ? stateContent.imageUrl
+    : null;
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
