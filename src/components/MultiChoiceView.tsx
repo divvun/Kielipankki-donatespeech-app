@@ -13,6 +13,37 @@ interface MultiChoiceViewProps {
   onAnswerChange: (answer: string) => void;
 }
 
+function parseSelections(answer?: string): string[] {
+  if (!answer) {
+    return [];
+  }
+
+  try {
+    return JSON.parse(answer) as string[];
+  } catch (e) {
+    console.error("Failed to parse multi-choice answer:", e);
+    return [];
+  }
+}
+
+function buildAnswer(
+  selectedOption: string,
+  otherText: string,
+  otherOptionLabel: string,
+): string {
+  const selections: string[] = [];
+
+  if (selectedOption && selectedOption !== otherOptionLabel) {
+    selections.push(selectedOption);
+  }
+
+  if (otherText.trim()) {
+    selections.push(otherText.trim());
+  }
+
+  return selections.length === 0 ? "" : JSON.stringify(selections);
+}
+
 export function MultiChoiceView({
   item,
   answer,
@@ -36,44 +67,27 @@ export function MultiChoiceView({
 
   // Initialize from existing answer
   useEffect(() => {
-    if (answer) {
-      try {
-        const selections = JSON.parse(answer) as string[];
-        if (selections && selections.length > 0) {
-          // Check if first selection matches a localized option
-          if (localizedOptions.includes(selections[0])) {
-            setSelectedOption(selections[0]);
-            if (selections.length > 1) {
-              setOtherText(selections[1]);
-            }
-          } else {
-            // This was manually typed, select "Other" (last option)
-            setSelectedOption(localizedOptions[localizedOptions.length - 1]);
-            setOtherText(selections[0]);
-          }
+    const selections = parseSelections(answer);
+
+    if (selections.length > 0) {
+      // Check if first selection matches a localized option.
+      if (localizedOptions.includes(selections[0])) {
+        setSelectedOption(selections[0]);
+        if (selections.length > 1) {
+          setOtherText(selections[1]);
         }
-      } catch (e) {
-        console.error("Failed to parse multi-choice answer:", e);
+      } else {
+        // This was manually typed, select "Other" (last option).
+        setSelectedOption(localizedOptions[localizedOptions.length - 1]);
+        setOtherText(selections[0]);
       }
     }
   }, [answer, localizedOptions]);
 
   // Update answer when selections change
   useEffect(() => {
-    const selections: string[] = [];
-
-    if (selectedOption) {
-      // Don't include the last option ("Other") in the answer
-      if (selectedOption !== localizedOptions[localizedOptions.length - 1]) {
-        selections.push(selectedOption);
-      }
-    }
-
-    if (otherText.trim()) {
-      selections.push(otherText.trim());
-    }
-
-    const newAnswer = selections.length === 0 ? "" : JSON.stringify(selections);
+    const otherOptionLabel = localizedOptions[localizedOptions.length - 1] || "";
+    const newAnswer = buildAnswer(selectedOption, otherText, otherOptionLabel);
     onAnswerChange(newAnswer);
   }, [selectedOption, otherText, localizedOptions, onAnswerChange]);
 
