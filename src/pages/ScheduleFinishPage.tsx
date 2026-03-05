@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
-import { getTotalRecordedSeconds } from "../utils/preferences";
 import { useTranslation } from "../hooks/useTranslation";
+import { useInviteFriendShare } from "../hooks/useInviteFriendShare";
 import { Schedule } from "../types/Schedule";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
@@ -19,47 +19,11 @@ export default function ScheduleFinishPage() {
   const location = useLocation();
   const totalRecorded = useTotalRecorded();
   const { getString } = useTranslation();
+  const { shareWithFriend } = useInviteFriendShare({ getString });
   const { currentLanguage } = useLocalization();
 
   const state = location.state as ScheduleFinishLocationState | undefined;
   const schedule = state?.schedule;
-
-  const handleInviteFriend = async () => {
-    const totalSeconds = getTotalRecordedSeconds();
-    const minutes = Math.floor(totalSeconds / 60);
-
-    let shareTemplate = getString("InviteFriendTemplate");
-    if (minutes < 2) {
-      shareTemplate = getString("InviteFriendNewbieTemplate");
-    }
-
-    // Format the share text with minutes parameter
-    const shareText = shareTemplate.replace("{$param0}", minutes.toString());
-
-    console.log("Share text:", shareText);
-
-    // Use Web Share API if available
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: getString("InviteFriendTitle"),
-          text: shareText,
-        });
-        console.log("Shared successfully");
-      } catch (err) {
-        console.log("Share cancelled or failed:", err);
-      }
-    } else {
-      // Fallback: copy to clipboard
-      try {
-        await navigator.clipboard.writeText(shareText);
-        alert("Share text copied to clipboard!");
-      } catch (err) {
-        console.error("Failed to copy:", err);
-        alert("Sharing is not supported on this device");
-      }
-    }
-  };
 
   const handleDonateMore = () => {
     console.log("Navigating to themes from donate more button");
@@ -98,7 +62,7 @@ export default function ScheduleFinishPage() {
       />
 
       <ScheduleFinishActions
-        onInviteFriend={handleInviteFriend}
+        onInviteFriend={shareWithFriend}
         onDonateMore={handleDonateMore}
         inviteFriendLabel={getString("InviteFriendButtonText")}
         donateMoreLabel={getString("DonateMoreButtonText")}
