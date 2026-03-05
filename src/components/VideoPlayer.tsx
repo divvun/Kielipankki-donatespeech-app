@@ -1,22 +1,24 @@
-import React from "react";
+import { type SyntheticEvent, useState } from "react";
 
 interface VideoPlayerProps {
   url: string;
   description?: string;
 }
 
-export const VideoPlayer: React.FC<VideoPlayerProps> = ({
-  url,
-  description,
-}) => {
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+const videoStyle = {
+  maxHeight: "500px",
+  objectFit: "contain" as const,
+};
+
+export function VideoPlayer({ url, description }: VideoPlayerProps) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const handleCanPlay = () => {
     setLoading(false);
   };
 
-  const handleError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+  const handleError = (e: SyntheticEvent<HTMLVideoElement, Event>) => {
     console.error("Video player error:", e);
     setError("Failed to load video");
     setLoading(false);
@@ -39,8 +41,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         controls
         className="w-full rounded-lg"
         style={{
-          maxHeight: "500px",
-          objectFit: "contain",
+          ...videoStyle,
           display: loading ? "none" : "block",
         }}
         onCanPlay={handleCanPlay}
@@ -51,4 +52,4 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       </video>
     </div>
   );
-};
+}
