@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 
 let cachedBaseUrl: string | null = null;
+const DEFAULT_MIME_TYPE = "application/octet-stream";
 
 // Cache for blob URLs to avoid recreating them
 const blobUrlCache: Map<string, string> = new Map();
@@ -35,7 +36,11 @@ function getMimeType(filename: string): string {
     gif: "image/gif",
     webp: "image/webp",
   };
-  return mimeTypes[ext || ""] || "application/octet-stream";
+  return mimeTypes[ext || ""] || DEFAULT_MIME_TYPE;
+}
+
+function getFilenameFromPath(filenameOrUrl: string): string {
+  return filenameOrUrl.split("/").pop() || "";
 }
 
 /**
@@ -58,7 +63,7 @@ export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
   console.log(`Received ${fileData.length} bytes from download_media`);
 
   // Extract filename for MIME type detection
-  const filename = filenameOrUrl.split("/").pop() || "";
+  const filename = getFilenameFromPath(filenameOrUrl);
   const mimeType = getMimeType(filename);
 
   console.log(`Creating blob with MIME type: ${mimeType}`);
