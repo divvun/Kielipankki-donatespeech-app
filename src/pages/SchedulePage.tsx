@@ -10,6 +10,7 @@ import { ScheduleItemNavigator } from "../components/ScheduleItemNavigator";
 import { ScheduleItemContent } from "../components/ScheduleItemContent";
 import { ScheduleRecordingBar } from "../components/ScheduleRecordingBar";
 import { ScheduleContinueBar } from "../components/ScheduleContinueBar";
+import { ScheduleLoadingState } from "../components/ScheduleLoadingState";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -252,11 +253,7 @@ export default function SchedulePage() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
+    return <ScheduleLoadingState />;
   }
 
   if (error || !schedule || !currentItem) {
