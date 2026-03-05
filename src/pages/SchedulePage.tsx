@@ -4,12 +4,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
 import { isMediaItem, isPromptItem } from "../types/Schedule";
 import { useRecording, formatDuration } from "../hooks/useRecording";
-import { AudioPlayer } from "../components/AudioPlayer";
-import { VideoPlayer } from "../components/VideoPlayer";
 import { MultiChoiceView } from "../components/MultiChoiceView";
 import { SuggestInputView } from "../components/SuggestInputView";
-import { TextContentView } from "../components/TextContentView";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
+import { ScheduleMediaSection } from "../components/ScheduleMediaSection";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -317,60 +315,15 @@ export default function SchedulePage() {
         <div className="max-w-2xl mx-auto px-5 py-6">
           {/* Media Content */}
           {isMedia && (
-            <div className="mb-6">
-              {mediaError && !isFakeYleItem && (
-                <div className="bg-red-100 border border-red-400 text-red-700 rounded-lg p-4 mb-4">
-                  <strong>Media Error:</strong> {mediaError}
-                </div>
-              )}
-              {/* Display state image if present */}
-              {stateImageUrl && (
-                <img
-                  src={stateImageUrl}
-                  alt={title}
-                  className="w-full rounded-lg shadow-md mb-4"
-                  style={{ maxHeight: "300px", objectFit: "cover" }}
-                />
-              )}
-              {(currentItem.itemType === "video" ||
-                currentItem.itemType === "yle-video") &&
-                "url" in currentItem &&
-                currentMediaUrl && (
-                  <VideoPlayer url={currentMediaUrl} description={title} />
-                )}
-              {(currentItem.itemType === "audio" ||
-                currentItem.itemType === "yle-audio") &&
-                "url" in currentItem &&
-                currentMediaUrl && (
-                  <AudioPlayer url={currentMediaUrl} description={title} />
-                )}
-              {!currentMediaUrl &&
-                !mediaError &&
-                !isFakeYleItem &&
-                "url" in currentItem &&
-                currentItem.url && (
-                  <div className="bg-gray-200 rounded-lg shadow-md p-8 text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-                    <p className="text-gray-600">Loading media...</p>
-                  </div>
-                )}
-              {/* Fake YLE items - show unavailable message */}
-              {isFakeYleItem && (
-                <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg shadow-md p-8 text-center">
-                  <div className="text-4xl mb-4">⚠️</div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {getString("YleContentUnavailable") ||
-                      "YLE Content Unavailable"}
-                  </h3>
-                  <p className="text-gray-700">
-                    {getString("YleContentUnavailableMessage") ||
-                      "This content requires YLE API credentials to be configured."}
-                  </p>
-                </div>
-              )}
-              {currentItem.itemType === "text-content" &&
-                "url" in currentItem && <TextContentView item={currentItem} />}
-            </div>
+            <ScheduleMediaSection
+              currentItem={currentItem}
+              mediaError={mediaError}
+              isFakeYleItem={isFakeYleItem}
+              stateImageUrl={stateImageUrl}
+              title={title}
+              currentMediaUrl={currentMediaUrl}
+              getString={getString}
+            />
           )}
 
           {/* Navigation Arrows and Counter */}
