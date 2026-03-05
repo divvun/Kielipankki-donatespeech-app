@@ -21,6 +21,10 @@ export function ScheduleItemContent({
   onAnswerChange,
 }: ScheduleItemContentProps) {
   const isPrompt = isPromptItem(currentItem);
+  const currentAnswer = answers[currentItem.itemId] || "";
+  const handleCurrentAnswerChange = (answer: string) => {
+    onAnswerChange(currentItem.itemId, answer);
+  };
 
   return (
     <div className="px-4">
@@ -41,10 +45,8 @@ export function ScheduleItemContent({
           {currentItem.itemType === "choice" && "options" in currentItem && (
             <SuggestInputView
               item={currentItem}
-              answer={answers[currentItem.itemId]}
-              onAnswerChange={(answer) =>
-                onAnswerChange(currentItem.itemId, answer)
-              }
+              answer={currentAnswer}
+              onAnswerChange={handleCurrentAnswerChange}
             />
           )}
           {(currentItem.itemType === "multi-choice" ||
@@ -52,18 +54,14 @@ export function ScheduleItemContent({
             "options" in currentItem && (
               <MultiChoiceView
                 item={currentItem}
-                answer={answers[currentItem.itemId]}
-                onAnswerChange={(answer) =>
-                  onAnswerChange(currentItem.itemId, answer)
-                }
+                answer={currentAnswer}
+                onAnswerChange={handleCurrentAnswerChange}
               />
             )}
           {currentItem.itemType === "text-input" && (
             <textarea
-              value={answers[currentItem.itemId] || ""}
-              onChange={(e) =>
-                onAnswerChange(currentItem.itemId, e.target.value)
-              }
+              value={currentAnswer}
+              onChange={(e) => handleCurrentAnswerChange(e.target.value)}
               placeholder="Enter your answer..."
               rows={4}
               className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none mx-8"
