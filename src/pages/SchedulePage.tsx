@@ -313,15 +313,6 @@ export default function SchedulePage() {
             />
           )}
 
-          <ScheduleItemNavigator
-            onPrevious={handlePrevious}
-            onNext={handleNext}
-            canGoPrevious={canGoPrevious}
-            canGoNext={canGoNext}
-            currentIndex={currentIndex}
-            totalItems={schedule.items.length}
-          />
-
           <ScheduleItemContent
             currentItem={currentItem}
             title={title}
@@ -334,6 +325,15 @@ export default function SchedulePage() {
                 [itemId]: answer,
               }))
             }
+          />
+
+          <ScheduleItemNavigator
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            canGoPrevious={canGoPrevious}
+            canGoNext={canGoNext}
+            currentIndex={currentIndex}
+            totalItems={schedule.items.length}
           />
         </div>
       </div>
