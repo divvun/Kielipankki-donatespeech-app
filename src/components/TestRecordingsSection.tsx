@@ -50,7 +50,10 @@ export function TestRecordingsSection({
           const metadata = formatMetadata(recording.metadata);
 
           return (
-            <div key={recording.recordingId} className="bg-white p-4 rounded shadow">
+            <div
+              key={recording.recordingId}
+              className="bg-white p-4 rounded shadow"
+            >
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <RecordingFieldRow
                   label="Recording ID"
