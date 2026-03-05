@@ -8,12 +8,19 @@
  * @param fallbackLanguage The fallback language (default: "nb" - Norwegian Bokmål)
  * @returns The localized text string or empty string if not found
  */
+const EMPTY_LOCALIZED_TEXT = "";
+
+function getFirstAvailableValue(record: Record<string, string>): string {
+  const values = Object.values(record);
+  return values.length > 0 ? values[0] : EMPTY_LOCALIZED_TEXT;
+}
+
 export function getLocalizedText(
   record: Record<string, string> | null | undefined,
   currentLanguage: string,
   fallbackLanguage = "nb",
 ): string {
-  if (!record) return "";
+  if (!record) return EMPTY_LOCALIZED_TEXT;
 
   // Try current language first
   if (record[currentLanguage]) {
@@ -26,10 +33,5 @@ export function getLocalizedText(
   }
 
   // Use first available language as last resort
-  const values = Object.values(record);
-  if (values.length > 0) {
-    return values[0];
-  }
-
-  return "";
+  return getFirstAvailableValue(record);
 }
