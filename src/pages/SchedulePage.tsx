@@ -11,6 +11,7 @@ import { ScheduleItemContent } from "../components/ScheduleItemContent";
 import { ScheduleRecordingBar } from "../components/ScheduleRecordingBar";
 import { ScheduleContinueBar } from "../components/ScheduleContinueBar";
 import { ScheduleLoadingState } from "../components/ScheduleLoadingState";
+import { ScheduleErrorState } from "../components/ScheduleErrorState";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -258,24 +259,11 @@ export default function SchedulePage() {
 
   if (error || !schedule || !currentItem) {
     return (
-      <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-8">
-        <div className="mb-5 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-          <strong>Error:</strong> {error || "Failed to load schedule"}
-        </div>
-        <button
-          onClick={handleBack}
-          style={{
-            backgroundColor: "#3B82F6",
-            color: "white",
-            padding: "0.5rem 1.5rem",
-            borderRadius: "0.25rem",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Back to Themes
-        </button>
-      </div>
+      <ScheduleErrorState
+        error={error}
+        onBack={handleBack}
+        backLabel="Back to Themes"
+      />
     );
   }
 
