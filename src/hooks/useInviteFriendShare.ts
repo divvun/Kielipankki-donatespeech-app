@@ -5,6 +5,18 @@ interface UseInviteFriendShareOptions {
   getString: (id: string) => string;
 }
 
+function getShareTemplate(getString: (id: string) => string, minutes: number) {
+  if (minutes < 2) {
+    return getString("InviteFriendNewbieTemplate");
+  }
+
+  return getString("InviteFriendTemplate");
+}
+
+function buildShareText(template: string, minutes: number) {
+  return template.replace("{$param0}", minutes.toString());
+}
+
 export function useInviteFriendShare({
   getString,
 }: UseInviteFriendShareOptions) {
@@ -12,13 +24,9 @@ export function useInviteFriendShare({
     const totalSeconds = getTotalRecordedSeconds();
     const minutes = Math.floor(totalSeconds / 60);
 
-    let shareTemplate = getString("InviteFriendTemplate");
-    if (minutes < 2) {
-      shareTemplate = getString("InviteFriendNewbieTemplate");
-    }
-
+    const shareTemplate = getShareTemplate(getString, minutes);
     // Replace the Fluent placeholder with recorded minutes.
-    const shareText = shareTemplate.replace("{$param0}", minutes.toString());
+    const shareText = buildShareText(shareTemplate, minutes);
 
     console.log("Share text:", shareText);
 
