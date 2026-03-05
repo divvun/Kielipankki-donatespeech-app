@@ -13,6 +13,44 @@ interface DetailsRecordingsTabProps {
   onDelete: (recording: RecordingWithDuration) => void;
 }
 
+const statusBadgeClasses: Record<string, string> = {
+  uploaded: "bg-green-100 text-green-800",
+  pending: "bg-yellow-100 text-yellow-800",
+  deleted: "bg-red-100 text-red-800",
+};
+
+const tableHeaders = [
+  { label: "Filename", className: "text-left" },
+  { label: "Duration", className: "text-left" },
+  { label: "Recorded", className: "text-left" },
+  { label: "Status", className: "text-left" },
+  { label: "Action", className: "text-right" },
+];
+
+function formatDuration(seconds?: number): string {
+  if (seconds === undefined) return "Unknown";
+  if (seconds < 1) return "<1 sec";
+  if (seconds < 60) return `${Math.floor(seconds)} sec`;
+  return formatTotalRecorded(seconds);
+}
+
+function formatTimestamp(timestamp: string): string {
+  try {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  } catch {
+    return timestamp;
+  }
+}
+
+function getStatusBadgeColor(status?: string): string {
+  if (!status) {
+    return "bg-gray-100 text-gray-800";
+  }
+
+  return statusBadgeClasses[status.toLowerCase()] || "bg-gray-100 text-gray-800";
+}
+
 export function DetailsRecordingsTab({
   loading,
   error,
@@ -20,35 +58,6 @@ export function DetailsRecordingsTab({
   deletingId,
   onDelete,
 }: DetailsRecordingsTabProps) {
-  const formatDuration = (seconds?: number): string => {
-    if (seconds === undefined) return "Unknown";
-    if (seconds < 1) return "<1 sec";
-    if (seconds < 60) return `${Math.floor(seconds)} sec`;
-    return formatTotalRecorded(seconds);
-  };
-
-  const formatTimestamp = (timestamp: string): string => {
-    try {
-      const date = new Date(timestamp);
-      return date.toLocaleString();
-    } catch {
-      return timestamp;
-    }
-  };
-
-  const getStatusBadgeColor = (status?: string): string => {
-    switch (status?.toLowerCase()) {
-      case "uploaded":
-        return "bg-green-100 text-green-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "deleted":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
   if (loading) {
     return (
       <div className="text-center text-gray-600">Loading recordings...</div>
@@ -76,21 +85,14 @@ export function DetailsRecordingsTab({
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Filename
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Duration
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Recorded
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status
-            </th>
-            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Action
-            </th>
+            {tableHeaders.map((header) => (
+              <th
+                key={header.label}
+                className={`px-6 py-3 ${header.className} text-xs font-medium text-gray-500 uppercase tracking-wider`}
+              >
+                {header.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
