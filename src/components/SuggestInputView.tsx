@@ -10,6 +10,27 @@ interface SuggestInputViewProps {
   onAnswerChange: (answer: string) => void;
 }
 
+function filterSuggestions(options: string[], text: string): string[] {
+  return options.filter((option) =>
+    option.toLowerCase().startsWith(text.toLowerCase()),
+  );
+}
+
+function getInitialAnswerState(
+  answer: string | undefined,
+  localizedOptions: string[],
+): { suggestText: string; otherText: string } {
+  if (!answer) {
+    return { suggestText: "", otherText: "" };
+  }
+
+  if (localizedOptions.includes(answer)) {
+    return { suggestText: answer, otherText: "" };
+  }
+
+  return { suggestText: "", otherText: answer };
+}
+
 export function SuggestInputView({
   item,
   answer,
@@ -30,17 +51,9 @@ export function SuggestInputView({
 
   // Initialize from existing answer
   useEffect(() => {
-    if (answer) {
-      // Check if answer matches a localized suggestion option
-      if (localizedOptions.includes(answer)) {
-        setSuggestText(answer);
-        setOtherText("");
-      } else {
-        // Answer was custom text
-        setSuggestText("");
-        setOtherText(answer);
-      }
-    }
+    const initialState = getInitialAnswerState(answer, localizedOptions);
+    setSuggestText(initialState.suggestText);
+    setOtherText(initialState.otherText);
   }, [answer, localizedOptions]);
 
   // Update answer when text changes
@@ -55,9 +68,7 @@ export function SuggestInputView({
 
     // Filter suggestions
     if (text.trim()) {
-      const filtered = localizedOptions.filter((option: string) =>
-        option.toLowerCase().startsWith(text.toLowerCase()),
-      );
+      const filtered = filterSuggestions(localizedOptions, text);
       setFilteredSuggestions(filtered);
       setShowSuggestions(filtered.length > 0);
     } else {
