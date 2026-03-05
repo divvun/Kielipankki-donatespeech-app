@@ -10,7 +10,6 @@ interface ScheduleMediaSectionProps {
   stateImageUrl?: string | null;
   title: string;
   currentMediaUrl: string;
-  getString: (id: string) => string;
 }
 
 export function ScheduleMediaSection({
@@ -20,7 +19,6 @@ export function ScheduleMediaSection({
   stateImageUrl,
   title,
   currentMediaUrl,
-  getString,
 }: ScheduleMediaSectionProps) {
   const hasUrl = "url" in currentItem && Boolean(currentItem.url);
   const isVideoItem =
@@ -29,11 +27,6 @@ export function ScheduleMediaSection({
     currentItem.itemType === "audio" || currentItem.itemType === "yle-audio";
   const showMediaLoader =
     !currentMediaUrl && !mediaError && !isFakeYleItem && hasUrl;
-  const unavailableTitle =
-    getString("YleContentUnavailable") || "YLE Content Unavailable";
-  const unavailableMessage =
-    getString("YleContentUnavailableMessage") ||
-    "This content requires YLE API credentials to be configured.";
 
   return (
     <div className="mb-6">
@@ -65,10 +58,8 @@ export function ScheduleMediaSection({
       {isFakeYleItem && (
         <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg shadow-md p-8 text-center">
           <div className="text-4xl mb-4">⚠️</div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            {unavailableTitle}
-          </h3>
-          <p className="text-gray-700">{unavailableMessage}</p>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
+          <p className="text-gray-700">{currentItem.itemType}</p>
         </div>
       )}
       {currentItem.itemType === "text-content" && "url" in currentItem && (

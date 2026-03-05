@@ -311,7 +311,6 @@ export default function SchedulePage() {
               stateImageUrl={stateImageUrl}
               title={title}
               currentMediaUrl={currentMediaUrl}
-              getString={getString}
             />
           )}
 
