@@ -28,6 +28,18 @@ export interface UseRecordingResult {
   onWarningThreshold?: () => void;
 }
 
+function getRecordingFormat(extension: string | undefined): string {
+  if (extension === "wav") {
+    return "WAV (Desktop)";
+  }
+
+  if (extension === "m4a") {
+    return "M4A (Mobile)";
+  }
+
+  return "Unknown";
+}
+
 export function useRecording(
   onMaxTimeReached?: () => void,
   onWarningThreshold?: () => void,
@@ -134,12 +146,7 @@ export function useRecording(
       const extension = result.filePath.split(".").pop();
       console.log("Recording stopped:", {
         ...result,
-        format:
-          extension === "wav"
-            ? "WAV (Desktop)"
-            : extension === "m4a"
-              ? "M4A (Mobile)"
-              : "Unknown",
+        format: getRecordingFormat(extension),
       });
 
       // Read the audio file and convert to base64
