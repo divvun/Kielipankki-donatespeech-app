@@ -4,6 +4,16 @@ interface ScheduleNavigationBarProps {
   totalRecorded: string;
 }
 
+const backButtonStyle = {
+  backgroundColor: "transparent",
+  color: "#3B82F6",
+  padding: "0.5rem 1rem",
+  borderRadius: "0.25rem",
+  border: "1px solid #3B82F6",
+  cursor: "pointer",
+  fontSize: "1rem",
+};
+
 export function ScheduleNavigationBar({
   onBack,
   donatedLabel,
@@ -11,18 +21,7 @@ export function ScheduleNavigationBar({
 }: ScheduleNavigationBarProps) {
   return (
     <div className="bg-white shadow-sm p-4 flex justify-between items-center">
-      <button
-        onClick={onBack}
-        style={{
-          backgroundColor: "transparent",
-          color: "#3B82F6",
-          padding: "0.5rem 1rem",
-          borderRadius: "0.25rem",
-          border: "1px solid #3B82F6",
-          cursor: "pointer",
-          fontSize: "1rem",
-        }}
-      >
+      <button type="button" onClick={onBack} style={backButtonStyle}>
         ← Back
       </button>
 
