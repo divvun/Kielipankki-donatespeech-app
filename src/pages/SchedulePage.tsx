@@ -4,11 +4,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
 import { isMediaItem, isPromptItem } from "../types/Schedule";
 import { useRecording, formatDuration } from "../hooks/useRecording";
-import { MultiChoiceView } from "../components/MultiChoiceView";
-import { SuggestInputView } from "../components/SuggestInputView";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
 import { ScheduleMediaSection } from "../components/ScheduleMediaSection";
 import { ScheduleItemNavigator } from "../components/ScheduleItemNavigator";
+import { ScheduleItemContent } from "../components/ScheduleItemContent";
 import { getMediaUrl } from "../utils/mediaUrl";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { addRecordedSeconds } from "../utils/preferences";
@@ -336,70 +335,19 @@ export default function SchedulePage() {
             totalItems={schedule.items.length}
           />
 
-          {/* Item Content */}
-          <div className="px-4">
-            {/* Display localized title and body text */}
-            {title && (
-              <h2 className="text-2xl font-bold text-center mb-4 text-gray-900">
-                {title}
-              </h2>
-            )}
-            {body1 && (
-              <p className="text-lg text-center mb-2 text-gray-700">{body1}</p>
-            )}
-            {body2 && (
-              <p className="text-base text-center mb-4 text-gray-600">
-                {body2}
-              </p>
-            )}
-
-            {/* Prompt Items */}
-            {isPrompt && (
-              <div className="mt-6">
-                {currentItem.itemType === "choice" &&
-                  "options" in currentItem && (
-                    <SuggestInputView
-                      item={currentItem}
-                      answer={answers[currentItem.itemId]}
-                      onAnswerChange={(answer) =>
-                        setAnswers((prev) => ({
-                          ...prev,
-                          [currentItem.itemId]: answer,
-                        }))
-                      }
-                    />
-                  )}
-                {(currentItem.itemType === "multi-choice" ||
-                  currentItem.itemType === "super-choice") &&
-                  "options" in currentItem && (
-                    <MultiChoiceView
-                      item={currentItem}
-                      answer={answers[currentItem.itemId]}
-                      onAnswerChange={(answer) =>
-                        setAnswers((prev) => ({
-                          ...prev,
-                          [currentItem.itemId]: answer,
-                        }))
-                      }
-                    />
-                  )}
-                {currentItem.itemType === "text-input" && (
-                  <textarea
-                    value={answers[currentItem.itemId] || ""}
-                    onChange={(e) =>
-                      setAnswers((prev) => ({
-                        ...prev,
-                        [currentItem.itemId]: e.target.value,
-                      }))
-                    }
-                    placeholder="Enter your answer..."
-                    rows={4}
-                    className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none mx-8"
-                  ></textarea>
-                )}
-              </div>
-            )}
-          </div>
+          <ScheduleItemContent
+            currentItem={currentItem}
+            title={title}
+            body1={body1}
+            body2={body2}
+            answers={answers}
+            onAnswerChange={(itemId, answer) =>
+              setAnswers((prev) => ({
+                ...prev,
+                [itemId]: answer,
+              }))
+            }
+          />
         </div>
       </div>
 
