@@ -4,6 +4,13 @@ import { isMediaItem } from "../types/Schedule";
 
 export type ItemStateType = "default" | "start" | "recording" | "finish";
 
+const EMPTY_MEDIA_STATE: MediaState = {
+  title: {},
+  body1: {},
+  body2: {},
+  imageUrl: null,
+};
+
 interface UseItemStateReturn {
   currentState: ItemStateType;
   stateContent: MediaState;
@@ -43,12 +50,7 @@ export function useItemState(
   const getStateContent = (): MediaState => {
     if (!item || !isMediaItem(item)) {
       // For non-media items or null items, return empty/default state
-      return {
-        title: {},
-        body1: {},
-        body2: {},
-        imageUrl: null,
-      };
+      return EMPTY_MEDIA_STATE;
     }
 
     // Check if item has state fields (not all media items do, e.g., fake-yle items)
@@ -56,12 +58,7 @@ export function useItemState(
 
     if (!hasStateFields) {
       // Return empty state for items without state fields
-      return {
-        title: {},
-        body1: {},
-        body2: {},
-        imageUrl: null,
-      };
+      return EMPTY_MEDIA_STATE;
     }
 
     // Try to get the content for the current state
@@ -89,14 +86,7 @@ export function useItemState(
     }
 
     // Ensure we always return a valid MediaState
-    return (
-      content || {
-        title: {},
-        body1: {},
-        body2: {},
-        imageUrl: null,
-      }
-    );
+    return content || EMPTY_MEDIA_STATE;
   };
 
   /**
@@ -104,12 +94,7 @@ export function useItemState(
    */
   const getPromptStateContent = (): MediaState => {
     if (!item || isMediaItem(item)) {
-      return {
-        title: {},
-        body1: {},
-        body2: {},
-        imageUrl: null,
-      };
+      return EMPTY_MEDIA_STATE;
     }
 
     // Prompt items have a 'default' MediaState field
@@ -117,12 +102,7 @@ export function useItemState(
       return item.default;
     }
 
-    return {
-      title: {},
-      body1: {},
-      body2: {},
-      imageUrl: null,
-    };
+    return EMPTY_MEDIA_STATE;
   };
 
   const stateContent =
