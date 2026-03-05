@@ -6,6 +6,7 @@ import { Schedule } from "../types/Schedule";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
+import { ScheduleFinishSummary } from "../components/ScheduleFinishSummary";
 
 interface ScheduleFinishLocationState {
   schedule?: Schedule;
@@ -69,6 +70,16 @@ export default function ScheduleFinishPage() {
     navigate("/themes", { replace: true });
   };
 
+  const finishTitle = schedule?.finish?.title
+    ? getLocalizedText(schedule.finish.title, currentLanguage)
+    : getString("RecordingFinishTitle");
+  const finishBody1 = schedule?.finish?.body1
+    ? getLocalizedText(schedule.finish.body1, currentLanguage)
+    : "";
+  const finishBody2 = schedule?.finish?.body2
+    ? getLocalizedText(schedule.finish.body2, currentLanguage)
+    : "";
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <ScheduleNavigationBar
@@ -77,62 +88,13 @@ export default function ScheduleFinishPage() {
         totalRecorded={totalRecorded.totalFormatted}
       />
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-32">
-        <div className="max-w-2xl w-full">
-          {/* Success Image */}
-          {schedule?.finish?.imageUrl ? (
-            <div className="mb-8 flex justify-center">
-              <img
-                src={schedule.finish.imageUrl}
-                alt=""
-                className="max-w-md w-full h-auto rounded-lg shadow-lg"
-              />
-            </div>
-          ) : (
-            <div className="mb-8 flex justify-center">
-              <div className="w-64 h-64 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl">
-                <svg
-                  className="w-32 h-32 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-          )}
-
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">
-            {schedule?.finish?.title
-              ? getLocalizedText(schedule.finish.title, currentLanguage)
-              : getString("RecordingFinishTitle")}
-          </h1>
-
-          <div className="text-center text-gray-700 space-y-4 mb-8">
-            {schedule?.finish?.body1 && (
-              <p className="text-xl">
-                {getLocalizedText(schedule.finish.body1, currentLanguage)}
-              </p>
-            )}
-            {schedule?.finish?.body2 && (
-              <p className="text-lg">
-                {getLocalizedText(schedule.finish.body2, currentLanguage)}
-              </p>
-            )}
-            <p className="text-lg">
-              Total contribution:{" "}
-              <strong>{totalRecorded.totalFormatted}</strong>
-            </p>
-          </div>
-        </div>
-      </div>
+      <ScheduleFinishSummary
+        finishImageUrl={schedule?.finish?.imageUrl}
+        title={finishTitle}
+        body1={finishBody1}
+        body2={finishBody2}
+        totalRecorded={totalRecorded.totalFormatted}
+      />
 
       {/* Bottom Buttons */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
