@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 interface TestActionButton {
   label: string;
   loadingLabel?: string;
@@ -8,7 +10,26 @@ interface TestActionButton {
 interface TestActionSectionProps {
   title: string;
   loading: boolean;
-  actions: TestActionButton[];
+  actions: ReadonlyArray<TestActionButton>;
+}
+
+const baseButtonStyle: CSSProperties = {
+  color: "white",
+  padding: "0.5rem 1.5rem",
+  borderRadius: "0.25rem",
+  border: "none",
+};
+
+function getButtonStyle(loading: boolean, color: string): CSSProperties {
+  return {
+    ...baseButtonStyle,
+    backgroundColor: loading ? "#9CA3AF" : color,
+    cursor: loading ? "not-allowed" : "pointer",
+  };
+}
+
+function getButtonLabel(action: TestActionButton, loading: boolean): string {
+  return loading ? action.loadingLabel || "Loading..." : action.label;
 }
 
 export function TestActionSection({
@@ -25,16 +46,9 @@ export function TestActionSection({
             key={action.label}
             onClick={action.onClick}
             disabled={loading}
-            style={{
-              backgroundColor: loading ? "#9CA3AF" : action.color,
-              color: "white",
-              padding: "0.5rem 1.5rem",
-              borderRadius: "0.25rem",
-              border: "none",
-              cursor: loading ? "not-allowed" : "pointer",
-            }}
+            style={getButtonStyle(loading, action.color)}
           >
-            {loading ? action.loadingLabel || "Loading..." : action.label}
+            {getButtonLabel(action, loading)}
           </button>
         ))}
       </div>
