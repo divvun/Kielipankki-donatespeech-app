@@ -336,16 +336,6 @@ export default function SchedulePage() {
                   style={{ maxHeight: "300px", objectFit: "cover" }}
                 />
               )}
-              {currentItem.itemType === "image" &&
-                "url" in currentItem &&
-                currentMediaUrl && (
-                  <img
-                    src={currentMediaUrl}
-                    alt={title}
-                    className="w-full rounded-lg shadow-md"
-                    style={{ maxHeight: "300px", objectFit: "cover" }}
-                  />
-                )}
               {(currentItem.itemType === "video" ||
                 currentItem.itemType === "yle-video") &&
                 "url" in currentItem &&
