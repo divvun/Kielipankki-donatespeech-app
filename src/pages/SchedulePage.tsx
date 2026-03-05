@@ -88,7 +88,7 @@ export default function SchedulePage() {
 
   // Get current item and its state
   const currentItem = schedule?.items[currentIndex] || null;
-  const { stateContent, transitionTo } = useItemState(
+  const { currentState, stateContent, transitionTo } = useItemState(
     currentItem,
     recording.isRecording,
   );
@@ -230,11 +230,6 @@ export default function SchedulePage() {
         );
       } finally {
         setSaving(false);
-        // Always move to next item or finish, even if save failed
-        // The recording is still saved locally, upload can happen later
-        setTimeout(() => {
-          handleContinue();
-        }, 100);
       }
     } else {
       // Start recording and transition to start then recording state
@@ -292,6 +287,15 @@ export default function SchedulePage() {
   const canGoNext = currentIndex < schedule.items.length - 1;
   const isLastItem = currentIndex === schedule.items.length - 1;
   const isFakeYleItem = isFakeYleMediaType(currentItem.itemType);
+  const isRecordingMediaItem =
+    isMedia && "isRecording" in currentItem && currentItem.isRecording;
+  const showRecordButtonBar = isRecordingMediaItem && currentState !== "finish";
+  const showManualContinueAfterFinish =
+    isRecordingMediaItem && currentState === "finish";
+  const showContinueButtonBar =
+    isPrompt ||
+    (isMedia && !isRecordingMediaItem) ||
+    showManualContinueAfterFinish;
 
   // Get localized content from state
   const title = getLocalizedText(stateContent.title, currentLanguage);
@@ -501,7 +505,7 @@ export default function SchedulePage() {
       </div>
 
       {/* Bottom Button Bar */}
-      {isMedia && "isRecording" in currentItem && currentItem.isRecording && (
+      {showRecordButtonBar && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center">
           {saving && (
             <div className="mb-4 text-blue-600 font-semibold">
@@ -539,22 +543,32 @@ export default function SchedulePage() {
         </div>
       )}
 
-      {(isPrompt ||
-        (isMedia &&
-          !("isRecording" in currentItem && currentItem.isRecording))) && (
+      {showContinueButtonBar && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
+          {showManualContinueAfterFinish && saving && (
+            <div className="text-blue-600 font-semibold">
+              Saving recording...
+            </div>
+          )}
+          {showManualContinueAfterFinish && recording.error && (
+            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {recording.error}
+            </div>
+          )}
           <button
             onClick={handleContinue}
+            disabled={saving}
             style={{
               backgroundColor: "#3B82F6",
               color: "white",
               padding: "0.75rem 2rem",
               borderRadius: "0.5rem",
               border: "none",
-              cursor: "pointer",
+              cursor: saving ? "not-allowed" : "pointer",
               fontSize: "1rem",
               fontWeight: "600",
               minWidth: "220px",
+              opacity: saving ? 0.5 : 1,
             }}
           >
             {isLastItem
