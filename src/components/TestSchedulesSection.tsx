@@ -6,6 +6,39 @@ interface TestSchedulesSectionProps {
   currentLanguage: string;
 }
 
+interface ScheduleFieldRowProps {
+  label: string;
+  value: string;
+  className?: string;
+}
+
+function ScheduleFieldRow({
+  label,
+  value,
+  className,
+}: ScheduleFieldRowProps) {
+  return (
+    <div className={className}>
+      <span className="font-semibold">{label}:</span> {value}
+    </div>
+  );
+}
+
+function getScheduleIdentifier(schedule: Schedule): string {
+  return schedule.id || schedule.scheduleId || "N/A";
+}
+
+function getLocalizedTitle(
+  title: Record<string, string> | null | undefined,
+  currentLanguage: string,
+): string {
+  if (!title) {
+    return "N/A";
+  }
+
+  return getLocalizedText(title, currentLanguage) || "N/A";
+}
+
 export function TestSchedulesSection({
   schedules,
   currentLanguage,
@@ -25,16 +58,18 @@ export function TestSchedulesSection({
             key={schedule.id || schedule.scheduleId}
             className="bg-white p-4 rounded shadow"
           >
-            <div className="text-sm">
-              <div className="mb-2">
-                <span className="font-semibold">Schedule ID:</span>{" "}
-                {schedule.id || schedule.scheduleId || "N/A"}
-              </div>
+            <div className="text-sm space-y-2">
+              <ScheduleFieldRow
+                label="Schedule ID"
+                value={getScheduleIdentifier(schedule)}
+                className="mb-2"
+              />
               {schedule.title && (
-                <div className="mb-2">
-                  <span className="font-semibold">Title:</span>{" "}
-                  {getLocalizedText(schedule.title, currentLanguage) || "N/A"}
-                </div>
+                <ScheduleFieldRow
+                  label="Title"
+                  value={getLocalizedTitle(schedule.title, currentLanguage)}
+                  className="mb-2"
+                />
               )}
               {schedule.items && schedule.items.length > 0 && (
                 <div>
