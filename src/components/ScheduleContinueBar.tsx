@@ -8,6 +8,21 @@ interface ScheduleContinueBarProps {
   continueLabel: string;
 }
 
+function getContinueButtonStyle(saving: boolean) {
+  return {
+    backgroundColor: "#3B82F6",
+    color: "white",
+    padding: "0.75rem 2rem",
+    borderRadius: "0.5rem",
+    border: "none",
+    cursor: saving ? "not-allowed" : "pointer",
+    fontSize: "1rem",
+    fontWeight: "600",
+    minWidth: "220px",
+    opacity: saving ? 0.5 : 1,
+  };
+}
+
 export function ScheduleContinueBar({
   showManualContinueAfterFinish,
   saving,
@@ -17,6 +32,8 @@ export function ScheduleContinueBar({
   exitLabel,
   continueLabel,
 }: ScheduleContinueBarProps) {
+  const buttonLabel = isLastItem ? exitLabel : continueLabel;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
       {showManualContinueAfterFinish && saving && (
@@ -30,20 +47,9 @@ export function ScheduleContinueBar({
       <button
         onClick={onContinue}
         disabled={saving}
-        style={{
-          backgroundColor: "#3B82F6",
-          color: "white",
-          padding: "0.75rem 2rem",
-          borderRadius: "0.5rem",
-          border: "none",
-          cursor: saving ? "not-allowed" : "pointer",
-          fontSize: "1rem",
-          fontWeight: "600",
-          minWidth: "220px",
-          opacity: saving ? 0.5 : 1,
-        }}
+        style={getContinueButtonStyle(saving)}
       >
-        {isLastItem ? exitLabel : continueLabel}
+        {buttonLabel}
       </button>
     </div>
   );
