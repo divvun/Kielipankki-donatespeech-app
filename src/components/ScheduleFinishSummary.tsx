@@ -26,7 +26,7 @@ export function ScheduleFinishSummary({
           </div>
         ) : (
           <div className="mb-8 flex justify-center">
-            <div className="w-64 h-64 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl">
+            <div className="w-64 h-64 bg-linear-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl">
               <svg
                 className="w-32 h-32 text-white"
                 fill="none"
