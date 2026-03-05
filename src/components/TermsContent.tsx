@@ -10,6 +10,13 @@ interface TermsSectionProps {
   children: ReactNode;
 }
 
+interface TermsLinkButtonProps {
+  label: string;
+  url: string;
+  onOpenLink: (url: string) => void;
+  className?: string;
+}
+
 function TermsSection({ title, children }: TermsSectionProps) {
   return (
     <section>
@@ -19,86 +26,100 @@ function TermsSection({ title, children }: TermsSectionProps) {
   );
 }
 
+function TermsLinkButton({
+  label,
+  url,
+  onOpenLink,
+  className,
+}: TermsLinkButtonProps) {
+  return (
+    <button onClick={() => onOpenLink(url)} className={className}>
+      {label}
+    </button>
+  );
+}
+
 export function TermsContent({ getString, onOpenLink }: TermsContentProps) {
   const linkClassName = "text-blue-600 hover:text-blue-800 underline";
+  const text = (id: string) => getString(id);
 
   return (
     <div className="space-y-8 mb-8">
-      <TermsSection title={getString("TermsGeneralTitle")}>
+      <TermsSection title={text("TermsGeneralTitle")}>
         <p className="text-gray-700 whitespace-pre-line mb-3">
-          {getString("TermsGeneralBody")}
+          {text("TermsGeneralBody")}
         </p>
-        <button
-          onClick={() => onOpenLink(getString("TermsGeneralUrl"))}
+        <TermsLinkButton
+          label={text("TermsGeneralLink")}
+          url={text("TermsGeneralUrl")}
+          onOpenLink={onOpenLink}
           className={linkClassName}
-        >
-          {getString("TermsGeneralLink")}
-        </button>
+        />
       </TermsSection>
 
-      <TermsSection title={getString("TermsOwnershipTitle")}>
+      <TermsSection title={text("TermsOwnershipTitle")}>
         <p className="text-gray-700">
-          {getString("TermsOwnershipBody1")}
-          <button
-            onClick={() => onOpenLink(getString("TermsOwnershipLinkUrl"))}
+          {text("TermsOwnershipBody1")}
+          <TermsLinkButton
+            label={text("TermsOwnershipLink")}
+            url={text("TermsOwnershipLinkUrl")}
+            onOpenLink={onOpenLink}
             className={`${linkClassName} mx-1`}
-          >
-            {getString("TermsOwnershipLink")}
-          </button>
-          {getString("TermsOwnershipBody2")}
+          />
+          {text("TermsOwnershipBody2")}
         </p>
       </TermsSection>
 
-      <TermsSection title={getString("TermsVoluntaryTitle")}>
-        <p className="text-gray-700">{getString("TermsVoluntaryBody")}</p>
+      <TermsSection title={text("TermsVoluntaryTitle")}>
+        <p className="text-gray-700">{text("TermsVoluntaryBody")}</p>
       </TermsSection>
 
-      <TermsSection title={getString("TermsPrivacyTitle")}>
-        <p className="text-gray-700 mb-3">{getString("TermsPrivacyBody")}</p>
-        <button
-          onClick={() => onOpenLink(getString("TermsPrivacyUrl"))}
+      <TermsSection title={text("TermsPrivacyTitle")}>
+        <p className="text-gray-700 mb-3">{text("TermsPrivacyBody")}</p>
+        <TermsLinkButton
+          label={text("TermsPrivacyLink")}
+          url={text("TermsPrivacyUrl")}
+          onOpenLink={onOpenLink}
           className={linkClassName}
-        >
-          {getString("TermsPrivacyLink")}
-        </button>
+        />
       </TermsSection>
 
-      <TermsSection title={getString("TermsRightsTitle")}>
+      <TermsSection title={text("TermsRightsTitle")}>
         <p className="text-gray-700 whitespace-pre-line">
-          {getString("TermsRightsBody")}
+          {text("TermsRightsBody")}
         </p>
       </TermsSection>
 
-      <TermsSection title={getString("TermsAppropriateUseTitle")}>
-        <p className="text-gray-700">{getString("TermsAppropriateUseBody")}</p>
+      <TermsSection title={text("TermsAppropriateUseTitle")}>
+        <p className="text-gray-700">{text("TermsAppropriateUseBody")}</p>
       </TermsSection>
 
-      <TermsSection title={getString("TermsAdditionalTitle")}>
+      <TermsSection title={text("TermsAdditionalTitle")}>
         <div className="space-y-2 text-gray-700">
           <p>
-            {getString("TermsAdditionalWebsite")}
-            <button
-              onClick={() => onOpenLink(getString("TermsAdditionalWebsiteUrl"))}
+            {text("TermsAdditionalWebsite")}
+            <TermsLinkButton
+              label={text("TermsAdditionalWebsiteLink")}
+              url={text("TermsAdditionalWebsiteUrl")}
+              onOpenLink={onOpenLink}
               className={linkClassName}
-            >
-              {getString("TermsAdditionalWebsiteLink")}
-            </button>
+            />
           </p>
-          <p>{getString("TermsAdditionalContact")}</p>
+          <p>{text("TermsAdditionalContact")}</p>
           <p>
-            <button
-              onClick={() => onOpenLink(getString("TermsAdditionalUrl"))}
+            <TermsLinkButton
+              label={text("TermsAdditionalLink")}
+              url={text("TermsAdditionalUrl")}
+              onOpenLink={onOpenLink}
               className={linkClassName}
-            >
-              {getString("TermsAdditionalLink")}
-            </button>
+            />
           </p>
           <p>
             <a
-              href={`mailto:${getString("TermsAdditionalEmail")}`}
+              href={`mailto:${text("TermsAdditionalEmail")}`}
               className={linkClassName}
             >
-              {getString("TermsAdditionalEmail")}
+              {text("TermsAdditionalEmail")}
             </a>
           </p>
         </div>
