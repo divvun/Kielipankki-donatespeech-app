@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../hooks/useTranslation";
 import LanguageSelector from "../components/LanguageSelector";
+import { OnboardingSummary } from "../components/OnboardingSummary";
+import { OnboardingActions } from "../components/OnboardingActions";
 
 export default function OnboardingPage() {
   const navigate = useNavigate();
@@ -20,30 +22,15 @@ export default function OnboardingPage() {
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-5">
         <div className="max-w-2xl w-full text-center space-y-8">
-          {/* Logo placeholder - you can replace with actual logo */}
-          <div className="flex justify-center">
-            <div className="w-40 h-40 bg-blue-500 rounded-full flex items-center justify-center text-white text-6xl font-bold">
-              🎙️
-            </div>
-          </div>
+          <OnboardingSummary
+            title={getString("OnboardingTitle")}
+            body={getString("OnboardingBody")}
+          />
 
-          {/* Title */}
-          <h1 className="text-3xl font-bold text-blue-500">
-            {getString("OnboardingTitle")}
-          </h1>
-
-          {/* Body Text */}
-          <p className="text-lg text-gray-700 whitespace-pre-line px-4">
-            {getString("OnboardingBody")}
-          </p>
-
-          {/* Continue Button */}
-          <button
-            onClick={handleContinue}
-            className="bg-blue-500 text-white px-12 py-3 rounded hover:bg-blue-600 font-semibold text-lg"
-          >
-            {getString("ContinueSchedule")}
-          </button>
+          <OnboardingActions
+            continueLabel={getString("ContinueSchedule")}
+            onContinue={handleContinue}
+          />
         </div>
       </div>
     </div>
