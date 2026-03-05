@@ -6,6 +6,28 @@ interface ScheduleFinishSummaryProps {
   totalRecorded: string;
 }
 
+function ScheduleFinishFallbackIllustration() {
+  return (
+    <div className="mb-8 flex justify-center">
+      <div className="w-64 h-64 bg-linear-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl">
+        <svg
+          className="w-32 h-32 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 export function ScheduleFinishSummary({
   finishImageUrl,
   title,
@@ -25,23 +47,7 @@ export function ScheduleFinishSummary({
             />
           </div>
         ) : (
-          <div className="mb-8 flex justify-center">
-            <div className="w-64 h-64 bg-linear-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-xl">
-              <svg
-                className="w-32 h-32 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-          </div>
+          <ScheduleFinishFallbackIllustration />
         )}
 
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">
