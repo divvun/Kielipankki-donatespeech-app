@@ -91,6 +91,15 @@ pnpm tauri:build                  # Desktop
 pnpm tauri:android:build          # Android
 ```
 
+**Tip (test on your own machine against release API):**
+
+```bash
+pnpm tauri:dev:release-api
+```
+
+This runs `tauri dev` with `src-tauri/tauri.conf.release.json`, so you get hot
+reload while calling the release API endpoint.
+
 **Change API endpoint:** Edit the `plugins.recorder.apiBaseUrl` in:
 - `src-tauri/tauri.conf.json` (development)
 - `src-tauri/tauri.conf.release.json` (production)
