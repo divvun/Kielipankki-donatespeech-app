@@ -7,6 +7,15 @@ interface TextContentViewProps {
   item: TextContentItem;
 }
 
+async function fetchTextContent(url: string): Promise<string> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch content: ${response.status}`);
+  }
+
+  return response.text();
+}
+
 export function TextContentView({ item }: TextContentViewProps) {
   const { currentLanguage } = useLocalization();
 
@@ -18,6 +27,9 @@ export function TextContentView({ item }: TextContentViewProps) {
   const title = getLocalizedText(item.default.title, currentLanguage);
   const body1 = getLocalizedText(item.default.body1, currentLanguage);
   const body2 = getLocalizedText(item.default.body2, currentLanguage);
+  const isHtml =
+    item.typeId?.toLowerCase().includes("html") || item.typeId === "text/html";
+  const showNoContent = !loading && !error && !content;
 
   // Fetch text content from URL
   useEffect(() => {
@@ -25,11 +37,7 @@ export function TextContentView({ item }: TextContentViewProps) {
       setLoading(true);
       setError("");
       try {
-        const response = await fetch(item.url);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch content: ${response.status}`);
-        }
-        const text = await response.text();
+        const text = await fetchTextContent(item.url);
         setContent(text);
       } catch (err) {
         console.error("Error fetching text content:", err);
@@ -45,10 +53,6 @@ export function TextContentView({ item }: TextContentViewProps) {
       fetchContent();
     }
   }, [item.url]);
-
-  // Determine if content is HTML or plain text
-  const isHtml =
-    item.typeId?.toLowerCase().includes("html") || item.typeId === "text/html";
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -87,9 +91,7 @@ export function TextContentView({ item }: TextContentViewProps) {
         </>
       )}
 
-      {!loading && !error && !content && (
-        <p className="text-gray-500 italic">No content available</p>
-      )}
+      {showNoContent && <p className="text-gray-500 italic">No content available</p>}
     </div>
   );
 }
