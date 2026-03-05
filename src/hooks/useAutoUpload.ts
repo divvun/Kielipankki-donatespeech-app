@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
+
+const AUTO_UPLOAD_INTERVAL_MS = 20000;
 
 /**
  * Hook to automatically upload pending recordings
@@ -12,14 +14,14 @@ import { invoke } from "@tauri-apps/api/core";
 export function useAutoUpload() {
   const intervalRef = useRef<number | null>(null);
 
-  const uploadPendingRecordings = async () => {
+  const uploadPendingRecordings = useCallback(async () => {
     try {
       const result = await invoke<string>("upload_pending_recordings");
       console.log("Auto-upload result:", result);
     } catch (err) {
       console.error("Auto-upload failed:", err);
     }
-  };
+  }, []);
 
   useEffect(() => {
     // Upload immediately on mount
@@ -28,7 +30,7 @@ export function useAutoUpload() {
     // Set up periodic upload every 20 seconds (matches C# app)
     intervalRef.current = window.setInterval(() => {
       uploadPendingRecordings();
-    }, 20000);
+    }, AUTO_UPLOAD_INTERVAL_MS);
 
     // Cleanup interval on unmount
     return () => {
@@ -36,7 +38,7 @@ export function useAutoUpload() {
         clearInterval(intervalRef.current);
       }
     };
-  }, []);
+  }, [uploadPendingRecordings]);
 
   return {
     uploadNow: uploadPendingRecordings,
