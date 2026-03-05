@@ -6,6 +6,34 @@ interface TestThemesSectionProps {
   currentLanguage: string;
 }
 
+interface ThemeFieldRowProps {
+  label: string;
+  value: string;
+}
+
+function ThemeFieldRow({ label, value }: ThemeFieldRowProps) {
+  return (
+    <div>
+      <span className="font-semibold">{label}:</span> {value}
+    </div>
+  );
+}
+
+function valueOrNA(value?: string): string {
+  return value || "N/A";
+}
+
+function localizedOrNA(
+  value: Record<string, string> | undefined,
+  currentLanguage: string,
+): string {
+  if (!value) {
+    return "N/A";
+  }
+
+  return getLocalizedText(value, currentLanguage) || "N/A";
+}
+
 export function TestThemesSection({
   themes,
   currentLanguage,
@@ -16,45 +44,42 @@ export function TestThemesSection({
 
   return (
     <div className="mt-6">
-      <h2 className="text-xl font-semibold mb-4">Found {themes.length} theme(s)</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        Found {themes.length} theme(s)
+      </h2>
       <div className="space-y-4">
         {themes.map((theme) => (
           <div key={theme.id} className="bg-white p-4 rounded shadow">
-            <div className="text-sm">
-              <div className="mb-2">
-                <span className="font-semibold">Theme ID:</span> {theme.id || "N/A"}
-              </div>
+            <div className="text-sm space-y-2">
+              <ThemeFieldRow label="Theme ID" value={valueOrNA(theme.id)} />
               {theme.content && (
-                <div className="space-y-2">
-                  <div>
-                    <span className="font-semibold">Title:</span>{" "}
-                    {getLocalizedText(theme.content.title, currentLanguage) ||
-                      "N/A"}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Body 1:</span>{" "}
-                    {getLocalizedText(theme.content.body1, currentLanguage) ||
-                      "N/A"}
-                  </div>
+                <div className="space-y-2 pl-2">
+                  <ThemeFieldRow
+                    label="Title"
+                    value={localizedOrNA(theme.content.title, currentLanguage)}
+                  />
+                  <ThemeFieldRow
+                    label="Body 1"
+                    value={localizedOrNA(theme.content.body1, currentLanguage)}
+                  />
                   {theme.content.body2 && (
-                    <div>
-                      <span className="font-semibold">Body 2:</span>{" "}
-                      {getLocalizedText(theme.content.body2, currentLanguage) ||
-                        "N/A"}
-                    </div>
+                    <ThemeFieldRow
+                      label="Body 2"
+                      value={localizedOrNA(
+                        theme.content.body2,
+                        currentLanguage,
+                      )}
+                    />
                   )}
                   {theme.content.image && (
-                    <div>
-                      <span className="font-semibold">Image:</span>{" "}
-                      {theme.content.image}
-                    </div>
+                    <ThemeFieldRow label="Image" value={theme.content.image} />
                   )}
                   {theme.content.scheduleIds &&
                     theme.content.scheduleIds.length > 0 && (
-                      <div>
-                        <span className="font-semibold">Schedule IDs:</span>{" "}
-                        {theme.content.scheduleIds.join(", ")}
-                      </div>
+                      <ThemeFieldRow
+                        label="Schedule IDs"
+                        value={theme.content.scheduleIds.join(", ")}
+                      />
                     )}
                 </div>
               )}
