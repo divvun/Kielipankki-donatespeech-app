@@ -19,7 +19,11 @@ export function ScheduleRecordingBar({
 }: ScheduleRecordingBarProps) {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center">
-      {saving && <div className="mb-4 text-blue-600 font-semibold">Saving recording...</div>}
+      {saving && (
+        <div className="mb-4 text-blue-600 font-semibold">
+          Saving recording...
+        </div>
+      )}
       {error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
           {error}
@@ -43,7 +47,9 @@ export function ScheduleRecordingBar({
       >
         {isRecording ? stopLabel : startLabel}
       </button>
-      <div className="mt-3 text-2xl font-mono text-gray-700">{durationText}</div>
+      <div className="mt-3 text-2xl font-mono text-gray-700">
+        {durationText}
+      </div>
     </div>
   );
 }
