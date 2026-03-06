@@ -171,6 +171,30 @@ persists across sessions. See
 
 ## Deployment
 
+### Azure Static Web App (Web Frontend)
+
+The web content-creator interface is deployed with GitHub Actions to Azure
+Static Web Apps.
+
+Workflow file:
+- `.github/workflows/deploy-azure-static-web-app.yml`
+
+One-time setup:
+1. Create (or reuse) an Azure Static Web App in the labs subscription.
+2. In the Azure portal, copy the deployment token for that Static Web App.
+3. Add a GitHub Actions repository secret named
+   `AZURE_STATIC_WEB_APPS_API_TOKEN` with that token.
+4. Ensure backend CORS allows your Static Web App origin.
+
+The workflow builds in web mode using:
+- `VITE_PLATFORM_MODE=web`
+- `VITE_BASE_PATH=/`
+-
+  `VITE_API_BASE_URL=https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io`
+
+Default frontend URL format:
+- `https://<your-static-web-app-name>.azurestaticapps.net`
+
 ### Google Play (Android)
 
 1. Build release APK/AAB:
