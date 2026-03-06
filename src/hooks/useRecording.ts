@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
-import * as audioRecorder from "tauri-plugin-audio-recorder-api";
-import { tempDir, join } from "@tauri-apps/api/path";
 import type { Recording } from "../types/Recording";
 import { useWakeLock } from "./useWakeLock";
 import { platformApi } from "../platform";
+
+type AudioRecorderModule = typeof import("tauri-plugin-audio-recorder-api");
+type TauriPathModule = typeof import("@tauri-apps/api/path");
 
 // Recording time limits
 const MAX_RECORDING_SECONDS = 600; // 10 minutes
@@ -40,6 +41,29 @@ function getRecordingFormat(extension: string | undefined): string {
   return "Unknown";
 }
 
+function isTauriRuntime(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const windowRecord = window as unknown as Record<string, unknown>;
+  return Boolean(windowRecord.__TAURI_INTERNALS__ || windowRecord.__TAURI__);
+}
+
+function isWebRecordingMockEnabled(): boolean {
+  const mode = import.meta.env.VITE_PLATFORM_MODE?.trim().toLowerCase();
+
+  if (mode === "tauri") {
+    return false;
+  }
+
+  if (mode === "web") {
+    return true;
+  }
+
+  return !isTauriRuntime();
+}
+
 export function useRecording(
   onMaxTimeReached?: () => void,
   onWarningThreshold?: () => void,
@@ -49,20 +73,61 @@ export function useRecording(
   const [error, setError] = useState<string | null>(null);
 
   const timerRef = useRef<number | null>(null);
+  const durationRef = useRef(0);
   const outputPathRef = useRef<string | null>(null);
   const wakeLock = useWakeLock();
   const warningShownRef = useRef(false);
 
-  const resetSessionDuration = () => {
-    stopTimer();
+  const stopTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const startDurationTimer = () => {
     setDuration(0);
+    durationRef.current = 0;
     warningShownRef.current = false;
+
+    timerRef.current = window.setInterval(() => {
+      setDuration((prev) => {
+        const newDuration = prev + 1;
+        durationRef.current = newDuration;
+
+        if (newDuration >= MAX_RECORDING_SECONDS) {
+          onMaxTimeReached?.();
+          return newDuration;
+        }
+
+        if (
+          newDuration >= WARNING_THRESHOLD_SECONDS &&
+          !warningShownRef.current
+        ) {
+          warningShownRef.current = true;
+          onWarningThreshold?.();
+        }
+
+        return newDuration;
+      });
+    }, 1000);
   };
 
   const startRecording = async () => {
     try {
       setError(null);
       resetSessionDuration();
+
+      if (isWebRecordingMockEnabled()) {
+        startDurationTimer();
+        setIsRecording(true);
+        await wakeLock.requestWakeLock();
+        return;
+      }
+
+      const audioRecorder: AudioRecorderModule =
+        await import("tauri-plugin-audio-recorder-api");
+      const pathApi: TauriPathModule = await import("@tauri-apps/api/path");
 
       // Check and request microphone permission
       const permissionStatus = await audioRecorder.checkPermission();
@@ -80,10 +145,13 @@ export function useRecording(
       }
 
       // Generate output path for the recording
-      const tempDirPath = await tempDir();
+      const tempDirPath = await pathApi.tempDir();
       const timestamp = Date.now();
       // Don't specify extension - plugin will use .wav on desktop, .m4a on mobile
-      const outputPath = await join(tempDirPath, `recording_${timestamp}`);
+      const outputPath = await pathApi.join(
+        tempDirPath,
+        `recording_${timestamp}`,
+      );
       outputPathRef.current = outputPath;
 
       // Start recording with the plugin
@@ -96,30 +164,7 @@ export function useRecording(
         maxDuration: 0, // No limit
       });
 
-      // Start duration timer
-      timerRef.current = window.setInterval(() => {
-        setDuration((prev) => {
-          const newDuration = prev + 1;
-
-          // Check if max recording time reached
-          if (newDuration >= MAX_RECORDING_SECONDS) {
-            // Auto-stop recording when limit is reached
-            onMaxTimeReached?.();
-            return newDuration;
-          }
-
-          // Check if warning threshold reached (only show once)
-          if (
-            newDuration >= WARNING_THRESHOLD_SECONDS &&
-            !warningShownRef.current
-          ) {
-            warningShownRef.current = true;
-            onWarningThreshold?.();
-          }
-
-          return newDuration;
-        });
-      }, 1000);
+      startDurationTimer();
 
       setIsRecording(true);
 
@@ -143,6 +188,19 @@ export function useRecording(
 
       // Release wake lock
       await wakeLock.releaseWakeLock();
+
+      if (isWebRecordingMockEnabled()) {
+        // Web content-creator mode: persist only duration and metadata.
+        return platformApi.saveRecording({
+          itemId,
+          clientId,
+          audioDataBase64: "",
+          durationSeconds: durationRef.current,
+        });
+      }
+
+      const audioRecorder: AudioRecorderModule =
+        await import("tauri-plugin-audio-recorder-api");
 
       // Stop recording using the plugin
       const result = await audioRecorder.stopRecording();
@@ -184,13 +242,6 @@ export function useRecording(
       console.error("Error saving recording:", err);
       setError(err instanceof Error ? err.message : "Failed to save recording");
       throw err;
-    }
-  };
-
-  const stopTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
     }
   };
 

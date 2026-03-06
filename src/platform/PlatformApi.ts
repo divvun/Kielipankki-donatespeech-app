@@ -4,6 +4,7 @@ export interface SaveRecordingPayload {
   itemId: string;
   clientId: string;
   audioDataBase64: string;
+  durationSeconds?: number;
 }
 
 export interface SaveRecordingCommandResponse {
