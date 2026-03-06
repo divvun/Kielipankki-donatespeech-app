@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { invoke } from "@tauri-apps/api/core";
+import { platformApi } from "../platform";
 
 const AUTO_UPLOAD_INTERVAL_MS = 20000;
 
@@ -16,7 +16,7 @@ export function useAutoUpload() {
 
   const uploadPendingRecordings = useCallback(async () => {
     try {
-      const result = await invoke<string>("upload_pending_recordings");
+      const result = await platformApi.uploadPendingRecordings();
       console.log("Auto-upload result:", result);
     } catch (err) {
       console.error("Auto-upload failed:", err);

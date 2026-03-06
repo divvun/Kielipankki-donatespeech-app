@@ -4,7 +4,7 @@ import type { Schedule } from "../types/Schedule";
 import SchedulePage from "./SchedulePage";
 
 const mocks = vi.hoisted(() => ({
-  invoke: vi.fn(),
+  fetchSchedule: vi.fn(),
   getMediaUrl: vi.fn(),
   navigate: vi.fn(),
   startRecording: vi.fn(),
@@ -13,8 +13,10 @@ const mocks = vi.hoisted(() => ({
   refreshTotal: vi.fn(),
 }));
 
-vi.mock("@tauri-apps/api/core", () => ({
-  invoke: mocks.invoke,
+vi.mock("../platform", () => ({
+  platformApi: {
+    fetchSchedule: mocks.fetchSchedule,
+  },
 }));
 
 vi.mock("../utils/mediaUrl", () => ({
@@ -113,27 +115,17 @@ describe("SchedulePage fake YLE media", () => {
   });
 
   it.each(["fake-yle-audio", "fake-yle-video"] as const)(
-    "shows unavailable message without trying to load media while keeping recording UI for %s",
+    "shows fake YLE placeholder without trying to load media while keeping recording UI for %s",
     async (itemType) => {
       const schedule = buildFakeYleSchedule(itemType);
 
-      mocks.invoke.mockImplementation(async (command: string) => {
-        if (command === "fetch_schedule") {
-          return schedule;
-        }
-
-        throw new Error(`Unexpected invoke command: ${command}`);
-      });
+      mocks.fetchSchedule.mockResolvedValue(schedule);
 
       render(<SchedulePage />);
 
-      await screen.findByText("YLE Content Unavailable");
+      await screen.findByText(itemType);
 
-      expect(
-        screen.getByText(
-          "This content requires YLE API credentials to be configured.",
-        ),
-      ).toBeTruthy();
+      expect(screen.getAllByText("Fake YLE title").length).toBeGreaterThan(0);
       expect(screen.queryByText("Loading media...")).toBeNull();
       expect(
         screen.getByRole("button", { name: "Start Recording" }),

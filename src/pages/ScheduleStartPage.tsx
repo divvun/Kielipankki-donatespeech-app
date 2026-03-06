@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { invoke } from "@tauri-apps/api/core";
 import type { Schedule } from "../types/Schedule";
 import { useTranslation } from "../hooks/useTranslation";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
+import { platformApi } from "../platform";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
 import { ScheduleStartSummary } from "../components/ScheduleStartSummary";
 import { ScheduleStartActions } from "../components/ScheduleStartActions";
@@ -32,9 +32,7 @@ export default function ScheduleStartPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<Schedule>("fetch_schedule", {
-        scheduleId: id,
-      });
+      const result = await platformApi.fetchSchedule(id);
       console.log("Received schedule:", result);
 
       if (!result.items || result.items.length === 0) {

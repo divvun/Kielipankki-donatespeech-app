@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import * as audioRecorder from "tauri-plugin-audio-recorder-api";
 import { tempDir, join } from "@tauri-apps/api/path";
 import type { Recording } from "../types/Recording";
 import { useWakeLock } from "./useWakeLock";
+import { platformApi } from "../platform";
 
 // Recording time limits
 const MAX_RECORDING_SECONDS = 600; // 10 minutes
@@ -156,9 +156,7 @@ export function useRecording(
 
       // Read the audio file and convert to base64
       // Backend will handle format detection and conversion/storage appropriately
-      const audioBase64 = await invoke<string>("read_file_as_base64", {
-        filePath: result.filePath,
-      });
+      const audioBase64 = await platformApi.readFileAsBase64(result.filePath);
 
       // Call backend to save recording
       console.log("Saving recording...", {
@@ -169,7 +167,7 @@ export function useRecording(
         duration: result.durationMs / 1000,
       });
 
-      const response = await invoke<SaveRecordingResponse>("save_recording", {
+      const response = await platformApi.saveRecording({
         itemId,
         clientId,
         audioDataBase64: audioBase64,
@@ -178,9 +176,7 @@ export function useRecording(
       console.log("Recording saved:", response);
 
       // Clean up the temporary file
-      await invoke("delete_file", {
-        filePath: result.filePath,
-      });
+      await platformApi.deleteFile(result.filePath);
 
       outputPathRef.current = null;
       return response;

@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api/core";
+import { platformApi } from "../platform";
 
 let cachedBaseUrl: string | null = null;
 const DEFAULT_MIME_TYPE = "application/octet-stream";
@@ -11,7 +11,7 @@ const blobUrlCache: Map<string, string> = new Map();
  */
 export async function getApiBaseUrl(): Promise<string> {
   if (cachedBaseUrl === null) {
-    cachedBaseUrl = await invoke<string>("get_api_base_url");
+    cachedBaseUrl = await platformApi.getApiBaseUrl();
   }
   return cachedBaseUrl;
 }
@@ -56,9 +56,7 @@ export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
   }
 
   // Download the media file (returns binary data as number array)
-  const fileData = await invoke<number[]>("download_media", {
-    url: filenameOrUrl,
-  });
+  const fileData = await platformApi.downloadMedia(filenameOrUrl);
 
   console.log(`Received ${fileData.length} bytes from download_media`);
 

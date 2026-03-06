@@ -5,7 +5,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import OnboardingPage from "./pages/OnboardingPage";
 import TermsPage from "./pages/TermsPage";
 import ThemesPage from "./pages/ThemesPage";
@@ -15,6 +14,7 @@ import ScheduleFinishPage from "./pages/ScheduleFinishPage";
 import TestPage from "./pages/TestPage";
 import DetailsPage from "./pages/DetailsPage";
 import { getClientId } from "./utils/clientId";
+import { platformApi } from "./platform";
 import "./App.css";
 
 function App() {
@@ -33,9 +33,7 @@ function App() {
     const fixExistingRecordings = async () => {
       try {
         const clientId = getClientId();
-        const updated = await invoke<number>("fix_client_ids", {
-          realClientId: clientId,
-        });
+        const updated = await platformApi.fixClientIds(clientId);
         if (updated > 0) {
           console.log(`Fixed client IDs for ${updated} recordings`);
         }
@@ -81,9 +79,15 @@ function App() {
         <Route path="/test" element={<TestPage />} />
 
         {/* Schedule flow - start page, schedule items, finish page */}
-        <Route path="/schedule/:scheduleId/start" element={<ScheduleStartPage />} />
+        <Route
+          path="/schedule/:scheduleId/start"
+          element={<ScheduleStartPage />}
+        />
         <Route path="/schedule/:scheduleId" element={<SchedulePage />} />
-        <Route path="/schedule/:scheduleId/finish" element={<ScheduleFinishPage />} />
+        <Route
+          path="/schedule/:scheduleId/finish"
+          element={<ScheduleFinishPage />}
+        />
 
         {/* Details page - view and manage recordings */}
         <Route path="/details" element={<DetailsPage />} />

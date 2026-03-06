@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../hooks/useTranslation";
 import type { ThemeListItem } from "../types/Theme";
@@ -7,6 +6,7 @@ import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useAutoUpload } from "../hooks/useAutoUpload";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
+import { platformApi } from "../platform";
 import LanguageSelector from "../components/LanguageSelector";
 
 export default function ThemesPage() {
@@ -30,7 +30,7 @@ export default function ThemesPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<ThemeListItem[]>("fetch_themes");
+      const result = await platformApi.fetchThemes();
       console.log("Received themes:", result);
 
       // Filter themes that have scheduleIds

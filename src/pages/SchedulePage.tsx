@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
 import { isMediaItem, isPromptItem } from "../types/Schedule";
@@ -21,6 +20,7 @@ import { useTranslation } from "../hooks/useTranslation";
 import { getLocalizedText } from "../utils/localization";
 import { useItemState } from "../hooks/useItemState";
 import { useLocalization } from "../contexts/LocalizationContext";
+import { platformApi } from "../platform";
 
 const isFakeYleMediaType = (itemType: string) =>
   itemType === "fake-yle-audio" || itemType === "fake-yle-video";
@@ -107,9 +107,7 @@ export default function SchedulePage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<Schedule>("fetch_schedule", {
-        scheduleId: id,
-      });
+      const result = await platformApi.fetchSchedule(id);
       console.log("Received schedule:", result);
 
       if (!result.items || result.items.length === 0) {

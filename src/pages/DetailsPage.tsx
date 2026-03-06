@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
-import type { Recording } from "../types";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { subtractRecordedSeconds } from "../utils/preferences";
 import { getClientId } from "../utils/clientId";
+import { platformApi } from "../platform";
 import { DetailsHeader } from "../components/DetailsHeader";
 import { DetailsTabs, type DetailsTabType } from "../components/DetailsTabs";
 import {
@@ -28,7 +27,7 @@ export default function DetailsPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<Recording[]>("get_recordings");
+      const result = await platformApi.getRecordings();
 
       // Parse metadata to extract duration
       const recordingsWithDuration = result.map((rec) => {
@@ -65,9 +64,7 @@ export default function DetailsPage() {
 
     setDeletingId(recording.recordingId);
     try {
-      await invoke("delete_recording", {
-        recordingId: recording.recordingId,
-      });
+      await platformApi.deleteRecording(recording.recordingId);
 
       // Subtract duration from total recorded time
       if (recording.duration) {

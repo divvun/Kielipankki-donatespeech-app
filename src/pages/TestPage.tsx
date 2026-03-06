@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { invoke } from "@tauri-apps/api/core";
 import type { Recording } from "../types";
 import type { ThemeListItem } from "../types/Theme";
 import type { Schedule } from "../types/Schedule";
 import { useLocalization } from "../contexts/LocalizationContext";
+import { platformApi } from "../platform";
 import { TestActionSection } from "../components/TestActionSection";
 import { TestErrorBanner } from "../components/TestErrorBanner";
 import { TestRecordingsSection } from "../components/TestRecordingsSection";
@@ -24,7 +24,7 @@ export default function TestPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<Recording[]>("get_recordings");
+      const result = await platformApi.getRecordings();
       console.log("Received recordings:", result);
       setRecordings(result);
     } catch (err) {
@@ -40,7 +40,7 @@ export default function TestPage() {
     setLoading(true);
     setError("");
     try {
-      await invoke("insert_test_recording");
+      await platformApi.insertTestRecording();
       console.log("Test recording inserted successfully");
       // Automatically fetch recordings after insert
       await fetchRecordings();
@@ -56,7 +56,7 @@ export default function TestPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<ThemeListItem[]>("fetch_themes");
+      const result = await platformApi.fetchThemes();
       console.log("Received themes:", result);
       setThemes(result);
     } catch (err) {
@@ -72,7 +72,7 @@ export default function TestPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await invoke<Schedule[]>("fetch_schedules");
+      const result = await platformApi.fetchSchedules();
       console.log("Received schedules:", result);
       setSchedules(result);
     } catch (err) {
