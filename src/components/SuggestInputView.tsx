@@ -10,25 +10,19 @@ interface SuggestInputViewProps {
   onAnswerChange: (answer: string) => void;
 }
 
-function filterSuggestions(options: string[], text: string): string[] {
-  return options.filter((option) =>
-    option.toLowerCase().startsWith(text.toLowerCase()),
-  );
-}
-
 function getInitialAnswerState(
   answer: string | undefined,
   localizedOptions: string[],
-): { suggestText: string; otherText: string } {
+): { selectedOption: string; otherText: string } {
   if (!answer) {
-    return { suggestText: "", otherText: "" };
+    return { selectedOption: "", otherText: "" };
   }
 
   if (localizedOptions.includes(answer)) {
-    return { suggestText: answer, otherText: "" };
+    return { selectedOption: answer, otherText: "" };
   }
 
-  return { suggestText: "", otherText: answer };
+  return { selectedOption: "", otherText: answer };
 }
 
 export function SuggestInputView({
@@ -49,12 +43,10 @@ export function SuggestInputView({
 
   const initialState = getInitialAnswerState(answer, localizedOptions);
 
-  const [suggestText, setSuggestText] = useState<string>(
-    initialState.suggestText,
+  const [selectedOption, setSelectedOption] = useState<string>(
+    initialState.selectedOption,
   );
   const [otherText, setOtherText] = useState<string>(initialState.otherText);
-  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const lastEmittedAnswerRef = useRef<string | undefined>(answer);
   const previousItemIdRef = useRef(item.itemId);
 
@@ -71,80 +63,41 @@ export function SuggestInputView({
     }
 
     const initialState = getInitialAnswerState(answer, localizedOptions);
-    setSuggestText(initialState.suggestText);
+    setSelectedOption(initialState.selectedOption);
     setOtherText(initialState.otherText);
-    setFilteredSuggestions([]);
-    setShowSuggestions(false);
   }, [answer, item.itemId, localizedOptions]);
 
   // Update answer when text changes
   useEffect(() => {
-    const newAnswer = suggestText || otherText;
+    const newAnswer = selectedOption || otherText;
     lastEmittedAnswerRef.current = newAnswer;
     onAnswerChange(newAnswer);
-  }, [suggestText, otherText, onAnswerChange]);
+  }, [selectedOption, otherText, onAnswerChange]);
 
-  const handleSuggestTextChange = (text: string) => {
-    setSuggestText(text);
-    setOtherText(""); // Clear other entry when suggest box changes
-
-    // Filter suggestions
-    if (text.trim()) {
-      const filtered = filterSuggestions(localizedOptions, text);
-      setFilteredSuggestions(filtered);
-      setShowSuggestions(filtered.length > 0);
-    } else {
-      setFilteredSuggestions([]);
-      setShowSuggestions(false);
-    }
+  const handleOptionChange = (selected: string) => {
+    setSelectedOption(selected);
+    setOtherText(""); // Clear custom input when choosing an option
   };
 
   const handleOtherTextChange = (text: string) => {
     setOtherText(text);
-    setSuggestText(""); // Clear suggest box when other entry changes
-    setShowSuggestions(false);
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setSuggestText(suggestion);
-    setShowSuggestions(false);
-    setFilteredSuggestions([]);
+    setSelectedOption(""); // Clear selected option when entering custom text
   };
 
   return (
     <div className="space-y-4 mx-8 my-2">
-      <label className="block text-sm text-gray-700 ml-1">
-        {getString("StartTypingLabelText")}
-      </label>
-
-      <div className="relative">
-        <input
-          type="text"
-          value={suggestText}
-          onChange={(e) => handleSuggestTextChange(e.target.value)}
-          onFocus={() => {
-            if (filteredSuggestions.length > 0) {
-              setShowSuggestions(true);
-            }
-          }}
-          className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
-        />
-
-        {showSuggestions && filteredSuggestions.length > 0 && (
-          <div className="absolute z-10 w-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-            {filteredSuggestions.map((suggestion, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="w-full p-3 text-left hover:bg-blue-50 focus:bg-blue-50 focus:outline-none border-b border-gray-200 last:border-b-0"
-              >
-                {suggestion}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+      <select
+        value={selectedOption}
+        onChange={(e) => handleOptionChange(e.target.value)}
+        className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none bg-white text-gray-900"
+      >
+        <option value="">{getString("ChooseOptionText")}</option>
+        {localizedOptions.map((option, idx) => (
+          <option key={idx} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
 
       {item.options && item.options.length > 0 && (
         <>
