@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
+const base = process.env.VITE_BASE_PATH || "/";
 
 // Plugin to copy localization files from src to public
 function copyLocales() {
@@ -46,6 +47,7 @@ function copyLocales() {
 // https://vite.dev/config/
 export default defineConfig(async () => ({
   plugins: [react(), copyLocales()],
+  base,
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

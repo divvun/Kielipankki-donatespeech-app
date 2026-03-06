@@ -1,0 +1,59 @@
+name: Deploy GitHub Pages
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+concurrency:
+    group: pages
+    cancel-in-progress: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 10
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build web app for Pages
+              env:
+                  VITE_PLATFORM_MODE: web
+                  VITE_BASE_PATH: /Kielipankki-donatespeech-app/
+                  VITE_API_BASE_URL: https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io
+              run: pnpm build
+
+            - name: Configure GitHub Pages
+              uses: actions/configure-pages@v5
+
+            - name: Upload Pages artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: dist
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
