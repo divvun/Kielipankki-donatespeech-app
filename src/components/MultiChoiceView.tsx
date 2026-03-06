@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "../hooks/useTranslation";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
@@ -53,8 +53,9 @@ export function MultiChoiceView({
   const { currentLanguage } = useLocalization();
 
   // Get localized options
-  const localizedOptions = item.options.map((opt) =>
-    getLocalizedText(opt, currentLanguage),
+  const localizedOptions = useMemo(
+    () => item.options.map((opt) => getLocalizedText(opt, currentLanguage)),
+    [item.options, currentLanguage],
   );
 
   // Get localized otherEntryLabel if present
@@ -86,7 +87,8 @@ export function MultiChoiceView({
 
   // Update answer when selections change
   useEffect(() => {
-    const otherOptionLabel = localizedOptions[localizedOptions.length - 1] || "";
+    const otherOptionLabel =
+      localizedOptions[localizedOptions.length - 1] || "";
     const newAnswer = buildAnswer(selectedOption, otherText, otherOptionLabel);
     onAnswerChange(newAnswer);
   }, [selectedOption, otherText, localizedOptions, onAnswerChange]);

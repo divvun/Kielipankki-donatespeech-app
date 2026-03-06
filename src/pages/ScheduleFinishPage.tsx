@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useTranslation } from "../hooks/useTranslation";
 import { useInviteFriendShare } from "../hooks/useInviteFriendShare";
-import { Schedule } from "../types/Schedule";
+import type { ScheduleState } from "../types/Schedule";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
@@ -10,7 +10,7 @@ import { ScheduleFinishSummary } from "../components/ScheduleFinishSummary";
 import { ScheduleFinishActions } from "../components/ScheduleFinishActions";
 
 interface ScheduleFinishLocationState {
-  schedule?: Schedule;
+  finish?: ScheduleState | null;
   itemsCompleted?: number;
 }
 
@@ -23,7 +23,7 @@ export default function ScheduleFinishPage() {
   const { currentLanguage } = useLocalization();
 
   const state = location.state as ScheduleFinishLocationState | undefined;
-  const schedule = state?.schedule;
+  const finish = state?.finish;
 
   const handleDonateMore = () => {
     console.log("Navigating to themes from donate more button");
@@ -35,14 +35,14 @@ export default function ScheduleFinishPage() {
     navigate("/themes", { replace: true });
   };
 
-  const finishTitle = schedule?.finish?.title
-    ? getLocalizedText(schedule.finish.title, currentLanguage)
+  const finishTitle = finish?.title
+    ? getLocalizedText(finish.title, currentLanguage)
     : getString("RecordingFinishTitle");
-  const finishBody1 = schedule?.finish?.body1
-    ? getLocalizedText(schedule.finish.body1, currentLanguage)
+  const finishBody1 = finish?.body1
+    ? getLocalizedText(finish.body1, currentLanguage)
     : "";
-  const finishBody2 = schedule?.finish?.body2
-    ? getLocalizedText(schedule.finish.body2, currentLanguage)
+  const finishBody2 = finish?.body2
+    ? getLocalizedText(finish.body2, currentLanguage)
     : "";
 
   return (
@@ -54,7 +54,7 @@ export default function ScheduleFinishPage() {
       />
 
       <ScheduleFinishSummary
-        finishImageUrl={schedule?.finish?.imageUrl}
+        finishImageUrl={finish?.imageUrl}
         title={finishTitle}
         body1={finishBody1}
         body2={finishBody2}

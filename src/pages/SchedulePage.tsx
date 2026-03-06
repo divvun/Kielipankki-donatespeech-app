@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
 import { isMediaItem, isPromptItem } from "../types/Schedule";
@@ -40,6 +40,20 @@ export default function SchedulePage() {
   const [mediaError, setMediaError] = useState<string>("");
   // Store answers for prompt items (itemId -> answer)
   const [answers, setAnswers] = useState<Record<string, string>>({});
+
+  const handleAnswerChange = useCallback((itemId: string, answer: string) => {
+    // Avoid unnecessary rerenders when prompt components emit the same value.
+    setAnswers((prev) => {
+      if (prev[itemId] === answer) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [itemId]: answer,
+      };
+    });
+  }, []);
 
   // Callback when max recording time is reached
   const handleMaxTimeReached = async () => {
@@ -188,7 +202,7 @@ export default function SchedulePage() {
         console.log("Navigating to finish page for schedule:", scheduleId);
         navigate(`/schedule/${scheduleId}/finish`, {
           state: {
-            schedule: schedule,
+            finish: schedule.finish ?? null,
             itemsCompleted: schedule.items.length,
           },
           replace: true,
@@ -318,12 +332,7 @@ export default function SchedulePage() {
             body1={body1}
             body2={body2}
             answers={answers}
-            onAnswerChange={(itemId, answer) =>
-              setAnswers((prev) => ({
-                ...prev,
-                [itemId]: answer,
-              }))
-            }
+            onAnswerChange={handleAnswerChange}
           />
 
           <ScheduleItemNavigator

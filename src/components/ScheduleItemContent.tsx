@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { MultiChoiceView } from "./MultiChoiceView";
 import { SuggestInputView } from "./SuggestInputView";
 import { isPromptItem } from "../types/Schedule";
@@ -22,9 +23,12 @@ export function ScheduleItemContent({
 }: ScheduleItemContentProps) {
   const isPrompt = isPromptItem(currentItem);
   const currentAnswer = answers[currentItem.itemId] || "";
-  const handleCurrentAnswerChange = (answer: string) => {
-    onAnswerChange(currentItem.itemId, answer);
-  };
+  const handleCurrentAnswerChange = useCallback(
+    (answer: string) => {
+      onAnswerChange(currentItem.itemId, answer);
+    },
+    [onAnswerChange, currentItem.itemId],
+  );
 
   return (
     <div className="px-4">
