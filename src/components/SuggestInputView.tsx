@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "../hooks/useTranslation";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
@@ -39,26 +39,48 @@ export function SuggestInputView({
   const { getString } = useTranslation();
   const { currentLanguage } = useLocalization();
 
-  // Get localized options
-  const localizedOptions = item.options.map((opt: Record<string, string>) =>
-    getLocalizedText(opt, currentLanguage),
+  const localizedOptions = useMemo(
+    () =>
+      item.options.map((opt: Record<string, string>) =>
+        getLocalizedText(opt, currentLanguage),
+      ),
+    [item.options, currentLanguage],
   );
 
-  const [suggestText, setSuggestText] = useState<string>("");
-  const [otherText, setOtherText] = useState<string>("");
+  const initialState = getInitialAnswerState(answer, localizedOptions);
+
+  const [suggestText, setSuggestText] = useState<string>(
+    initialState.suggestText,
+  );
+  const [otherText, setOtherText] = useState<string>(initialState.otherText);
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const lastEmittedAnswerRef = useRef<string | undefined>(answer);
+  const previousItemIdRef = useRef(item.itemId);
 
-  // Initialize from existing answer
+  // Sync from parent answer only when it changes externally
+  // or when the prompt item changes.
   useEffect(() => {
+    const itemChanged = previousItemIdRef.current !== item.itemId;
+    if (itemChanged) {
+      previousItemIdRef.current = item.itemId;
+    }
+
+    if (!itemChanged && answer === lastEmittedAnswerRef.current) {
+      return;
+    }
+
     const initialState = getInitialAnswerState(answer, localizedOptions);
     setSuggestText(initialState.suggestText);
     setOtherText(initialState.otherText);
-  }, [answer, localizedOptions]);
+    setFilteredSuggestions([]);
+    setShowSuggestions(false);
+  }, [answer, item.itemId, localizedOptions]);
 
   // Update answer when text changes
   useEffect(() => {
     const newAnswer = suggestText || otherText;
+    lastEmittedAnswerRef.current = newAnswer;
     onAnswerChange(newAnswer);
   }, [suggestText, otherText, onAnswerChange]);
 
