@@ -85,10 +85,15 @@ export function useRecording(
     }
   };
 
-  const startDurationTimer = () => {
+  const resetSessionDuration = () => {
     setDuration(0);
     durationRef.current = 0;
     warningShownRef.current = false;
+  };
+
+  const startDurationTimer = () => {
+    stopTimer();
+    resetSessionDuration();
 
     timerRef.current = window.setInterval(() => {
       setDuration((prev) => {
@@ -116,7 +121,6 @@ export function useRecording(
   const startRecording = async () => {
     try {
       setError(null);
-      resetSessionDuration();
 
       if (isWebRecordingMockEnabled()) {
         startDurationTimer();
@@ -183,7 +187,7 @@ export function useRecording(
     clientId: string,
   ): Promise<SaveRecordingResponse | null> => {
     try {
-      resetSessionDuration();
+      stopTimer();
       setIsRecording(false);
 
       // Release wake lock
