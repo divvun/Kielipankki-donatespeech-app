@@ -53,9 +53,16 @@ export function useRecording(
   const wakeLock = useWakeLock();
   const warningShownRef = useRef(false);
 
+  const resetSessionDuration = () => {
+    stopTimer();
+    setDuration(0);
+    warningShownRef.current = false;
+  };
+
   const startRecording = async () => {
     try {
       setError(null);
+      resetSessionDuration();
 
       // Check and request microphone permission
       const permissionStatus = await audioRecorder.checkPermission();
@@ -90,8 +97,6 @@ export function useRecording(
       });
 
       // Start duration timer
-      setDuration(0);
-      warningShownRef.current = false;
       timerRef.current = window.setInterval(() => {
         setDuration((prev) => {
           const newDuration = prev + 1;
@@ -133,7 +138,7 @@ export function useRecording(
     clientId: string,
   ): Promise<SaveRecordingResponse | null> => {
     try {
-      stopTimer();
+      resetSessionDuration();
       setIsRecording(false);
 
       // Release wake lock
