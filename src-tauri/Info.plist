@@ -4,7 +4,7 @@
   <dict>
     <key>NSMicrophoneUsageDescription</key>
     <string>This application needs access to the microphone for audio recording.</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
   </dict>
-  <key>ITSAppUsesNonExemptEncryption</key>
-  <false/>
 </plist>
