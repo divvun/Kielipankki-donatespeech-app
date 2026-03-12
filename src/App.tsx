@@ -13,6 +13,7 @@ import SchedulePage from "./pages/SchedulePage";
 import ScheduleFinishPage from "./pages/ScheduleFinishPage";
 import TestPage from "./pages/TestPage";
 import DetailsPage from "./pages/DetailsPage";
+import { OnboardingResetButton } from "./components/OnboardingResetButton";
 import { getClientId } from "./utils/clientId";
 import { platformApi } from "./platform";
 import "./App.css";
@@ -92,6 +93,7 @@ function App() {
         {/* Details page - view and manage recordings */}
         <Route path="/details" element={<DetailsPage />} />
       </Routes>
+      <OnboardingResetButton />
     </Router>
   );
 }
