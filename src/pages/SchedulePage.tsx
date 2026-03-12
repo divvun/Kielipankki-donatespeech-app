@@ -116,6 +116,25 @@ export default function SchedulePage() {
     }
   }, [scheduleId]);
 
+  // Ensure each recording-enabled item starts with a fresh on-screen timer.
+  useEffect(() => {
+    if (!schedule) {
+      return;
+    }
+
+    const item = schedule.items[currentIndex];
+    if (!item) {
+      return;
+    }
+
+    const isRecordingEnabledItem =
+      isMediaItem(item) && "isRecording" in item && item.isRecording;
+
+    if (isRecordingEnabledItem) {
+      recording.resetDuration();
+    }
+  }, [schedule?.scheduleId, currentIndex]);
+
   const loadSchedule = async (id: string) => {
     console.log("Loading schedule:", id);
     setLoading(true);

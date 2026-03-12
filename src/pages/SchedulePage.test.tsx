@@ -1,4 +1,10 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Schedule } from "../types/Schedule";
 import SchedulePage from "./SchedulePage";
@@ -9,6 +15,7 @@ const mocks = vi.hoisted(() => ({
   navigate: vi.fn(),
   startRecording: vi.fn(),
   stopRecording: vi.fn(),
+  resetDuration: vi.fn(),
   uploadNow: vi.fn(),
   refreshTotal: vi.fn(),
 }));
@@ -43,6 +50,7 @@ vi.mock("../hooks/useRecording", () => ({
     error: null,
     startRecording: mocks.startRecording,
     stopRecording: mocks.stopRecording,
+    resetDuration: mocks.resetDuration,
     resetError: vi.fn(),
   }),
   formatDuration: () => "0:00",
@@ -133,4 +141,59 @@ describe("SchedulePage fake YLE media", () => {
       expect(mocks.getMediaUrl).not.toHaveBeenCalled();
     },
   );
+
+  it("resets recording duration when entering the next recording item", async () => {
+    const schedule: Schedule = {
+      scheduleId: "schedule-1",
+      items: [
+        {
+          kind: "media",
+          itemType: "fake-yle-audio",
+          itemId: "item-1",
+          url: "yle-program-id-1",
+          default: {
+            title: { nb: "First recording item" },
+            body1: { nb: "Prompt text" },
+            body2: { nb: "More prompt text" },
+            imageUrl: null,
+          },
+          options: [],
+          isRecording: true,
+        },
+        {
+          kind: "media",
+          itemType: "fake-yle-video",
+          itemId: "item-2",
+          url: "yle-program-id-2",
+          default: {
+            title: { nb: "Second recording item" },
+            body1: { nb: "Prompt text" },
+            body2: { nb: "More prompt text" },
+            imageUrl: null,
+          },
+          options: [],
+          isRecording: true,
+        },
+      ],
+    };
+
+    mocks.fetchSchedule.mockResolvedValue(schedule);
+
+    render(<SchedulePage />);
+
+    await screen.findByText(/1\s*\/\s*2/);
+
+    const initialResetCalls = mocks.resetDuration.mock.calls.length;
+    expect(initialResetCalls).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByRole("button", { name: "›" }));
+
+    await screen.findAllByText("Second recording item");
+
+    await waitFor(() => {
+      expect(mocks.resetDuration.mock.calls.length).toBeGreaterThan(
+        initialResetCalls,
+      );
+    });
+  });
 });

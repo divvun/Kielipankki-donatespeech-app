@@ -24,6 +24,7 @@ export interface UseRecordingResult {
     itemId: string,
     clientId: string,
   ) => Promise<SaveRecordingResponse | null>;
+  resetDuration: () => void;
   resetError: () => void;
   onMaxTimeReached?: () => void;
   onWarningThreshold?: () => void;
@@ -121,6 +122,9 @@ export function useRecording(
   const startRecording = async () => {
     try {
       setError(null);
+      // Clear stale duration immediately so a new session always starts at 0,
+      // even while native permission/startup checks are still running.
+      resetSessionDuration();
 
       if (isWebRecordingMockEnabled()) {
         startDurationTimer();
@@ -253,12 +257,22 @@ export function useRecording(
     setError(null);
   };
 
+  const resetDuration = () => {
+    // Avoid interrupting an active recording session.
+    if (isRecording) {
+      return;
+    }
+
+    resetSessionDuration();
+  };
+
   return {
     isRecording,
     duration,
     error,
     startRecording,
     stopRecording,
+    resetDuration,
     resetError,
   };
 }
