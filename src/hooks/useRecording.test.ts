@@ -81,7 +81,7 @@ describe("useRecording", () => {
   });
 
   it("resets stale duration immediately when starting a new session", async () => {
-    let resolveSecondPermission: (value: {
+    let resolveSecondPermission!: (value: {
       granted: boolean;
       canRequest: boolean;
     }) => void;
