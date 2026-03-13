@@ -36,10 +36,8 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "bundle": {
-      "android": {
-        "autoIncrementVersionCode": true
-      }
+    "android": {
+      "autoIncrementVersionCode": true
     }
   }
 }
