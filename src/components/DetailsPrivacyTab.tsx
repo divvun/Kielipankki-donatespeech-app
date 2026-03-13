@@ -72,8 +72,8 @@ export function DetailsPrivacyTab({
           Save this identifier so you can revoke donations made with this app
           installation if needed. To remove your donations, you must send this
           identifier to{" "}
-          <a href="mailto:your-feedback-email" className={externalLinkClassName}>
-            your-feedback-email
+          <a href="mailto:feedback@divvun.no" className={externalLinkClassName}>
+            feedback@divvun.no
           </a>{" "}
           and request that all your donations be removed from the project
           maintainer's database.
