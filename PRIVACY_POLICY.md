@@ -7,7 +7,7 @@ Last updated: 2026-03-13
 
 UiT The Arctic University of Norway (UiT)
 Divvun
-Contact: <sjur.n.moshagen@uit.no>
+Contact: <feedback@divvun.no>
 
 ## What Data We Collect
 
@@ -57,4 +57,4 @@ We may update this privacy policy from time to time. Changes will be reflected i
 
 If you have questions about this privacy policy or your data, please contact:
 
-<sjur.n.moshagen@uit.no>
+<feedback@divvun.no>
