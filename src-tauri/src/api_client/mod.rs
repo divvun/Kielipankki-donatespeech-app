@@ -104,28 +104,38 @@ impl ApiClient {
     pub async fn get_schedules(&self) -> Result<Vec<Schedule>, String> {
         let url = format!("{}/v1/schedule", self.base_url);
         
-        self.client
+        let mut schedules = self.client
             .get(&url)
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?
             .json::<Vec<Schedule>>()
             .await
-            .map_err(|e| format!("Failed to parse response: {}", e))
+            .map_err(|e| format!("Failed to parse response: {}", e))?;
+
+        for schedule in &mut schedules {
+            schedule.normalize_for_client();
+        }
+
+        Ok(schedules)
     }
 
     /// Fetch a specific schedule by ID
     pub async fn get_schedule(&self, schedule_id: &str) -> Result<Schedule, String> {
         let url = format!("{}/v1/schedule/{}", self.base_url, schedule_id);
         
-        self.client
+        let mut schedule = self.client
             .get(&url)
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?
             .json::<Schedule>()
             .await
-            .map_err(|e| format!("Failed to parse response: {}", e))
+            .map_err(|e| format!("Failed to parse response: {}", e))?;
+
+        schedule.normalize_for_client();
+
+        Ok(schedule)
     }
 
     /// Initialize an upload and get a presigned URL for direct upload

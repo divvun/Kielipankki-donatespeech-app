@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useTranslation } from "../hooks/useTranslation";
 import { useInviteFriendShare } from "../hooks/useInviteFriendShare";
-import type { ScheduleState } from "../types/Schedule";
+import { getStateMediaUrl, type ScheduleState } from "../types/Schedule";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
@@ -54,7 +54,7 @@ export default function ScheduleFinishPage() {
       />
 
       <ScheduleFinishSummary
-        finishImageUrl={finish?.imageUrl}
+        finishImageUrl={getStateMediaUrl(finish)}
         title={finishTitle}
         body1={finishBody1}
         body2={finishBody2}

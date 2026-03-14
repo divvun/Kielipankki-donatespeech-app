@@ -1,7 +1,7 @@
 import { AudioPlayer } from "./AudioPlayer";
 import { VideoPlayer } from "./VideoPlayer";
 import { TextContentView } from "./TextContentView";
-import type { ScheduleItem } from "../types/Schedule";
+import { getItemMediaUrl, type ScheduleItem } from "../types/Schedule";
 
 interface ScheduleMediaSectionProps {
   currentItem: ScheduleItem;
@@ -20,7 +20,7 @@ export function ScheduleMediaSection({
   title,
   currentMediaUrl,
 }: ScheduleMediaSectionProps) {
-  const hasUrl = "url" in currentItem && Boolean(currentItem.url);
+  const hasUrl = Boolean(getItemMediaUrl(currentItem));
   const isVideoItem =
     currentItem.itemType === "video" || currentItem.itemType === "yle-video";
   const isAudioItem =
@@ -62,7 +62,7 @@ export function ScheduleMediaSection({
           <p className="text-gray-700">{currentItem.itemType}</p>
         </div>
       )}
-      {currentItem.itemType === "text-content" && "url" in currentItem && (
+      {currentItem.itemType === "text-content" && (
         <TextContentView item={currentItem} />
       )}
     </div>

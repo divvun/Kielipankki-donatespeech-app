@@ -1,7 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
-import { isMediaItem, isPromptItem } from "../types/Schedule";
+import {
+  getItemMediaUrl,
+  getStateMediaUrl,
+  isMediaItem,
+  isPromptItem,
+} from "../types/Schedule";
 import { useRecording, formatDuration } from "../hooks/useRecording";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
 import { ScheduleMediaSection } from "../components/ScheduleMediaSection";
@@ -172,11 +177,13 @@ export default function SchedulePage() {
           return;
         }
 
-        if ("url" in item && item.url) {
+        const itemUrl = getItemMediaUrl(item);
+
+        if (itemUrl) {
           try {
             setCurrentMediaUrl(""); // Reset to show loading spinner
             setMediaError(""); // Clear any previous errors
-            const fullUrl = await getMediaUrl(item.url);
+            const fullUrl = await getMediaUrl(itemUrl);
             setCurrentMediaUrl(fullUrl);
           } catch (err) {
             console.error("Failed to load media URL:", err);
@@ -318,8 +325,9 @@ export default function SchedulePage() {
   const title = getLocalizedText(stateContent.title, currentLanguage);
   const body1 = getLocalizedText(stateContent.body1, currentLanguage);
   const body2 = getLocalizedText(stateContent.body2, currentLanguage);
-  const stateImageUrl = stateContent.imageUrl?.startsWith("http")
-    ? stateContent.imageUrl
+  const stateMediaUrl = getStateMediaUrl(stateContent);
+  const stateImageUrl = stateMediaUrl?.startsWith("http")
+    ? stateMediaUrl
     : null;
 
   return (

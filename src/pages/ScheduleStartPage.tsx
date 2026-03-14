@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import type { Schedule } from "../types/Schedule";
+import { getStateMediaUrl, type Schedule } from "../types/Schedule";
 import { useTranslation } from "../hooks/useTranslation";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { getLocalizedText } from "../utils/localization";
@@ -107,7 +107,7 @@ export default function ScheduleStartPage() {
       />
 
       <ScheduleStartSummary
-        startImageUrl={schedule?.start?.imageUrl}
+        startImageUrl={getStateMediaUrl(schedule?.start)}
         title={startTitle}
         body1={startBody1}
         body2={startBody2}

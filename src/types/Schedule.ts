@@ -1,61 +1,61 @@
-// Localized content state for media items and prompts
+export type LocalizedText = Record<string, string>;
+
+// New API uses state.url. Tauri-normalized payloads may still expose imageUrl.
 export interface MediaState {
-  title: Record<string, string>;
-  body1: Record<string, string>;
-  body2: Record<string, string>;
+  title: LocalizedText;
+  body1: LocalizedText;
+  body2: LocalizedText;
+  url?: string | null;
   imageUrl?: string | null;
 }
 
-// Schedule state for start/finish screens
 export interface ScheduleState {
-  title: Record<string, string>;
-  body1: Record<string, string>;
-  body2?: Record<string, string> | null;
+  title: LocalizedText;
+  body1: LocalizedText;
+  body2?: LocalizedText | null;
+  url?: string | null;
   imageUrl?: string | null;
 }
 
 export interface Schedule {
   id?: string | null;
   scheduleId?: string | null;
-  title?: Record<string, string> | null;
-  body1?: Record<string, string> | null;
-  body2?: Record<string, string> | null;
   start?: ScheduleState | null;
   finish?: ScheduleState | null;
   items: ScheduleItem[];
 }
 
-// Base fields common to all media items
-export interface BaseMediaItem {
-  kind: "media";
+interface BaseItem {
   itemId: string;
-  url: string;
   typeId?: string | null;
-  default: MediaState;
-  options: never[]; // Empty array for media items
   isRecording: boolean;
   start?: MediaState | null;
+  startTime?: number;
+  endTime?: number;
+}
+
+// Legacy item-level url/default fields may be missing in the new API.
+export interface BaseMediaItem extends BaseItem {
+  kind: "media";
+  url?: string | null;
+  default?: MediaState | null;
+  options?: never[];
   recording?: MediaState | null;
   finish?: MediaState | null;
-  metaTitle?: Record<string, string> | null;
-  startTime?: number;
-  endTime?: number;
+  metaTitle?: LocalizedText | null;
 }
 
-// Base fields common to all prompt items
-export interface BasePromptItem {
+export interface BasePromptItem extends BaseItem {
   kind: "prompt";
-  itemId: string;
-  url: string; // Image URL for the prompt
-  typeId?: string | null;
-  default: MediaState;
-  options: Array<Record<string, string>>;
-  isRecording: boolean;
-  startTime?: number;
-  endTime?: number;
+  url?: string | null;
+  default?: MediaState | null;
+  options?: Array<LocalizedText>;
 }
 
-// Media Items
+interface PromptWithOptions extends BasePromptItem {
+  options: Array<LocalizedText>;
+}
+
 export interface AudioMediaItem extends BaseMediaItem {
   itemType: "audio";
 }
@@ -80,8 +80,6 @@ export interface YleVideoMediaItem extends BaseMediaItem {
   itemType: "yle-video";
 }
 
-// Fake YLE items use the same metadata/state fields as real YLE items,
-// but media playback is unavailable in the UI.
 export interface FakeYleAudioMediaItem extends BaseMediaItem {
   itemType: "fake-yle-audio";
 }
@@ -90,39 +88,29 @@ export interface FakeYleVideoMediaItem extends BaseMediaItem {
   itemType: "fake-yle-video";
 }
 
-// Text content item
-export interface TextContentItem {
-  kind: "media";
+export interface TextContentItem extends BaseMediaItem {
   itemType: "text-content";
-  itemId: string;
-  url: string;
-  typeId?: string | null;
-  default: MediaState;
-  startTime?: number;
-  endTime?: number;
 }
 
-// Prompt Items
-export interface ChoicePromptItem extends BasePromptItem {
+export interface ChoicePromptItem extends PromptWithOptions {
   itemType: "choice";
 }
 
-export interface MultiChoicePromptItem extends BasePromptItem {
+export interface MultiChoicePromptItem extends PromptWithOptions {
   itemType: "multi-choice";
-  otherAnswer?: Record<string, string> | null;
-  otherEntryLabel?: Record<string, string> | null;
+  otherAnswer?: LocalizedText | null;
+  otherEntryLabel?: LocalizedText | null;
 }
 
-export interface SuperChoicePromptItem extends BasePromptItem {
+export interface SuperChoicePromptItem extends PromptWithOptions {
   itemType: "super-choice";
-  otherEntryLabel?: Record<string, string> | null;
+  otherEntryLabel?: LocalizedText | null;
 }
 
 export interface TextInputItem extends BasePromptItem {
   itemType: "text-input";
 }
 
-// Discriminated union of all schedule item types
 export type ScheduleItem =
   | AudioMediaItem
   | VideoMediaItem
@@ -138,7 +126,43 @@ export type ScheduleItem =
   | SuperChoicePromptItem
   | TextInputItem;
 
-// Type guard helpers
+type StatefulMedia = { url?: string | null; imageUrl?: string | null };
+
+export function getStateMediaUrl(
+  state: StatefulMedia | null | undefined,
+): string | null {
+  if (!state) {
+    return null;
+  }
+
+  return state.url ?? state.imageUrl ?? null;
+}
+
+export function getDefaultItemState(item: ScheduleItem): MediaState | null {
+  if (item.kind === "media") {
+    return item.default ?? item.start ?? item.recording ?? item.finish ?? null;
+  }
+
+  return item.default ?? item.start ?? null;
+}
+
+export function getItemMediaUrl(item: ScheduleItem): string | null {
+  if (item.url) {
+    return item.url;
+  }
+
+  if (item.kind === "media") {
+    return (
+      getStateMediaUrl(item.default) ??
+      getStateMediaUrl(item.start) ??
+      getStateMediaUrl(item.recording) ??
+      getStateMediaUrl(item.finish)
+    );
+  }
+
+  return getStateMediaUrl(item.default) ?? getStateMediaUrl(item.start);
+}
+
 export function isMediaItem(
   item: ScheduleItem,
 ): item is
@@ -164,7 +188,6 @@ export function isPromptItem(
   return item.kind === "prompt";
 }
 
-// Type guard for fake YLE items
 export function isFakeYleItem(
   item: ScheduleItem,
 ): item is FakeYleAudioMediaItem | FakeYleVideoMediaItem {

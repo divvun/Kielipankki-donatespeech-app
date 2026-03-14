@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
-import type { TextContentItem } from "../types/Schedule";
+import {
+  getDefaultItemState,
+  getItemMediaUrl,
+  type TextContentItem,
+} from "../types/Schedule";
 
 interface TextContentViewProps {
   item: TextContentItem;
@@ -23,21 +27,24 @@ export function TextContentView({ item }: TextContentViewProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
+  const defaultState = getDefaultItemState(item);
+  const contentUrl = getItemMediaUrl(item);
+
   // Get localized state content
-  const title = getLocalizedText(item.default.title, currentLanguage);
-  const body1 = getLocalizedText(item.default.body1, currentLanguage);
-  const body2 = getLocalizedText(item.default.body2, currentLanguage);
+  const title = getLocalizedText(defaultState?.title ?? {}, currentLanguage);
+  const body1 = getLocalizedText(defaultState?.body1 ?? {}, currentLanguage);
+  const body2 = getLocalizedText(defaultState?.body2 ?? {}, currentLanguage);
   const isHtml =
     item.typeId?.toLowerCase().includes("html") || item.typeId === "text/html";
   const showNoContent = !loading && !error && !content;
 
   // Fetch text content from URL
   useEffect(() => {
-    const fetchContent = async () => {
+    const fetchContent = async (url: string) => {
       setLoading(true);
       setError("");
       try {
-        const text = await fetchTextContent(item.url);
+        const text = await fetchTextContent(url);
         setContent(text);
       } catch (err) {
         console.error("Error fetching text content:", err);
@@ -49,10 +56,10 @@ export function TextContentView({ item }: TextContentViewProps) {
       }
     };
 
-    if (item.url) {
-      fetchContent();
+    if (contentUrl) {
+      fetchContent(contentUrl);
     }
-  }, [item.url]);
+  }, [contentUrl]);
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -91,7 +98,9 @@ export function TextContentView({ item }: TextContentViewProps) {
         </>
       )}
 
-      {showNoContent && <p className="text-gray-500 italic">No content available</p>}
+      {showNoContent && (
+        <p className="text-gray-500 italic">No content available</p>
+      )}
     </div>
   );
 }

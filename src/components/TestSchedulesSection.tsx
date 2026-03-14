@@ -35,6 +35,18 @@ function getLocalizedTitle(
   return getLocalizedText(title, currentLanguage) || "N/A";
 }
 
+function getScheduleDisplayTitle(
+  schedule: Schedule,
+  currentLanguage: string,
+): string {
+  const startTitle = getLocalizedTitle(schedule.start?.title, currentLanguage);
+  if (startTitle !== "N/A") {
+    return startTitle;
+  }
+
+  return getLocalizedTitle(schedule.finish?.title, currentLanguage);
+}
+
 export function TestSchedulesSection({
   schedules,
   currentLanguage,
@@ -55,18 +67,25 @@ export function TestSchedulesSection({
             className="bg-white p-4 rounded shadow"
           >
             <div className="text-sm space-y-2">
+              {(() => {
+                const displayTitle = getScheduleDisplayTitle(
+                  schedule,
+                  currentLanguage,
+                );
+
+                return displayTitle !== "N/A" ? (
+                  <ScheduleFieldRow
+                    label="Title"
+                    value={displayTitle}
+                    className="mb-2"
+                  />
+                ) : null;
+              })()}
               <ScheduleFieldRow
                 label="Schedule ID"
                 value={getScheduleIdentifier(schedule)}
                 className="mb-2"
               />
-              {schedule.title && (
-                <ScheduleFieldRow
-                  label="Title"
-                  value={getLocalizedTitle(schedule.title, currentLanguage)}
-                  className="mb-2"
-                />
-              )}
               {schedule.items && schedule.items.length > 0 && (
                 <div>
                   <span className="font-semibold">Items:</span>{" "}

@@ -122,6 +122,27 @@ describe("SchedulePage fake YLE media", () => {
     ],
   });
 
+  const buildStateFirstFakeYleSchedule = (
+    itemType: "fake-yle-audio" | "fake-yle-video",
+  ): Schedule => ({
+    scheduleId: "schedule-1",
+    items: [
+      {
+        kind: "media",
+        itemType,
+        itemId: "item-1",
+        isRecording: true,
+        start: {
+          title: { nb: "State-first fake YLE title" },
+          body1: { nb: "Prompt text" },
+          body2: { nb: "More prompt text" },
+          url: null,
+        },
+        options: [],
+      },
+    ],
+  });
+
   it.each(["fake-yle-audio", "fake-yle-video"] as const)(
     "shows fake YLE placeholder without trying to load media while keeping recording UI for %s",
     async (itemType) => {
@@ -141,6 +162,60 @@ describe("SchedulePage fake YLE media", () => {
       expect(mocks.getMediaUrl).not.toHaveBeenCalled();
     },
   );
+
+  it.each(["fake-yle-audio", "fake-yle-video"] as const)(
+    "supports state-first fake YLE payload without item url/default for %s",
+    async (itemType) => {
+      const schedule = buildStateFirstFakeYleSchedule(itemType);
+
+      mocks.fetchSchedule.mockResolvedValue(schedule);
+
+      render(<SchedulePage />);
+
+      await screen.findByText(itemType);
+
+      expect(
+        screen.getAllByText("State-first fake YLE title").length,
+      ).toBeGreaterThan(0);
+      expect(screen.queryByText("Loading media...")).toBeNull();
+      expect(
+        screen.getByRole("button", { name: "Start Recording" }),
+      ).toBeTruthy();
+      expect(mocks.getMediaUrl).not.toHaveBeenCalled();
+    },
+  );
+
+  it("uses state URL fallback for media when item-level url is missing", async () => {
+    const schedule: Schedule = {
+      scheduleId: "schedule-1",
+      items: [
+        {
+          kind: "media",
+          itemType: "audio",
+          itemId: "item-1",
+          isRecording: false,
+          start: {
+            title: { nb: "Audio from state URL" },
+            body1: { nb: "Prompt text" },
+            body2: { nb: "More prompt text" },
+            url: "state-audio-id",
+          },
+          options: [],
+        },
+      ],
+    };
+
+    mocks.fetchSchedule.mockResolvedValue(schedule);
+    mocks.getMediaUrl.mockResolvedValue("https://example.invalid/audio.mp3");
+
+    render(<SchedulePage />);
+
+    await screen.findAllByText("Audio from state URL");
+
+    await waitFor(() => {
+      expect(mocks.getMediaUrl).toHaveBeenCalledWith("state-audio-id");
+    });
+  });
 
   it("resets recording duration when entering the next recording item", async () => {
     const schedule: Schedule = {

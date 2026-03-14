@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { ScheduleItem, MediaState } from "../types/Schedule";
-import { isMediaItem } from "../types/Schedule";
+import { getDefaultItemState, isMediaItem } from "../types/Schedule";
 
 export type ItemStateType = "default" | "start" | "recording" | "finish";
 
@@ -8,6 +8,7 @@ const EMPTY_MEDIA_STATE: MediaState = {
   title: {},
   body1: {},
   body2: {},
+  url: null,
   imageUrl: null,
 };
 
@@ -53,36 +54,28 @@ export function useItemState(
       return EMPTY_MEDIA_STATE;
     }
 
-    // Check if item has state fields (not all media items do, e.g., fake-yle items)
-    const hasStateFields = "default" in item;
-
-    if (!hasStateFields) {
-      // Return empty state for items without state fields
-      return EMPTY_MEDIA_STATE;
-    }
-
     // Try to get the content for the current state
     let content: MediaState | null | undefined = null;
 
     switch (currentState) {
       case "start":
-        content = "start" in item ? item.start : null;
+        content = item.start;
         break;
       case "recording":
-        content = "recording" in item ? item.recording : null;
+        content = item.recording;
         break;
       case "finish":
-        content = "finish" in item ? item.finish : null;
+        content = item.finish;
         break;
       case "default":
       default:
-        content = "default" in item ? item.default : null;
+        content = item.default;
         break;
     }
 
-    // If the specific state doesn't exist, fall back to default
-    if (!content && "default" in item) {
-      content = item.default;
+    // Fall back to the best available state for this item.
+    if (!content) {
+      content = getDefaultItemState(item);
     }
 
     // Ensure we always return a valid MediaState
@@ -97,12 +90,7 @@ export function useItemState(
       return EMPTY_MEDIA_STATE;
     }
 
-    // Prompt items have a 'default' MediaState field
-    if ("default" in item && item.default) {
-      return item.default;
-    }
-
-    return EMPTY_MEDIA_STATE;
+    return getDefaultItemState(item) || EMPTY_MEDIA_STATE;
   };
 
   const stateContent =

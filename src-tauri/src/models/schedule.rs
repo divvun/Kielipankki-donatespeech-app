@@ -8,7 +8,7 @@ pub struct MediaState {
     pub title: HashMap<String, String>,
     pub body1: HashMap<String, String>,
     pub body2: HashMap<String, String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "url")]
     pub image_url: Option<String>,
 }
 
@@ -20,7 +20,7 @@ pub struct ScheduleState {
     pub body1: HashMap<String, String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub body2: Option<HashMap<String, String>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "url")]
     pub image_url: Option<String>,
 }
 
@@ -55,10 +55,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>,
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -80,10 +82,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>,
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -105,10 +109,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>,
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -130,10 +136,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>,
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -156,10 +164,24 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>,
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
+        #[serde(default)]
+        options: Vec<serde_json::Value>,
+        #[serde(rename = "isRecording")]
+        is_recording: bool,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        start: Option<MediaState>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        recording: Option<MediaState>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        finish: Option<MediaState>,
+        #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
+        meta_title: Option<HashMap<String, String>>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -170,10 +192,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // YLE program ID
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // YLE program ID
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -196,10 +220,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // YLE program ID
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // YLE program ID
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -223,10 +249,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // YLE program ID
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // YLE program ID
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -249,10 +277,12 @@ pub enum ScheduleItem {
         kind: String, // "media"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // YLE program ID
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // YLE program ID
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
         #[serde(default)]
         options: Vec<serde_json::Value>, // Empty array for media items
         #[serde(rename = "isRecording")]
@@ -276,13 +306,18 @@ pub enum ScheduleItem {
         kind: String, // "prompt"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // Image URL for the prompt
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // Image URL for the prompt
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
+        #[serde(default)]
         options: Vec<HashMap<String, String>>, // Localized answer options
         #[serde(rename = "isRecording")]
         is_recording: bool,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        start: Option<MediaState>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -293,10 +328,13 @@ pub enum ScheduleItem {
         kind: String, // "prompt"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // Image URL for the prompt
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // Image URL for the prompt
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
+        #[serde(default)]
         options: Vec<HashMap<String, String>>, // Localized answer options
         #[serde(rename = "isRecording")]
         is_recording: bool,
@@ -304,6 +342,8 @@ pub enum ScheduleItem {
         other_answer: Option<HashMap<String, String>>,
         #[serde(rename = "otherEntryLabel", skip_serializing_if = "Option::is_none")]
         other_entry_label: Option<HashMap<String, String>>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        start: Option<MediaState>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -314,15 +354,20 @@ pub enum ScheduleItem {
         kind: String, // "prompt"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // Image URL for the prompt
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // Image URL for the prompt
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
+        #[serde(default)]
         options: Vec<HashMap<String, String>>, // Localized answer options
         #[serde(rename = "isRecording")]
         is_recording: bool,
         #[serde(rename = "otherEntryLabel", skip_serializing_if = "Option::is_none")]
         other_entry_label: Option<HashMap<String, String>>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        start: Option<MediaState>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -333,16 +378,276 @@ pub enum ScheduleItem {
         kind: String, // "prompt"
         #[serde(rename = "itemId")]
         item_id: String,
-        url: String, // Image URL for the prompt
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        url: Option<String>, // Image URL for the prompt
         #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
         type_id: Option<String>,
-        default: MediaState,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        default: Option<MediaState>,
+        #[serde(default)]
         options: Vec<HashMap<String, String>>, // Localized answer options (may be empty)
         #[serde(rename = "isRecording")]
         is_recording: bool,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        start: Option<MediaState>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
         end_time: i32,
     },
+}
+
+impl Schedule {
+    pub fn normalize_for_client(&mut self) {
+        for item in &mut self.items {
+            item.normalize_for_client();
+        }
+    }
+}
+
+impl ScheduleItem {
+    pub fn normalize_for_client(&mut self) {
+        match self {
+            ScheduleItem::Audio {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::Video {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::Image {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::Text {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::TextContent {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::YleAudio {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::YleVideo {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::FakeYleAudio {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            }
+            | ScheduleItem::FakeYleVideo {
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            } => normalize_media_item(url, default, start, recording, finish),
+            ScheduleItem::Choice {
+                url,
+                default,
+                start,
+                ..
+            }
+            | ScheduleItem::MultiChoice {
+                url,
+                default,
+                start,
+                ..
+            }
+            | ScheduleItem::SuperChoice {
+                url,
+                default,
+                start,
+                ..
+            }
+            | ScheduleItem::TextInput {
+                url,
+                default,
+                start,
+                ..
+            } => normalize_prompt_item(url, default, start),
+        }
+    }
+}
+
+fn normalize_media_item(
+    url: &mut Option<String>,
+    default: &mut Option<MediaState>,
+    start: &Option<MediaState>,
+    recording: &Option<MediaState>,
+    finish: &Option<MediaState>,
+) {
+    if default.is_none() {
+        *default = start
+            .clone()
+            .or_else(|| recording.clone())
+            .or_else(|| finish.clone());
+    }
+
+    if url.is_none() {
+        *url = default
+            .as_ref()
+            .and_then(state_url)
+            .or_else(|| start.as_ref().and_then(state_url))
+            .or_else(|| recording.as_ref().and_then(state_url))
+            .or_else(|| finish.as_ref().and_then(state_url));
+    }
+}
+
+fn normalize_prompt_item(
+    url: &mut Option<String>,
+    default: &mut Option<MediaState>,
+    start: &Option<MediaState>,
+) {
+    if default.is_none() {
+        *default = start.clone();
+    }
+
+    if url.is_none() {
+        *url = default
+            .as_ref()
+            .and_then(state_url)
+            .or_else(|| start.as_ref().and_then(state_url));
+    }
+}
+
+fn state_url(state: &MediaState) -> Option<String> {
+    state.image_url.clone()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn deserializes_new_media_shape_and_normalizes_legacy_fields() {
+        let mut schedule: Schedule = serde_json::from_value(serde_json::json!({
+            "items": [
+                {
+                    "kind": "media",
+                    "itemType": "audio",
+                    "itemId": "item-1",
+                    "isRecording": true,
+                    "start": {
+                        "title": { "fi": "otsikko" },
+                        "body1": { "fi": "teksti 1" },
+                        "body2": { "fi": "teksti 2" },
+                        "url": "https://example.invalid/media.mp3"
+                    }
+                }
+            ]
+        }))
+        .expect("schedule should deserialize");
+
+        schedule.normalize_for_client();
+
+        match &schedule.items[0] {
+            ScheduleItem::Audio { url, default, .. } => {
+                assert_eq!(url.as_deref(), Some("https://example.invalid/media.mp3"));
+                assert_eq!(
+                    default
+                        .as_ref()
+                        .and_then(|state| state.image_url.as_deref()),
+                    Some("https://example.invalid/media.mp3")
+                );
+            }
+            _ => panic!("expected audio item"),
+        }
+    }
+
+    #[test]
+    fn deserializes_new_prompt_shape_and_defaults_from_start_state() {
+        let mut schedule: Schedule = serde_json::from_value(serde_json::json!({
+            "items": [
+                {
+                    "kind": "prompt",
+                    "itemType": "text-input",
+                    "itemId": "item-2",
+                    "isRecording": false,
+                    "start": {
+                        "title": { "fi": "kysymys" },
+                        "body1": { "fi": "selite" },
+                        "body2": { "fi": "lisatieto" },
+                        "url": "https://example.invalid/prompt.png"
+                    }
+                }
+            ]
+        }))
+        .expect("schedule should deserialize");
+
+        schedule.normalize_for_client();
+
+        match &schedule.items[0] {
+            ScheduleItem::TextInput {
+                url,
+                default,
+                options,
+                ..
+            } => {
+                assert!(options.is_empty());
+                assert_eq!(url.as_deref(), Some("https://example.invalid/prompt.png"));
+                assert_eq!(
+                    default
+                        .as_ref()
+                        .and_then(|state| state.image_url.as_deref()),
+                    Some("https://example.invalid/prompt.png")
+                );
+            }
+            _ => panic!("expected text-input item"),
+        }
+    }
+
+    #[test]
+    fn accepts_legacy_image_url_field_name() {
+        let state: MediaState = serde_json::from_value(serde_json::json!({
+            "title": { "fi": "otsikko" },
+            "body1": { "fi": "teksti 1" },
+            "body2": { "fi": "teksti 2" },
+            "imageUrl": "https://example.invalid/image.png"
+        }))
+        .expect("media state should deserialize");
+
+        assert_eq!(
+            state.image_url.as_deref(),
+            Some("https://example.invalid/image.png")
+        );
+    }
 }

@@ -6,6 +6,53 @@ import type {
   SaveRecordingPayload,
 } from "./PlatformApi";
 
+function getStateImageUrl(state: unknown): string | undefined {
+  if (!state || typeof state !== "object") {
+    return undefined;
+  }
+
+  const candidate = state as { url?: unknown; imageUrl?: unknown };
+  if (typeof candidate.url === "string" && candidate.url.length > 0) {
+    return candidate.url;
+  }
+
+  if (typeof candidate.imageUrl === "string" && candidate.imageUrl.length > 0) {
+    return candidate.imageUrl;
+  }
+
+  return undefined;
+}
+
+function normalizeSchedule(schedule: Schedule): Schedule {
+  const items = schedule.items.map((item) => {
+    const mutableItem = { ...item } as Record<string, unknown>;
+
+    if (!mutableItem.default) {
+      mutableItem.default =
+        mutableItem.start ?? mutableItem.recording ?? mutableItem.finish;
+    }
+
+    if (!mutableItem.url) {
+      const fallbackUrl =
+        getStateImageUrl(mutableItem.default) ??
+        getStateImageUrl(mutableItem.start) ??
+        getStateImageUrl(mutableItem.recording) ??
+        getStateImageUrl(mutableItem.finish);
+
+      if (fallbackUrl) {
+        mutableItem.url = fallbackUrl;
+      }
+    }
+
+    return mutableItem as unknown as typeof item;
+  });
+
+  return {
+    ...schedule,
+    items,
+  };
+}
+
 export const tauriPlatformApi: PlatformApi = {
   fixClientIds(realClientId) {
     return invoke<number>("fix_client_ids", { realClientId });
@@ -16,11 +63,15 @@ export const tauriPlatformApi: PlatformApi = {
   },
 
   fetchSchedules() {
-    return invoke<Schedule[]>("fetch_schedules");
+    return invoke<Schedule[]>("fetch_schedules").then((schedules) =>
+      schedules.map(normalizeSchedule),
+    );
   },
 
   fetchSchedule(scheduleId) {
-    return invoke<Schedule>("fetch_schedule", { scheduleId });
+    return invoke<Schedule>("fetch_schedule", { scheduleId }).then(
+      normalizeSchedule,
+    );
   },
 
   getRecordings() {
