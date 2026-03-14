@@ -416,11 +416,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "Direct URL to audio file"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -432,10 +427,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'audio/m4a', 'audio/mpeg')"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -479,21 +470,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -501,8 +477,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "AudioMediaItem",
@@ -525,11 +499,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "Image URL for the prompt"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -541,10 +510,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {
@@ -560,6 +525,17 @@
                     "isRecording": {
                         "type": "boolean",
                         "title": "Isrecording"
+                    },
+                    "start": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State before prompt is shown"
                     }
                 },
                 "type": "object",
@@ -567,8 +543,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "options",
                     "isRecording"
                 ],
@@ -592,11 +566,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "YLE program ID"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -608,10 +577,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -655,21 +620,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -677,8 +627,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "FakeYleAudioMediaItem",
@@ -701,11 +649,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "YLE program ID"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -717,10 +660,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -764,21 +703,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -786,8 +710,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "FakeYleVideoMediaItem",
@@ -823,11 +745,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "Direct URL to image file"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -839,10 +756,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'image/jpeg', 'image/png')"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -886,21 +799,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -908,8 +806,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "ImageMediaItem",
@@ -974,7 +870,7 @@
                         "title": "Body2",
                         "description": "Localized body text 2"
                     },
-                    "imageUrl": {
+                    "url": {
                         "anyOf": [
                             {
                                 "type": "string"
@@ -983,8 +879,8 @@
                                 "type": "null"
                             }
                         ],
-                        "title": "Imageurl",
-                        "description": "Optional image URL for this state"
+                        "title": "Url",
+                        "description": "Optional URL for this state"
                     }
                 },
                 "type": "object",
@@ -1013,11 +909,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "Image URL for the prompt"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -1029,10 +920,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {
@@ -1048,6 +935,17 @@
                     "isRecording": {
                         "type": "boolean",
                         "title": "Isrecording"
+                    },
+                    "start": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State before prompt is shown"
                     },
                     "otherAnswer": {
                         "anyOf": [
@@ -1085,8 +983,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "options",
                     "isRecording"
                 ],
@@ -1116,51 +1012,6 @@
                             }
                         ],
                         "title": "Scheduleid"
-                    },
-                    "title": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Title",
-                        "description": "Localized title"
-                    },
-                    "body1": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Body1",
-                        "description": "Localized body text 1"
-                    },
-                    "body2": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Body2",
-                        "description": "Localized body text 2"
                     },
                     "start": {
                         "anyOf": [
@@ -1290,7 +1141,7 @@
                         "title": "Body2",
                         "description": "Localized body text 2"
                     },
-                    "imageUrl": {
+                    "url": {
                         "anyOf": [
                             {
                                 "type": "string"
@@ -1299,8 +1150,8 @@
                                 "type": "null"
                             }
                         ],
-                        "title": "Imageurl",
-                        "description": "Optional image URL"
+                        "title": "Url",
+                        "description": "Optional URL"
                     }
                 },
                 "type": "object",
@@ -1328,11 +1179,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "Image URL for the prompt"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -1344,10 +1190,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {
@@ -1363,6 +1205,17 @@
                     "isRecording": {
                         "type": "boolean",
                         "title": "Isrecording"
+                    },
+                    "start": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaState"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "State before prompt is shown"
                     },
                     "otherEntryLabel": {
                         "anyOf": [
@@ -1385,8 +1238,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "options",
                     "isRecording"
                 ],
@@ -1410,11 +1261,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "URL to text content"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -1426,10 +1272,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'text/plain', 'text/html')"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -1473,21 +1315,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -1495,8 +1322,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "TextContentItem",
@@ -1519,11 +1344,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "Image URL for the prompt"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -1536,10 +1356,6 @@
                         "title": "Typeid",
                         "description": "MIME type"
                     },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
-                    },
                     "options": {
                         "items": {},
                         "type": "array",
@@ -1550,20 +1366,16 @@
                         "type": "boolean",
                         "title": "Isrecording"
                     },
-                    "metaTitle": {
+                    "start": {
                         "anyOf": [
                             {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/MediaState"
                             },
                             {
                                 "type": "null"
                             }
                         ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
+                        "description": "State before prompt is shown"
                     }
                 },
                 "type": "object",
@@ -1571,8 +1383,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "TextInputItem",
@@ -1595,18 +1405,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Url",
-                        "description": "Optional URL"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -1619,10 +1417,6 @@
                         "title": "Typeid",
                         "description": "MIME type"
                     },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
-                    },
                     "options": {
                         "items": {},
                         "type": "array",
@@ -1632,21 +1426,6 @@
                     "isRecording": {
                         "type": "boolean",
                         "title": "Isrecording"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     },
                     "start": {
                         "anyOf": [
@@ -1687,7 +1466,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "default",
                     "isRecording"
                 ],
                 "title": "TextMediaItem",
@@ -1918,11 +1696,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "Direct URL to video file"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -1934,10 +1707,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'video/mp4', 'video/webm')"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -1981,21 +1750,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -2003,8 +1757,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "VideoMediaItem",
@@ -2027,11 +1779,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "YLE program ID"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -2043,10 +1790,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -2090,21 +1833,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -2112,8 +1840,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "YleAudioMediaItem",
@@ -2136,11 +1862,6 @@
                         "title": "Itemid",
                         "description": "UUID v4 of the item"
                     },
-                    "url": {
-                        "type": "string",
-                        "title": "Url",
-                        "description": "YLE program ID"
-                    },
                     "typeId": {
                         "anyOf": [
                             {
@@ -2152,10 +1873,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "default": {
-                        "$ref": "#/components/schemas/MediaState",
-                        "description": "Default/initial state"
                     },
                     "options": {
                         "items": {},
@@ -2199,21 +1916,6 @@
                             }
                         ],
                         "description": "State after recording finishes"
-                    },
-                    "metaTitle": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Metatitle",
-                        "description": "Optional meta title"
                     }
                 },
                 "type": "object",
@@ -2221,8 +1923,6 @@
                     "kind",
                     "itemType",
                     "itemId",
-                    "url",
-                    "default",
                     "isRecording"
                 ],
                 "title": "YleVideoMediaItem",
