@@ -1,12 +1,3 @@
-# Generated from AppResources.resx
-# Do not edit manually - use convert-resx-to-ftl.js script
-
-PromptMetaTitle = Auta tutkijaa
-
-MediaMetaTitle = Lahjoitus { $param0 }/{ $param1 }
-
-NonRecordingMediaMetaTitle = Katso tai kuuntele
-
 ThemesPageTitleText = Pulistaan meille parempia palveluja!
 
 ThemesPageBody1Text = Valitse aihe, josta haluat puhua.
@@ -21,15 +12,9 @@ StopRecording = Lopeta äänitys
 
 ContinueSchedule = Jatka
 
-SkipScheduleItem = Ohita
-
-RetryScheduleItem = Kokeile uudelleen
-
 RecordingFinishTitle = Hyvin kerrottu, paljon kiitoksia!
 
 DetailsButtonText = Lisätietoa
-
-CloseButtonText = Sulje
 
 ExitButtonText = Poistu
 
@@ -37,31 +22,9 @@ DonatedLabelText = OLET LAHJOITTANUT
 
 ChooseOptionText = Valitse vaihtoehto:
 
-PrimaryNativeLanguageLabelText = Ensimmäinen äidinkieli:
-
-SecondaryNativeLanguageLabelText = Toinen äidinkieli:
-
-ReadMoreLinkLabelText = Lue lisää tietosuojasta.
-
-PrivacyPolicyUrl = https://example.com
-
 InviteFriendButtonText = Kerro kaverille
 
 DonateMoreButtonText = Lahjoita lisää
-
-NextButtonText = Seuraava
-
-TryAgainButtonText = Kokeile uudelleen
-
-LoadFailedAlertTitle = Virhe
-
-LoadFailedAlertMessage = Sisällön lataus ei onnistunut. Tarkista verkkoyhteys ja yritä uudelleen painamalla Jatka.
-
-LoadFailedAlertContinue = Jatka
-
-LoadFailedAlertCancel = Poistu
-
-StartTypingLabelText = Kirjoita muutama kirjain nimen alusta ja valitse sitten listalta:
 
 InviteFriendTitle = Kerro kaverille
 
@@ -76,60 +39,6 @@ OnboardingBody =
     Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
     
     Tämä on onboarding-tekstin kolmas rivi.
-
-DetailsGeneralTitle = Lisätietosivun otsikko
-
-DetailsGeneralBody =
-    
-    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
-    
-    Sovellusta ei ole tarkoitettu yhteiskäyttöön, vaan jokaisen käyttäjän tulee käyttää omaa laitettaan. Tämä mahdollistaa sen, että jokainen voi itse hyväksyä nämä tiedot ja tarvittaessa myös poistaa äänitteensä laitekohtaisen tunnisteen perusteella. Tunniste löytyy tämän sivun alalaidasta.
-
-DetailsGeneralLinkTitle = Lue lisää hankkeen nettisivuilta
-
-DetailsPrivacyTitle = Tietosuojasi on meille tärkeää
-
-DetailsPrivacyBody =
-    
-    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
-    
-    Tämä on tietosuojaa käsittelevän teksti kolmas kappale.
-
-DetailsPrivacyLinkTitle = Lue lisää tietosuojasta
-
-DetailsRemoveTitle = Äänitteiden poistaminen
-
-DetailsRemoveBody1 = Ota talteen tämä tunniste, jotta voit halutessasi perua tällä sovelluksen asennuksella tehdyt lahjoitukset. Poistaaksesi lahjoituksesi sinun tulee lähettää tunniste osoitteeseen 
-
-DetailsRemoveEmail = your-feedback-email
-
-DetailsRemoveEmailLink = your-feedback-email
-
-DetailsRemoveBody2 =
-    
-    Jos poistat sovelluksen ja asennat sen uudestaan, sinun täytyy ottaa talteen uusi tunniste. Näet sovelluksesta ainoastaan nykyisen tunnisteen, et edellisiä. Käyttäessäsi palvelua selaimessa täytyy sinun ottaa talteen selainkohtainen tunnisteesi.
-    
-    Tämän sovelluksen asennuskohtainen tunnisteesi on:
-
-DetailsRemoveButtonTitle = KOPIOI TUNNISTE
-
-DetailsRemoveButtonClickedTitle = KOPIOITU
-
-DetailsRemoveButtonMessage = Muista tallentaa kopiomasi tunniste!
-
-PermissionRationaleTitle = Lupa äänittää
-
-PermissionRationaleMessage = Sovellus tarvitsee luvan käyttää laitteesi mikrofonia jotta puheesi voidaan äänittää lahjoitusta varten.
-
-PermissionRationaleDismiss = OK
-
-PermissionDeniedTitle = Äänitys estetty
-
-PermissionDeniedMessage = Valitettavasti sovelluksen lupa äänittää on estetty. Voit korjata tilanteen antamalla luvan laitteen asetuksista.
-
-PermissionDeniedDismiss = OK
-
-NoChoiceOption = Ei valintaa
 
 TermsHelloTitle = Kiitos, kun tulit.
 
@@ -204,8 +113,6 @@ RecordingStoppedLimitTitle = Äänitys keskeytetty
 RecordingStoppedLimitMessage = Äänityksen enimmäisaika tuli täyteen ja äänitys keskeytettiin automaattisesti. Kiitos lahjoituksesta!
 
 RecordingApproachingLimitMessage = Äänityksen enimmäisaika lähestyy. Sinulla on noin yksi minuutti aikaa jäljellä.
-
-AlertDismissOk = OK
 
 ChooseLanguageTitle = Valitse kieli
 

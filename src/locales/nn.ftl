@@ -1,12 +1,6 @@
 # Generated from AppResources.nn.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-PromptMetaTitle = Hjelp forskaren
-
-MediaMetaTitle = Donasjon { $param0 }/{ $param1 }
-
-NonRecordingMediaMetaTitle = Sjå eller lytt
-
 ThemesPageTitleText = La oss byggje betre tenester!
 
 ThemesPageBody1Text = Vel eit tema du vil snakke om.
@@ -21,15 +15,9 @@ StopRecording = Stopp opptak
 
 ContinueSchedule = Hald fram
 
-SkipScheduleItem = Hopp over
-
-RetryScheduleItem = Prøv igjen
-
 RecordingFinishTitle = Godt fortalt, tusen takk!
 
 DetailsButtonText = Meir informasjon
-
-CloseButtonText = Lukk
 
 ExitButtonText = Avslutt
 
@@ -37,31 +25,9 @@ DonatedLabelText = DU HAR DONERT
 
 ChooseOptionText = Vel eit alternativ:
 
-PrimaryNativeLanguageLabelText = Første morsmål:
-
-SecondaryNativeLanguageLabelText = Andre morsmål:
-
-ReadMoreLinkLabelText = Les meir om personvern.
-
-PrivacyPolicyUrl = https://example.com
-
 InviteFriendButtonText = Fortel ein ven
 
 DonateMoreButtonText = Doner meir
-
-NextButtonText = Neste
-
-TryAgainButtonText = Prøv igjen
-
-LoadFailedAlertTitle = Feil
-
-LoadFailedAlertMessage = Lasting av innhald feila. Sjekk nettverkstilkoplinga og prøv igjen ved å trykke Hald fram.
-
-LoadFailedAlertContinue = Hald fram
-
-LoadFailedAlertCancel = Avslutt
-
-StartTypingLabelText = Skriv nokre få bokstavar frå byrjinga av namnet og vel deretter frå lista:
 
 InviteFriendTitle = Fortel ein ven
 
@@ -76,60 +42,6 @@ OnboardingBody =
     Linjeskift lagt til dette elementet blir vist i sluttresultatet.
     
     Dette er tredje linje av onboarding-teksten.
-
-DetailsGeneralTitle = Detaljar om tenesta
-
-DetailsGeneralBody =
-    
-    Linjeskift lagt til dette elementet blir vist i sluttresultatet.
-    
-    Applikasjonen er ikkje meint for delt bruk, kvar brukar må bruke si eiga eining. Dette gjer det mogleg for alle å godta denne informasjonen sjølv og om nødvendig slette opptaka basert på einings-ID. ID-en finn du nedst på denne sida.
-
-DetailsGeneralLinkTitle = Les meir på prosjektet si nettside
-
-DetailsPrivacyTitle = Personvernet ditt er viktig for oss
-
-DetailsPrivacyBody =
-    
-    Linjeskift lagt til dette elementet blir vist i sluttresultatet.
-    
-    Dette er tredje avsnitt av personvernteksten.
-
-DetailsPrivacyLinkTitle = Les meir om personvern
-
-DetailsRemoveTitle = Sletting av opptak
-
-DetailsRemoveBody1 = Ta vare på denne ID-en slik at du kan trekkje tilbake donasjonar gjort med denne appinstallasjonen om du ønskjer det. For å slette donasjonane dine må du sende ID-en til 
-
-DetailsRemoveEmail = your-feedback-email
-
-DetailsRemoveEmailLink = your-feedback-email
-
-DetailsRemoveBody2 =
-    
-    Om du slettar applikasjonen og installerer han på nytt, må du ta vare på ein ny ID. Du kan berre sjå gjeldande ID i appen, ikkje tidlegare. Når du brukar tenesta i nettlesaren, må du ta vare på din nettlesarspesifikke ID.
-    
-    Din installasjons-ID for denne appen er:
-
-DetailsRemoveButtonTitle = KOPIER ID
-
-DetailsRemoveButtonClickedTitle = KOPIERT
-
-DetailsRemoveButtonMessage = Hugs å lagre den kopierte ID-en!
-
-PermissionRationaleTitle = Løyve til opptak
-
-PermissionRationaleMessage = Applikasjonen treng løyve til å bruke eininga sin mikrofon for å ta opp talen din for donasjonen.
-
-PermissionRationaleDismiss = OK
-
-PermissionDeniedTitle = Opptak blokkert
-
-PermissionDeniedMessage = Dessverre er applikasjonen sitt løyve til opptak blokkert. Du kan fikse situasjonen ved å gi løyve i eininga sine innstillingar.
-
-PermissionDeniedDismiss = OK
-
-NoChoiceOption = Inga val
 
 TermsHelloTitle = Takk for at du kom.
 
@@ -204,8 +116,6 @@ RecordingStoppedLimitTitle = Opptak avbrote
 RecordingStoppedLimitMessage = Maksimal opptakstid vart nådd og opptaket vart automatisk stoppa. Takk for donasjonen!
 
 RecordingApproachingLimitMessage = Maksimal opptakstid nærmar seg. Du har omtrent eitt minutt igjen.
-
-AlertDismissOk = OK
 
 ChooseLanguageTitle = Vel språk
 

@@ -1,12 +1,6 @@
 # Generated from AppResources.sv.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-PromptMetaTitle = Hjälp forskaren
-
-MediaMetaTitle = Donation { $param0 }/{ $param1 }
-
-NonRecordingMediaMetaTitle = Se eller lyssna
-
 ThemesPageTitleText = Låt oss bygga bättre tjänster!
 
 ThemesPageBody1Text = Välj ett ämne du vill prata om.
@@ -21,15 +15,9 @@ StopRecording = Stoppa inspelning
 
 ContinueSchedule = Fortsätt
 
-SkipScheduleItem = Hoppa över
-
-RetryScheduleItem = Försök igen
-
 RecordingFinishTitle = Bra berättat, tack så mycket!
 
 DetailsButtonText = Mer information
-
-CloseButtonText = Stäng
 
 ExitButtonText = Avsluta
 
@@ -37,31 +25,9 @@ DonatedLabelText = DU HAR DONERAT
 
 ChooseOptionText = Välj ett alternativ:
 
-PrimaryNativeLanguageLabelText = Första modersmål:
-
-SecondaryNativeLanguageLabelText = Andra modersmål:
-
-ReadMoreLinkLabelText = Läs mer om integritet.
-
-PrivacyPolicyUrl = https://example.com
-
 InviteFriendButtonText = Berätta för en vän
 
 DonateMoreButtonText = Donera mer
-
-NextButtonText = Nästa
-
-TryAgainButtonText = Försök igen
-
-LoadFailedAlertTitle = Fel
-
-LoadFailedAlertMessage = Laddning av innehåll misslyckades. Kontrollera nätverksanslutningen och försök igen genom att trycka på Fortsätt.
-
-LoadFailedAlertContinue = Fortsätt
-
-LoadFailedAlertCancel = Avsluta
-
-StartTypingLabelText = Skriv några bokstäver från början av namnet och välj sedan från listan:
 
 InviteFriendTitle = Berätta för en vän
 
@@ -76,60 +42,6 @@ OnboardingBody =
     Radbrytningar i detta element visas i slutresultatet.
     
     Detta är tredje raden av onboarding-texten.
-
-DetailsGeneralTitle = Detaljer om tjänsten
-
-DetailsGeneralBody =
-    
-    Radbrytningar i detta element visas i slutresultatet.
-    
-    Applikationen är inte avsedd för delad användning, utan varje användare måste använda sin egen enhet. Detta gör det möjligt för alla att själva godkänna denna information och vid behov även radera sina inspelningar baserat på enhets-ID. ID:t finns längst ner på denna sida.
-
-DetailsGeneralLinkTitle = Läs mer på projektets webbplats
-
-DetailsPrivacyTitle = Din integritet är viktig för oss
-
-DetailsPrivacyBody =
-    
-    Radbrytningar i detta element visas i slutresultatet.
-    
-    Detta är tredje stycket av integritetstexten.
-
-DetailsPrivacyLinkTitle = Läs mer om integritet
-
-DetailsRemoveTitle = Radering av inspelningar
-
-DetailsRemoveBody1 = Spara detta ID så att du kan återkalla donationer gjorda med denna appinstallation om du vill. För att radera dina donationer måste du skicka ID:t till 
-
-DetailsRemoveEmail = your-feedback-email
-
-DetailsRemoveEmailLink = your-feedback-email
-
-DetailsRemoveBody2 =
-    
-    Om du raderar applikationen och installerar den på nytt måste du spara ett nytt ID. Du kan endast se aktuellt ID i appen, inte tidigare. När du använder tjänsten i webbläsaren måste du spara ditt webbläsarspecifika ID.
-    
-    Ditt installations-ID för denna app är:
-
-DetailsRemoveButtonTitle = KOPIERA ID
-
-DetailsRemoveButtonClickedTitle = KOPIERAT
-
-DetailsRemoveButtonMessage = Kom ihåg att spara det kopierade ID:t!
-
-PermissionRationaleTitle = Tillstånd till inspelning
-
-PermissionRationaleMessage = Applikationen behöver tillstånd att använda enhetens mikrofon för att spela in ditt tal för donationen.
-
-PermissionRationaleDismiss = OK
-
-PermissionDeniedTitle = Inspelning blockerad
-
-PermissionDeniedMessage = Tyvärr är applikationens tillstånd till inspelning blockerat. Du kan åtgärda situationen genom att ge tillstånd i enhetens inställningar.
-
-PermissionDeniedDismiss = OK
-
-NoChoiceOption = Inget val
 
 TermsHelloTitle = Tack för att du kom.
 
@@ -204,8 +116,6 @@ RecordingStoppedLimitTitle = Inspelning avbruten
 RecordingStoppedLimitMessage = Maximal inspelningstid nåddes och inspelningen stoppades automatiskt. Tack för donationen!
 
 RecordingApproachingLimitMessage = Maximal inspelningstid närmar sig. Du har ungefär en minut kvar.
-
-AlertDismissOk = OK
 
 ChooseLanguageTitle = Välj språk
 
