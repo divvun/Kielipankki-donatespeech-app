@@ -33,7 +33,7 @@ InviteFriendTemplate = Lahjoitin puhettani { $param0 } minuuttia. Lahjoita sinä
 InviteFriendNewbieTemplate = Lahjoitin juuri puhettani. Lahjoita sinäkin! #hashtag https://example.com
 
 OnboardingTitle = Äänesi kehittää kieliteknologiaa
-OnboardingBody1 = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään suomen ja saamen kielen tutkimusta ja työkaluja.
+OnboardingBody1 = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään saamen kielen tutkimusta ja työkaluja.
 OnboardingFeature1Title = Valitse aihe, josta haluat puhua
 OnboardingFeature1Body = Palvelu opastaa sinua eteenpäin.
 OnboardingFeature2Title = Äänitä

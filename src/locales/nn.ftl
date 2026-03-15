@@ -36,7 +36,7 @@ InviteFriendTemplate = Eg donerte { $param0 } minutt av mi tale. Doner du òg! #
 InviteFriendNewbieTemplate = Eg har nettopp donert mi tale. Doner du òg! #hashtag https://example.com
 
 OnboardingTitle = Stemma di utviklar språkteknologi
-OnboardingBody1 = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å utvikle forsking og verktøy for finsk og samiske språk.
+OnboardingBody1 = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å utvikle forsking og verktøy for samiske språk.
 OnboardingFeature1Title = Vel eit tema du vil snakke om
 OnboardingFeature1Body = Tenesta viser deg vegen vidare.
 OnboardingFeature2Title = Gjer opptak
