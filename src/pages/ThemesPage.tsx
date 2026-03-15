@@ -9,6 +9,27 @@ import { useLocalization } from "../contexts/LocalizationContext";
 import { platformApi } from "../platform";
 import LanguageSelector from "../components/LanguageSelector";
 
+const BACKEND_EXCEL_BASE_URL =
+  "https://raw.githubusercontent.com/divvun/Kielipankki-donatespeech-backend/main/content/dev/excel";
+
+function isWebMode(): boolean {
+  const mode = import.meta.env.VITE_PLATFORM_MODE?.trim().toLowerCase();
+  if (mode === "web") {
+    return true;
+  }
+
+  if (mode !== "tauri" && typeof window !== "undefined") {
+    const windowRecord = window as unknown as Record<string, unknown>;
+    return !Boolean(windowRecord.__TAURI_INTERNALS__ || windowRecord.__TAURI__);
+  }
+
+  return false;
+}
+
+function getThemeExcelUrl(themeId: string): string {
+  return `${BACKEND_EXCEL_BASE_URL}/${encodeURIComponent(themeId)}.xlsx`;
+}
+
 export default function ThemesPage() {
   const [themes, setThemes] = useState<ThemeListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -17,6 +38,7 @@ export default function ThemesPage() {
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
   const { currentLanguage } = useLocalization();
+  const showExcelDownload = isWebMode();
 
   // Auto-upload pending recordings in the background
   useAutoUpload();
@@ -133,69 +155,85 @@ export default function ThemesPage() {
               {themes.map((themeItem) => {
                 const theme = themeItem.content;
                 const title = getLocalizedText(theme.title, currentLanguage);
-                return (
-                  <button
-                    key={themeItem.id}
-                    onClick={() => handleThemeClick(themeItem)}
-                    className="w-full"
-                    style={{
-                      backgroundColor: "#3B82F6", // FirstColor
-                      borderRadius: "1.5rem",
-                      padding: "0.5rem",
-                      border: "none",
-                      cursor: "pointer",
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      transition: "transform 0.2s, box-shadow 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow =
-                        "0 4px 8px rgba(0, 0, 0, 0.15)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow =
-                        "0 2px 4px rgba(0, 0, 0, 0.1)";
-                    }}
-                  >
-                    <div className="flex items-center">
-                      {/* Theme Image */}
-                      {theme.image && (
-                        <div
-                          style={{
-                            borderRadius: "1.125rem",
-                            padding: "3px",
-                            backgroundColor: "white",
-                          }}
-                        >
-                          <img
-                            src={theme.image}
-                            alt={title}
-                            style={{
-                              width: "62px",
-                              height: "62px",
-                              borderRadius: "1rem",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
-                      )}
+                const excelUrl = getThemeExcelUrl(themeItem.id);
 
-                      {/* Theme Title */}
-                      <div className="flex-1 px-4 text-left">
-                        <span
-                          style={{
-                            color: "white",
-                            fontSize: "1.125rem",
-                            fontWeight: "500",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {title || "Untitled Theme"}
-                        </span>
+                return (
+                  <div key={themeItem.id} className="flex items-stretch gap-3">
+                    <button
+                      onClick={() => handleThemeClick(themeItem)}
+                      className="w-full flex-1"
+                      style={{
+                        backgroundColor: "#3B82F6", // FirstColor
+                        borderRadius: "1.5rem",
+                        padding: "0.5rem",
+                        border: "none",
+                        cursor: "pointer",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                        transition: "transform 0.2s, box-shadow 0.2s",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow =
+                          "0 4px 8px rgba(0, 0, 0, 0.15)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow =
+                          "0 2px 4px rgba(0, 0, 0, 0.1)";
+                      }}
+                    >
+                      <div className="flex items-center">
+                        {/* Theme Image */}
+                        {theme.image && (
+                          <div
+                            style={{
+                              borderRadius: "1.125rem",
+                              padding: "3px",
+                              backgroundColor: "white",
+                            }}
+                          >
+                            <img
+                              src={theme.image}
+                              alt={title}
+                              style={{
+                                width: "62px",
+                                height: "62px",
+                                borderRadius: "1rem",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Theme Title */}
+                        <div className="flex-1 px-4 text-left">
+                          <span
+                            style={{
+                              color: "white",
+                              fontSize: "1.125rem",
+                              fontWeight: "500",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            {title || "Untitled Theme"}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </button>
+                    </button>
+
+                    {showExcelDownload && (
+                      <a
+                        href={excelUrl}
+                        download={`${themeItem.id}.xlsx`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-emerald-600 px-4 text-sm font-semibold text-white hover:bg-emerald-700"
+                        title={`Download ${themeItem.id}.xlsx`}
+                      >
+                        XLSX
+                      </a>
+                    )}
+                  </div>
                 );
               })}
             </div>
