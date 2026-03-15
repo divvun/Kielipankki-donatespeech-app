@@ -13,7 +13,7 @@ StartRecording = Ta opp
 
 StopRecording = Stopp opptak
 
-ContinueSchedule = Hald fram
+ContinueSchedule = Lat oss starte
 
 RecordingFinishTitle = Godt fortalt, tusen takk!
 
@@ -35,13 +35,14 @@ InviteFriendTemplate = Eg donerte { $param0 } minutt av mi tale. Doner du òg! #
 
 InviteFriendNewbieTemplate = Eg har nettopp donert mi tale. Doner du òg! #hashtag https://example.com
 
-OnboardingTitle = Velkomen
-
-OnboardingBody =
-    
-    Linjeskift lagt til dette elementet blir vist i sluttresultatet.
-    
-    Dette er tredje linje av onboarding-teksten.
+OnboardingTitle = Stemma di utviklar språkteknologi
+OnboardingBody1 = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å utvikle forsking og verktøy for finsk og samiske språk.
+OnboardingFeature1Title = Vel eit tema du vil snakke om
+OnboardingFeature1Body = Tenesta viser deg vegen vidare.
+OnboardingFeature2Title = Gjer opptak
+OnboardingFeature2Body = Svar på innhaldet på ditt eige morsmål.
+OnboardingFeature3Title = Frivillig deltaking
+OnboardingFeature3Body = Du kan stoppe eller hoppe over når som helst.
 
 TermsHelloTitle = Takk for at du kom.
 

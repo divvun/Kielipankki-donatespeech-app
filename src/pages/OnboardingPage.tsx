@@ -22,13 +22,9 @@ export default function OnboardingPage() {
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-5">
         <div className="max-w-2xl w-full text-center space-y-8">
-          <OnboardingSummary
-            title={getString("OnboardingTitle")}
-            body={getString("OnboardingBody")}
-          />
+          <OnboardingSummary/>
 
           <OnboardingActions
-            continueLabel={getString("ContinueSchedule")}
             onContinue={handleContinue}
           />
         </div>
