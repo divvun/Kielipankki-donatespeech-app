@@ -169,6 +169,42 @@ The app supports 9 languages. Language preference is stored in localStorage and
 persists across sessions. See
 [LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) for details.
 
+### Localization Table Sync (CSV/TSV)
+
+You can export all locale strings from `src/locales/*.ftl` to a spreadsheet-like
+table and import edited values back to the `.ftl` files.
+
+**NPM commands:**
+
+```bash
+# Export to CSV
+pnpm locales:table:export
+
+# Export to TSV
+pnpm locales:table:export:tsv
+
+# Import from CSV
+pnpm locales:table:import
+```
+
+**Direct script usage:**
+
+```bash
+# Export
+node scripts/ftl-table-sync.js export --out locales.csv
+node scripts/ftl-table-sync.js export --out locales.tsv
+
+# Import
+node scripts/ftl-table-sync.js import --in locales.csv
+node scripts/ftl-table-sync.js import --in locales.tsv
+```
+
+Notes:
+- The first table column must be `key`.
+- Locale columns are inferred from the header names (for example `fi`, `nn`, `sv`).
+- Export uses `fi.ftl` as the source-of-truth key list (or the first locale if `fi` is missing).
+- Multiline Fluent values are preserved through export/import.
+
 ## Deployment
 
 ### Azure Static Web App (Web Frontend)
