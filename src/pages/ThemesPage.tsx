@@ -10,7 +10,7 @@ import { platformApi } from "../platform";
 import LanguageSelector from "../components/LanguageSelector";
 
 const BACKEND_EXCEL_BASE_URL =
-  "https://raw.githubusercontent.com/divvun/Kielipankki-donatespeech-backend/main/content/dev/excel";
+  "https://raw.githubusercontent.com/divvun/Kielipankki-donatespeech-backend/main/recorder-backend/content/dev/excel";
 
 function isWebMode(): boolean {
   const mode = import.meta.env.VITE_PLATFORM_MODE?.trim().toLowerCase();
