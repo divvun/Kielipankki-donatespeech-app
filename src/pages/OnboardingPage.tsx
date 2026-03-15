@@ -1,12 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "../hooks/useTranslation";
 import LanguageSelector from "../components/LanguageSelector";
 import { OnboardingSummary } from "../components/OnboardingSummary";
 import { OnboardingActions } from "../components/OnboardingActions";
 
 export default function OnboardingPage() {
   const navigate = useNavigate();
-  const { getString } = useTranslation();
 
   const handleContinue = () => {
     navigate("/terms");
