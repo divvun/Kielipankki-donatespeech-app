@@ -227,7 +227,7 @@ export default function ThemesPage() {
                         download={`${themeItem.id}.xlsx`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-700"
+                        className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-gray-300 px-4 text-sm font-semibold text-white hover:bg-gray-400"
                         title={`Download ${themeItem.id}.xlsx`}
                       >
                         XLSX
