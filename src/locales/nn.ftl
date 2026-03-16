@@ -7,13 +7,13 @@ ThemesPageBody1Text = Vel eit tema du vil snakke om.
 
 ThemesPageBody2Text = Tenesta vil rettleie deg vidare.
 
-StartButtonText = Start
+StartButtonText = Set i gang
 
 StartRecording = Ta opp
 
 StopRecording = Stopp opptak
 
-ContinueSchedule = Lat oss starte
+ContinueSchedule = La oss starte
 
 RecordingFinishTitle = Godt fortalt, tusen takk!
 
@@ -31,17 +31,24 @@ DonateMoreButtonText = Doner meir
 
 InviteFriendTitle = Fortel ein ven
 
-InviteFriendTemplate = Eg donerte { $param0 } minutt av mi tale. Doner du òg! #hashtag https://example.com
+InviteFriendTemplate = Eg donerte { $param0 } minutt av talen min. Doner du òg! #hashtag https://example.com
 
-InviteFriendNewbieTemplate = Eg har nettopp donert mi tale. Doner du òg! #hashtag https://example.com
+InviteFriendNewbieTemplate = Eg har nettopp donert tale. Doner du òg! #hashtag https://example.com
 
 OnboardingTitle = Stemma di utviklar språkteknologi
-OnboardingBody1 = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å utvikle forsking og verktøy for samiske språk.
+
+OnboardingBody1 = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å forske på og utvikle verktøy for samiske språk.
+
 OnboardingFeature1Title = Vel eit tema du vil snakke om
+
 OnboardingFeature1Body = Tenesta viser deg vegen vidare.
+
 OnboardingFeature2Title = Gjer opptak
-OnboardingFeature2Body = Svar på innhaldet på ditt eige morsmål.
+
+OnboardingFeature2Body = Kommenter innhaldet på ditt eige morsmål.
+
 OnboardingFeature3Title = Frivillig deltaking
+
 OnboardingFeature3Body = Du kan stoppe eller hoppe over når som helst.
 
 TermsHelloTitle = Takk for at du kom.
@@ -50,7 +57,7 @@ TermsHelloBody = Les først denne grunnleggjande informasjonen om prosjektet. De
 
 TermsGeneralTitle = Brukarvilkår
 
-TermsGeneralBody =
+TermsGeneralBody = 
     
     Linjeskift lagt til dette elementet blir vist i sluttresultatet.
     
@@ -62,31 +69,29 @@ TermsGeneralUrl = https://example.com
 
 TermsOwnershipTitle = Kven?
 
-TermsOwnershipBody1 = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
+TermsOwnershipBody1 = 
 
 TermsOwnershipLink = Personvern
 
 TermsOwnershipLinkUrl = https://example.com/tietosuoja
 
-TermsOwnershipBody2 =  i samsvar med prinsippa presentert på sida.
+TermsOwnershipBody2 = i samsvar med prinsippa presentert på sida.
 
 TermsVoluntaryTitle = Heilt frivillig!
 
-TermsVoluntaryBody = Donasjon av tale og oppgåve av personopplysningar er heilt frivillig.
+TermsVoluntaryBody = Å donera tale og gje personopplysningar er heilt frivillig.
 
-TermsPrivacyTitle = Korleis blir personopplysningar behandla?
+TermsPrivacyTitle = Korleis blir personopplysningane behandla?
 
-TermsPrivacyBody = Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
+TermsPrivacyBody = 
 
 TermsPrivacyLink = Meir informasjon om behandling av personopplysningar
 
 TermsPrivacyUrl = https://example.com/tietosuoja
 
-TermsRightsTitle = Rettar til tale
+TermsRightsTitle = Rettar knytt til talen
 
-TermsRightsBody =
-    
-    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+TermsRightsBody = 
 
 TermsAppropriateUseTitle = Bruk av applikasjonen
 
@@ -94,7 +99,7 @@ TermsAppropriateUseBody = Denne applikasjonen er ikkje meint for delt bruk. Alle
 
 TermsAdditionalTitle = Meir informasjon
 
-TermsAdditionalWebsite = Kampanjen si nettside: 
+TermsAdditionalWebsite = Kampanjen si nettside:
 
 TermsAdditionalWebsiteLink = example.com
 

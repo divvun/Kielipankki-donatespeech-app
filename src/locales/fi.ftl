@@ -33,12 +33,19 @@ InviteFriendTemplate = Lahjoitin puhettani { $param0 } minuuttia. Lahjoita sinä
 InviteFriendNewbieTemplate = Lahjoitin juuri puhettani. Lahjoita sinäkin! #hashtag https://example.com
 
 OnboardingTitle = Äänesi kehittää kieliteknologiaa
+
 OnboardingBody1 = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään saamen kielen tutkimusta ja työkaluja.
+
 OnboardingFeature1Title = Valitse aihe, josta haluat puhua
+
 OnboardingFeature1Body = Palvelu opastaa sinua eteenpäin.
+
 OnboardingFeature2Title = Äänitä
+
 OnboardingFeature2Body = Reagoi sisältöön omalla äidinkielelläsi.
+
 OnboardingFeature3Title = Vapaaehtoista
+
 OnboardingFeature3Body = Voit lopettaa tai ohittaa milloin tahansa.
 
 TermsHelloTitle = Kiitos, kun tulit.
@@ -47,7 +54,7 @@ TermsHelloBody = Lue ensin nämä perustiedot hankkeesta. Sen jälkeen voit vali
 
 TermsGeneralTitle = Käyttöehtosivun otsikko
 
-TermsGeneralBody =
+TermsGeneralBody = 
     
     Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
     
@@ -59,13 +66,13 @@ TermsGeneralUrl = https://example.com
 
 TermsOwnershipTitle = Kuka?
 
-TermsOwnershipBody1 = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
+TermsOwnershipBody1 = 
 
 TermsOwnershipLink = Tietosuoja
 
 TermsOwnershipLinkUrl = https://example.com/tietosuoja
 
-TermsOwnershipBody2 =  -sivulla esitettyjä periaatteita noudattaen.
+TermsOwnershipBody2 = -sivulla esitettyjä periaatteita noudattaen.
 
 TermsVoluntaryTitle = Täysin vapaaehtoista!
 
@@ -73,7 +80,7 @@ TermsVoluntaryBody = Puheen lahjoittaminen ja henkilötietojen ilmoittaminen on 
 
 TermsPrivacyTitle = Miten henkilötietoja käsitellään?
 
-TermsPrivacyBody = Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
+TermsPrivacyBody = 
 
 TermsPrivacyLink = Lisätietoa henkilötietojen käsittelystä
 
@@ -81,9 +88,7 @@ TermsPrivacyUrl = https://example.com/tietosuoja
 
 TermsRightsTitle = Oikeudet puheeseen
 
-TermsRightsBody =
-    
-    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+TermsRightsBody = 
 
 TermsAppropriateUseTitle = Sovelluksen käyttäminen
 
@@ -91,7 +96,7 @@ TermsAppropriateUseBody = Tämä sovellus ei ole tarkoitettu yhteiskäyttöön. 
 
 TermsAdditionalTitle = Lisätietoa
 
-TermsAdditionalWebsite = Kampanjan sivusto: 
+TermsAdditionalWebsite = Kampanjan sivusto:
 
 TermsAdditionalWebsiteLink = example.com
 
