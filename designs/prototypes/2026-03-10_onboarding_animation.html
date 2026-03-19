@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DonateYourSpeech - Onboarding Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f9f7ef;
+    --white: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-muted: #EDECEA;
+    --text-primary: #1A1918;
+    --text-secondary: #6D6C6A;
+    --text-tertiary: #9C9B99;
+    --border: #E5E4E1;
+    --border-strong: #D1D0CD;
+    --primary: #122c6b;
+    --primary-light: #d0e6f2;
+    --primary-dark: #051130;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+    --dot: #d0efee;
+    --sami-yellow: #fece04;
+    --sami-blue: #0035ad;
+    --sami-green: #00722a;
+    --sami-red: #db241f;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    color: var(--text-primary);
+    background: #f0ede4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+    padding: 20px;
+  }
+
+  /* === Phone Frame === */
+  .phone-frame {
+    width: 390px;
+    height: 844px;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    position: relative;
+    background: linear-gradient(to bottom, var(--bg), var(--white));
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* === Top bar === */
+  .onboarding-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+  }
+
+  .lang-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  /* === Hero Animation Area === */
+  .hero-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* === Animation Container === */
+  .anim-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 160px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bar {
+    width: 16px;
+    height: 16px;
+    border-radius: 44px;
+    background: var(--dot);
+    flex-shrink: 0;
+    margin: 0 1.5px;
+    opacity: 0;
+    transform: scale(0);
+    will-change: transform, opacity, height, width, background-color, box-shadow, margin;
+    transition:
+      opacity 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+      transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+      width 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      margin 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.6s ease;
+    /* height is animated via rAF for smoothness */
+  }
+
+  .bar.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .bar.flag-bar {
+    width: 20px;
+    margin: 0 2px;
+  }
+
+  .bar.exiting {
+    opacity: 0;
+    transform: scale(0);
+    transition:
+      opacity 0.28s cubic-bezier(0.4, 0, 1, 1),
+      transform 0.28s cubic-bezier(0.4, 0, 1, 1);
+  }
+
+  /* === Content === */
+  .onboarding-content {
+    padding: 8px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .headline {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .body-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .feature-bullet {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .feature-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .feature-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .spacer { flex: 1; }
+
+  .bottom-bar {
+    padding: 16px 24px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 100px;
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+    width: 100%;
+  }
+  .btn:active { transform: scale(0.98); }
+
+  .btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    padding: 16px 24px;
+  }
+  .btn-primary:hover { opacity: 0.92; }
+
+  .icon { width: 20px; height: 20px; flex-shrink: 0; }
+  .icon-sm { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* === Controls === */
+  .controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: rgba(26,25,24,0.85);
+    padding: 8px 16px;
+    border-radius: 100px;
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    align-items: center;
+  }
+
+  .ctrl-btn {
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: none;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .ctrl-btn:hover { background: rgba(255,255,255,0.25); }
+
+  .phase-label {
+    color: rgba(255,255,255,0.5);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 500;
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="onboarding-top">
+    <div class="lang-pill">
+      <svg class="icon-sm" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Suomi
+      <svg class="icon-sm" style="color:var(--text-tertiary)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+    <div></div>
+  </div>
+
+  <div class="hero-area">
+    <div class="anim-container" id="anim"></div>
+  </div>
+
+  <div class="onboarding-content">
+    <h1 class="headline" style="text-align:center">Your voice helps build language technology</h1>
+    <p class="body-text" style="text-align:center">Donate a few minutes of speech to help researchers develop tools for Finnish and Sami languages.</p>
+
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="feature-bullet">
+        <div class="feature-icon">
+          <svg width="22" height="22" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        </div>
+        <div class="feature-text">
+          <div class="feature-title">Speak naturally</div>
+          <div class="feature-desc">Talk freely about a theme you enjoy</div>
+        </div>
+      </div>
+      <div class="feature-bullet">
+        <div class="feature-icon">
+          <svg width="22" height="22" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="feature-text">
+          <div class="feature-title">Takes only 5 minutes</div>
+          <div class="feature-desc">A quick session that fits into any break</div>
+        </div>
+      </div>
+      <div class="feature-bullet">
+        <div class="feature-icon">
+          <svg width="22" height="22" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+        </div>
+        <div class="feature-text">
+          <div class="feature-title">Completely voluntary</div>
+          <div class="feature-desc">Stop or skip at any time, no pressure</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="bottom-bar" style="padding-top:0">
+    <button class="btn btn-primary" onclick="playAnimation()">
+      Get Started
+      <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="ctrl-btn" onclick="playAnimation()">&#9654; Play</button>
+  <button class="ctrl-btn" onclick="resetAnimation()">&#8635; Reset</button>
+  <span class="phase-label" id="phaseLabel">Ready</span>
+</div>
+
+<script>
+// ============================================================
+// Configuration
+// ============================================================
+const BAR_COUNT = 21;
+const DOT_SIZE = 16;
+const FLAG_BAR_WIDTH = 20;
+
+// Sami flag colors (yellow, blue, green, red)
+const FLAG_COLORS = ['#fece04', '#0035ad', '#00722a', '#db241f'];
+const FLAG_SHADOWS = [
+  '0 4px 24px rgba(254,206,4,0.4)',
+  '0 4px 24px rgba(0,53,173,0.4)',
+  '0 4px 24px rgba(0,114,42,0.4)',
+  '0 4px 24px rgba(219,36,31,0.4)',
+];
+
+// Which bars become flag bars (indices 8-11 = center 4)
+const FLAG_INDICES = [8, 9, 10, 11];
+
+// Wave bar configs: index → { amplitude, frequency, phase }
+const WAVE_BARS = {
+  6:  { amp: 4,  freq: 2.8, phase: 0.8 },
+  7:  { amp: 8,  freq: 3.2, phase: 1.5 },
+  8:  { amp: 14, freq: 3.8, phase: 0.3 },
+  9:  { amp: 22, freq: 4.2, phase: 2.1 },
+  10: { amp: 12, freq: 3.5, phase: 4.0 },
+  11: { amp: 32, freq: 4.6, phase: 1.0 },
+  12: { amp: 13, freq: 3.9, phase: 3.2 },
+  13: { amp: 6,  freq: 3.0, phase: 5.0 },
+  14: { amp: 3,  freq: 2.6, phase: 2.5 },
+};
+
+// Audio-mode oscillation per flag bar (richer, larger range)
+const AUDIO_BARS = [
+  { freq1: 3.2, freq2: 2.0, freq3: 5.5, freq4: 1.3, phase: 1.5 },
+  { freq1: 4.0, freq2: 2.6, freq3: 5.9, freq4: 1.6, phase: 2.8 },
+  { freq1: 3.5, freq2: 2.3, freq3: 5.1, freq4: 1.1, phase: 0.7 },
+  { freq1: 4.6, freq2: 2.9, freq3: 6.2, freq4: 1.9, phase: 3.5 },
+];
+
+// Timing (ms)
+const T = {
+  entranceStagger: 42,
+  entranceSettle: 280,
+  settleHold: 350,
+  waveRampUp: 420,
+  waveDuration: 1540,
+  dotExitStagger: 30,
+  dotExitSettle: 600,
+  holdDuration: 900,
+  colorStagger: 280,
+  colorSettle: 400,
+};
+
+// ============================================================
+// State
+// ============================================================
+const container = document.getElementById('anim');
+const phaseLabel = document.getElementById('phaseLabel');
+const bars = [];
+let timers = [];
+let rafId = null;
+let loopStartTime = 0;
+let waveIntensity = 0;
+let waveTargetIntensity = 0;
+let morphProgress = 0;   // 0 = pure wave, 1 = pure audio signal
+let morphTarget = 0;
+let phase = 'idle';
+
+// ============================================================
+// Create bars
+// ============================================================
+for (let i = 0; i < BAR_COUNT; i++) {
+  const bar = document.createElement('div');
+  bar.className = 'bar';
+  container.appendChild(bar);
+  bars.push(bar);
+}
+
+// ============================================================
+// Helpers
+// ============================================================
+function setPhase(text) { phaseLabel.textContent = text; }
+
+function delay(ms) {
+  return new Promise(resolve => {
+    const id = setTimeout(resolve, ms);
+    timers.push(id);
+  });
+}
+
+function clearAllTimers() {
+  timers.forEach(t => clearTimeout(t));
+  timers = [];
+  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+}
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+// ============================================================
+// Unified animation loop — handles wave → morph → audio
+// ============================================================
+function mainLoop(timestamp) {
+  const validPhases = ['wave', 'dot-exit', 'hold', 'color-stagger', 'audio-signal'];
+  if (!validPhases.includes(phase)) return;
+
+  // Smooth interpolations
+  waveIntensity = lerp(waveIntensity, waveTargetIntensity, 0.03);
+  morphProgress = lerp(morphProgress, morphTarget, 0.02);
+
+  const elapsed = (timestamp - loopStartTime) / 1000;
+
+  Object.entries(WAVE_BARS).forEach(([idx, config]) => {
+    const i = parseInt(idx);
+    const bar = bars[i];
+    const isFlag = FLAG_INDICES.includes(i);
+
+    // Skip exited bars — they're fading out via CSS
+    if (bar.classList.contains('exiting') || bar.classList.contains('collapsed')) return;
+
+    // ── Wave oscillation ──
+    const w1 = Math.sin(elapsed * config.freq + config.phase);
+    const w2 = Math.sin(elapsed * config.freq * 0.7 + config.phase * 1.3) * 0.3;
+    const waveCombined = (w1 + w2) / 1.3;
+    const waveHeight = DOT_SIZE + config.amp * ((waveCombined + 1) / 2) * waveIntensity;
+
+    if (isFlag) {
+      // ── Audio oscillation (richer, larger range) ──
+      const fi = FLAG_INDICES.indexOf(i);
+      const a = AUDIO_BARS[fi];
+      const a1 = Math.sin(elapsed * a.freq1 + a.phase);
+      const a2 = Math.sin(elapsed * a.freq2 + a.phase * 1.8) * 0.45;
+      const a3 = Math.sin(elapsed * a.freq3 + a.phase * 0.5) * 0.25;
+      const a4 = Math.sin(elapsed * a.freq4 + a.phase * 2.5) * 0.15;
+      const audioCombined = (a1 + a2 + a3 + a4) / 1.85;
+      const audioHeight = 55 + ((audioCombined + 1) / 2) * 95; // 55–150px
+
+      // Crossfade between wave and audio based on morph progress
+      const h = waveHeight * (1 - morphProgress) + audioHeight * morphProgress;
+      bar.style.height = h + 'px';
+    } else {
+      // Non-flag wave bars: just wave
+      bar.style.height = waveHeight + 'px';
+    }
+  });
+
+  rafId = requestAnimationFrame(mainLoop);
+}
+
+// Helper: get dot exit order — left to right, skipping flag bars
+function getDotExitOrder() {
+  const nonFlagIndices = [];
+  for (let i = 0; i < BAR_COUNT; i++) {
+    if (!FLAG_INDICES.includes(i)) nonFlagIndices.push(i);
+  }
+  // Already in ascending order = left to right
+  return nonFlagIndices;
+}
+
+// ============================================================
+// Main animation sequence — 7 phases
+// ============================================================
+async function playAnimation() {
+  resetAnimation();
+  await delay(100);
+
+  // ── PHASE 1: Dots enter left to right ──
+  phase = 'entrance';
+  setPhase('1 · Dots appearing');
+
+  for (let i = 0; i < BAR_COUNT; i++) {
+    const t = setTimeout(() => {
+      bars[i].classList.add('visible');
+    }, i * T.entranceStagger);
+    timers.push(t);
+  }
+
+  await delay(BAR_COUNT * T.entranceStagger + T.entranceSettle);
+
+  // ── PHASE 2: All dots visible — brief hold ──
+  phase = 'settle';
+  setPhase('2 · All dots visible');
+  await delay(T.settleHold);
+
+  // ── PHASE 3: Middle dots act like a waveform ──
+  phase = 'wave';
+  setPhase('3 · Sound wave');
+  loopStartTime = performance.now();
+  waveIntensity = 0;
+  waveTargetIntensity = 1;
+  morphProgress = 0;
+  morphTarget = 0;
+  rafId = requestAnimationFrame(mainLoop);
+
+  // Ramp up + hold wave
+  await delay(T.waveRampUp + T.waveDuration);
+
+  // ── PHASE 4: Dots disappear L→R, center 4 grow + center ──
+  phase = 'dot-exit';
+  setPhase('4 · Dots exiting');
+
+  // Start morphing flag bars toward audio oscillation
+  morphTarget = 1;
+
+  // Flag bars grow wider (16 → 20px)
+  FLAG_INDICES.forEach(i => {
+    bars[i].classList.add('flag-bar');
+  });
+
+  // Exit non-flag dots left to right
+  const exitOrder = getDotExitOrder();
+  for (let i = 0; i < exitOrder.length; i++) {
+    const t = setTimeout(() => {
+      const bar = bars[exitOrder[i]];
+      bar.style.height = DOT_SIZE + 'px';
+      bar.classList.add('exiting');
+    }, i * T.dotExitStagger);
+    timers.push(t);
+  }
+
+  // Wait for all dot exits + collapse animations to complete
+  const totalExitTime = exitOrder.length * T.dotExitStagger + T.dotExitSettle;
+  await delay(totalExitTime);
+
+  // ── PHASE 5: Four uncolored bars oscillating alone ──
+  phase = 'hold';
+  setPhase('5 · Bars oscillating');
+  await delay(T.holdDuration);
+
+  // ── PHASE 6: Colors appear one by one ──
+  phase = 'color-stagger';
+  setPhase('6 · Colors appearing');
+
+  for (let i = 0; i < FLAG_INDICES.length; i++) {
+    const t = setTimeout(() => {
+      const bar = bars[FLAG_INDICES[i]];
+      bar.style.background = FLAG_COLORS[i];
+      bar.style.boxShadow = FLAG_SHADOWS[i];
+    }, i * T.colorStagger);
+    timers.push(t);
+  }
+
+  // Wait for all colors + settle
+  await delay(FLAG_INDICES.length * T.colorStagger + T.colorSettle);
+
+  // ── PHASE 7: Infinite audio signal ──
+  phase = 'audio-signal';
+  setPhase('7 · Audio signal ∞');
+  // mainLoop keeps running — morphProgress ≈ 1, only flag bars visible
+}
+
+// ============================================================
+// Reset
+// ============================================================
+function resetAnimation() {
+  clearAllTimers();
+  phase = 'idle';
+  waveIntensity = 0;
+  waveTargetIntensity = 0;
+  morphProgress = 0;
+  morphTarget = 0;
+
+  bars.forEach(bar => {
+    bar.className = 'bar';
+    bar.style.height = DOT_SIZE + 'px';
+    bar.style.width = '';
+    bar.style.margin = '';
+    bar.style.background = '';
+    bar.style.boxShadow = '';
+    bar.style.transform = '';
+  });
+
+  setPhase('Ready');
+}
+
+// Auto-play after a brief delay
+setTimeout(playAnimation, 600);
+</script>
+</body>
+</html>
