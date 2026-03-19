@@ -1,17 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ChevronLeft } from "lucide-react";
 interface ScheduleErrorStateProps {
   error: string;
   onBack: () => void;
   backLabel: string;
 }
-
-const backButtonStyle = {
-  backgroundColor: "#3B82F6",
-  color: "white",
-  padding: "0.5rem 1.5rem",
-  borderRadius: "0.25rem",
-  border: "none",
-  cursor: "pointer",
-};
 
 export function ScheduleErrorState({
   error,
@@ -21,13 +15,14 @@ export function ScheduleErrorState({
   const normalizedError = error || "Failed to load schedule";
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-8">
-      <div className="mb-5 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-        <strong>Error:</strong> {normalizedError}
-      </div>
-      <button onClick={onBack} style={backButtonStyle}>
+    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col items-center justify-center p-8 gap-4">
+      <Alert variant="destructive" className="max-w-md">
+        <AlertDescription>{normalizedError}</AlertDescription>
+      </Alert>
+      <Button variant="outline" onClick={onBack} className="rounded-full">
+        <ChevronLeft className="w-5 h-5 mr-1" />
         {backLabel}
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+
 interface ScheduleContinueBarProps {
   showManualContinueAfterFinish: boolean;
   saving: boolean;
@@ -6,21 +8,6 @@ interface ScheduleContinueBarProps {
   isLastItem: boolean;
   exitLabel: string;
   continueLabel: string;
-}
-
-function getContinueButtonStyle(saving: boolean) {
-  return {
-    backgroundColor: "#3B82F6",
-    color: "white",
-    padding: "0.75rem 2rem",
-    borderRadius: "0.5rem",
-    border: "none",
-    cursor: saving ? "not-allowed" : "pointer",
-    fontSize: "1rem",
-    fontWeight: "600",
-    minWidth: "220px",
-    opacity: saving ? 0.5 : 1,
-  };
 }
 
 export function ScheduleContinueBar({
@@ -35,7 +22,7 @@ export function ScheduleContinueBar({
   const buttonLabel = isLastItem ? exitLabel : continueLabel;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
+    <div className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_16px_rgba(26,25,24,0.03)] px-6 py-4 pb-10 flex flex-col items-center">
       {showManualContinueAfterFinish && saving && (
         <div className="text-blue-600 font-semibold">Saving recording...</div>
       )}
@@ -44,13 +31,14 @@ export function ScheduleContinueBar({
           {recordingError}
         </div>
       )}
-      <button
+      <Button
         onClick={onContinue}
         disabled={saving}
-        style={getContinueButtonStyle(saving)}
+        size="lg"
+        className="w-full text-base font-semibold rounded-full py-4 h-auto"
       >
         {buttonLabel}
-      </button>
+      </Button>
     </div>
   );
 }

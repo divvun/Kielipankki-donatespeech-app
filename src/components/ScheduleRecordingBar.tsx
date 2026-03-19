@@ -1,3 +1,6 @@
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Mic, Square } from "lucide-react";
+
 interface ScheduleRecordingBarProps {
   saving: boolean;
   error: string | null;
@@ -6,21 +9,6 @@ interface ScheduleRecordingBarProps {
   startLabel: string;
   stopLabel: string;
   durationText: string;
-}
-
-function getRecordButtonStyle(saving: boolean, isRecording: boolean) {
-  return {
-    width: "91px",
-    height: "91px",
-    borderRadius: "50%",
-    backgroundColor: isRecording ? "#10B981" : "#EF4444",
-    color: "white",
-    border: "none",
-    cursor: saving ? "not-allowed" : "pointer",
-    fontSize: "1rem",
-    fontWeight: "600",
-    opacity: saving ? 0.5 : 1,
-  };
 }
 
 export function ScheduleRecordingBar({
@@ -35,28 +23,47 @@ export function ScheduleRecordingBar({
   const buttonLabel = isRecording ? stopLabel : startLabel;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center">
+    <div className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_16px_rgba(26,25,24,0.03)] p-4 pb-10 flex flex-col items-center gap-3 shrink-0">
       {saving && (
-        <div className="mb-4 text-blue-600 font-semibold">
+        <div className="text-primary font-medium text-sm">
           Saving recording...
         </div>
       )}
       {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
-        </div>
+        <Alert variant="destructive" className="max-w-sm mb-2">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
+      {/* Timer */}
+      <div className="text-[32px] font-extrabold text-foreground tracking-tight leading-none">
+        {durationText}
+      </div>
+      {/* Record Button */}
       <button
         type="button"
         onClick={onRecord}
         disabled={saving}
-        style={getRecordButtonStyle(saving, isRecording)}
+        aria-label={buttonLabel}
+        className={`w-18 h-18 rounded-full flex items-center justify-center border-none transition-transform hover:scale-105 active:scale-95 ${
+          saving ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+        }`}
+        style={{
+          background: isRecording ? "#22c55e" : "#E05252",
+          boxShadow: isRecording
+            ? "0 4px 20px rgba(34,197,94,0.3)"
+            : "0 4px 20px rgba(224,82,82,0.3)",
+        }}
       >
-        {buttonLabel}
+        <div className="w-16 h-16 rounded-full border-[3px] border-white/40 flex items-center justify-center">
+          {isRecording ? (
+            <Square className="w-7 h-7 text-white" />
+          ) : (
+            <Mic className="w-7 h-7 text-white" />
+          )}
+        </div>
       </button>
-      <div className="mt-3 text-2xl font-mono text-gray-700">
-        {durationText}
-      </div>
+      {/* Label */}
+      <span className="text-[13px] text-muted-foreground">{buttonLabel}</span>
     </div>
   );
 }

@@ -102,7 +102,6 @@ export default function ScheduleStartPage() {
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <ScheduleNavigationBar
         onBack={handleBack}
-        donatedLabel={getString("DonatedLabelText")}
         totalRecorded={totalRecorded.totalFormatted}
       />
 

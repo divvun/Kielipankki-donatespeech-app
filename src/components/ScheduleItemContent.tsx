@@ -1,8 +1,10 @@
 import { useCallback } from "react";
 import { MultiChoiceView } from "./MultiChoiceView";
 import { SuggestInputView } from "./SuggestInputView";
-import { isPromptItem } from "../types/Schedule";
+import { isMediaItem, isPromptItem } from "../types/Schedule";
 import type { ScheduleItem } from "../types/Schedule";
+import { Languages } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface ScheduleItemContentProps {
   currentItem: ScheduleItem;
@@ -21,6 +23,8 @@ export function ScheduleItemContent({
   answers,
   onAnswerChange,
 }: ScheduleItemContentProps) {
+  const { getString } = useTranslation();
+  const isMedia = isMediaItem(currentItem);
   const isPrompt = isPromptItem(currentItem);
   const currentAnswer = answers[currentItem.itemId] || "";
   const handleCurrentAnswerChange = useCallback(
@@ -31,21 +35,37 @@ export function ScheduleItemContent({
   );
 
   return (
-    <div className="px-4">
-      {title && (
-        <h2 className="text-2xl font-bold text-center mb-4 text-gray-900">
-          {title}
-        </h2>
-      )}
-      {body1 && (
-        <p className="text-lg text-center mb-2 text-gray-700">{body1}</p>
-      )}
-      {body2 && (
-        <p className="text-base text-center mb-4 text-gray-600">{body2}</p>
-      )}
+    <>
+      <div className="flex flex-col gap-2">
+        {title && (
+          <h2 className="text-lg font-extrabold tracking-tight leading-tight text-foreground">
+            {title}
+          </h2>
+        )}
+        {body1 && (
+          <p className="text-lg tracking-tight leading-tight text-foreground">
+            {body1}
+          </p>
+        )}
+        {body2 && (
+          <p className="text-lg tracking-tight leading-tight text-foreground">
+            {body2}
+          </p>
+        )}
+
+        {/* Language hint */}
+        {isMedia && currentItem.isRecording && (
+          <div className="flex items-center gap-1.5">
+            <Languages className="w-4 h-4 text-muted-foreground" />
+            <span className="text-[13px] text-muted-foreground">
+              {getString("OnboardingFeature2Desc")}
+            </span>
+          </div>
+        )}
+      </div>
 
       {isPrompt && (
-        <div className="mt-6">
+        <div>
           {currentItem.itemType === "choice" && "options" in currentItem && (
             <SuggestInputView
               item={currentItem}
@@ -68,11 +88,11 @@ export function ScheduleItemContent({
               onChange={(e) => handleCurrentAnswerChange(e.target.value)}
               placeholder="Enter your answer..."
               rows={4}
-              className="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none mx-8"
+              className="w-full p-4 border border-input rounded-2xl bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
             ></textarea>
           )}
         </div>
       )}
-    </div>
+    </>
   );
 }

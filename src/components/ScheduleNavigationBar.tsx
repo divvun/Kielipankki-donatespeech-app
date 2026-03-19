@@ -1,38 +1,30 @@
+import { ChevronLeft, Heart } from "lucide-react";
+
 interface ScheduleNavigationBarProps {
   onBack: () => void;
-  donatedLabel: string;
   totalRecorded: string;
 }
 
-const backButtonStyle = {
-  backgroundColor: "transparent",
-  color: "#3B82F6",
-  padding: "0.5rem 1rem",
-  borderRadius: "0.25rem",
-  border: "1px solid #3B82F6",
-  cursor: "pointer",
-  fontSize: "1rem",
-};
-
 export function ScheduleNavigationBar({
   onBack,
-  donatedLabel,
   totalRecorded,
 }: ScheduleNavigationBarProps) {
   return (
-    <div className="bg-white shadow-sm p-4 flex justify-between items-center">
-      <button type="button" onClick={onBack} style={backButtonStyle}>
-        ← Back
-      </button>
+    <>
+      <div className="flex items-center justify-between px-5 h-14 shrink-0">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-1.5 text-base text-muted-foreground hover:text-foreground transition-colors bg-transparent border-none cursor-pointer"
+        >
+          <ChevronLeft className="w-6 h-6 text-foreground" />
+          Aiheet
+        </button>
 
-      <div className="flex flex-col items-end">
-        <div className="text-xs text-gray-600 uppercase tracking-wide">
-          {donatedLabel}
-        </div>
-        <div className="text-lg font-semibold text-blue-600">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-primary text-[13px] font-semibold">
+          <Heart className="w-3.5 h-3.5 fill-primary" />
           {totalRecorded}
         </div>
       </div>
-    </div>
+    </>
   );
 }

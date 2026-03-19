@@ -261,7 +261,7 @@ describe("SchedulePage fake YLE media", () => {
     const initialResetCalls = mocks.resetDuration.mock.calls.length;
     expect(initialResetCalls).toBeGreaterThan(0);
 
-    fireEvent.click(screen.getByRole("button", { name: "›" }));
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     await screen.findAllByText("Second recording item");
 

@@ -29,7 +29,6 @@ import { platformApi } from "../platform";
 
 const isFakeYleMediaType = (itemType: string) =>
   itemType === "fake-yle-audio" || itemType === "fake-yle-video";
-
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
@@ -43,7 +42,6 @@ export default function SchedulePage() {
   const [saving, setSaving] = useState(false);
   const [currentMediaUrl, setCurrentMediaUrl] = useState<string>("");
   const [mediaError, setMediaError] = useState<string>("");
-  // Store answers for prompt items (itemId -> answer)
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
   const handleAnswerChange = useCallback((itemId: string, answer: string) => {
@@ -62,34 +60,22 @@ export default function SchedulePage() {
 
   // Callback when max recording time is reached
   const handleMaxTimeReached = async () => {
-    // Auto-stop recording and save it
     setSaving(true);
     try {
       if (!schedule) return;
-
       const currentItem = schedule.items[currentIndex];
       const itemId = currentItem.itemId;
       const clientId = getClientId();
-
       const response = await recording.stopRecording(itemId, clientId);
-      console.log("Recording auto-stopped at max time:", response);
-
-      // Update total recorded time
       if (response) {
         const durationSeconds = Math.floor(response.durationSeconds);
         addRecordedSeconds(durationSeconds);
         totalRecorded.refresh();
       }
-
-      // Trigger auto-upload
       autoUpload.uploadNow();
-
-      // Show alert
       alert(
         `${getString("RecordingStoppedLimitTitle")}\n\n${getString("RecordingStoppedLimitMessage")}`,
       );
-
-      // Move to next item or finish
       handleContinue();
     } catch (err) {
       console.error("Error auto-stopping recording:", err);
@@ -99,7 +85,6 @@ export default function SchedulePage() {
     }
   };
 
-  // Callback when approaching max recording time (9 minutes)
   const handleWarningThreshold = () => {
     alert(getString("RecordingApproachingLimitMessage"));
   };
@@ -141,7 +126,6 @@ export default function SchedulePage() {
   }, [schedule?.scheduleId, currentIndex]);
 
   const loadSchedule = async (id: string) => {
-    console.log("Loading schedule:", id);
     setLoading(true);
     setError("");
     try {
@@ -152,7 +136,6 @@ export default function SchedulePage() {
         setError(getString("SchedulePageNoItemsError"));
         return;
       }
-
       setSchedule(result);
       setCurrentIndex(0);
     } catch (err) {
@@ -163,7 +146,6 @@ export default function SchedulePage() {
     }
   };
 
-  // Load media URL when current item changes
   useEffect(() => {
     const loadMediaUrl = async () => {
       if (schedule && schedule.items[currentIndex]) {
@@ -202,15 +184,12 @@ export default function SchedulePage() {
   }, [schedule, currentIndex]);
 
   const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
+    if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
   };
 
   const handleNext = () => {
-    if (schedule && currentIndex < schedule.items.length - 1) {
+    if (schedule && currentIndex < schedule.items.length - 1)
       setCurrentIndex(currentIndex + 1);
-    }
   };
 
   const handleContinue = () => {
@@ -223,7 +202,6 @@ export default function SchedulePage() {
     if (schedule && currentIndex < schedule.items.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // Schedule finished - navigate to finish page
       if (schedule && scheduleId) {
         console.log("Navigating to finish page for schedule:", scheduleId);
         navigate(`/schedule/${scheduleId}/finish`, {
@@ -251,18 +229,12 @@ export default function SchedulePage() {
         const currentItem = schedule!.items[currentIndex];
         const itemId = currentItem.itemId;
         const clientId = getClientId();
-
         const response = await recording.stopRecording(itemId, clientId);
-        console.log("Recording saved:", response);
-
-        // Update total recorded time
         if (response) {
           const durationSeconds = Math.floor(response.durationSeconds);
           addRecordedSeconds(durationSeconds);
           totalRecorded.refresh();
         }
-
-        // Trigger auto-upload of pending recordings
         autoUpload.uploadNow();
       } catch (err) {
         console.error("Error saving recording:", err);
@@ -329,48 +301,58 @@ export default function SchedulePage() {
   const stateImageUrl = stateMediaUrl?.startsWith("http")
     ? stateMediaUrl
     : null;
+  const progressPercent = ((currentIndex + 1) / schedule.items.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
       <ScheduleNavigationBar
         onBack={handleBack}
-        donatedLabel={getString("DonatedLabelText")}
         totalRecorded={totalRecorded.totalFormatted}
       />
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto pb-32">
-        <div className="max-w-2xl mx-auto px-5 py-6">
-          {/* Media Content */}
-          {isMedia && (
-            <ScheduleMediaSection
-              currentItem={currentItem}
-              mediaError={mediaError}
-              isFakeYleItem={isFakeYleItem}
-              stateImageUrl={stateImageUrl}
-              title={title}
-              currentMediaUrl={currentMediaUrl}
-            />
-          )}
-
-          <ScheduleItemContent
-            currentItem={currentItem}
-            title={title}
-            body1={body1}
-            body2={body2}
-            answers={answers}
-            onAnswerChange={handleAnswerChange}
-          />
-
-          <ScheduleItemNavigator
-            onPrevious={handlePrevious}
-            onNext={handleNext}
-            canGoPrevious={canGoPrevious}
-            canGoNext={canGoNext}
-            currentIndex={currentIndex}
-            totalItems={schedule.items.length}
+      {/* Progress */}
+      <div className="px-5 pb-2 flex flex-col gap-2">
+        <span className="text-[13px] text-muted-foreground text-center">
+          {currentIndex + 1} / {schedule.items.length}
+        </span>
+        <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
+          <div
+            className="h-full bg-primary rounded-full transition-[width] duration-300"
+            style={{ width: `${progressPercent}%` }}
           />
         </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-auto px-5 py-3 flex flex-col gap-5 pb-48">
+        {/* Media Content */}
+        {isMedia && (
+          <ScheduleMediaSection
+            currentItem={currentItem}
+            mediaError={mediaError}
+            isFakeYleItem={isFakeYleItem}
+            stateImageUrl={stateImageUrl}
+            title={title}
+            currentMediaUrl={currentMediaUrl}
+          />
+        )}
+
+        <ScheduleItemNavigator
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          canGoPrevious={canGoPrevious}
+          canGoNext={canGoNext}
+          currentIndex={currentIndex}
+        />
+
+        <ScheduleItemContent
+          currentItem={currentItem}
+          title={title}
+          body1={body1}
+          body2={body2}
+          answers={answers}
+          onAnswerChange={handleAnswerChange}
+        />
       </div>
 
       {/* Bottom Button Bar */}
