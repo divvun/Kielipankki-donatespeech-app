@@ -8,15 +8,14 @@ import { useEffect, useState } from "react";
 import OnboardingPage from "./pages/OnboardingPage";
 import TermsPage from "./pages/TermsPage";
 import ThemesPage from "./pages/ThemesPage";
-import ScheduleStartPage from "./pages/ScheduleStartPage";
 import SchedulePage from "./pages/SchedulePage";
+import ScheduleStartPage from "./pages/ScheduleStartPage";
 import ScheduleFinishPage from "./pages/ScheduleFinishPage";
 import TestPage from "./pages/TestPage";
 import DetailsPage from "./pages/DetailsPage";
 import { OnboardingResetButton } from "./components/OnboardingResetButton";
 import { getClientId } from "./utils/clientId";
 import { platformApi } from "./platform";
-import "./App.css";
 
 function App() {
   const [onboardingCompleted, setOnboardingCompleted] = useState<

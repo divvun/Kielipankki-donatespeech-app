@@ -4,6 +4,7 @@ import {
 } from "../contexts/LocalizationContext";
 import type { LanguageCode } from "../contexts/LocalizationContext";
 import { useTranslation } from "../hooks/useTranslation";
+import { Globe } from "lucide-react";
 
 // Map language codes to localization keys
 const LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
@@ -17,9 +18,6 @@ const LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
   sms: "LanguageSkoltSami",
   sv: "LanguageSwedish",
 };
-
-const selectClassName =
-  "appearance-none bg-white border border-gray-300 rounded px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500";
 
 function getLanguageOptions(
   getString: (id: string) => string,
@@ -41,11 +39,12 @@ export default function LanguageSelector() {
   const languageOptions = getLanguageOptions(getString);
 
   return (
-    <div className="relative">
+    <div className="relative inline-flex items-center gap-2">
+      <Globe className="w-4 h-4 text-muted-foreground" />
       <select
         value={currentLanguage}
         onChange={(e) => setLanguage(e.target.value as LanguageCode)}
-        className={selectClassName}
+        className="appearance-none bg-background border border-input rounded-md px-3 py-2 pr-8 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring"
         aria-label={getString("ChooseLanguageTitle")}
       >
         {languageOptions.map((languageOption) => (
@@ -54,7 +53,7 @@ export default function LanguageSelector() {
           </option>
         ))}
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+      <div className="pointer-events-none absolute right-0 inset-y-0 flex items-center px-2 text-muted-foreground">
         <svg
           className="fill-current h-4 w-4"
           xmlns="http://www.w3.org/2000/svg"

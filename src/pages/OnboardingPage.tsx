@@ -11,22 +11,15 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Language Selector at top */}
-      <div className="p-4">
+    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
+      {/* Language Selector — top left as pill */}
+      <div className="flex items-center justify-between px-6 pt-4 pb-2">
         <LanguageSelector />
+        <div />
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center px-5">
-        <div className="max-w-2xl w-full text-center space-y-8">
-          <OnboardingSummary/>
-
-          <OnboardingActions
-            onContinue={handleContinue}
-          />
-        </div>
-      </div>
+      <OnboardingSummary />
+      <OnboardingActions onContinue={handleContinue} />
     </div>
   );
 }

@@ -1,24 +1,24 @@
 import { useTranslation } from "../hooks/useTranslation";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface OnboardingActionsProps {
   onContinue: () => void;
 }
 
-const continueButtonClassName =
-  "bg-blue-500 text-white px-12 py-3 rounded hover:bg-blue-600 font-semibold text-lg";
+export function OnboardingActions({ onContinue }: OnboardingActionsProps) {
+  const { getString } = useTranslation();
 
-export function OnboardingActions({
-  onContinue,
-}: OnboardingActionsProps) {
-    const { getString } = useTranslation();
-  
   return (
-    <button
-      type="button"
-      onClick={onContinue}
-      className={continueButtonClassName}
-    >
-      {getString("ContinueSchedule")}
-    </button>
+    <div className="px-6 pb-10 pt-4">
+      <Button
+        onClick={onContinue}
+        size="lg"
+        className="w-full text-base font-semibold rounded-full py-4 h-auto"
+      >
+        {getString("OnboardingCTA")}
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </Button>
+    </div>
   );
 }
