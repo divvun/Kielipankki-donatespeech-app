@@ -1,27 +1,25 @@
+import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
+
 interface TermsAcceptSectionProps {
-  body: string;
   acceptLabel: string;
   onAccept: () => void;
 }
 
-const acceptButtonClassName =
-  "bg-blue-500 text-white px-12 py-3 rounded hover:bg-blue-600 font-semibold text-lg";
-
 export function TermsAcceptSection({
-  body,
   acceptLabel,
   onAccept,
 }: TermsAcceptSectionProps) {
   return (
-    <div className="border-t pt-6 text-center">
-      <p className="text-gray-700 mb-6">{body}</p>
-      <button
-        type="button"
+    <div className="px-6 pb-10 pt-4">
+      <Button
         onClick={onAccept}
-        className={acceptButtonClassName}
+        size="lg"
+        className="w-full text-base font-semibold rounded-full py-4 h-auto"
       >
         {acceptLabel}
-      </button>
+        <Check className="w-5 h-5 ml-2" />
+      </Button>
     </div>
   );
 }

@@ -9,28 +9,21 @@ export default function TermsPage() {
   const { getString } = useTranslation();
 
   const handleAccept = () => {
-    // Mark onboarding as completed
     localStorage.setItem("onboardingCompleted", "true");
-    // Navigate to themes page
     navigate("/themes");
   };
 
-  const openLink = (url: string) => {
-    window.open(url, "_blank");
-  };
-
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-5 py-8">
+    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
+      <div className="flex-1 overflow-auto">
         <TermsWelcome
-          title={getString("TermsHelloTitle")}
-          body={getString("TermsHelloBody")}
+          title={getString("TermsPageTitle")}
+          body={getString("TermsPageSubtitle")}
         />
 
-        <TermsContent getString={getString} onOpenLink={openLink} />
+        <TermsContent getString={getString} />
 
         <TermsAcceptSection
-          body={getString("TermsAcceptBody")}
           acceptLabel={getString("TermsAccept")}
           onAccept={handleAccept}
         />
