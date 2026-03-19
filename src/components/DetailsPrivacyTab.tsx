@@ -1,104 +1,96 @@
-import type { ReactNode } from "react";
-
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/useTranslation";
+import { Check, Copy } from "lucide-react";
 interface DetailsPrivacyTabProps {
   clientId: string;
   copiedClientId: boolean;
   onCopyClientId: () => void;
-  onOpenLink: (url: string) => void;
-}
-
-interface InfoSectionProps {
-  title: string;
-  children: ReactNode;
-}
-
-const externalLinkClassName = "text-blue-600 hover:text-blue-800 underline";
-
-function InfoSection({ title, children }: InfoSectionProps) {
-  return (
-    <div className="mb-8">
-      <h2 className="text-2xl font-semibold text-gray-900 mb-4">{title}</h2>
-      {children}
-    </div>
-  );
-}
-
-function ExternalLink({
-  onClick,
-  children,
-}: {
-  onClick: () => void;
-  children: ReactNode;
-}) {
-  return (
-    <button onClick={onClick} className={externalLinkClassName}>
-      {children}
-    </button>
-  );
 }
 
 export function DetailsPrivacyTab({
   clientId,
   copiedClientId,
   onCopyClientId,
-  onOpenLink,
 }: DetailsPrivacyTabProps) {
+  const { getString } = useTranslation();
+  const openLink = (url: string) => {
+    window.open(url, "_blank");
+  };
+
   return (
-    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8">
-      <InfoSection title="General Information">
-        <p className="text-gray-700 mb-4">
-          This is additional information about the speech donation project. Your
-          contributions help improve speech recognition technology for everyone.
+    <div className="flex-1 overflow-auto px-5 py-4 flex flex-col gap-5">
+      {/* General Info */}
+      <div className="bg-white border border-border rounded-2xl p-5 flex flex-col gap-3">
+        <h3 className="text-base font-bold text-foreground">
+          {getString("DetailsGeneralTitle")}
+        </h3>
+        <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
+          {getString("DetailsGeneralBody")}
         </p>
-        <ExternalLink onClick={() => onOpenLink("https://example.com")}>
-          Learn more about the project
-        </ExternalLink>
-      </InfoSection>
-
-      <InfoSection title="Your Privacy Matters">
-        <p className="text-gray-700 mb-4">
-          This is where privacy-related information would be displayed. We take
-          your privacy seriously and handle your data responsibly.
-        </p>
-        <ExternalLink
-          onClick={() => onOpenLink("https://example.com/tietosuoja")}
+        <button
+          onClick={() => openLink("https://example.com")}
+          className="text-primary hover:underline text-sm text-left"
         >
-          Read our privacy policy
-        </ExternalLink>
-      </InfoSection>
+          {getString("DetailsGeneralLinkTitle")}
+        </button>
+      </div>
 
-      <InfoSection title="Removing Your Recordings">
-        <p className="text-gray-700 mb-4">
-          Save this identifier so you can revoke donations made with this app
-          installation if needed. To remove your donations, you must send this
-          identifier to{" "}
-          <a href="mailto:feedback@divvun.no" className={externalLinkClassName}>
-            feedback@divvun.no
-          </a>{" "}
-          and request that all your donations be removed from the project
-          maintainer's database.
+      {/* Privacy */}
+      <div className="bg-white border border-border rounded-2xl p-5 flex flex-col gap-3">
+        <h3 className="text-base font-bold text-foreground">
+          {getString("DetailsPrivacyTitle")}
+        </h3>
+        <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
+          {getString("DetailsPrivacyBody")}
+        </p>
+        <button
+          onClick={() => openLink("https://example.com/tietosuoja")}
+          className="text-primary hover:underline text-sm text-left"
+        >
+          {getString("DetailsPrivacyLinkTitle")}
+        </button>
+      </div>
+
+      {/* Remove Recordings */}
+      <div className="bg-white border border-border rounded-2xl p-5 flex flex-col gap-4">
+        <h3 className="text-base font-bold text-foreground">
+          {getString("DetailsRemoveTitle")}
+        </h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {getString("DetailsRemoveBody1")}
+          <a
+            href={`mailto:${getString("DetailsRemoveEmail")}`}
+            className="text-primary hover:underline"
+          >
+            {getString("DetailsRemoveEmailLink")}
+          </a>
+        </p>
+        <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
+          {getString("DetailsRemoveBody2")}
         </p>
 
-        <div className="bg-gray-50 p-4 rounded-lg mb-4">
-          <p className="text-sm text-gray-600 mb-2">Your Client ID:</p>
-          <p className="text-lg font-mono font-semibold text-gray-900 break-all">
+        {/* Client ID */}
+        <div>
+          <p className="text-xs text-muted-foreground mb-2">Your Client ID:</p>
+          <div className="bg-muted rounded-lg p-3 font-mono text-sm break-all text-foreground">
             {clientId}
-          </p>
+          </div>
         </div>
 
-        <button
-          onClick={onCopyClientId}
-          className="bg-blue-500 text-white px-8 py-3 rounded hover:bg-blue-600 font-semibold"
-        >
-          {copiedClientId ? "COPIED!" : "COPY IDENTIFIER"}
-        </button>
-
-        {copiedClientId && (
-          <p className="text-sm text-green-600 mt-2">
-            Client ID copied to clipboard
-          </p>
-        )}
-      </InfoSection>
+        <Button onClick={onCopyClientId} className="w-full rounded-full">
+          {copiedClientId ? (
+            <>
+              <Check className="w-4 h-4 mr-2" />
+              {getString("DetailsRemoveButtonClickedTitle")}
+            </>
+          ) : (
+            <>
+              <Copy className="w-4 h-4 mr-2" />
+              {getString("DetailsRemoveButtonTitle")}
+            </>
+          )}
+        </Button>
+      </div>
     </div>
   );
 }

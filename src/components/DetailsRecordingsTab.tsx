@@ -1,5 +1,8 @@
+import { Trash2 } from "lucide-react";
 import type { Recording } from "../types";
 import { formatTotalRecorded } from "../utils/preferences";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Spinner } from "@/components/ui/spinner";
 
 export interface RecordingWithDuration extends Recording {
   duration?: number;
@@ -12,20 +15,6 @@ interface DetailsRecordingsTabProps {
   deletingId: string | null;
   onDelete: (recording: RecordingWithDuration) => void;
 }
-
-const statusBadgeClasses: Record<string, string> = {
-  uploaded: "bg-green-100 text-green-800",
-  pending: "bg-yellow-100 text-yellow-800",
-  deleted: "bg-red-100 text-red-800",
-};
-
-const tableHeaders = [
-  { label: "Filename", className: "text-left" },
-  { label: "Duration", className: "text-left" },
-  { label: "Recorded", className: "text-left" },
-  { label: "Status", className: "text-left" },
-  { label: "Action", className: "text-right" },
-];
 
 function formatDuration(seconds?: number): string {
   if (seconds === undefined) return "Unknown";
@@ -43,14 +32,6 @@ function formatTimestamp(timestamp: string): string {
   }
 }
 
-function getStatusBadgeColor(status?: string): string {
-  if (!status) {
-    return "bg-gray-100 text-gray-800";
-  }
-
-  return statusBadgeClasses[status.toLowerCase()] || "bg-gray-100 text-gray-800";
-}
-
 export function DetailsRecordingsTab({
   loading,
   error,
@@ -58,79 +39,73 @@ export function DetailsRecordingsTab({
   deletingId,
   onDelete,
 }: DetailsRecordingsTabProps) {
-  if (loading) {
-    return (
-      <div className="text-center text-gray-600">Loading recordings...</div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        Error: {error}
-      </div>
-    );
-  }
-
-  if (recordings.length === 0) {
-    return (
-      <div className="text-center text-gray-600">
-        No recordings found. Start recording to donate your speech!
-      </div>
-    );
-  }
-
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            {tableHeaders.map((header) => (
-              <th
-                key={header.label}
-                className={`px-6 py-3 ${header.className} text-xs font-medium text-gray-500 uppercase tracking-wider`}
-              >
-                {header.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+    <div className="flex-1 overflow-auto px-5 py-3">
+      {loading && (
+        <div className="flex justify-center py-12">
+          <Spinner className="w-8 h-8" />
+        </div>
+      )}
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+      {!loading && !error && recordings.length === 0 && (
+        <div className="text-center py-12 text-muted-foreground">
+          No recordings yet.
+        </div>
+      )}
+
+      {!loading && !error && recordings.length > 0 && (
+        <div className="flex flex-col gap-2">
           {recordings.map((recording) => (
-            <tr key={recording.recordingId} className="hover:bg-gray-50">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {recording.fileName || "Unknown"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {formatDuration(recording.duration)}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {formatTimestamp(recording.timestamp)}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <span
-                  className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeColor(
-                    recording.uploadStatus,
-                  )}`}
-                >
-                  {recording.uploadStatus || "Unknown"}
+            <div
+              key={recording.recordingId}
+              className="flex items-center justify-between p-3.5 px-4 bg-white border border-border rounded-xl"
+            >
+              <div className="flex flex-col gap-1 flex-1 min-w-0">
+                <span className="text-base text-foreground truncate">
+                  {recording.fileName || "Unknown"}
                 </span>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] text-muted-foreground">
+                    {formatDuration(recording.duration)}
+                  </span>
+                  <div className="w-0.75 h-0.75 rounded-full bg-muted-foreground" />
+                  <span className="text-[13px] text-muted-foreground">
+                    {formatTimestamp(recording.timestamp)}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 shrink-0">
+                <span
+                  className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                    recording.uploadStatus?.toLowerCase() === "uploaded"
+                      ? "bg-secondary text-primary"
+                      : "bg-[#FEF3CD] text-[#92780C]"
+                  }`}
+                >
+                  {recording.uploadStatus === "uploaded"
+                    ? "OK"
+                    : recording.uploadStatus || "—"}
+                </span>
                 <button
                   onClick={() => onDelete(recording)}
                   disabled={deletingId === recording.recordingId}
-                  className="text-red-600 hover:text-red-900 disabled:text-gray-400"
+                  className="bg-transparent border-none p-1 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
                 >
-                  {deletingId === recording.recordingId
-                    ? "Deleting..."
-                    : "Delete"}
+                  {deletingId === recording.recordingId ? (
+                    <Spinner className="w-4.5 h-4.5" />
+                  ) : (
+                    <Trash2 className="w-4.5 h-4.5" />
+                  )}
                 </button>
-              </td>
-            </tr>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      )}
     </div>
   );
 }

@@ -12,6 +12,10 @@ import {
 } from "../components/DetailsRecordingsTab";
 import { DetailsPrivacyTab } from "../components/DetailsPrivacyTab";
 
+// interface RecordingWithDuration extends Recording {
+//   duration?: number;
+// }
+
 export default function DetailsPage() {
   const [activeTab, setActiveTab] = useState<DetailsTabType>("recordings");
   const [recordings, setRecordings] = useState<RecordingWithDuration[]>([]);
@@ -43,7 +47,6 @@ export default function DetailsPage() {
         }
         return { ...rec, duration };
       });
-
       setRecordings(recordingsWithDuration);
     } catch (err) {
       console.error("Failed to fetch recordings:", err);
@@ -58,9 +61,7 @@ export default function DetailsPage() {
   }, []);
 
   const handleDelete = async (recording: RecordingWithDuration) => {
-    if (!confirm(`Delete recording "${recording.fileName}"?`)) {
-      return;
-    }
+    if (!confirm(`Delete recording "${recording.fileName}"?`)) return;
 
     setDeletingId(recording.recordingId);
     try {
@@ -70,13 +71,9 @@ export default function DetailsPage() {
       if (recording.duration) {
         subtractRecordedSeconds(Math.floor(recording.duration));
       }
-
-      // Remove from local state
       setRecordings((prev) =>
         prev.filter((r) => r.recordingId !== recording.recordingId),
       );
-
-      // Refresh total recorded time display
       totalRecorded.refresh();
     } catch (err) {
       console.error("Failed to delete recording:", err);
@@ -92,18 +89,12 @@ export default function DetailsPage() {
 
   const copyClientId = async () => {
     try {
-      // Use the Clipboard API
       await navigator.clipboard.writeText(clientId);
       setCopiedClientId(true);
       setTimeout(() => setCopiedClientId(false), 3000);
     } catch (err) {
       console.error("Failed to copy client ID:", err);
-      alert("Failed to copy client ID to clipboard");
     }
-  };
-
-  const openLink = (url: string) => {
-    window.open(url, "_blank");
   };
 
   return (
@@ -129,7 +120,6 @@ export default function DetailsPage() {
             clientId={clientId}
             copiedClientId={copiedClientId}
             onCopyClientId={copyClientId}
-            onOpenLink={openLink}
           />
         )}
       </div>
