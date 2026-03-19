@@ -8,6 +8,10 @@ import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { platformApi } from "../platform";
 import LanguageSelector from "../components/LanguageSelector";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Spinner } from "@/components/ui/spinner";
+import { Heart, Info, ChevronRight } from "lucide-react";
 
 const BACKEND_EXCEL_BASE_URL =
   "https://raw.githubusercontent.com/divvun/Kielipankki-donatespeech-backend/main/recorder-backend/content/dev/excel";
@@ -61,7 +65,6 @@ export default function ThemesPage() {
           themeItem.content?.scheduleIds &&
           themeItem.content.scheduleIds.length > 0,
       );
-
       setThemes(filteredThemes);
     } catch (err) {
       console.error("Error loading themes:", err);
@@ -85,181 +88,133 @@ export default function ThemesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
       {/* Navigation Bar */}
-      <div className="bg-white shadow-sm p-4 flex justify-between items-center">
-        {/* Language Selector */}
-        <div className="flex-1">
-          <LanguageSelector />
-        </div>
+      <div className="flex items-center justify-between px-5 h-14 shrink-0">
+        <LanguageSelector />
 
-        {/* Donation Counter */}
-        <div className="flex flex-col items-end mr-4">
-          <div className="text-xs text-gray-600 uppercase tracking-wide">
-            {getString("DonatedLabelText")}
-          </div>
-          <div className="text-lg font-semibold text-blue-600">
+        <div className="flex items-center gap-2">
+          {/* Donation pill */}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-primary text-[13px] font-semibold">
+            <Heart className="w-3.5 h-3.5 fill-primary" />
             {totalRecorded.totalFormatted}
           </div>
-        </div>
 
-        <button
-          onClick={navigateToDetails}
-          style={{
-            backgroundColor: "#3B82F6",
-            color: "white",
-            padding: "0.5rem 1.5rem",
-            borderRadius: "0.25rem",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-        >
-          {getString("DetailsButtonText")}
-        </button>
+          {/* Info button */}
+          <button
+            onClick={navigateToDetails}
+            className="w-9 h-9 rounded-full bg-white border border-border flex items-center justify-center hover:bg-muted transition-colors"
+          >
+            <Info className="w-4.5 h-4.5 text-muted-foreground" />
+          </button>
+        </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        <div className="max-w-2xl mx-auto px-5 py-9">
-          {/* Header */}
-          <div className="text-center mb-5">
-            <h1 className="text-3xl font-bold mb-3 text-gray-900">
-              {getString("ThemesPageBody1Text")}
-            </h1>
-            <p className="text-base text-gray-600">
-              {getString("ThemesPageBody2Text")}
-            </p>
-          </div>
-
-          {/* Loading Indicator */}
-          {loading && (
-            <div className="flex justify-center items-center py-5">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            </div>
-          )}
-
-          {/* Error Message */}
-          {error && (
-            <div className="mb-5 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-              <strong>Error:</strong> {error}
-              <button onClick={loadThemes} className="ml-4 underline">
-                Retry
-              </button>
-            </div>
-          )}
-
-          {/* Themes List */}
-          {!loading && themes.length > 0 && (
-            <div className="space-y-4">
-              {themes.map((themeItem) => {
-                const theme = themeItem.content;
-                const title = getLocalizedText(theme.title, currentLanguage);
-                const excelUrl = getThemeExcelUrl(themeItem.id);
-
-                return (
-                  <div key={themeItem.id} className="flex items-stretch gap-3">
-                    <button
-                      onClick={() => handleThemeClick(themeItem)}
-                      className="w-full flex-1"
-                      style={{
-                        backgroundColor: "#3B82F6", // FirstColor
-                        borderRadius: "1.5rem",
-                        padding: "0.5rem",
-                        border: "none",
-                        cursor: "pointer",
-                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                        transition: "transform 0.2s, box-shadow 0.2s",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = "translateY(-2px)";
-                        e.currentTarget.style.boxShadow =
-                          "0 4px 8px rgba(0, 0, 0, 0.15)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.boxShadow =
-                          "0 2px 4px rgba(0, 0, 0, 0.1)";
-                      }}
-                    >
-                      <div className="flex items-center">
-                        {/* Theme Image */}
-                        {theme.image && (
-                          <div
-                            style={{
-                              borderRadius: "1.125rem",
-                              padding: "3px",
-                              backgroundColor: "white",
-                            }}
-                          >
-                            <img
-                              src={theme.image}
-                              alt={title}
-                              style={{
-                                width: "62px",
-                                height: "62px",
-                                borderRadius: "1rem",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                        )}
-
-                        {/* Theme Title */}
-                        <div className="flex-1 px-4 text-left">
-                          <span
-                            style={{
-                              color: "white",
-                              fontSize: "1.125rem",
-                              fontWeight: "500",
-                              textTransform: "uppercase",
-                            }}
-                          >
-                            {title || "Untitled Theme"}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-
-                    {showExcelDownload && (
-                      <a
-                        href={excelUrl}
-                        download={`${themeItem.id}.xlsx`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-gray-300 px-4 text-sm font-semibold text-white hover:bg-gray-400"
-                        title={`Download ${themeItem.id}.xlsx`}
-                      >
-                        XLSX
-                      </a>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!loading && themes.length === 0 && !error && (
-            <div className="text-center py-10">
-              <p className="text-gray-500 text-lg">No themes available</p>
-              <button
-                onClick={loadThemes}
-                style={{
-                  marginTop: "1rem",
-                  backgroundColor: "#3B82F6",
-                  color: "white",
-                  padding: "0.5rem 1.5rem",
-                  borderRadius: "0.25rem",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                Reload
-              </button>
-            </div>
-          )}
+      {/* Content */}
+      <div className="flex-1 overflow-auto px-5 pb-5">
+        {/* Header */}
+        <div className="mb-5">
+          <h1 className="text-[22px] font-extrabold tracking-tight leading-tight text-foreground">
+            {getString("ThemesPageTitleText")}
+          </h1>
+          <p className="text-[13px] text-muted-foreground mt-1.5">
+            {getString("ThemesPageBody1Text")}
+          </p>
         </div>
+
+        {/* Loading */}
+        {loading && (
+          <div className="flex justify-center py-12">
+            <Spinner className="w-8 h-8" />
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertDescription>
+              {error}
+              <Button
+                variant="link"
+                size="sm"
+                onClick={loadThemes}
+                className="ml-2 p-0 h-auto"
+              >
+                {getString("RetryScheduleItem")}
+              </Button>
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {/* Theme Cards */}
+        {!loading && themes.length > 0 && (
+          <div className="flex flex-col gap-3">
+            {themes.map((themeItem) => {
+              const theme = themeItem.content;
+              const title = getLocalizedText(theme.title, currentLanguage);
+              const excelUrl = getThemeExcelUrl(themeItem.id);
+
+              return (
+                <>
+                  <button
+                    key={themeItem.id}
+                    onClick={() => handleThemeClick(themeItem)}
+                    className="flex items-center gap-4 p-4 pr-5 bg-white border border-border rounded-2xl cursor-pointer text-left transition-all hover:border-primary hover:shadow-[0_2px_12px_rgba(18,44,107,0.06)]"
+                  >
+                    {/* Theme Thumbnail */}
+                    {themeItem.content?.image ? (
+                      <img
+                        src={themeItem.content.image}
+                        alt={title || "Theme"}
+                        className="w-14 h-14 rounded-xl object-cover shrink-0"
+                      />
+                    ) : (
+                      <div className="w-14 h-14 rounded-xl shrink-0 bg-linear-to-br from-secondary to-[#a8c8dd]" />
+                    )}
+
+                    {/* Theme Text */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-1">
+                      <span className="text-base font-semibold text-foreground truncate">
+                        {title}
+                      </span>
+                    </div>
+
+                    {/* Right side: time badge + chevron */}
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="px-2 py-1 rounded-full bg-muted text-[11px] font-semibold text-muted-foreground">
+                        ~5 min
+                      </span>
+                      <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                    </div>
+                  </button>
+
+                  {showExcelDownload && (
+                    <a
+                      href={excelUrl}
+                      download={`${themeItem.id}.xlsx`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-gray-300 px-4 text-sm font-semibold text-white hover:bg-gray-400"
+                      title={`Download ${themeItem.id}.xlsx`}
+                    >
+                      XLSX
+                    </a>
+                  )}
+                </>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && themes.length === 0 && !error && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground mb-4">No themes available</p>
+            <Button variant="outline" onClick={loadThemes}>
+              {getString("RetryScheduleItem")}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
