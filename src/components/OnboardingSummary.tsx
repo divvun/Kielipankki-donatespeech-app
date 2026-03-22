@@ -7,7 +7,7 @@ export function OnboardingSummary() {
   return (
     <>
       {/* Animated Sami Flag Bars */}
-      <div className="flex justify-center items-center h-[200px]">
+      <div className="flex justify-center items-center h-50">
         <SamiBarAnimation />
       </div>
 
@@ -24,7 +24,7 @@ export function OnboardingSummary() {
         <div className="flex flex-col gap-5">
           <div className="flex gap-4 items-start">
             <div className="w-11 h-11 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-              <MessageCircle className="w-[22px] h-[22px] text-primary" />
+              <MessageCircle className="w-5.5 h-5.5 text-primary" />
             </div>
             <div className="flex flex-col gap-0.5">
               <span className="text-base font-semibold text-foreground">
@@ -38,7 +38,7 @@ export function OnboardingSummary() {
 
           <div className="flex gap-4 items-start">
             <div className="w-11 h-11 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-              <Clock className="w-[22px] h-[22px] text-primary" />
+              <Clock className="w-5.5 h-5.5 text-primary" />
             </div>
             <div className="flex flex-col gap-0.5">
               <span className="text-base font-semibold text-foreground">
@@ -52,7 +52,7 @@ export function OnboardingSummary() {
 
           <div className="flex gap-4 items-start">
             <div className="w-11 h-11 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-              <Shield className="w-[22px] h-[22px] text-primary" />
+              <Shield className="w-5.5 h-5.5 text-primary" />
             </div>
             <div className="flex flex-col gap-0.5">
               <span className="text-base font-semibold text-foreground">
