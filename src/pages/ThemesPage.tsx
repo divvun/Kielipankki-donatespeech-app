@@ -38,6 +38,9 @@ export default function ThemesPage() {
   const [themes, setThemes] = useState<ThemeListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
+  const [scheduleItemCounts, setScheduleItemCounts] = useState<
+    Record<string, number>
+  >({});
   const navigate = useNavigate();
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
@@ -50,6 +53,30 @@ export default function ThemesPage() {
   useEffect(() => {
     loadThemes();
   }, []);
+
+  // Fetch schedule item counts for each theme
+  useEffect(() => {
+    if (themes.length === 0) return;
+
+    const fetchScheduleCounts = async () => {
+      const counts: Record<string, number> = {};
+      for (const themeItem of themes) {
+        const firstScheduleId = themeItem.content?.scheduleIds?.[0];
+        if (firstScheduleId) {
+          try {
+            const schedule = await platformApi.fetchSchedule(firstScheduleId);
+            counts[themeItem.id] = schedule.items?.length || 0;
+          } catch (err) {
+            console.error(`Error fetching schedule ${firstScheduleId}:`, err);
+            counts[themeItem.id] = 0;
+          }
+        }
+      }
+      setScheduleItemCounts(counts);
+    };
+
+    fetchScheduleCounts();
+  }, [themes]);
 
   const loadThemes = async () => {
     console.log("Loading themes...");
@@ -182,7 +209,7 @@ export default function ThemesPage() {
                     {/* Right side: time badge + chevron */}
                     <div className="flex items-center gap-2 shrink-0">
                       <span className="px-2 py-1 rounded-full bg-muted text-[11px] font-semibold text-muted-foreground">
-                        ~5 min
+                        {scheduleItemCounts[themeItem.id] || 0} items
                       </span>
                       <ChevronRight className="w-5 h-5 text-muted-foreground" />
                     </div>
