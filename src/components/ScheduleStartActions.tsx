@@ -1,29 +1,23 @@
+import { Button } from "./ui/button";
+
 interface ScheduleStartActionsProps {
   onStart: () => void;
   startLabel: string;
 }
-
-const startButtonStyle = {
-  backgroundColor: "#3B82F6",
-  color: "white",
-  padding: "0.75rem 2rem",
-  borderRadius: "0.5rem",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "1rem",
-  fontWeight: "600",
-  minWidth: "230px",
-};
 
 export function ScheduleStartActions({
   onStart,
   startLabel,
 }: ScheduleStartActionsProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex justify-center">
-      <button type="button" onClick={onStart} style={startButtonStyle}>
+    <div className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_16px_rgba(26,25,24,0.03)] px-6 py-4 pb-10 flex flex-col items-center">
+      <Button
+        onClick={onStart}
+        size="lg"
+        className="w-full text-base font-semibold rounded-full py-4 h-auto"
+      >
         {startLabel}
-      </button>
+      </Button>
     </div>
   );
 }
