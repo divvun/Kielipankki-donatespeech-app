@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-const FLAG_COLORS = ["#fece04", "#0035ad", "#00722a", "#db241f"];
+const FLAG_COLORS = ["#db241f", "#fece04", "#00722a", "#0035ad"];
 const FLAG_SHADOWS = [
-  "0 4px 20px rgba(254,206,4,0.35)",
-  "0 4px 20px rgba(0,53,173,0.35)",
-  "0 4px 20px rgba(0,114,42,0.35)",
   "0 4px 20px rgba(219,36,31,0.35)",
+  "0 4px 20px rgba(254,206,4,0.35)",
+  "0 4px 20px rgba(0,114,42,0.35)",
+  "0 4px 20px rgba(0,53,173,0.35)",
 ];
 const BAR_CONFIG = [
   { baseH: 60, amp: 30, freq: 0.8, phase: 0 },
