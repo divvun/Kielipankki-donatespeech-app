@@ -267,3 +267,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+
+@layer components {
+  .pill-base {
+    @apply h-8 rounded-full text-[13px] font-semibold leading-none;
+  }
+}

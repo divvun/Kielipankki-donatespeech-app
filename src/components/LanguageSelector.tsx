@@ -44,7 +44,7 @@ export default function LanguageSelector() {
       <select
         value={currentLanguage}
         onChange={(e) => setLanguage(e.target.value as LanguageCode)}
-        className="appearance-none bg-background border border-input rounded-md pl-8 pr-8 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring"
+        className="pill-base appearance-none bg-background border border-input pl-8 pr-8 transition-all focus:outline-none focus:border-primary focus:shadow-[0_2px_12px_rgba(18,44,107,0.06)]"
         aria-label={getString("ChooseLanguageTitle")}
       >
         {languageOptions.map((languageOption) => (

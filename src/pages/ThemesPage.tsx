@@ -95,7 +95,7 @@ export default function ThemesPage() {
 
         <div className="flex items-center gap-2">
           {/* Donation pill */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-primary text-[13px] font-semibold">
+          <div className="pill-base inline-flex items-center gap-1.5 px-3 bg-secondary text-primary">
             <Heart className="w-3.5 h-3.5 fill-primary" />
             {totalRecorded.totalFormatted}
           </div>
