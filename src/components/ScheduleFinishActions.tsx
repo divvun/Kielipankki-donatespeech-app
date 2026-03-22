@@ -1,32 +1,13 @@
+import { Button } from "./ui/button";
+import { ChevronRight } from "lucide-react";
+import { Share2 } from "lucide-react";
+
 interface ScheduleFinishActionsProps {
   onInviteFriend: () => void;
   onDonateMore: () => void;
   inviteFriendLabel: string;
   donateMoreLabel: string;
 }
-
-const baseButtonStyle = {
-  padding: "0.75rem 2rem",
-  borderRadius: "0.5rem",
-  cursor: "pointer",
-  fontSize: "1rem",
-  fontWeight: "600",
-  minWidth: "230px",
-};
-
-const primaryButtonStyle = {
-  ...baseButtonStyle,
-  backgroundColor: "#3B82F6",
-  color: "white",
-  border: "none",
-};
-
-const secondaryButtonStyle = {
-  ...baseButtonStyle,
-  backgroundColor: "white",
-  color: "#3B82F6",
-  border: "2px solid #3B82F6",
-};
 
 export function ScheduleFinishActions({
   onInviteFriend,
@@ -36,21 +17,27 @@ export function ScheduleFinishActions({
 }: ScheduleFinishActionsProps) {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 flex flex-col items-center space-y-3">
-      <button
-        type="button"
-        onClick={onInviteFriend}
-        style={primaryButtonStyle}
-      >
-        {inviteFriendLabel}
-      </button>
-
-      <button
-        type="button"
+      <Button
         onClick={onDonateMore}
-        style={secondaryButtonStyle}
+        size="lg"
+        className="w-full text-base font-semibold rounded-full py-4 h-auto"
       >
-        {donateMoreLabel}
-      </button>
+        <span className="inline-flex items-center gap-1.5">
+          {donateMoreLabel}
+          <ChevronRight className="w-4 h-4" />
+        </span>
+      </Button>
+      <Button
+        onClick={onInviteFriend}
+        variant="outline"
+        size="lg"
+        className="w-full text-base font-semibold rounded-full py-4 h-auto"
+      >
+        <span className="inline-flex items-center gap-1.5">
+          {inviteFriendLabel}
+          <Share2 className="w-4 h-4" />
+        </span>
+      </Button>
     </div>
   );
 }
