@@ -23,7 +23,7 @@ export function ScheduleRecordingBar({
   const buttonLabel = isRecording ? stopLabel : startLabel;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_16px_rgba(26,25,24,0.03)] p-4 pb-10 flex flex-col items-center gap-3 shrink-0">
+    <div className="fixed bottom-0 left-0 right-0 bg-transparent p-4 pb-10 flex flex-col items-center gap-3 shrink-0">
       {saving && (
         <div className="text-primary font-medium text-sm">
           Saving recording...
