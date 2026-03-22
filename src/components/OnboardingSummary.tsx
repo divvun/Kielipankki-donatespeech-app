@@ -31,7 +31,7 @@ export function OnboardingSummary() {
                 {getString("OnboardingFeature1Title")}
               </span>
               <span className="text-[13px] text-muted-foreground leading-snug">
-                {getString("ThemesPageBody2Text")}
+                {getString("OnboardingFeature1Body")}
               </span>
             </div>
           </div>
@@ -45,7 +45,7 @@ export function OnboardingSummary() {
                 {getString("OnboardingFeature2Title")}
               </span>
               <span className="text-[13px] text-muted-foreground leading-snug">
-                {getString("OnboardingFeature2Desc")}
+                {getString("OnboardingFeature2Body")}
               </span>
             </div>
           </div>
@@ -59,7 +59,7 @@ export function OnboardingSummary() {
                 {getString("OnboardingFeature3Title")}
               </span>
               <span className="text-[13px] text-muted-foreground leading-snug">
-                {getString("OnboardingFeature3Desc")}
+                {getString("OnboardingFeature3Body")}
               </span>
             </div>
           </div>
