@@ -26,6 +26,7 @@ import { getLocalizedText } from "../utils/localization";
 import { useItemState } from "../hooks/useItemState";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { platformApi } from "../platform";
+import { SchedulePromptSection } from "@/components/SchedulePromptSection";
 
 const isFakeYleMediaType = (itemType: string) =>
   itemType === "fake-yle-audio" || itemType === "fake-yle-video";
@@ -337,21 +338,27 @@ export default function SchedulePage() {
           />
         )}
 
+        <ScheduleItemContent
+          currentItem={currentItem}
+          title={title}
+          body1={body1}
+          body2={body2}
+        />
+
+        {isPrompt && (
+          <SchedulePromptSection
+            currentItem={currentItem}
+            answers={answers}
+            onAnswerChange={handleAnswerChange}
+          />
+        )}
+
         <ScheduleItemNavigator
           onPrevious={handlePrevious}
           onNext={handleNext}
           canGoPrevious={canGoPrevious}
           canGoNext={canGoNext}
           currentIndex={currentIndex}
-        />
-
-        <ScheduleItemContent
-          currentItem={currentItem}
-          title={title}
-          body1={body1}
-          body2={body2}
-          answers={answers}
-          onAnswerChange={handleAnswerChange}
         />
       </div>
 
