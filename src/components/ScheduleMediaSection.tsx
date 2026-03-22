@@ -38,35 +38,38 @@ export function ScheduleMediaSection({
           <AlertDescription>{mediaError}</AlertDescription>
         </Alert>
       )}
-      {stateImageUrl && (
+      {stateImageUrl ? (
         <div className="w-full h-50 rounded-2xl overflow-hidden bg-linear-to-br from-secondary to-[#b8d4e8]">
           <img
-            src={currentMediaUrl}
+            src={stateImageUrl}
             alt={title}
             className="w-full h-full object-cover"
           />
         </div>
-      )}
-      {isVideoItem && hasUrl && currentMediaUrl && (
-        <VideoPlayer url={currentMediaUrl} description={title} />
-      )}
-      {isAudioItem && hasUrl && currentMediaUrl && (
-        <AudioPlayer url={currentMediaUrl} description={title} />
-      )}
-      {showMediaLoader && (
-        <div className="w-full h-50 rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
-          <Spinner className="w-8 h-8" />
-        </div>
-      )}
-      {(isFakeYleItem || !("url" in currentItem)) && (
-        <div className="w-full h-50 rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
-          <Image className="w-8 h-8 text-primary" />
-          <span className="sr-only">{currentItem.itemType}</span>
-        </div>
-      )}
-      {currentItem.itemType === "text-content" && (
-        <TextContentView item={currentItem} />
-      )}
+      ) : (
+        <>
+          {isVideoItem && hasUrl && currentMediaUrl && (
+            <VideoPlayer url={currentMediaUrl} description={title} />
+          )}
+          {isAudioItem && hasUrl && currentMediaUrl && (
+            <AudioPlayer url={currentMediaUrl} description={title} />
+          )}
+          {showMediaLoader && (
+            <div className="w-full h-50 rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
+              <Spinner className="w-8 h-8" />
+            </div>
+          )}
+          {isFakeYleItem && (
+            <div className="w-full h-50 rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
+              <Image className="w-8 h-8 text-primary" />
+              <span className="sr-only">{currentItem.itemType}</span>
+            </div>
+          )}
+          {currentItem.itemType === "text-content" && (
+            <TextContentView item={currentItem} />
+          )}
+        </>
+      )}{" "}
     </div>
   );
 }
