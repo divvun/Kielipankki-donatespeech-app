@@ -39,12 +39,12 @@ export default function LanguageSelector() {
   const languageOptions = getLanguageOptions(getString);
 
   return (
-    <div className="relative inline-flex items-center gap-2">
-      <Globe className="w-4 h-4 text-muted-foreground" />
+    <div className="relative inline-flex items-center">
+      <Globe className="pointer-events-none absolute left-2.5 w-4 h-4 text-muted-foreground" />
       <select
         value={currentLanguage}
         onChange={(e) => setLanguage(e.target.value as LanguageCode)}
-        className="appearance-none bg-background border border-input rounded-md px-3 py-2 pr-8 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring"
+        className="appearance-none bg-background border border-input rounded-md pl-8 pr-8 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring"
         aria-label={getString("ChooseLanguageTitle")}
       >
         {languageOptions.map((languageOption) => (
