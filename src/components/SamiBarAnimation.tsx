@@ -76,7 +76,7 @@ export function SamiBarAnimation() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center gap-1.5 h-[160px] relative z-[1]">
+    <div className="flex items-center justify-center gap-1.5 h-40 relative z-1">
       {BAR_CONFIG.map((config, i) => (
         <div
           key={i}
