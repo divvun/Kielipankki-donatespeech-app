@@ -72,7 +72,7 @@ export default function ScheduleStartPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-b from-white to-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading...</p>
@@ -83,7 +83,7 @@ export default function ScheduleStartPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col items-center justify-center p-6">
         <div className="bg-red-100 border border-red-400 text-red-700 rounded-lg p-6 max-w-md">
           <h2 className="text-xl font-bold mb-2">Error</h2>
           <p className="mb-4">{error}</p>
@@ -99,7 +99,7 @@ export default function ScheduleStartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
       <ScheduleNavigationBar
         onBack={handleBack}
         totalRecorded={totalRecorded.totalFormatted}
