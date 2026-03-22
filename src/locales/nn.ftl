@@ -37,7 +37,7 @@ InviteFriendNewbieTemplate = Eg har nettopp donert tale. Doner du òg! #hashtag 
 
 OnboardingTitle = Stemma di utviklar språkteknologi
 
-OnboardingBody1 = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å forske på og utvikle verktøy for samiske språk.
+OnboardingBody = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å forske på og utvikle verktøy for samiske språk.
 
 OnboardingFeature1Title = Vel eit tema du vil snakke om
 
@@ -50,6 +50,8 @@ OnboardingFeature2Body = Kommenter innhaldet på ditt eige morsmål.
 OnboardingFeature3Title = Frivillig deltaking
 
 OnboardingFeature3Body = Du kan stoppe eller hoppe over når som helst.
+
+OnboardingCTA = Eg deltar gjerne
 
 TermsHelloTitle = Takk for at du kom.
 

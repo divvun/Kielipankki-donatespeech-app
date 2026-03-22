@@ -34,7 +34,7 @@ InviteFriendNewbieTemplate = Lahjoitin juuri puhettani. Lahjoita sinäkin! #hash
 
 OnboardingTitle = Äänesi kehittää kieliteknologiaa
 
-OnboardingBody1 = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään saamen kielen tutkimusta ja työkaluja.
+OnboardingBody = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään saamen kielen tutkimusta ja työkaluja.
 
 OnboardingFeature1Title = Valitse aihe, josta haluat puhua
 
@@ -47,6 +47,8 @@ OnboardingFeature2Body = Reagoi sisältöön omalla äidinkielelläsi.
 OnboardingFeature3Title = Vapaaehtoista
 
 OnboardingFeature3Body = Voit lopettaa tai ohittaa milloin tahansa.
+
+OnboardingCTA = Aloitetaan
 
 TermsHelloTitle = Kiitos, kun tulit.
 
