@@ -84,7 +84,7 @@ export function SamiBarAnimation() {
             barsRef.current[i] = el;
           }}
           style={{
-            width: "20px",
+            width: i === 3 ? "30px" : i === 1 || i === 2 ? "10px" : "20px",
             height: `${config.baseH}px`,
             borderRadius: "44px",
             background: FLAG_COLORS[i],
