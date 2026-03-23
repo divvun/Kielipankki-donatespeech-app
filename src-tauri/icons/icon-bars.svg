@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">DonateSpeech bars app icon</title>
+  <desc id="desc">Four rounded bars in Sami flag colors with widths based on the in-app animation.</desc>
+
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="#f9f7ef" stroke="#e5e4e1" stroke-width="6"/>
+
+  <g filter="url(#softShadow)">
+    <rect x="128" y="192" width="56" height="200" rx="28" fill="#db241f"/>
+    <rect x="202" y="172" width="28" height="240" rx="14" fill="#fece04"/>
+    <rect x="248" y="182" width="28" height="220" rx="14" fill="#00722a"/>
+    <rect x="294" y="212" width="84" height="180" rx="42" fill="#0035ad"/>
+  </g>
+</svg>
