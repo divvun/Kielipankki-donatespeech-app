@@ -7,13 +7,13 @@ ThemesPageBody1Text = Välj ett ämne du vill prata om.
 
 ThemesPageBody2Text = Tjänsten vägleder dig vidare.
 
-StartButtonText = Start
+StartButtonText = Sätt igång
 
 StartRecording = Spela in
 
 StopRecording = Stoppa inspelning
 
-ContinueSchedule = Fortsätt
+ContinueSchedule = Låt oss börja
 
 RecordingFinishTitle = Bra berättat, tack så mycket!
 
@@ -25,23 +25,31 @@ DonatedLabelText = DU HAR DONERAT
 
 ChooseOptionText = Välj ett alternativ:
 
-InviteFriendButtonText = Berätta för en vän
+InviteFriendButtonText = Tipsa en vän
 
 DonateMoreButtonText = Donera mer
 
-InviteFriendTitle = Berätta för en vän
+InviteFriendTitle = Tipsa en vän
 
-InviteFriendTemplate = Jag donerade { $param0 } minuter av mitt tal. Donera du också! #hashtag https://example.com
+InviteFriendTemplate = Jag donerade { $param0 } minuter av min röst. Donera du också! #hashtag https://example.com
 
-InviteFriendNewbieTemplate = Jag har precis donerat mitt tal. Donera du också! #hashtag https://example.com
+InviteFriendNewbieTemplate = Jag har just donerat tal. Donera du också! #hashtag https://example.com
 
-OnboardingTitle = Välkommen
+OnboardingTitle = Din röst utvecklar språkteknologi
 
-OnboardingBody =
-    
-    Radbrytningar i detta element visas i slutresultatet.
-    
-    Detta är tredje raden av onboarding-texten.
+OnboardingBody = Donera några minuter av din röst. Det hjälper språkforskare att forska om och utveckla verktyg för samiska språk.
+
+OnboardingFeature1Title = Välj ett ämne du vill prata om
+
+OnboardingFeature1Body = Tjänsten visar dig vägen vidare.
+
+OnboardingFeature2Title = Spela in
+
+OnboardingFeature2Body = Kommentera innehållet på ditt eget modersmål.
+
+OnboardingFeature3Title = Frivilligt deltagande
+
+OnboardingFeature3Body = Du kan stoppa eller hoppa över när som helst.
 
 TermsHelloTitle = Tack för att du kom.
 
@@ -49,43 +57,37 @@ TermsHelloBody = Läs först denna grundläggande information om projektet. Där
 
 TermsGeneralTitle = Användarvillkor
 
-TermsGeneralBody =
-    
-    Radbrytningar i detta element visas i slutresultatet.
-    
-    Detta är tredje stycket av användarvillkorssidan.
+TermsGeneralBody = Radbrytningar som läggs till i detta element visas i slutresultatet. Detta är tredje stycket på sidan för användarvillkor.
 
 TermsGeneralLink = Mer information om kampanjen
 
-TermsGeneralUrl = https://example.com
+TermsGeneralUrl = 
 
 TermsOwnershipTitle = Vem?
 
-TermsOwnershipBody1 = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
+TermsOwnershipBody1 = 
 
-TermsOwnershipLink = Integritet
+TermsOwnershipLink = Integritetsskydd
 
-TermsOwnershipLinkUrl = https://example.com/tietosuoja
+TermsOwnershipLinkUrl = 
 
-TermsOwnershipBody2 =  enligt principerna som presenteras på sidan.
+TermsOwnershipBody2 = i enlighet med principerna som presenteras på sidan.
 
 TermsVoluntaryTitle = Helt frivilligt!
 
-TermsVoluntaryBody = Donation av tal och uppgivelse av personuppgifter är helt frivilligt.
+TermsVoluntaryBody = Att donera tal och lämna personuppgifter är helt frivilligt.
 
-TermsPrivacyTitle = Hur behandlas personuppgifter?
+TermsPrivacyTitle = Hur behandlas personuppgifterna?
 
-TermsPrivacyBody = Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
+TermsPrivacyBody = 
 
 TermsPrivacyLink = Mer information om behandling av personuppgifter
 
-TermsPrivacyUrl = https://example.com/tietosuoja
+TermsPrivacyUrl = 
 
-TermsRightsTitle = Rättigheter till tal
+TermsRightsTitle = Rättigheter kopplade till talet
 
-TermsRightsBody =
-    
-    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+TermsRightsBody = 
 
 TermsAppropriateUseTitle = Användning av applikationen
 
@@ -93,27 +95,27 @@ TermsAppropriateUseBody = Denna applikation är inte avsedd för delad användni
 
 TermsAdditionalTitle = Mer information
 
-TermsAdditionalWebsite = Kampanjens webbplats: 
+TermsAdditionalWebsite = Kampanjens webbplats:
 
-TermsAdditionalWebsiteLink = example.com
+TermsAdditionalWebsiteLink = 
 
-TermsAdditionalWebsiteUrl = https://example.com
+TermsAdditionalWebsiteUrl = 
 
 TermsAdditionalContact = Helsingfors universitet, Språkbanken
 
-TermsAdditionalLink = www.kielipankki.fi
+TermsAdditionalLink = 
 
-TermsAdditionalUrl = https://www.kielipankki.fi
+TermsAdditionalUrl = 
 
-TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
+TermsAdditionalEmail = 
 
-TermsAcceptBody = Genom att trycka på knappen Jag godkänner nedan godkänner jag villkoren ovan för taldonation. Om jag är under 18 år godkänner min vårdnadshavare villkoren för mig.
+TermsAcceptBody = Genom att trycka på knappen "Jag godkänner" nedan godkänner jag villkoren ovan för taldonation. Om jag är under 18 år godkänner min vårdnadshavare villkoren för min räkning.
 
 TermsAccept = Jag godkänner
 
 RecordingStoppedLimitTitle = Inspelning avbruten
 
-RecordingStoppedLimitMessage = Maximal inspelningstid nåddes och inspelningen stoppades automatiskt. Tack för donationen!
+RecordingStoppedLimitMessage = Maximal inspelningstid har uppnåtts och inspelningen stoppades automatiskt. Tack för donationen!
 
 RecordingApproachingLimitMessage = Maximal inspelningstid närmar sig. Du har ungefär en minut kvar.
 
