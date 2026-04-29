@@ -37,7 +37,7 @@
       "icons/icon.ico"
     ],
     "iOS": {
-      "minimumSystemVersion": "15.4"
+      "minimumSystemVersion": "16.0"
     }
   }
 }
