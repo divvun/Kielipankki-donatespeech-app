@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { subtractRecordedSeconds } from "../utils/preferences";
 import { getClientId } from "../utils/clientId";
@@ -25,6 +25,7 @@ export default function DetailsPage() {
   const [clientId] = useState(getClientId());
   const [copiedClientId, setCopiedClientId] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const totalRecorded = useTotalRecorded();
 
   const fetchRecordings = async () => {
@@ -84,7 +85,7 @@ export default function DetailsPage() {
   };
 
   const handleClose = () => {
-    navigate("/themes");
+    navigate(`/themes${location.search}`);
   };
 
   const copyClientId = async () => {

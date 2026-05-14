@@ -5,26 +5,14 @@ import {
 import type { LanguageCode } from "../contexts/LocalizationContext";
 import { useTranslation } from "../hooks/useTranslation";
 import { Globe } from "lucide-react";
-
-// Map language codes to localization keys
-const LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
-  fi: "LanguageFinnish",
-  nb: "LanguageNorwegian",
-  nn: "LanguageNynorsk",
-  se: "LanguageNorthSami",
-  sma: "LanguageSouthSami",
-  smj: "LanguageLuleSami",
-  smn: "LanguageInariSami",
-  sms: "LanguageSkoltSami",
-  sv: "LanguageSwedish",
-};
+import { THEME_LANGUAGE_NAME_KEYS } from "../utils/themeLanguage";
 
 function getLanguageOptions(
   getString: (id: string) => string,
 ): Array<{ code: LanguageCode; displayName: string }> {
   return Object.keys(SUPPORTED_LANGUAGES).map((code) => {
     const langCode = code as LanguageCode;
-    const nameKey = LANGUAGE_NAME_KEYS[langCode];
+    const nameKey = THEME_LANGUAGE_NAME_KEYS[langCode];
 
     return {
       code: langCode,
