@@ -27,6 +27,7 @@ import { useItemState } from "../hooks/useItemState";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { platformApi } from "../platform";
 import { SchedulePromptSection } from "@/components/SchedulePromptSection";
+import { getThemeLanguageFromSearch } from "../utils/themeLanguage";
 
 const isFakeYleMediaType = (itemType: string) =>
   itemType === "fake-yle-audio" || itemType === "fake-yle-video";
@@ -36,6 +37,8 @@ export default function SchedulePage() {
   const location = useLocation();
   const { getString } = useTranslation();
   const { currentLanguage } = useLocalization();
+  const requestedLanguage = getThemeLanguageFromSearch(location.search);
+  const scheduleLanguage = requestedLanguage ?? currentLanguage;
 
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -104,9 +107,9 @@ export default function SchedulePage() {
 
   useEffect(() => {
     if (scheduleId) {
-      loadSchedule(scheduleId);
+      loadSchedule(scheduleId, scheduleLanguage);
     }
-  }, [currentLanguage, scheduleId]);
+  }, [scheduleId, scheduleLanguage]);
 
   // Ensure each recording-enabled item starts with a fresh on-screen timer.
   useEffect(() => {
@@ -127,11 +130,11 @@ export default function SchedulePage() {
     }
   }, [schedule?.scheduleId, currentIndex]);
 
-  const loadSchedule = async (id: string) => {
+  const loadSchedule = async (id: string, language: string) => {
     setLoading(true);
     setError("");
     try {
-      const result = await platformApi.fetchSchedule(id, currentLanguage);
+      const result = await platformApi.fetchSchedule(id, language);
       console.log("Received schedule:", result);
 
       if (!result.items || result.items.length === 0) {

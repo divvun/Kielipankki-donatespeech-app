@@ -9,6 +9,7 @@ import { platformApi } from "../platform";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
 import { ScheduleStartSummary } from "../components/ScheduleStartSummary";
 import { ScheduleStartActions } from "../components/ScheduleStartActions";
+import { getThemeLanguageFromSearch } from "../utils/themeLanguage";
 
 export default function ScheduleStartPage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -17,6 +18,8 @@ export default function ScheduleStartPage() {
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
   const { currentLanguage } = useLocalization();
+  const requestedLanguage = getThemeLanguageFromSearch(location.search);
+  const scheduleLanguage = requestedLanguage ?? currentLanguage;
 
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,16 +27,16 @@ export default function ScheduleStartPage() {
 
   useEffect(() => {
     if (scheduleId) {
-      loadSchedule(scheduleId);
+      loadSchedule(scheduleId, scheduleLanguage);
     }
-  }, [currentLanguage, scheduleId]);
+  }, [scheduleId, scheduleLanguage]);
 
-  const loadSchedule = async (id: string) => {
-    console.log("Loading schedule for start page:", id);
+  const loadSchedule = async (id: string, language: string) => {
+    console.log("Loading schedule for start page:", id, "lang:", language);
     setLoading(true);
     setError("");
     try {
-      const result = await platformApi.fetchSchedule(id, currentLanguage);
+      const result = await platformApi.fetchSchedule(id, language);
       console.log("Received schedule:", result);
 
       if (!result.items || result.items.length === 0) {

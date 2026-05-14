@@ -109,12 +109,32 @@ export default function ThemesPage() {
       const availableThemes = themeAvailabilities.filter((theme) =>
         theme.availableLanguages.includes(language),
       );
-      const result = await Promise.all(
+      const result = await Promise.allSettled(
         availableThemes.map((theme) =>
           platformApi.fetchTheme(theme.id, language),
         ),
       );
-      setThemes(result);
+
+      const successfulThemes: Theme[] = [];
+      for (const settled of result) {
+        if (settled.status === "fulfilled") {
+          successfulThemes.push(settled.value);
+          continue;
+        }
+
+        console.warn(
+          "Skipping invalid localized theme payload:",
+          settled.reason,
+        );
+      }
+
+      setThemes(successfulThemes);
+
+      if (successfulThemes.length === 0 && availableThemes.length > 0) {
+        setError(
+          "No valid themes were available for this language. Please try another language.",
+        );
+      }
     } catch (err) {
       console.error("Error loading localized themes:", err);
       setError(String(err));
