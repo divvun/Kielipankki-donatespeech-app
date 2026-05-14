@@ -45,7 +45,7 @@ export default function ScheduleStartPage() {
 
   const startTitle = schedule?.start?.title
     ? getLocalizedText(schedule.start.title, currentLanguage)
-    : "Ready to begin";
+    : getString("ScheduleStartFallbackTitle");
   const startBody1 = schedule?.start?.body1
     ? getLocalizedText(schedule.start.body1, currentLanguage)
     : "";
@@ -62,7 +62,7 @@ export default function ScheduleStartPage() {
       <ScheduleErrorState
         error={error}
         onBack={handleBack}
-        backLabel="Back to Themes"
+        backLabel={getString("BackToThemesButtonText")}
       />
     );
   }

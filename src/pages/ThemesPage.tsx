@@ -131,9 +131,7 @@ export default function ThemesPage() {
       setThemes(successfulThemes);
 
       if (successfulThemes.length === 0 && availableThemes.length > 0) {
-        setError(
-          "No valid themes were available for this language. Please try another language.",
-        );
+        setError(getString("ThemesPageNoValidThemesError"));
       }
     } catch (err) {
       console.error("Error loading localized themes:", err);
@@ -275,7 +273,7 @@ export default function ThemesPage() {
                     {imageUrl ? (
                       <img
                         src={imageUrl}
-                        alt={title || "Theme"}
+                        alt={title || getString("ThemeFallbackAltText")}
                         className="w-14 h-14 rounded-xl object-cover shrink-0"
                       />
                     ) : (
@@ -292,7 +290,9 @@ export default function ThemesPage() {
                     {/* Right side: time badge + chevron */}
                     <div className="flex items-center gap-2 shrink-0">
                       <span className="px-2 py-1 rounded-full bg-muted text-[11px] font-semibold text-muted-foreground">
-                        {scheduleItemCount} items
+                        {getString("ThemesPageItemsCount", {
+                          count: scheduleItemCount,
+                        })}
                       </span>
                       <ChevronRight className="w-5 h-5 text-muted-foreground" />
                     </div>
@@ -322,7 +322,9 @@ export default function ThemesPage() {
           displayedThemes.length === 0 &&
           !error && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">No themes available</p>
+              <p className="text-muted-foreground mb-4">
+                {getString("ThemesPageEmptyText")}
+              </p>
               <Button
                 variant="outline"
                 onClick={() => navigate(getThemesPath())}
@@ -338,7 +340,9 @@ export default function ThemesPage() {
           themeAvailabilities.length === 0 &&
           !error && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">No themes available</p>
+              <p className="text-muted-foreground mb-4">
+                {getString("ThemesPageEmptyText")}
+              </p>
               <Button variant="outline" onClick={loadThemeAvailabilities}>
                 {getString("RetryScheduleItem")}
               </Button>

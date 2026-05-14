@@ -11,6 +11,7 @@ import {
 import { DetailsHeader } from "../components/DetailsHeader";
 import { DetailsPrivacyTab } from "../components/DetailsPrivacyTab";
 import { getThemesPathFromSearch } from "../utils/themeLanguage";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function DetailsPage() {
   const [clientId, setClientId] = useState(getClientId());
@@ -20,6 +21,7 @@ export default function DetailsPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const totalRecorded = useTotalRecorded();
+  const { getString } = useTranslation();
 
   const refreshIdentityState = () => {
     setClientId(getClientId());
@@ -44,10 +46,10 @@ export default function DetailsPage() {
     try {
       setActiveClientId(nextClientId);
       refreshIdentityState();
-      setIdentityMessage("Switched local identity.");
+      setIdentityMessage(getString("DetailsIdentitySwitchedMessage"));
     } catch (err) {
       console.error("Failed to switch identity:", err);
-      setIdentityMessage("Failed to switch identity.");
+      setIdentityMessage(getString("DetailsIdentitySwitchFailedMessage"));
     }
   };
 
@@ -55,17 +57,17 @@ export default function DetailsPage() {
     try {
       getOrCreateIdentityByEmail(email);
       refreshIdentityState();
-      setIdentityMessage("Email linked to local anonymous ID.");
+      setIdentityMessage(getString("DetailsIdentityEmailLinkedMessage"));
     } catch (err) {
       console.error("Failed to create email identity:", err);
-      setIdentityMessage("Please enter a valid email address.");
+      setIdentityMessage(getString("DetailsIdentityEmailInvalidMessage"));
     }
   };
 
   const handleCreateAnonymousIdentity = () => {
     createAnonymousIdentity();
     refreshIdentityState();
-    setIdentityMessage("Created a new local anonymous identity.");
+    setIdentityMessage(getString("DetailsIdentityCreatedMessage"));
   };
 
   return (
@@ -77,7 +79,9 @@ export default function DetailsPage() {
 
       <div className="flex px-5">
         <div className="flex-1 flex flex-col items-center gap-2 py-3">
-          <span className="text-sm font-semibold text-primary">Info</span>
+          <span className="text-sm font-semibold text-primary">
+            {getString("DetailsInfoTabTitle")}
+          </span>
           <div className="w-full h-0.5 rounded-full bg-primary" />
         </div>
       </div>

@@ -92,7 +92,9 @@ export default function SchedulePage() {
     } catch (err) {
       console.error("Error auto-stopping recording:", err);
       setActionError(
-        err instanceof Error ? err.message : "Failed to save recording",
+        err instanceof Error
+          ? err.message
+          : getString("RecordingSaveFailedError"),
       );
     } finally {
       setSaving(false);
@@ -251,7 +253,7 @@ export default function SchedulePage() {
       <ScheduleErrorState
         error={actionError || error}
         onBack={handleBack}
-        backLabel="Back to Themes"
+        backLabel={getString("BackToThemesButtonText")}
       />
     );
   }
