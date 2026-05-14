@@ -527,19 +527,43 @@ pub fn fix_client_ids(
 
 /// Tauri command to read a file and return its contents as base64
 #[tauri::command]
-pub fn read_file_as_base64(file_path: String) -> Result<String, String> {
-    let data = std::fs::read(&file_path)
+pub fn read_file_as_base64(app_handle: AppHandle, file_path: String) -> Result<String, String> {
+    let app_data_dir = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+
+    let canonical_path = std::fs::canonicalize(&file_path)
+        .map_err(|e| format!("Invalid path {}: {}", file_path, e))?;
+
+    if !canonical_path.starts_with(&app_data_dir) {
+        return Err("Access denied: path is outside the app data directory".to_string());
+    }
+
+    let data = std::fs::read(&canonical_path)
         .map_err(|e| format!("Failed to read file {}: {}", file_path, e))?;
-    
+
     let base64_data = base64::engine::general_purpose::STANDARD.encode(&data);
     Ok(base64_data)
 }
 
 /// Tauri command to delete a file
 #[tauri::command]
-pub fn delete_file(file_path: String) -> Result<(), String> {
-    if std::path::Path::new(&file_path).exists() {
-        std::fs::remove_file(&file_path)
+pub fn delete_file(app_handle: AppHandle, file_path: String) -> Result<(), String> {
+    let app_data_dir = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+
+    let canonical_path = std::fs::canonicalize(&file_path)
+        .map_err(|e| format!("Invalid path {}: {}", file_path, e))?;
+
+    if !canonical_path.starts_with(&app_data_dir) {
+        return Err("Access denied: path is outside the app data directory".to_string());
+    }
+
+    if canonical_path.exists() {
+        std::fs::remove_file(&canonical_path)
             .map_err(|e| format!("Failed to delete file {}: {}", file_path, e))?;
     }
     Ok(())
