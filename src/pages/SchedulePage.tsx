@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import type { Schedule } from "../types/Schedule";
 import {
   getItemMediaUrl,
   getStateMediaUrl,
@@ -24,8 +23,8 @@ import { getClientId } from "../utils/clientId";
 import { useTranslation } from "../hooks/useTranslation";
 import { getLocalizedText } from "../utils/localization";
 import { useItemState } from "../hooks/useItemState";
+import { useSchedule } from "../hooks/useSchedule";
 import { useLocalization } from "../contexts/LocalizationContext";
-import { platformApi } from "../platform";
 import { SchedulePromptSection } from "@/components/SchedulePromptSection";
 import { getThemeLanguageFromSearch } from "../utils/themeLanguage";
 
@@ -40,14 +39,18 @@ export default function SchedulePage() {
   const requestedLanguage = getThemeLanguageFromSearch(location.search);
   const scheduleLanguage = requestedLanguage ?? currentLanguage;
 
-  const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [currentMediaUrl, setCurrentMediaUrl] = useState<string>("");
   const [mediaError, setMediaError] = useState<string>("");
+  const [actionError, setActionError] = useState<string>("");
   const [answers, setAnswers] = useState<Record<string, string>>({});
+
+  const { schedule, loading, error } = useSchedule({
+    scheduleId,
+    language: scheduleLanguage,
+    noItemsError: getString("SchedulePageNoItemsError"),
+  });
 
   const handleAnswerChange = useCallback((itemId: string, answer: string) => {
     // Avoid unnecessary rerenders when prompt components emit the same value.
@@ -84,7 +87,9 @@ export default function SchedulePage() {
       handleContinue();
     } catch (err) {
       console.error("Error auto-stopping recording:", err);
-      setError(err instanceof Error ? err.message : "Failed to save recording");
+      setActionError(
+        err instanceof Error ? err.message : "Failed to save recording",
+      );
     } finally {
       setSaving(false);
     }
@@ -106,10 +111,8 @@ export default function SchedulePage() {
   );
 
   useEffect(() => {
-    if (scheduleId) {
-      loadSchedule(scheduleId, scheduleLanguage);
-    }
-  }, [scheduleId, scheduleLanguage]);
+    setCurrentIndex(0);
+  }, [schedule?.scheduleId]);
 
   // Ensure each recording-enabled item starts with a fresh on-screen timer.
   useEffect(() => {
@@ -129,27 +132,6 @@ export default function SchedulePage() {
       recording.resetDuration();
     }
   }, [schedule?.scheduleId, currentIndex]);
-
-  const loadSchedule = async (id: string, language: string) => {
-    setLoading(true);
-    setError("");
-    try {
-      const result = await platformApi.fetchSchedule(id, language);
-      console.log("Received schedule:", result);
-
-      if (!result.items || result.items.length === 0) {
-        setError(getString("SchedulePageNoItemsError"));
-        return;
-      }
-      setSchedule(result);
-      setCurrentIndex(0);
-    } catch (err) {
-      console.error("Error loading schedule:", err);
-      setError(String(err));
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     const loadMediaUrl = async () => {
@@ -193,22 +175,18 @@ export default function SchedulePage() {
   };
 
   const handleNext = () => {
-    if (schedule && currentIndex < schedule.items.length - 1)
-      setCurrentIndex(currentIndex + 1);
+    if (!schedule || currentIndex >= schedule.items.length - 1) {
+      return;
+    }
+
+    setCurrentIndex((prev) => prev + 1);
   };
 
   const handleContinue = () => {
-    console.log(
-      "handleContinue called, currentIndex:",
-      currentIndex,
-      "total items:",
-      schedule?.items.length,
-    );
     if (schedule && currentIndex < schedule.items.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex((prev) => prev + 1);
     } else {
       if (schedule && scheduleId) {
-        console.log("Navigating to finish page for schedule:", scheduleId);
         navigate(`/schedule/${scheduleId}/finish${location.search}`, {
           state: {
             finish: schedule.finish ?? null,
@@ -216,11 +194,6 @@ export default function SchedulePage() {
           },
           replace: true,
         });
-      } else {
-        console.error(
-          "Cannot navigate to finish: schedule or scheduleId missing",
-          { schedule, scheduleId },
-        );
       }
     }
   };
@@ -243,9 +216,6 @@ export default function SchedulePage() {
         autoUpload.uploadNow();
       } catch (err) {
         console.error("Error saving recording:", err);
-        setError(
-          err instanceof Error ? err.message : "Failed to save recording",
-        );
       } finally {
         setSaving(false);
       }
@@ -257,9 +227,6 @@ export default function SchedulePage() {
         // The useItemState hook will auto-transition to "recording" when isRecording becomes true
       } catch (err) {
         console.error("Error starting recording:", err);
-        setError(
-          err instanceof Error ? err.message : "Failed to start recording",
-        );
       }
     }
   };
@@ -272,10 +239,10 @@ export default function SchedulePage() {
     return <ScheduleLoadingState />;
   }
 
-  if (error || !schedule || !currentItem) {
+  if (error || actionError || !schedule || !currentItem) {
     return (
       <ScheduleErrorState
-        error={error}
+        error={actionError || error}
         onBack={handleBack}
         backLabel="Back to Themes"
       />
