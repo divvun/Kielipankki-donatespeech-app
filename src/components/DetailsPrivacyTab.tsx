@@ -1,20 +1,41 @@
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Check, Copy } from "lucide-react";
+import { useState } from "react";
+import type { LocalIdentity } from "../utils/clientId";
+import { formatTotalRecorded } from "../utils/preferences";
 interface DetailsPrivacyTabProps {
   clientId: string;
   copiedClientId: boolean;
   onCopyClientId: () => void;
+  identities: LocalIdentity[];
+  activeClientId: string;
+  identityMessage: string;
+  onSwitchIdentity: (clientId: string) => void;
+  onCreateIdentityByEmail: (email: string) => void;
+  onCreateAnonymousIdentity: () => void;
 }
 
 export function DetailsPrivacyTab({
   clientId,
   copiedClientId,
   onCopyClientId,
+  identities,
+  activeClientId,
+  identityMessage,
+  onSwitchIdentity,
+  onCreateIdentityByEmail,
+  onCreateAnonymousIdentity,
 }: DetailsPrivacyTabProps) {
   const { getString } = useTranslation();
+  const [newEmail, setNewEmail] = useState("");
   const openLink = (url: string) => {
     window.open(url, "_blank");
+  };
+
+  const createEmailIdentity = () => {
+    onCreateIdentityByEmail(newEmail);
+    setNewEmail("");
   };
 
   return (
@@ -90,6 +111,66 @@ export function DetailsPrivacyTab({
             </>
           )}
         </Button>
+      </div>
+
+      {/* Local Identity Manager */}
+      <div className="bg-white border border-border rounded-2xl p-5 flex flex-col gap-3">
+        <h3 className="text-base font-bold text-foreground">
+          Local identities
+        </h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Email to client ID mapping is stored on this device only.
+        </p>
+
+        <label className="text-xs text-muted-foreground">
+          Current identity
+        </label>
+        <select
+          value={activeClientId}
+          onChange={(event) => onSwitchIdentity(event.target.value)}
+          className="h-10 rounded-lg border border-border bg-background px-3 text-sm text-foreground"
+        >
+          {identities.map((identity) => {
+            const recordedText = formatTotalRecorded(
+              identity.recordedSeconds ?? 0,
+            );
+            const label = identity.email
+              ? `${identity.email} (${recordedText}) ${identity.clientId.slice(0, 8)}`
+              : `Anonymous (${recordedText}) ${identity.clientId.slice(0, 8)}`;
+
+            return (
+              <option key={identity.clientId} value={identity.clientId}>
+                {label}
+              </option>
+            );
+          })}
+        </select>
+
+        <label className="text-xs text-muted-foreground">New user email</label>
+        <div className="flex gap-2">
+          <input
+            type="email"
+            value={newEmail}
+            onChange={(event) => setNewEmail(event.target.value)}
+            placeholder="name@example.com"
+            className="h-10 flex-1 rounded-lg border border-border bg-background px-3 text-sm text-foreground"
+          />
+          <Button onClick={createEmailIdentity} className="rounded-lg">
+            Use email
+          </Button>
+        </div>
+
+        <Button
+          onClick={onCreateAnonymousIdentity}
+          variant="outline"
+          className="rounded-lg"
+        >
+          Create new anonymous identity
+        </Button>
+
+        {identityMessage ? (
+          <p className="text-xs text-muted-foreground">{identityMessage}</p>
+        ) : null}
       </div>
     </div>
   );

@@ -1,16 +1,29 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
-import { getClientId } from "../utils/clientId";
+import {
+  createAnonymousIdentity,
+  getClientId,
+  getLocalIdentities,
+  getOrCreateIdentityByEmail,
+  setActiveClientId,
+} from "../utils/clientId";
 import { DetailsHeader } from "../components/DetailsHeader";
 import { DetailsPrivacyTab } from "../components/DetailsPrivacyTab";
 
 export default function DetailsPage() {
-  const [clientId] = useState(getClientId());
+  const [clientId, setClientId] = useState(getClientId());
+  const [identities, setIdentities] = useState(getLocalIdentities());
   const [copiedClientId, setCopiedClientId] = useState(false);
+  const [identityMessage, setIdentityMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const totalRecorded = useTotalRecorded();
+
+  const refreshIdentityState = () => {
+    setClientId(getClientId());
+    setIdentities(getLocalIdentities());
+  };
 
   const handleClose = () => {
     navigate(`/themes${location.search}`);
@@ -24,6 +37,34 @@ export default function DetailsPage() {
     } catch (err) {
       console.error("Failed to copy client ID:", err);
     }
+  };
+
+  const handleSwitchIdentity = (nextClientId: string) => {
+    try {
+      setActiveClientId(nextClientId);
+      refreshIdentityState();
+      setIdentityMessage("Switched local identity.");
+    } catch (err) {
+      console.error("Failed to switch identity:", err);
+      setIdentityMessage("Failed to switch identity.");
+    }
+  };
+
+  const handleCreateIdentityByEmail = (email: string) => {
+    try {
+      getOrCreateIdentityByEmail(email);
+      refreshIdentityState();
+      setIdentityMessage("Email linked to local anonymous ID.");
+    } catch (err) {
+      console.error("Failed to create email identity:", err);
+      setIdentityMessage("Please enter a valid email address.");
+    }
+  };
+
+  const handleCreateAnonymousIdentity = () => {
+    createAnonymousIdentity();
+    refreshIdentityState();
+    setIdentityMessage("Created a new local anonymous identity.");
   };
 
   return (
@@ -45,6 +86,12 @@ export default function DetailsPage() {
           clientId={clientId}
           copiedClientId={copiedClientId}
           onCopyClientId={copyClientId}
+          identities={identities}
+          activeClientId={clientId}
+          identityMessage={identityMessage}
+          onSwitchIdentity={handleSwitchIdentity}
+          onCreateIdentityByEmail={handleCreateIdentityByEmail}
+          onCreateAnonymousIdentity={handleCreateAnonymousIdentity}
         />
       </div>
     </div>

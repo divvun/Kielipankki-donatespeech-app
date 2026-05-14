@@ -1,44 +1,38 @@
 /**
- * Simple preferences storage using localStorage
+ * Per-identity preferences storage using localStorage
+ * Recorded seconds are now tracked per local identity via clientId utility
  */
 
-const TOTAL_RECORDED_SECONDS_KEY = "totalRecordedSeconds";
-const DEFAULT_TOTAL_RECORDED_SECONDS = 0;
-
-function parseRecordedSeconds(value: string | null): number {
-  if (!value) {
-    return DEFAULT_TOTAL_RECORDED_SECONDS;
-  }
-
-  const parsed = parseInt(value, 10);
-  return Number.isNaN(parsed) ? DEFAULT_TOTAL_RECORDED_SECONDS : parsed;
-}
+import {
+  getClientId,
+  getIdentityRecordedSeconds,
+  addIdentityRecordedSeconds,
+  subtractIdentityRecordedSeconds,
+} from "./clientId";
 
 /**
- * Get the total recorded seconds
+ * Get the total recorded seconds for the current active identity
  */
 export function getTotalRecordedSeconds(): number {
-  const value = localStorage.getItem(TOTAL_RECORDED_SECONDS_KEY);
-  return parseRecordedSeconds(value);
+  const clientId = getClientId();
+  return getIdentityRecordedSeconds(clientId);
 }
 
 /**
- * Add seconds to the total recorded time
+ * Add seconds to the total recorded time for current active identity
  */
 export function addRecordedSeconds(seconds: number): void {
-  const current = getTotalRecordedSeconds();
-  const newTotal = current + Math.abs(seconds);
-  localStorage.setItem(TOTAL_RECORDED_SECONDS_KEY, newTotal.toString());
+  const clientId = getClientId();
+  addIdentityRecordedSeconds(clientId, seconds);
 }
 
 /**
- * Subtract seconds from the total recorded time
+ * Subtract seconds from the total recorded time for current active identity
  * Used when deleting recordings
  */
 export function subtractRecordedSeconds(seconds: number): void {
-  const current = getTotalRecordedSeconds();
-  const newTotal = Math.max(0, current - Math.abs(seconds));
-  localStorage.setItem(TOTAL_RECORDED_SECONDS_KEY, newTotal.toString());
+  const clientId = getClientId();
+  subtractIdentityRecordedSeconds(clientId, seconds);
 }
 
 /**

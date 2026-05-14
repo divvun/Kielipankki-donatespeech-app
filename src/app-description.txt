@@ -1,0 +1,44 @@
+Hi, and thanks for starting the contribution of the material for the app!
+
+The app is mostly geared towards using images and video as the presentation media with short descriptions of what’s in the media rectangle. 
+
+If you haven't had a look at the demo app, here's the format of most of the screens that will be presented to the user.
+
++----------------------------+
+|         NavBar             |
++----------------------------+
+|                            |
+| +------------------------+ |
+| |                        | |
+| |    Media rectangle     | |
+| |                        | |
+| +------------------------+ |
+|                            |
+| +------------------------+ |
+|  title.                    |
+|  body1 (short).            |
+|  body2 (short as well).    |
+| +------------------------+ |
++----------------------------+
+|    [Continue/Record] |     |
++----------------------------+
+
+The media rectangle typically contains an image or a video. Audio and text are other options 
+for the media rectangle.
+Below that, there is a short text to comment the theme.
+
+*I* fear that text content may be too heavy for this format, but I'm not going to argue if you'd like text content :)
+
+A *theme* has an intro screen, *3 to 8* recording sessions and a common conclusion screen.
+The conclusion screen asks people to continue donating and/or sharing the app with a friend.
+
+The recording sessions are set up like this:
+
+Pre recording screen: Intro to what the user will be talking about, with start recording button
+Recording screen: either the same content as the in the pre screen, or new content, with activated recording
+Post recording screen: Screen thanking the user for the contribution, with continue button
+
+Each link below represents one recording session.
+
+So, for each of the links below, the content creators must decide what goes into each of the screens.
+I can extract the video, text and images from the news articles below, and they can be presented in the media rectangle. You'll have to decide what goes into the pre, record and post screens and make use of the title, body1 and body2 to present the media and ask questions for the users to answer.

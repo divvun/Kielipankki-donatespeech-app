@@ -1,0 +1,78 @@
+key;fi;nn;sv;sma;sme;smj;smn;sms
+ThemesPageTitleText;Pulistaan meille parempia palveluja!;La oss byggje betre tenester!;Låt oss bygga bättre tjänster!;;;;;
+ThemesPageBody1Text;Valitse aihe, josta haluat puhua.;Vel eit tema du vil snakke om.;Välj ett ämne du vill prata om.;;;;;
+ThemesPageBody2Text;Palvelu opastaa sinua eteenpäin.;Tenesta vil rettleie deg vidare.;Tjänsten vägleder dig vidare.;;;;;
+StartButtonText;Aloita;Set i gang;Sätt igång;;;;;
+StartRecording;Äänitä;Ta opp;Spela in;;;;;
+StopRecording;Lopeta äänitys;Stopp opptak;Stoppa inspelning;;;;;
+ContinueSchedule;Aloitetaan;La oss starte;Låt oss börja;;;;;
+RecordingFinishTitle;Hyvin kerrottu, paljon kiitoksia!;Godt fortalt, tusen takk!;Bra berättat, tack så mycket!;;;;;
+DetailsButtonText;Lisätietoa;Meir informasjon;Mer information;;;;;
+ExitButtonText;Poistu;Avslutt;Avsluta;;;;;
+DonatedLabelText;OLET LAHJOITTANUT;DU HAR DONERT;DU HAR DONERAT;;;;;
+ChooseOptionText;Valitse vaihtoehto:;Vel eit alternativ:;Välj ett alternativ:;;;;;
+InviteFriendButtonText;Kerro kaverille;Fortel ein ven;Tipsa en vän;;;;;
+DonateMoreButtonText;Lahjoita lisää;Doner meir;Donera mer;;;;;
+InviteFriendTitle;Kerro kaverille;Fortel ein ven;Tipsa en vän;;;;;
+InviteFriendTemplate;Lahjoitin puhettani { $param0 } minuuttia. Lahjoita sinäkin! #hashtag https://example.com;Eg donerte { $param0 } minutt av talen min. Doner du òg! #hashtag https://example.com;Jag donerade { $param0 } minuter av min röst. Donera du också! #hashtag https://example.com;;;;;
+InviteFriendNewbieTemplate;Lahjoitin juuri puhettani. Lahjoita sinäkin! #hashtag https://example.com;Eg har nettopp donert tale. Doner du òg! #hashtag https://example.com;Jag har just donerat tal. Donera du också! #hashtag https://example.com;;;;;
+OnboardingTitle;Äänesi kehittää kieliteknologiaa;Stemma di utviklar språkteknologi;Din röst utvecklar språkteknologi;;;;;
+OnboardingBody;Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään saamen kielen tutkimusta ja työkaluja.;Doner nokre minutt av stemma di. Det hjelper språkforskarar med å forske på og utvikle verktøy for samiske språk.;Donera några minuter av din röst. Det hjälper språkforskare att forska om och utveckla verktyg för samiska språk.;;;;;
+OnboardingFeature1Title;Valitse aihe, josta haluat puhua;Vel eit tema du vil snakke om;Välj ett ämne du vill prata om;;;;;
+OnboardingFeature1Body;Palvelu opastaa sinua eteenpäin.;Tenesta viser deg vegen vidare.;Tjänsten visar dig vägen vidare.;;;;;
+OnboardingFeature2Title;Äänitä;Gjer opptak;Spela in;;;;;
+OnboardingFeature2Body;Reagoi sisältöön omalla äidinkielelläsi.;Kommenter innhaldet på ditt eige morsmål.;Kommentera innehållet på ditt eget modersmål.;;;;;
+OnboardingFeature3Title;Vapaaehtoista;Frivillig deltaking;Frivilligt deltagande;;;;;
+OnboardingFeature3Body;Voit lopettaa tai ohittaa milloin tahansa.;Du kan stoppe eller hoppe over når som helst.;Du kan stoppa eller hoppa över när som helst.;;;;;
+TermsHelloTitle;Kiitos, kun tulit.;Takk for at du kom.;Tack för att du kom.;;;;;
+TermsHelloBody;Lue ensin nämä perustiedot hankkeesta. Sen jälkeen voit valita sinua kiinnostavan aihepiirin ja lahjoittaa puhettasi.;Les først denne grunnleggjande informasjonen om prosjektet. Deretter kan du velje eit emne som interesserer deg og donere talen din.;Läs först denna grundläggande information om projektet. Därefter kan du välja ett ämne som intresserar dig och donera ditt tal.;;;;;
+TermsGeneralTitle;Käyttöehtosivun otsikko;Brukarvilkår;Användarvillkor;;;;;
+TermsGeneralBody;"
+
+Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
+
+Tämä on käyttöehtosivun kolmas kappale.";"
+
+Linjeskift lagt til dette elementet blir vist i sluttresultatet.
+
+Dette er tredje avsnitt av brukarvilkårssida.";Radbrytningar som läggs till i detta element visas i slutresultatet. Detta är tredje stycket på sidan för användarvillkor.;;;;;
+TermsGeneralLink;Lisätietoja kampanjasta;Meir informasjon om kampanjen;Mer information om kampanjen;;;;;
+TermsGeneralUrl;https://example.com;https://example.com;;;;;;
+TermsOwnershipTitle;Kuka?;Kven?;Vem?;;;;;
+TermsOwnershipBody1;;;;;;;;
+TermsOwnershipLink;Tietosuoja;Personvern;Integritetsskydd;;;;;
+TermsOwnershipLinkUrl;https://example.com/tietosuoja;https://example.com/tietosuoja;;;;;;
+TermsOwnershipBody2;-sivulla esitettyjä periaatteita noudattaen.;i samsvar med prinsippa presentert på sida.;i enlighet med principerna som presenteras på sidan.;;;;;
+TermsVoluntaryTitle;Täysin vapaaehtoista!;Heilt frivillig!;Helt frivilligt!;;;;;
+TermsVoluntaryBody;Puheen lahjoittaminen ja henkilötietojen ilmoittaminen on täysin vapaaehtoista.;Å donera tale og gje personopplysningar er heilt frivillig.;Att donera tal och lämna personuppgifter är helt frivilligt.;;;;;
+TermsPrivacyTitle;Miten henkilötietoja käsitellään?;Korleis blir personopplysningane behandla?;Hur behandlas personuppgifterna?;;;;;
+TermsPrivacyBody;;;;;;;;
+TermsPrivacyLink;Lisätietoa henkilötietojen käsittelystä;Meir informasjon om behandling av personopplysningar;Mer information om behandling av personuppgifter;;;;;
+TermsPrivacyUrl;https://example.com/tietosuoja;https://example.com/tietosuoja;;;;;;
+TermsRightsTitle;Oikeudet puheeseen;Rettar knytt til talen;Rättigheter kopplade till talet;;;;;
+TermsRightsBody;;;;;;;;
+TermsAppropriateUseTitle;Sovelluksen käyttäminen;Bruk av applikasjonen;Användning av applikationen;;;;;
+TermsAppropriateUseBody;Tämä sovellus ei ole tarkoitettu yhteiskäyttöön. Kaikkien lahjoittajien tulee käyttää lahjoittaessaan omaa laitettaan.;Denne applikasjonen er ikkje meint for delt bruk. Alle donatorar må bruke si eiga eining når dei donerer.;Denna applikation är inte avsedd för delad användning. Alla donatorer måste använda sin egen enhet när de donerar.;;;;;
+TermsAdditionalTitle;Lisätietoa;Meir informasjon;Mer information;;;;;
+TermsAdditionalWebsite;Kampanjan sivusto:;Kampanjen si nettside:;Kampanjens webbplats:;;;;;
+TermsAdditionalWebsiteLink;example.com;example.com;;;;;;
+TermsAdditionalWebsiteUrl;https://example.com;https://example.com;;;;;;
+TermsAdditionalContact;Helsingin yliopisto, Kielipankki;Universitetet i Helsinki, Språkbanken;Helsingfors universitet, Språkbanken;;;;;
+TermsAdditionalLink;www.kielipankki.fi;www.kielipankki.fi;;;;;;
+TermsAdditionalUrl;https://www.kielipankki.fi;https://www.kielipankki.fi;;;;;;
+TermsAdditionalEmail;hankkeen-nimi@kielipankki.fi;hankkeen-nimi@kielipankki.fi;;;;;;
+TermsAcceptBody;Painamalla alla olevaa Hyväksyn-nappia hyväksyn edellä olevat puheen lahjoittamisen ehdot. Jos olen alle 18-vuotias, huoltajani hyväksyy ehdot puolestani.;Ved å trykke på Eg godtar-knappen nedanfor godtar eg vilkåra ovanfor for taledonasjon. Om eg er under 18 år, godtar verja mi vilkåra på mine vegne.;"Genom att trycka på knappen ""Jag godkänner"" nedan godkänner jag villkoren ovan för taldonation. Om jag är under 18 år godkänner min vårdnadshavare villkoren för min räkning.";;;;;
+TermsAccept;Hyväksyn;Eg godtar;Jag godkänner;;;;;
+RecordingStoppedLimitTitle;Äänitys keskeytetty;Opptak avbrote;Inspelning avbruten;;;;;
+RecordingStoppedLimitMessage;Äänityksen enimmäisaika tuli täyteen ja äänitys keskeytettiin automaattisesti. Kiitos lahjoituksesta!;Maksimal opptakstid vart nådd og opptaket vart automatisk stoppa. Takk for donasjonen!;Maximal inspelningstid har uppnåtts och inspelningen stoppades automatiskt. Tack för donationen!;;;;;
+RecordingApproachingLimitMessage;Äänityksen enimmäisaika lähestyy. Sinulla on noin yksi minuutti aikaa jäljellä.;Maksimal opptakstid nærmar seg. Du har omtrent eitt minutt igjen.;Maximal inspelningstid närmar sig. Du har ungefär en minut kvar.;;;;;
+ChooseLanguageTitle;Valitse kieli;Vel språk;Välj språk;;;;;
+LanguageFinnish;Suomi;Finsk;Finska;;;;;
+LanguageNorwegian;Norja (bokmål);Norsk (bokmål);Norska (bokmål);;;;;
+LanguageNorthSami;Pohjoissaame;Nordsamisk;Nordsamiska;;;;;
+LanguageLuleSami;Luulajansaame;Lulesamisk;Lulesamiska;;;;;
+LanguageSouthSami;Eteläsaame;Sørsamisk;Sydsamiska;;;;;
+LanguageInariSami;Inarinsaame;Enaresamisk;Enaresamiska;;;;;
+LanguageSkoltSami;Koltansaame;Skoltesamisk;Skoltsamiska;;;;;
+LanguageSwedish;Ruotsi;Svensk;Svenska;;;;;
+LanguageNynorsk;Norja (nynorsk);Norsk (nynorsk);Norska (nynorsk);;;;;

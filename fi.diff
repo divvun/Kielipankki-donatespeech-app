@@ -1,0 +1,215 @@
+diff --git a/src/locales/fi.ftl b/src/locales/fi.ftl
+index b825b44..dbefff7 100644
+--- a/src/locales/fi.ftl
++++ b/src/locales/fi.ftl
+@@ -1,3 +1,12 @@
++# Generated from AppResources.resx
++# Do not edit manually - use convert-resx-to-ftl.js script
++
++PromptMetaTitle = Auta tutkijaa
++
++MediaMetaTitle = Lahjoitus { $param0 }/{ $param1 }
++
++NonRecordingMediaMetaTitle = Katso tai kuuntele
++
+ ThemesPageTitleText = Pulistaan meille parempia palveluja!
+ 
+ ThemesPageBody1Text = Valitse aihe, josta haluat puhua.
+@@ -10,22 +19,50 @@ StartRecording = Äänitä
+ 
+ StopRecording = Lopeta äänitys
+ 
+-ContinueSchedule = Aloitetaan
++ContinueSchedule = Jatka
++
++SkipScheduleItem = Ohita
++
++RetryScheduleItem = Kokeile uudelleen
+ 
+ RecordingFinishTitle = Hyvin kerrottu, paljon kiitoksia!
+ 
+ DetailsButtonText = Lisätietoa
+ 
++CloseButtonText = Sulje
++
+ ExitButtonText = Poistu
+ 
+ DonatedLabelText = OLET LAHJOITTANUT
+ 
+ ChooseOptionText = Valitse vaihtoehto:
+ 
++PrimaryNativeLanguageLabelText = Ensimmäinen äidinkieli:
++
++SecondaryNativeLanguageLabelText = Toinen äidinkieli:
++
++ReadMoreLinkLabelText = Lue lisää tietosuojasta.
++
++PrivacyPolicyUrl = https://example.com
++
+ InviteFriendButtonText = Kerro kaverille
+ 
+ DonateMoreButtonText = Lahjoita lisää
+ 
++NextButtonText = Seuraava
++
++TryAgainButtonText = Kokeile uudelleen
++
++LoadFailedAlertTitle = Virhe
++
++LoadFailedAlertMessage = Sisällön lataus ei onnistunut. Tarkista verkkoyhteys ja yritä uudelleen painamalla Jatka.
++
++LoadFailedAlertContinue = Jatka
++
++LoadFailedAlertCancel = Poistu
++
++StartTypingLabelText = Kirjoita muutama kirjain nimen alusta ja valitse sitten listalta:
++
+ InviteFriendTitle = Kerro kaverille
+ 
+ InviteFriendTemplate = Lahjoitin puhettani { $param0 } minuuttia. Lahjoita sinäkin! #hashtag https://example.com
+@@ -34,19 +71,77 @@ InviteFriendNewbieTemplate = Lahjoitin juuri puhettani. Lahjoita sinäkin! #hash
+ 
+ OnboardingTitle = Äänesi kehittää kieliteknologiaa
+ 
+-OnboardingBody1 = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään saamen kielen tutkimusta ja työkaluja.
++OnboardingBody = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään suomen ja saamen kielen tutkimusta ja työkaluja.
+ 
+ OnboardingFeature1Title = Valitse aihe, josta haluat puhua
+ 
+-OnboardingFeature1Body = Palvelu opastaa sinua eteenpäin.
+-
+ OnboardingFeature2Title = Äänitä
+ 
+-OnboardingFeature2Body = Reagoi sisältöön omalla äidinkielelläsi.
++OnboardingFeature2Desc = Reagoi sisältöön omalla äidinkielelläsi.
+ 
+ OnboardingFeature3Title = Vapaaehtoista
+ 
+-OnboardingFeature3Body = Voit lopettaa tai ohittaa milloin tahansa.
++OnboardingFeature3Desc = Voit lopettaa tai ohittaa milloin tahansa.
++
++OnboardingCTA = Aloitetaan
++
++DetailsGeneralTitle = Lisätietosivun otsikko
++
++DetailsGeneralBody =
++    
++    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
++    
++    Sovellusta ei ole tarkoitettu yhteiskäyttöön, vaan jokaisen käyttäjän tulee käyttää omaa laitettaan. Tämä mahdollistaa sen, että jokainen voi itse hyväksyä nämä tiedot ja tarvittaessa myös poistaa äänitteensä laitekohtaisen tunnisteen perusteella. Tunniste löytyy tämän sivun alalaidasta.
++
++DetailsGeneralLinkTitle = Lue lisää hankkeen nettisivuilta
++
++DetailsPrivacyTitle = Tietosuojasi on meille tärkeää
++
++DetailsPrivacyBody =
++    
++    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
++    
++    Tämä on tietosuojaa käsittelevän teksti kolmas kappale.
++
++DetailsPrivacyLinkTitle = Lue lisää tietosuojasta
++
++DetailsRemoveTitle = Äänitteiden poistaminen
++
++DetailsRemoveBody1 = Ota talteen tämä tunniste, jotta voit halutessasi perua tällä sovelluksen asennuksella tehdyt lahjoitukset. Poistaaksesi lahjoituksesi sinun tulee lähettää tunniste osoitteeseen 
++
++DetailsRemoveEmail = your-feedback-email
++
++DetailsRemoveEmailLink = your-feedback-email
++
++DetailsRemoveBody2 =
++    
++    Jos poistat sovelluksen ja asennat sen uudestaan, sinun täytyy ottaa talteen uusi tunniste. Näet sovelluksesta ainoastaan nykyisen tunnisteen, et edellisiä. Käyttäessäsi palvelua selaimessa täytyy sinun ottaa talteen selainkohtainen tunnisteesi.
++    
++    Tämän sovelluksen asennuskohtainen tunnisteesi on:
++
++DetailsRemoveButtonTitle = KOPIOI TUNNISTE
++
++DetailsRemoveButtonClickedTitle = KOPIOITU
++
++DetailsRemoveButtonMessage = Muista tallentaa kopiomasi tunniste!
++
++PermissionRationaleTitle = Lupa äänittää
++
++PermissionRationaleMessage = Sovellus tarvitsee luvan käyttää laitteesi mikrofonia jotta puheesi voidaan äänittää lahjoitusta varten.
++
++PermissionRationaleDismiss = OK
++
++PermissionDeniedTitle = Äänitys estetty
++
++PermissionDeniedMessage = Valitettavasti sovelluksen lupa äänittää on estetty. Voit korjata tilanteen antamalla luvan laitteen asetuksista.
++
++PermissionDeniedDismiss = OK
++
++NoChoiceOption = Ei valintaa
++
++TermsPageTitle = Käyttöehdot
++
++TermsPageSubtitle = Tarkista ja hyväksy ensin käyttöehdot.
+ 
+ TermsHelloTitle = Kiitos, kun tulit.
+ 
+@@ -54,7 +149,7 @@ TermsHelloBody = Lue ensin nämä perustiedot hankkeesta. Sen jälkeen voit vali
+ 
+ TermsGeneralTitle = Käyttöehtosivun otsikko
+ 
+-TermsGeneralBody = 
++TermsGeneralBody =
+     
+     Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
+     
+@@ -66,13 +161,13 @@ TermsGeneralUrl = https://example.com
+ 
+ TermsOwnershipTitle = Kuka?
+ 
+-TermsOwnershipBody1 = 
++TermsOwnershipBody1 = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
+ 
+ TermsOwnershipLink = Tietosuoja
+ 
+ TermsOwnershipLinkUrl = https://example.com/tietosuoja
+ 
+-TermsOwnershipBody2 = -sivulla esitettyjä periaatteita noudattaen.
++TermsOwnershipBody2 =  -sivulla esitettyjä periaatteita noudattaen.
+ 
+ TermsVoluntaryTitle = Täysin vapaaehtoista!
+ 
+@@ -80,7 +175,7 @@ TermsVoluntaryBody = Puheen lahjoittaminen ja henkilötietojen ilmoittaminen on
+ 
+ TermsPrivacyTitle = Miten henkilötietoja käsitellään?
+ 
+-TermsPrivacyBody = 
++TermsPrivacyBody = Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
+ 
+ TermsPrivacyLink = Lisätietoa henkilötietojen käsittelystä
+ 
+@@ -88,7 +183,9 @@ TermsPrivacyUrl = https://example.com/tietosuoja
+ 
+ TermsRightsTitle = Oikeudet puheeseen
+ 
+-TermsRightsBody = 
++TermsRightsBody =
++    
++    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+ 
+ TermsAppropriateUseTitle = Sovelluksen käyttäminen
+ 
+@@ -96,7 +193,7 @@ TermsAppropriateUseBody = Tämä sovellus ei ole tarkoitettu yhteiskäyttöön.
+ 
+ TermsAdditionalTitle = Lisätietoa
+ 
+-TermsAdditionalWebsite = Kampanjan sivusto:
++TermsAdditionalWebsite = Kampanjan sivusto: 
+ 
+ TermsAdditionalWebsiteLink = example.com
+ 
+@@ -120,6 +217,8 @@ RecordingStoppedLimitMessage = Äänityksen enimmäisaika tuli täyteen ja ään
+ 
+ RecordingApproachingLimitMessage = Äänityksen enimmäisaika lähestyy. Sinulla on noin yksi minuutti aikaa jäljellä.
+ 
++AlertDismissOk = OK
++
+ ChooseLanguageTitle = Valitse kieli
+ 
+ LanguageFinnish = Suomi
