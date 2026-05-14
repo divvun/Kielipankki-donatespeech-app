@@ -5,11 +5,6 @@ interface VideoPlayerProps {
   description?: string;
 }
 
-const videoStyle = {
-  maxHeight: "500px",
-  objectFit: "contain" as const,
-};
-
 export function VideoPlayer({ url, description }: VideoPlayerProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,31 +20,31 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
   };
 
   return (
-    <div className="bg-gray-100 rounded-lg shadow-md p-4">
-      {description && (
-        <p className="text-gray-700 text-center mb-4">{description}</p>
-      )}
-      {loading && !error && (
-        <div className="text-center text-gray-500 mb-2 py-8">
-          Loading video...
-        </div>
-      )}
-      {error && (
-        <div className="text-center text-red-500 mb-2 py-8">{error}</div>
-      )}
-      <video
-        controls
-        className="w-full rounded-lg"
-        style={{
-          ...videoStyle,
-          display: loading ? "none" : "block",
-        }}
-        onCanPlay={handleCanPlay}
-        onError={handleError}
-      >
-        <source src={url} />
-        Your browser does not support the video element.
-      </video>
+    <div className="w-full">
+      <div className="w-full aspect-video rounded-2xl bg-gray-100 overflow-hidden shadow-md flex flex-col">
+        {description && (
+          <p className="text-gray-700 text-center p-4 text-sm">{description}</p>
+        )}
+        {loading && !error && (
+          <div className="flex-1 flex items-center justify-center text-gray-500">
+            Loading video...
+          </div>
+        )}
+        {error && (
+          <div className="flex-1 flex items-center justify-center text-red-500">
+            {error}
+          </div>
+        )}
+        <video
+          controls
+          className={`flex-1 w-full rounded-lg ${loading && !error ? "hidden" : "block"}`}
+          onCanPlay={handleCanPlay}
+          onError={handleError}
+        >
+          <source src={url} />
+          Your browser does not support the video element.
+        </video>
+      </div>
     </div>
   );
 }

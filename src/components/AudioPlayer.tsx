@@ -5,12 +5,6 @@ interface AudioPlayerProps {
   description?: string;
 }
 
-const playerContainerClassName = "bg-gray-100 rounded-lg shadow-md p-6";
-const audioStyle = {
-  outline: "none",
-  maxWidth: "100%",
-};
-
 export function AudioPlayer({ url, description }: AudioPlayerProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,28 +20,34 @@ export function AudioPlayer({ url, description }: AudioPlayerProps) {
   };
 
   return (
-    <div className={playerContainerClassName}>
-      <div className="flex items-center justify-center mb-4">
-        <span className="text-2xl mr-2">🔊</span>
-        <h3 className="text-lg font-semibold text-gray-800">Audio Player</h3>
+    <div className="w-full">
+      <div className="w-full aspect-video rounded-2xl bg-gray-100 shadow-md p-6 flex flex-col items-center justify-center">
+        {description && (
+          <p className="text-gray-700 text-center mb-4 text-sm">
+            {description}
+          </p>
+        )}
+        {loading && !error && (
+          <div className="text-center text-gray-500">Loading audio...</div>
+        )}
+        {error && <div className="text-center text-red-500">{error}</div>}
+        {!loading && !error && (
+          <div className="w-full flex flex-col items-center gap-4">
+            <div className="flex items-center justify-center">
+              <span className="text-3xl mr-2">🔊</span>
+            </div>
+            <audio
+              controls
+              className="w-full max-w-xs"
+              onCanPlay={handleCanPlay}
+              onError={handleError}
+            >
+              <source src={url} />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        )}
       </div>
-      {description && (
-        <p className="text-gray-700 text-center mb-4">{description}</p>
-      )}
-      {loading && !error && (
-        <div className="text-center text-gray-500 mb-2">Loading audio...</div>
-      )}
-      {error && <div className="text-center text-red-500 mb-2">{error}</div>}
-      <audio
-        controls
-        className="w-full"
-        style={audioStyle}
-        onCanPlay={handleCanPlay}
-        onError={handleError}
-      >
-        <source src={url} />
-        Your browser does not support the audio element.
-      </audio>
     </div>
   );
 }
