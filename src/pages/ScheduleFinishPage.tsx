@@ -26,8 +26,8 @@ export default function ScheduleFinishPage() {
   const finish = state?.finish;
 
   const handleDonateMore = () => {
-    console.log("Navigating to themes from donate more button");
-    navigate(`/themes${location.search}`, { replace: true });
+    console.log("Navigating to languages from donate more button");
+    navigate("/themes", { replace: true });
   };
 
   const handleBack = () => {
