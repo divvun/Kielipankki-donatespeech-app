@@ -141,3 +141,29 @@ LanguageSkoltSami = Skoltesamisk
 LanguageSwedish = Svensk
 
 LanguageNynorsk = Norsk (nynorsk)
+
+ThemesPageNoValidThemesError = Ingen gyldige temaer var tilgjengelige for dette språket. Prøv et annet språk.
+
+ThemeFallbackAltText = Tema
+
+ThemesPageItemsCount = { $count } elementer
+
+ThemesPageEmptyText = Ingen temaer tilgjengelig
+
+DetailsInfoTabTitle = Info
+
+DetailsIdentitySwitchedMessage = Byttet lokal identitet.
+
+DetailsIdentitySwitchFailedMessage = Kunne ikke bytte identitet.
+
+DetailsIdentityEmailLinkedMessage = E-post ble knyttet til lokal anonym ID.
+
+DetailsIdentityEmailInvalidMessage = Skriv inn en gyldig e-postadresse.
+
+DetailsIdentityCreatedMessage = Opprettet en ny lokal anonym identitet.
+
+ScheduleStartFallbackTitle = Klar til å starte
+
+BackToThemesButtonText = Tilbake til temaer
+
+RecordingSaveFailedError = Kunne ikke lagre opptak

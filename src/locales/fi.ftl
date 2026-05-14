@@ -141,3 +141,29 @@ LanguageSkoltSami = Koltansaame
 LanguageSwedish = Ruotsi
 
 LanguageNynorsk = Norja (nynorsk)
+
+ThemesPageNoValidThemesError = Tälle kielelle ei löytynyt kelvollisia aiheita. Kokeile toista kieltä.
+
+ThemeFallbackAltText = Aihe
+
+ThemesPageItemsCount = { $count } kpl
+
+ThemesPageEmptyText = Aiheita ei ole saatavilla
+
+DetailsInfoTabTitle = Tiedot
+
+DetailsIdentitySwitchedMessage = Vaihdettiin paikalliseen identiteettiin.
+
+DetailsIdentitySwitchFailedMessage = Identiteetin vaihtaminen epäonnistui.
+
+DetailsIdentityEmailLinkedMessage = Sähköposti liitettiin paikalliseen anonyymiin tunnisteeseen.
+
+DetailsIdentityEmailInvalidMessage = Anna kelvollinen sähköpostiosoite.
+
+DetailsIdentityCreatedMessage = Uusi paikallinen anonyymi identiteetti luotiin.
+
+ScheduleStartFallbackTitle = Valmis aloittamaan
+
+BackToThemesButtonText = Takaisin aiheisiin
+
+RecordingSaveFailedError = Äänityksen tallennus epäonnistui
