@@ -1,5 +1,15 @@
 use crate::api_client;
 use crate::database;
+
+/// Log only in debug builds (cfg!(debug_assertions) is optimized away in release)
+macro_rules! debug_log {
+    ($($arg:tt)*) => {
+        if cfg!(debug_assertions) {
+            println!($($arg)*);
+        }
+    };
+}
+
 use crate::models::{
     schedule::{Schedule, ScheduleAvailability},
     theme::{Theme, ThemeAvailability},

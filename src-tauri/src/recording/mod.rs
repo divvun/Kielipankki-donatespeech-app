@@ -1,5 +1,15 @@
 use std::fs::File;
 use std::io::{Write, Cursor};
+
+/// Log only in debug builds (cfg!(debug_assertions) is optimized away in release)
+macro_rules! debug_log {
+    ($($arg:tt)*) => {
+        if cfg!(debug_assertions) {
+            eprintln!($($arg)*);
+        }
+    };
+}
+
 use std::path::PathBuf;
 use flacenc::{component::BitRepr, config, source::MemSource, error::Verify, bitsink::MemSink};
 use hound::{WavReader, SampleFormat};
