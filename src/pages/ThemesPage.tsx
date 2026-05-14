@@ -11,7 +11,12 @@ import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useTranslation } from "../hooks/useTranslation";
 import { platformApi } from "../platform";
 import { getStateMediaUrl } from "../types/Schedule";
-import type { Theme, ThemeAvailability } from "../types/Theme";
+import {
+  getThemeId,
+  getThemeScheduleId,
+  type Theme,
+  type ThemeAvailability,
+} from "../types/Theme";
 import {
   getAvailableThemeLanguages,
   getThemeLanguageDisplayName,
@@ -58,10 +63,7 @@ export default function ThemesPage() {
     [themeAvailabilities],
   );
   const displayedThemes = useMemo(
-    () =>
-      themes.filter(
-        (theme) => theme.schedule?.id || theme.schedule?.scheduleId,
-      ),
+    () => themes.filter((theme) => getThemeScheduleId(theme) !== null),
     [themes],
   );
 
@@ -86,12 +88,10 @@ export default function ThemesPage() {
   }, [themeAvailabilities, themeLanguage]);
 
   const loadThemeAvailabilities = async () => {
-    console.log("Loading theme availabilities...");
     setLoading(true);
     setError("");
     try {
       const result = await platformApi.fetchThemes();
-      console.log("Received theme availabilities:", result);
       setThemeAvailabilities(result);
     } catch (err) {
       console.error("Error loading themes:", err);
@@ -102,7 +102,6 @@ export default function ThemesPage() {
   };
 
   const loadThemesForLanguage = async (language: LanguageCode) => {
-    console.log("Loading themes for language:", language);
     setLoading(true);
     setError("");
     try {
@@ -143,10 +142,18 @@ export default function ThemesPage() {
     }
   };
 
+  const retryThemeLoad = () => {
+    if (themeLanguage) {
+      void loadThemesForLanguage(themeLanguage);
+      return;
+    }
+
+    void loadThemeAvailabilities();
+  };
+
   const handleThemeClick = (theme: Theme) => {
-    const scheduleId = theme.schedule?.id ?? theme.schedule?.scheduleId;
+    const scheduleId = getThemeScheduleId(theme);
     if (scheduleId) {
-      console.log("Navigating to schedule start page:", scheduleId);
       navigate(`/schedule/${scheduleId}/start${location.search}`);
     }
   };
@@ -213,11 +220,7 @@ export default function ThemesPage() {
               <Button
                 variant="link"
                 size="sm"
-                onClick={() =>
-                  themeLanguage
-                    ? loadThemesForLanguage(themeLanguage)
-                    : loadThemeAvailabilities()
-                }
+                onClick={retryThemeLoad}
                 className="ml-2 p-0 h-auto"
               >
                 {getString("RetryScheduleItem")}
@@ -255,8 +258,7 @@ export default function ThemesPage() {
         {!loading && themeLanguage && displayedThemes.length > 0 && (
           <div className="flex flex-col gap-3">
             {displayedThemes.map((theme) => {
-              const themeId =
-                theme.id ?? theme.schedule?.id ?? theme.schedule?.scheduleId;
+              const themeId = getThemeId(theme);
               const title = theme.mediaState.title;
               const imageUrl = getStateMediaUrl(theme.mediaState);
               const excelUrl = getThemeExcelUrl(themeId || "theme");
@@ -320,7 +322,10 @@ export default function ThemesPage() {
           !error && (
             <div className="text-center py-12">
               <p className="text-muted-foreground mb-4">No themes available</p>
-              <Button variant="outline" onClick={() => navigate("/themes")}>
+              <Button
+                variant="outline"
+                onClick={() => navigate(getThemesPath())}
+              >
                 {getString("ChooseLanguageTitle")}
               </Button>
             </div>
