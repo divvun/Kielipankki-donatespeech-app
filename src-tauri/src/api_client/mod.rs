@@ -198,42 +198,58 @@ impl ApiClient {
         // Remap localhost to 10.0.2.2 for Android emulator
         upload_url = Self::remap_localhost_for_android(upload_url);
         
-        println!("Uploading to URL: {}", upload_url);
-        
-        self.client
+        let response = self.client
             .put(&upload_url)
             .header("x-ms-blob-type", "BlockBlob")
             .body(file_data)
             .send()
             .await
             .map_err(|e| format!("Failed to upload file: {}", e))?;
-        
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("File upload failed with status {}: {}", status, error_text));
+        }
+
         Ok(())
     }
 
     /// Delete recordings by client ID
     pub async fn delete_by_client_id(&self, client_id: &str) -> Result<(), String> {
         let url = format!("{}/v1/recordings/{}", self.base_url, client_id);
-        
-        self.client
+
+        let response = self.client
             .delete(&url)
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?;
-        
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("Delete by client ID failed with status {}: {}", status, error_text));
+        }
+
         Ok(())
     }
 
     /// Delete recordings by session ID
     pub async fn delete_by_session_id(&self, client_id: &str, session_id: &str) -> Result<(), String> {
         let url = format!("{}/v1/recordings/{}/{}", self.base_url, client_id, session_id);
-        
-        self.client
+
+        let response = self.client
             .delete(&url)
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?;
-        
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("Delete by session ID failed with status {}: {}", status, error_text));
+        }
+
         Ok(())
     }
 
@@ -264,12 +280,18 @@ impl ApiClient {
             self.base_url, client_id, session_id, recording_id
         );
         
-        self.client
+        let response = self.client
             .delete(&url)
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?;
-        
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("Delete by recording ID failed with status {}: {}", status, error_text));
+        }
+
         Ok(())
     }
 }
