@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { getStateMediaUrl, type Schedule } from "../types/Schedule";
+import { getStateMediaUrl } from "../types/Schedule";
 import { useTranslation } from "../hooks/useTranslation";
+import { useSchedule } from "../hooks/useSchedule";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
-import { platformApi } from "../platform";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
 import { ScheduleStartSummary } from "../components/ScheduleStartSummary";
 import { ScheduleStartActions } from "../components/ScheduleStartActions";
+import { ScheduleLoadingState } from "../components/ScheduleLoadingState";
+import { ScheduleErrorState } from "../components/ScheduleErrorState";
 import { getThemeLanguageFromSearch } from "../utils/themeLanguage";
 
 export default function ScheduleStartPage() {
@@ -21,37 +22,11 @@ export default function ScheduleStartPage() {
   const requestedLanguage = getThemeLanguageFromSearch(location.search);
   const scheduleLanguage = requestedLanguage ?? currentLanguage;
 
-  const [schedule, setSchedule] = useState<Schedule | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>("");
-
-  useEffect(() => {
-    if (scheduleId) {
-      loadSchedule(scheduleId, scheduleLanguage);
-    }
-  }, [scheduleId, scheduleLanguage]);
-
-  const loadSchedule = async (id: string, language: string) => {
-    console.log("Loading schedule for start page:", id, "lang:", language);
-    setLoading(true);
-    setError("");
-    try {
-      const result = await platformApi.fetchSchedule(id, language);
-      console.log("Received schedule:", result);
-
-      if (!result.items || result.items.length === 0) {
-        setError("This schedule has no content.");
-        return;
-      }
-
-      setSchedule(result);
-    } catch (err) {
-      console.error("Error loading schedule:", err);
-      setError(String(err));
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { schedule, loading, error } = useSchedule({
+    scheduleId,
+    language: scheduleLanguage,
+    noItemsError: getString("SchedulePageNoItemsError"),
+  });
 
   const handleStart = () => {
     if (!schedule || !scheduleId) return;
@@ -75,30 +50,16 @@ export default function ScheduleStartPage() {
     : "";
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-linear-to-b from-white to-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
+    return <ScheduleLoadingState />;
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col items-center justify-center p-6">
-        <div className="bg-red-100 border border-red-400 text-red-700 rounded-lg p-6 max-w-md">
-          <h2 className="text-xl font-bold mb-2">Error</h2>
-          <p className="mb-4">{error}</p>
-          <button
-            onClick={handleBack}
-            className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700"
-          >
-            Back to Themes
-          </button>
-        </div>
-      </div>
+      <ScheduleErrorState
+        error={error}
+        onBack={handleBack}
+        backLabel="Back to Themes"
+      />
     );
   }
 
