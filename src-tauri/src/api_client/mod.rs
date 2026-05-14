@@ -158,19 +158,14 @@ impl ApiClient {
     /// Initialize an upload and get a presigned URL for direct upload
     pub async fn init_upload(&self, request: InitUploadRequest) -> Result<InitUploadResponse, String> {
         let url = format!("{}/v1/upload", self.base_url);
-        
-        // Debug: print request payload
-        if let Ok(json_str) = serde_json::to_string(&request) {
-            println!("Init upload request: {}", json_str);
-        }
-        
+
         let response = self.client
             .post(&url)
             .json(&request)
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?;
-        
+
         // Check if response is successful
         let status = response.status();
         if !status.is_success() {
@@ -178,13 +173,10 @@ impl ApiClient {
                 .unwrap_or_else(|_| "Unable to read error response".to_string());
             return Err(format!("Upload init failed with status {}: {}", status, error_text));
         }
-        
-        // Try to parse the response
+
         let response_text = response.text().await
             .map_err(|e| format!("Failed to read response body: {}", e))?;
-        
-        println!("Init upload response: {}", response_text);
-        
+
         serde_json::from_str::<InitUploadResponse>(&response_text)
             .map_err(|e| format!("Failed to parse response: {}. Response was: {}", e, response_text))
     }
