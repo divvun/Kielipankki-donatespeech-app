@@ -83,6 +83,37 @@ fn initialize_tables(connection: &Connection) -> Result<(), String> {
     Ok(())
 }
 
+fn upload_status_to_str(status: UploadStatus) -> &'static str {
+    match status {
+        UploadStatus::Unknown => "unknown",
+        UploadStatus::Pending => "pending",
+        UploadStatus::Uploaded => "uploaded",
+        UploadStatus::Deleted => "deleted",
+    }
+}
+
+fn str_to_upload_status(s: &str) -> Option<UploadStatus> {
+    match s.to_lowercase().as_str() {
+        "unknown" => Some(UploadStatus::Unknown),
+        "pending" => Some(UploadStatus::Pending),
+        "uploaded" => Some(UploadStatus::Uploaded),
+        "deleted" => Some(UploadStatus::Deleted),
+        _ => None,
+    }
+}
+
+fn row_to_recording(row: &rusqlite::Row<'_>) -> rusqlite::Result<Recording> {
+    Ok(Recording {
+        recording_id: row.get(0)?,
+        item_id: row.get(1)?,
+        file_name: row.get(2)?,
+        client_id: row.get(3)?,
+        timestamp: row.get(4)?,
+        upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| str_to_upload_status(&s)),
+        metadata: row.get(6)?,
+    })
+}
+
 /// Get all recordings from the database
 pub fn get_recordings(connection: &Mutex<Connection>) -> Result<Vec<Recording>, String> {
     let conn = connection
@@ -94,30 +125,11 @@ pub fn get_recordings(connection: &Mutex<Connection>) -> Result<Vec<Recording>, 
         .map_err(|e| format!("Failed to prepare statement: {}", e))?;
     
     let recordings = stmt
-        .query_map([], |row| {
-            Ok(Recording {
-                recording_id: row.get(0)?,
-                item_id: row.get(1)?,
-                file_name: row.get(2)?,
-                client_id: row.get(3)?,
-                timestamp: row.get(4)?,
-                upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
-                    // Parse string to UploadStatus enum
-                    match s.to_lowercase().as_str() {
-                        "unknown" => Some(UploadStatus::Unknown),
-                        "pending" => Some(UploadStatus::Pending),
-                        "uploaded" => Some(UploadStatus::Uploaded),
-                        "deleted" => Some(UploadStatus::Deleted),
-                        _ => None,
-                    }
-                }),
-                metadata: row.get(6)?,
-            })
-        })
+        .query_map([], row_to_recording)
         .map_err(|e| format!("Failed to query recordings: {}", e))?
         .collect::<Result<Vec<_>, _>>()
         .map_err(|e| format!("Failed to collect recordings: {}", e))?;
-    
+
     Ok(recordings)
 }
 
@@ -155,13 +167,7 @@ pub fn save_recording(connection: &Mutex<Connection>, recording: &Recording) -> 
         .lock()
         .map_err(|e| format!("Failed to lock connection: {}", e))?;
     
-    let upload_status_str = match recording.upload_status {
-        Some(UploadStatus::Unknown) => Some("unknown"),
-        Some(UploadStatus::Pending) => Some("pending"),
-        Some(UploadStatus::Uploaded) => Some("uploaded"),
-        Some(UploadStatus::Deleted) => Some("deleted"),
-        None => None,
-    };
+    let upload_status_str = recording.upload_status.map(upload_status_to_str);
     
     conn.execute(
         "INSERT INTO Recording (RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata) 
@@ -193,25 +199,7 @@ pub fn delete_recording_by_id(connection: &Mutex<Connection>, recording_id: &str
         .query_row(
             "SELECT RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata FROM Recording WHERE RecordingId = ?1",
             rusqlite::params![recording_id],
-            |row| {
-                Ok(Recording {
-                    recording_id: row.get(0)?,
-                    item_id: row.get(1)?,
-                    file_name: row.get(2)?,
-                    client_id: row.get(3)?,
-                    timestamp: row.get(4)?,
-                    upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
-                        match s.to_lowercase().as_str() {
-                            "unknown" => Some(UploadStatus::Unknown),
-                            "pending" => Some(UploadStatus::Pending),
-                            "uploaded" => Some(UploadStatus::Uploaded),
-                            "deleted" => Some(UploadStatus::Deleted),
-                            _ => None,
-                        }
-                    }),
-                    metadata: row.get(6)?,
-                })
-            }
+            row_to_recording,
         )
         .map_err(|e| format!("Failed to fetch recording before delete: {}", e))?;
     
@@ -237,41 +225,18 @@ pub fn get_recordings_by_status(connection: &Mutex<Connection>, status: UploadSt
         .lock()
         .map_err(|e| format!("Failed to lock connection: {}", e))?;
     
-    let status_str = match status {
-        UploadStatus::Unknown => "unknown",
-        UploadStatus::Pending => "pending",
-        UploadStatus::Uploaded => "uploaded",
-        UploadStatus::Deleted => "deleted",
-    };
-    
+    let status_str = upload_status_to_str(status);
+
     let mut stmt = conn
         .prepare("SELECT RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata FROM Recording WHERE UploadStatus = ?1")
         .map_err(|e| format!("Failed to prepare statement: {}", e))?;
-    
+
     let recordings = stmt
-        .query_map(rusqlite::params![status_str], |row| {
-            Ok(Recording {
-                recording_id: row.get(0)?,
-                item_id: row.get(1)?,
-                file_name: row.get(2)?,
-                client_id: row.get(3)?,
-                timestamp: row.get(4)?,
-                upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
-                    match s.to_lowercase().as_str() {
-                        "unknown" => Some(UploadStatus::Unknown),
-                        "pending" => Some(UploadStatus::Pending),
-                        "uploaded" => Some(UploadStatus::Uploaded),
-                        "deleted" => Some(UploadStatus::Deleted),
-                        _ => None,
-                    }
-                }),
-                metadata: row.get(6)?,
-            })
-        })
+        .query_map(rusqlite::params![status_str], row_to_recording)
         .map_err(|e| format!("Failed to query recordings: {}", e))?
         .collect::<Result<Vec<_>, _>>()
         .map_err(|e| format!("Failed to collect recordings: {}", e))?;
-    
+
     Ok(recordings)
 }
 
@@ -284,25 +249,7 @@ pub fn get_recording_by_id(connection: &Mutex<Connection>, recording_id: &str) -
     conn.query_row(
         "SELECT RecordingId, ItemId, FileName, ClientId, Timestamp, UploadStatus, Metadata FROM Recording WHERE RecordingId = ?1",
         rusqlite::params![recording_id],
-        |row| {
-            Ok(Recording {
-                recording_id: row.get(0)?,
-                item_id: row.get(1)?,
-                file_name: row.get(2)?,
-                client_id: row.get(3)?,
-                timestamp: row.get(4)?,
-                upload_status: row.get::<_, Option<String>>(5)?.and_then(|s| {
-                    match s.to_lowercase().as_str() {
-                        "unknown" => Some(UploadStatus::Unknown),
-                        "pending" => Some(UploadStatus::Pending),
-                        "uploaded" => Some(UploadStatus::Uploaded),
-                        "deleted" => Some(UploadStatus::Deleted),
-                        _ => None,
-                    }
-                }),
-                metadata: row.get(6)?,
-            })
-        }
+        row_to_recording,
     )
     .map_err(|e| format!("Failed to get recording: {}", e))
 }
@@ -313,13 +260,8 @@ pub fn update_recording_status(connection: &Mutex<Connection>, recording_id: &st
         .lock()
         .map_err(|e| format!("Failed to lock connection: {}", e))?;
     
-    let status_str = match status {
-        UploadStatus::Unknown => "unknown",
-        UploadStatus::Pending => "pending",
-        UploadStatus::Uploaded => "uploaded",
-        UploadStatus::Deleted => "deleted",
-    };
-    
+    let status_str = upload_status_to_str(status);
+
     let updated = conn
         .execute(
             "UPDATE Recording SET UploadStatus = ?1 WHERE RecordingId = ?2",
