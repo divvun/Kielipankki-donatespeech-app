@@ -1,7 +1,6 @@
 /**
- * Get localized text from a Record<string, string> object
- * Returns text in the current language, falling back to the fallback language,
- * then to the first available language, and finally to an empty string.
+ * Resolve UI text from either the new single-language API string shape
+ * or the legacy Record<string, string> shape.
  *
  * @param record The localized text record (e.g., {fi: "Suomi", nb: "Norsk"})
  * @param currentLanguage The user's current language preference
@@ -16,11 +15,15 @@ function getFirstAvailableValue(record: Record<string, string>): string {
 }
 
 export function getLocalizedText(
-  record: Record<string, string> | null | undefined,
+  record: string | Record<string, string> | null | undefined,
   currentLanguage: string,
   fallbackLanguage = "nb",
 ): string {
   if (!record) return EMPTY_LOCALIZED_TEXT;
+
+  if (typeof record === "string") {
+    return record;
+  }
 
   // Try current language first
   if (record[currentLanguage]) {

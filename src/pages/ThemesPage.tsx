@@ -1,17 +1,23 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "../hooks/useTranslation";
-import type { ThemeListItem } from "../types/Theme";
-import { useTotalRecorded } from "../hooks/useTotalRecorded";
-import { useAutoUpload } from "../hooks/useAutoUpload";
-import { getLocalizedText } from "../utils/localization";
-import { useLocalization } from "../contexts/LocalizationContext";
-import { platformApi } from "../platform";
-import LanguageSelector from "../components/LanguageSelector";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ChevronRight, Heart, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
-import { Heart, Info, ChevronRight } from "lucide-react";
+import LanguageSelector from "../components/LanguageSelector";
+import type { LanguageCode } from "../contexts/LocalizationContext";
+import { useAutoUpload } from "../hooks/useAutoUpload";
+import { useTotalRecorded } from "../hooks/useTotalRecorded";
+import { useTranslation } from "../hooks/useTranslation";
+import { platformApi } from "../platform";
+import { getStateMediaUrl } from "../types/Schedule";
+import type { Theme, ThemeAvailability } from "../types/Theme";
+import {
+  getAvailableThemeLanguages,
+  getThemeLanguageDisplayName,
+  getThemeLanguageFromSearch,
+  getThemesPath,
+} from "../utils/themeLanguage";
 
 const BACKEND_EXCEL_BASE_URL =
   "https://raw.githubusercontent.com/divvun/Kielipankki-donatespeech-backend/main/recorder-backend/content/dev/excel";
@@ -35,64 +41,58 @@ function getThemeExcelUrl(themeId: string): string {
 }
 
 export default function ThemesPage() {
-  const [themes, setThemes] = useState<ThemeListItem[]>([]);
+  const [themeAvailabilities, setThemeAvailabilities] = useState<
+    ThemeAvailability[]
+  >([]);
+  const [themes, setThemes] = useState<Theme[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
-  const [scheduleItemCounts, setScheduleItemCounts] = useState<
-    Record<string, number>
-  >({});
+  const location = useLocation();
   const navigate = useNavigate();
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
-  const { currentLanguage } = useLocalization();
   const showExcelDownload = isWebMode();
+  const themeLanguage = getThemeLanguageFromSearch(location.search);
+  const availableThemeLanguages = useMemo(
+    () => getAvailableThemeLanguages(themeAvailabilities),
+    [themeAvailabilities],
+  );
+  const displayedThemes = useMemo(
+    () =>
+      themes.filter(
+        (theme) => theme.schedule?.id || theme.schedule?.scheduleId,
+      ),
+    [themes],
+  );
 
   // Auto-upload pending recordings in the background
   useAutoUpload();
 
   useEffect(() => {
-    loadThemes();
+    loadThemeAvailabilities();
   }, []);
 
-  // Fetch schedule item counts for each theme
   useEffect(() => {
-    if (themes.length === 0) return;
+    if (!themeLanguage) {
+      setThemes([]);
+      return;
+    }
 
-    const fetchScheduleCounts = async () => {
-      const counts: Record<string, number> = {};
-      for (const themeItem of themes) {
-        const firstScheduleId = themeItem.content?.scheduleIds?.[0];
-        if (firstScheduleId) {
-          try {
-            const schedule = await platformApi.fetchSchedule(firstScheduleId);
-            counts[themeItem.id] = schedule.items?.length || 0;
-          } catch (err) {
-            console.error(`Error fetching schedule ${firstScheduleId}:`, err);
-            counts[themeItem.id] = 0;
-          }
-        }
-      }
-      setScheduleItemCounts(counts);
-    };
+    if (themeAvailabilities.length === 0) {
+      return;
+    }
 
-    fetchScheduleCounts();
-  }, [themes]);
+    loadThemesForLanguage(themeLanguage);
+  }, [themeAvailabilities, themeLanguage]);
 
-  const loadThemes = async () => {
-    console.log("Loading themes...");
+  const loadThemeAvailabilities = async () => {
+    console.log("Loading theme availabilities...");
     setLoading(true);
     setError("");
     try {
       const result = await platformApi.fetchThemes();
-      console.log("Received themes:", result);
-
-      // Filter themes that have scheduleIds
-      const filteredThemes = result.filter(
-        (themeItem) =>
-          themeItem.content?.scheduleIds &&
-          themeItem.content.scheduleIds.length > 0,
-      );
-      setThemes(filteredThemes);
+      console.log("Received theme availabilities:", result);
+      setThemeAvailabilities(result);
     } catch (err) {
       console.error("Error loading themes:", err);
       setError(String(err));
@@ -101,17 +101,42 @@ export default function ThemesPage() {
     }
   };
 
-  const handleThemeClick = (themeItem: ThemeListItem) => {
-    // Navigate to the schedule start page
-    const firstScheduleId = themeItem.content?.scheduleIds?.[0];
-    if (firstScheduleId) {
-      console.log("Navigating to schedule start page:", firstScheduleId);
-      navigate(`/schedule/${firstScheduleId}/start`);
+  const loadThemesForLanguage = async (language: LanguageCode) => {
+    console.log("Loading themes for language:", language);
+    setLoading(true);
+    setError("");
+    try {
+      const availableThemes = themeAvailabilities.filter((theme) =>
+        theme.availableLanguages.includes(language),
+      );
+      const result = await Promise.all(
+        availableThemes.map((theme) =>
+          platformApi.fetchTheme(theme.id, language),
+        ),
+      );
+      setThemes(result);
+    } catch (err) {
+      console.error("Error loading localized themes:", err);
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleThemeClick = (theme: Theme) => {
+    const scheduleId = theme.schedule?.id ?? theme.schedule?.scheduleId;
+    if (scheduleId) {
+      console.log("Navigating to schedule start page:", scheduleId);
+      navigate(`/schedule/${scheduleId}/start${location.search}`);
     }
   };
 
   const navigateToDetails = () => {
-    navigate("/details");
+    navigate(`/details${location.search}`);
+  };
+
+  const handleLanguageSelect = (language: LanguageCode) => {
+    navigate(getThemesPath(language));
   };
 
   return (
@@ -142,11 +167,15 @@ export default function ThemesPage() {
         {/* Header */}
         <div className="mb-5">
           <h1 className="text-[22px] font-extrabold tracking-tight leading-tight text-foreground">
-            {getString("ThemesPageTitleText")}
+            {themeLanguage
+              ? getString("ThemesPageTitleText")
+              : getString("ChooseLanguageTitle")}
           </h1>
-          <p className="text-[13px] text-muted-foreground mt-1.5">
-            {getString("ThemesPageBody1Text")}
-          </p>
+          {themeLanguage ? (
+            <p className="text-[13px] text-muted-foreground mt-1.5">
+              {getString("ThemesPageBody1Text")}
+            </p>
+          ) : null}
         </div>
 
         {/* Loading */}
@@ -164,7 +193,11 @@ export default function ThemesPage() {
               <Button
                 variant="link"
                 size="sm"
-                onClick={loadThemes}
+                onClick={() =>
+                  themeLanguage
+                    ? loadThemesForLanguage(themeLanguage)
+                    : loadThemeAvailabilities()
+                }
                 className="ml-2 p-0 h-auto"
               >
                 {getString("RetryScheduleItem")}
@@ -173,25 +206,52 @@ export default function ThemesPage() {
           </Alert>
         )}
 
+        {/* Language buttons */}
+        {!loading && !themeLanguage && availableThemeLanguages.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {availableThemeLanguages.map((language) => (
+              <Button
+                key={language}
+                variant="outline"
+                size="lg"
+                onClick={() => handleLanguageSelect(language)}
+                className="h-auto justify-between rounded-2xl px-4 py-5 text-left"
+              >
+                <span className="flex flex-col items-start gap-1">
+                  <span className="text-base font-semibold">
+                    {getThemeLanguageDisplayName(language, getString)}
+                  </span>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {language.toUpperCase()}
+                  </span>
+                </span>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </Button>
+            ))}
+          </div>
+        )}
+
         {/* Theme Cards */}
-        {!loading && themes.length > 0 && (
+        {!loading && themeLanguage && displayedThemes.length > 0 && (
           <div className="flex flex-col gap-3">
-            {themes.map((themeItem) => {
-              const theme = themeItem.content;
-              const title = getLocalizedText(theme.title, currentLanguage);
-              const excelUrl = getThemeExcelUrl(themeItem.id);
+            {displayedThemes.map((theme) => {
+              const themeId =
+                theme.id ?? theme.schedule?.id ?? theme.schedule?.scheduleId;
+              const title = theme.mediaState.title;
+              const imageUrl = getStateMediaUrl(theme.mediaState);
+              const excelUrl = getThemeExcelUrl(themeId || "theme");
+              const scheduleItemCount = theme.schedule?.items.length || 0;
 
               return (
-                <>
+                <div key={themeId || title} className="flex flex-col gap-2">
                   <button
-                    key={themeItem.id}
-                    onClick={() => handleThemeClick(themeItem)}
+                    onClick={() => handleThemeClick(theme)}
                     className="flex items-center gap-4 p-4 pr-5 bg-white border border-border rounded-2xl cursor-pointer text-left transition-all hover:border-primary hover:shadow-[0_2px_12px_rgba(18,44,107,0.06)]"
                   >
                     {/* Theme Thumbnail */}
-                    {themeItem.content?.image ? (
+                    {imageUrl ? (
                       <img
-                        src={themeItem.content.image}
+                        src={imageUrl}
                         alt={title || "Theme"}
                         className="w-14 h-14 rounded-xl object-cover shrink-0"
                       />
@@ -209,39 +269,55 @@ export default function ThemesPage() {
                     {/* Right side: time badge + chevron */}
                     <div className="flex items-center gap-2 shrink-0">
                       <span className="px-2 py-1 rounded-full bg-muted text-[11px] font-semibold text-muted-foreground">
-                        {scheduleItemCounts[themeItem.id] || 0} items
+                        {scheduleItemCount} items
                       </span>
                       <ChevronRight className="w-5 h-5 text-muted-foreground" />
                     </div>
                   </button>
 
-                  {showExcelDownload && (
+                  {showExcelDownload && themeId && (
                     <a
                       href={excelUrl}
-                      download={`${themeItem.id}.xlsx`}
+                      download={`${themeId}.xlsx`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-gray-300 px-4 text-sm font-semibold text-white hover:bg-gray-400"
-                      title={`Download ${themeItem.id}.xlsx`}
+                      title={`Download ${themeId}.xlsx`}
                     >
                       XLSX
                     </a>
                   )}
-                </>
+                </div>
               );
             })}
           </div>
         )}
 
+        {/* Empty state when no themes exist for the chosen language */}
+        {!loading &&
+          themeLanguage &&
+          displayedThemes.length === 0 &&
+          !error && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">No themes available</p>
+              <Button variant="outline" onClick={() => navigate("/themes")}>
+                {getString("ChooseLanguageTitle")}
+              </Button>
+            </div>
+          )}
+
         {/* Empty State */}
-        {!loading && themes.length === 0 && !error && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">No themes available</p>
-            <Button variant="outline" onClick={loadThemes}>
-              {getString("RetryScheduleItem")}
-            </Button>
-          </div>
-        )}
+        {!loading &&
+          !themeLanguage &&
+          themeAvailabilities.length === 0 &&
+          !error && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">No themes available</p>
+              <Button variant="outline" onClick={loadThemeAvailabilities}>
+                {getString("RetryScheduleItem")}
+              </Button>
+            </div>
+          )}
       </div>
     </div>
   );

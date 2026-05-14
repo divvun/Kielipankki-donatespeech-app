@@ -1,13 +1,12 @@
-export interface Theme {
-  id?: string;
-  title: Record<string, string>; // Localized title
-  body1: Record<string, string>; // Localized body text 1
-  body2: Record<string, string>; // Localized body text 2
-  image?: string; // image URL
-  scheduleIds: string[];
+import type { MediaState, Schedule } from "./Schedule";
+
+export interface ThemeAvailability {
+  id: string;
+  availableLanguages: string[];
 }
 
-export interface ThemeListItem {
-  id: string;
-  content: Theme;
+export interface Theme {
+  id?: string | null;
+  mediaState: MediaState;
+  schedule?: Schedule | null;
 }

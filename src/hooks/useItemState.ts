@@ -5,9 +5,9 @@ import { getDefaultItemState, isMediaItem } from "../types/Schedule";
 export type ItemStateType = "default" | "start" | "recording" | "finish";
 
 const EMPTY_MEDIA_STATE: MediaState = {
-  title: {},
-  body1: {},
-  body2: {},
+  title: "",
+  body1: "",
+  body2: "",
   url: null,
   imageUrl: null,
 };

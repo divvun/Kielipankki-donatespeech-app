@@ -1,4 +1,9 @@
-export type LocalizedText = Record<string, string>;
+export type LocalizedText = string;
+
+export interface ScheduleAvailability {
+  id: string;
+  availableLanguages: string[];
+}
 
 // New API uses state.url. Tauri-normalized payloads may still expose imageUrl.
 export interface MediaState {
@@ -20,8 +25,8 @@ export interface ScheduleState {
 export interface Schedule {
   id?: string | null;
   scheduleId?: string | null;
-  start?: ScheduleState | null;
-  finish?: ScheduleState | null;
+  start?: MediaState | null;
+  finish?: MediaState | null;
   items: ScheduleItem[];
 }
 

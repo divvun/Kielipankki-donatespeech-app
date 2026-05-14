@@ -2,7 +2,9 @@ import {
   UploadStatus,
   type Recording,
   type Schedule,
-  type ThemeListItem,
+  type ScheduleAvailability,
+  type Theme,
+  type ThemeAvailability,
 } from "../types";
 import type {
   PlatformApi,
@@ -168,23 +170,22 @@ export const webPlatformApi: PlatformApi = {
   },
 
   fetchThemes() {
-    return fetchJson<ThemeListItem[]>("/v1/theme");
+    return fetchJson<ThemeAvailability[]>("/v1/theme");
   },
 
-  fetchSchedules() {
-    return fetchJson<Array<{ id: string; content: Schedule }>>(
-      "/v1/schedule",
-    ).then((items) =>
-      items.map((item) => ({
-        ...item.content,
-        id: item.content.id ?? item.id,
-      })),
+  fetchTheme(themeId, lang) {
+    return fetchJson<Theme>(
+      `/v1/theme/${encodeURIComponent(themeId)}?lang=${encodeURIComponent(lang)}`,
     );
   },
 
-  fetchSchedule(scheduleId) {
+  fetchSchedules() {
+    return fetchJson<ScheduleAvailability[]>("/v1/schedule");
+  },
+
+  fetchSchedule(scheduleId, lang) {
     return fetchJson<Schedule>(
-      `/v1/schedule/${encodeURIComponent(scheduleId)}`,
+      `/v1/schedule/${encodeURIComponent(scheduleId)}?lang=${encodeURIComponent(lang)}`,
     );
   },
 

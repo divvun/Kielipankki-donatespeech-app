@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useTranslation } from "../hooks/useTranslation";
 import { useInviteFriendShare } from "../hooks/useInviteFriendShare";
-import { getStateMediaUrl, type ScheduleState } from "../types/Schedule";
+import { getStateMediaUrl, type MediaState } from "../types/Schedule";
 import { getLocalizedText } from "../utils/localization";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
@@ -10,7 +10,7 @@ import { ScheduleFinishSummary } from "../components/ScheduleFinishSummary";
 import { ScheduleFinishActions } from "../components/ScheduleFinishActions";
 
 interface ScheduleFinishLocationState {
-  finish?: ScheduleState | null;
+  finish?: MediaState | null;
   itemsCompleted?: number;
 }
 
@@ -27,12 +27,12 @@ export default function ScheduleFinishPage() {
 
   const handleDonateMore = () => {
     console.log("Navigating to themes from donate more button");
-    navigate("/themes", { replace: true });
+    navigate(`/themes${location.search}`, { replace: true });
   };
 
   const handleBack = () => {
     console.log("Navigating to themes from back button");
-    navigate("/themes", { replace: true });
+    navigate(`/themes${location.search}`, { replace: true });
   };
 
   const finishTitle = finish?.title

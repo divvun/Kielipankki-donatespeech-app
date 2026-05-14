@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { getStateMediaUrl, type Schedule } from "../types/Schedule";
 import { useTranslation } from "../hooks/useTranslation";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
@@ -13,6 +13,7 @@ import { ScheduleStartActions } from "../components/ScheduleStartActions";
 export default function ScheduleStartPage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
   const { currentLanguage } = useLocalization();
@@ -25,14 +26,14 @@ export default function ScheduleStartPage() {
     if (scheduleId) {
       loadSchedule(scheduleId);
     }
-  }, [scheduleId]);
+  }, [currentLanguage, scheduleId]);
 
   const loadSchedule = async (id: string) => {
     console.log("Loading schedule for start page:", id);
     setLoading(true);
     setError("");
     try {
-      const result = await platformApi.fetchSchedule(id);
+      const result = await platformApi.fetchSchedule(id, currentLanguage);
       console.log("Received schedule:", result);
 
       if (!result.items || result.items.length === 0) {
@@ -53,11 +54,11 @@ export default function ScheduleStartPage() {
     if (!schedule || !scheduleId) return;
 
     // Navigate to the schedule page to begin
-    navigate(`/schedule/${scheduleId}`);
+    navigate(`/schedule/${scheduleId}${location.search}`);
   };
 
   const handleBack = () => {
-    navigate("/themes");
+    navigate(`/themes${location.search}`);
   };
 
   const startTitle = schedule?.start?.title

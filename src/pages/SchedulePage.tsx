@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import type { Schedule } from "../types/Schedule";
 import {
   getItemMediaUrl,
@@ -33,6 +33,7 @@ const isFakeYleMediaType = (itemType: string) =>
 export default function SchedulePage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { getString } = useTranslation();
   const { currentLanguage } = useLocalization();
 
@@ -105,7 +106,7 @@ export default function SchedulePage() {
     if (scheduleId) {
       loadSchedule(scheduleId);
     }
-  }, [scheduleId]);
+  }, [currentLanguage, scheduleId]);
 
   // Ensure each recording-enabled item starts with a fresh on-screen timer.
   useEffect(() => {
@@ -130,7 +131,7 @@ export default function SchedulePage() {
     setLoading(true);
     setError("");
     try {
-      const result = await platformApi.fetchSchedule(id);
+      const result = await platformApi.fetchSchedule(id, currentLanguage);
       console.log("Received schedule:", result);
 
       if (!result.items || result.items.length === 0) {
@@ -205,7 +206,7 @@ export default function SchedulePage() {
     } else {
       if (schedule && scheduleId) {
         console.log("Navigating to finish page for schedule:", scheduleId);
-        navigate(`/schedule/${scheduleId}/finish`, {
+        navigate(`/schedule/${scheduleId}/finish${location.search}`, {
           state: {
             finish: schedule.finish ?? null,
             itemsCompleted: schedule.items.length,
@@ -261,7 +262,7 @@ export default function SchedulePage() {
   };
 
   const handleBack = () => {
-    navigate("/themes");
+    navigate(`/themes${location.search}`);
   };
 
   if (loading) {

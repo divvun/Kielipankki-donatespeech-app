@@ -1,4 +1,10 @@
-import type { Recording, Schedule, ThemeListItem } from "../types";
+import type {
+  Recording,
+  Schedule,
+  ScheduleAvailability,
+  Theme,
+  ThemeAvailability,
+} from "../types";
 
 export interface SaveRecordingPayload {
   itemId: string;
@@ -14,9 +20,10 @@ export interface SaveRecordingCommandResponse {
 
 export interface PlatformApi {
   fixClientIds(realClientId: string): Promise<number>;
-  fetchThemes(): Promise<ThemeListItem[]>;
-  fetchSchedules(): Promise<Schedule[]>;
-  fetchSchedule(scheduleId: string): Promise<Schedule>;
+  fetchThemes(): Promise<ThemeAvailability[]>;
+  fetchTheme(themeId: string, lang: string): Promise<Theme>;
+  fetchSchedules(): Promise<ScheduleAvailability[]>;
+  fetchSchedule(scheduleId: string, lang: string): Promise<Schedule>;
   getRecordings(): Promise<Recording[]>;
   insertTestRecording(): Promise<void>;
   deleteRecording(recordingId: string): Promise<void>;

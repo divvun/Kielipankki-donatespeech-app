@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Recording } from "../types";
-import type { ThemeListItem } from "../types/Theme";
-import type { Schedule } from "../types/Schedule";
+import type { ThemeAvailability } from "../types/Theme";
+import type { ScheduleAvailability } from "../types/Schedule";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { platformApi } from "../platform";
 import { TestActionSection } from "../components/TestActionSection";
@@ -14,8 +14,8 @@ import { TestDebugInfo } from "../components/TestDebugInfo";
 export default function TestPage() {
   const { currentLanguage } = useLocalization();
   const [recordings, setRecordings] = useState<Recording[]>([]);
-  const [themes, setThemes] = useState<ThemeListItem[]>([]);
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [themes, setThemes] = useState<ThemeAvailability[]>([]);
+  const [schedules, setSchedules] = useState<ScheduleAvailability[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 

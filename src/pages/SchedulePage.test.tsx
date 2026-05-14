@@ -40,6 +40,7 @@ vi.mock("react-router-dom", async () => {
     ...actual,
     useParams: () => ({ scheduleId: "schedule-1" }),
     useNavigate: () => mocks.navigate,
+    useLocation: () => ({ search: "", state: null }),
   };
 });
 
@@ -111,9 +112,9 @@ describe("SchedulePage fake YLE media", () => {
         itemId: "item-1",
         url: "yle-program-id",
         default: {
-          title: { nb: "Fake YLE title" },
-          body1: { nb: "Prompt text" },
-          body2: { nb: "More prompt text" },
+          title: "Fake YLE title",
+          body1: "Prompt text",
+          body2: "More prompt text",
           imageUrl: null,
         },
         options: [],
@@ -133,9 +134,9 @@ describe("SchedulePage fake YLE media", () => {
         itemId: "item-1",
         isRecording: true,
         start: {
-          title: { nb: "State-first fake YLE title" },
-          body1: { nb: "Prompt text" },
-          body2: { nb: "More prompt text" },
+          title: "State-first fake YLE title",
+          body1: "Prompt text",
+          body2: "More prompt text",
           url: null,
         },
         options: [],
@@ -195,9 +196,9 @@ describe("SchedulePage fake YLE media", () => {
           itemId: "item-1",
           isRecording: false,
           start: {
-            title: { nb: "Audio from state URL" },
-            body1: { nb: "Prompt text" },
-            body2: { nb: "More prompt text" },
+            title: "Audio from state URL",
+            body1: "Prompt text",
+            body2: "More prompt text",
             url: "state-audio-id",
           },
           options: [],
@@ -227,9 +228,9 @@ describe("SchedulePage fake YLE media", () => {
           itemId: "item-1",
           url: "yle-program-id-1",
           default: {
-            title: { nb: "First recording item" },
-            body1: { nb: "Prompt text" },
-            body2: { nb: "More prompt text" },
+            title: "First recording item",
+            body1: "Prompt text",
+            body2: "More prompt text",
             imageUrl: null,
           },
           options: [],
@@ -241,9 +242,9 @@ describe("SchedulePage fake YLE media", () => {
           itemId: "item-2",
           url: "yle-program-id-2",
           default: {
-            title: { nb: "Second recording item" },
-            body1: { nb: "Prompt text" },
-            body2: { nb: "More prompt text" },
+            title: "Second recording item",
+            body1: "Prompt text",
+            body2: "More prompt text",
             imageUrl: null,
           },
           options: [],

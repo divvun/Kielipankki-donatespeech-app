@@ -1,5 +1,11 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { Recording, Schedule, ThemeListItem } from "../types";
+import type {
+  Recording,
+  Schedule,
+  ScheduleAvailability,
+  Theme,
+  ThemeAvailability,
+} from "../types";
 import type {
   PlatformApi,
   SaveRecordingCommandResponse,
@@ -59,17 +65,19 @@ export const tauriPlatformApi: PlatformApi = {
   },
 
   fetchThemes() {
-    return invoke<ThemeListItem[]>("fetch_themes");
+    return invoke<ThemeAvailability[]>("fetch_themes");
+  },
+
+  fetchTheme(themeId, lang) {
+    return invoke<Theme>("fetch_theme", { themeId, lang });
   },
 
   fetchSchedules() {
-    return invoke<Schedule[]>("fetch_schedules").then((schedules) =>
-      schedules.map(normalizeSchedule),
-    );
+    return invoke<ScheduleAvailability[]>("fetch_schedules");
   },
 
-  fetchSchedule(scheduleId) {
-    return invoke<Schedule>("fetch_schedule", { scheduleId }).then(
+  fetchSchedule(scheduleId, lang) {
+    return invoke<Schedule>("fetch_schedule", { scheduleId, lang }).then(
       normalizeSchedule,
     );
   },

@@ -1,8 +1,8 @@
-import type { Schedule } from "../types/Schedule";
+import type { ScheduleAvailability } from "../types/Schedule";
 import { getLocalizedText } from "../utils/localization";
 
 interface TestSchedulesSectionProps {
-  schedules: Schedule[];
+  schedules: ScheduleAvailability[];
   currentLanguage: string;
 }
 
@@ -20,31 +20,15 @@ function ScheduleFieldRow({ label, value, className }: ScheduleFieldRowProps) {
   );
 }
 
-function getScheduleIdentifier(schedule: Schedule): string {
-  return schedule.id || schedule.scheduleId || "N/A";
-}
-
-function getLocalizedTitle(
-  title: Record<string, string> | null | undefined,
+function getAvailableLanguagesDisplay(
+  schedule: ScheduleAvailability,
   currentLanguage: string,
 ): string {
-  if (!title) {
-    return "N/A";
+  if (schedule.availableLanguages.length === 0) {
+    return getLocalizedText("N/A", currentLanguage);
   }
 
-  return getLocalizedText(title, currentLanguage) || "N/A";
-}
-
-function getScheduleDisplayTitle(
-  schedule: Schedule,
-  currentLanguage: string,
-): string {
-  const startTitle = getLocalizedTitle(schedule.start?.title, currentLanguage);
-  if (startTitle !== "N/A") {
-    return startTitle;
-  }
-
-  return getLocalizedTitle(schedule.finish?.title, currentLanguage);
+  return schedule.availableLanguages.join(", ");
 }
 
 export function TestSchedulesSection({
@@ -62,39 +46,17 @@ export function TestSchedulesSection({
       </h2>
       <div className="space-y-4">
         {schedules.map((schedule) => (
-          <div
-            key={schedule.id || schedule.scheduleId}
-            className="bg-white p-4 rounded shadow"
-          >
+          <div key={schedule.id} className="bg-white p-4 rounded shadow">
             <div className="text-sm space-y-2">
-              {(() => {
-                const displayTitle = getScheduleDisplayTitle(
-                  schedule,
-                  currentLanguage,
-                );
-
-                return displayTitle !== "N/A" ? (
-                  <ScheduleFieldRow
-                    label="Title"
-                    value={displayTitle}
-                    className="mb-2"
-                  />
-                ) : null;
-              })()}
               <ScheduleFieldRow
                 label="Schedule ID"
-                value={getScheduleIdentifier(schedule)}
+                value={schedule.id || "N/A"}
                 className="mb-2"
               />
-              {schedule.items && schedule.items.length > 0 && (
-                <div>
-                  <span className="font-semibold">Items:</span>{" "}
-                  {schedule.items.length} item(s)
-                  <pre className="text-xs mt-1 bg-gray-50 p-2 rounded overflow-x-auto max-h-60">
-                    {JSON.stringify(schedule.items, null, 2)}
-                  </pre>
-                </div>
-              )}
+              <ScheduleFieldRow
+                label="Available languages"
+                value={getAvailableLanguagesDisplay(schedule, currentLanguage)}
+              />
             </div>
           </div>
         ))}

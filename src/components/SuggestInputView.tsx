@@ -34,10 +34,7 @@ export function SuggestInputView({
   const { currentLanguage } = useLocalization();
 
   const localizedOptions = useMemo(
-    () =>
-      item.options.map((opt: Record<string, string>) =>
-        getLocalizedText(opt, currentLanguage),
-      ),
+    () => item.options.map((opt) => getLocalizedText(opt, currentLanguage)),
     [item.options, currentLanguage],
   );
 

@@ -31,9 +31,9 @@ export function TextContentView({ item }: TextContentViewProps) {
   const contentUrl = getItemMediaUrl(item);
 
   // Get localized state content
-  const title = getLocalizedText(defaultState?.title ?? {}, currentLanguage);
-  const body1 = getLocalizedText(defaultState?.body1 ?? {}, currentLanguage);
-  const body2 = getLocalizedText(defaultState?.body2 ?? {}, currentLanguage);
+  const title = getLocalizedText(defaultState?.title ?? "", currentLanguage);
+  const body1 = getLocalizedText(defaultState?.body1 ?? "", currentLanguage);
+  const body2 = getLocalizedText(defaultState?.body2 ?? "", currentLanguage);
   const isHtml =
     item.typeId?.toLowerCase().includes("html") || item.typeId === "text/html";
   const showNoContent = !loading && !error && !content;
