@@ -108,7 +108,7 @@ export interface SuperChoicePromptItem extends PromptWithOptions {
 }
 
 export interface TextInputItem extends BasePromptItem {
-  itemType: "text-input";
+  itemType: "text";
 }
 
 export type ScheduleItem =
@@ -125,6 +125,11 @@ export type ScheduleItem =
   | MultiChoicePromptItem
   | SuperChoicePromptItem
   | TextInputItem;
+
+export interface ScheduleListItem {
+  id: string;
+  content: Schedule;
+}
 
 type StatefulMedia = { url?: string | null; imageUrl?: string | null };
 

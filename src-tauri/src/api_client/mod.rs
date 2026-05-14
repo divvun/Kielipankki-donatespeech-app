@@ -1,4 +1,4 @@
-use crate::models::{schedule::Schedule, theme::{Theme, ThemeListItem}};
+use crate::models::{schedule::{Schedule, ScheduleListItem}, theme::{Theme, ThemeListItem}};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone)]
@@ -103,19 +103,24 @@ impl ApiClient {
     /// Fetch all schedules from the backend
     pub async fn get_schedules(&self) -> Result<Vec<Schedule>, String> {
         let url = format!("{}/v1/schedule", self.base_url);
-        
-        let mut schedules = self.client
+
+        let list = self.client
             .get(&url)
             .send()
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?
-            .json::<Vec<Schedule>>()
+            .json::<Vec<ScheduleListItem>>()
             .await
             .map_err(|e| format!("Failed to parse response: {}", e))?;
 
-        for schedule in &mut schedules {
+        let schedules = list.into_iter().map(|item| {
+            let mut schedule = item.content;
+            if schedule.id.is_none() {
+                schedule.id = Some(item.id);
+            }
             schedule.normalize_for_client();
-        }
+            schedule
+        }).collect();
 
         Ok(schedules)
     }

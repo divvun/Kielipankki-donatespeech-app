@@ -172,7 +172,14 @@ export const webPlatformApi: PlatformApi = {
   },
 
   fetchSchedules() {
-    return fetchJson<Schedule[]>("/v1/schedule");
+    return fetchJson<Array<{ id: string; content: Schedule }>>(
+      "/v1/schedule",
+    ).then((items) =>
+      items.map((item) => ({
+        ...item.content,
+        id: item.content.id ?? item.id,
+      })),
+    );
   },
 
   fetchSchedule(scheduleId) {

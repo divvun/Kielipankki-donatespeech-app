@@ -26,6 +26,13 @@ pub struct ScheduleState {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct ScheduleListItem {
+    pub id: String,
+    pub content: Schedule,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Schedule {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
@@ -373,28 +380,6 @@ pub enum ScheduleItem {
         #[serde(default, rename = "endTime")]
         end_time: i32,
     },
-    #[serde(rename = "text-input")]
-    TextInput {
-        kind: String, // "prompt"
-        #[serde(rename = "itemId")]
-        item_id: String,
-        #[serde(default, skip_serializing_if = "Option::is_none")]
-        url: Option<String>, // Image URL for the prompt
-        #[serde(rename = "typeId", skip_serializing_if = "Option::is_none")]
-        type_id: Option<String>,
-        #[serde(default, skip_serializing_if = "Option::is_none")]
-        default: Option<MediaState>,
-        #[serde(default)]
-        options: Vec<HashMap<String, String>>, // Localized answer options (may be empty)
-        #[serde(rename = "isRecording")]
-        is_recording: bool,
-        #[serde(skip_serializing_if = "Option::is_none")]
-        start: Option<MediaState>,
-        #[serde(default, rename = "startTime")]
-        start_time: i32,
-        #[serde(default, rename = "endTime")]
-        end_time: i32,
-    },
 }
 
 impl Schedule {
@@ -425,14 +410,6 @@ impl ScheduleItem {
                 ..
             }
             | ScheduleItem::Image {
-                url,
-                default,
-                start,
-                recording,
-                finish,
-                ..
-            }
-            | ScheduleItem::Text {
                 url,
                 default,
                 start,
@@ -480,6 +457,21 @@ impl ScheduleItem {
                 finish,
                 ..
             } => normalize_media_item(url, default, start, recording, finish),
+            ScheduleItem::Text {
+                kind,
+                url,
+                default,
+                start,
+                recording,
+                finish,
+                ..
+            } => {
+                if kind == "prompt" {
+                    normalize_prompt_item(url, default, start);
+                } else {
+                    normalize_media_item(url, default, start, recording, finish);
+                }
+            }
             ScheduleItem::Choice {
                 url,
                 default,
@@ -493,12 +485,6 @@ impl ScheduleItem {
                 ..
             }
             | ScheduleItem::SuperChoice {
-                url,
-                default,
-                start,
-                ..
-            }
-            | ScheduleItem::TextInput {
                 url,
                 default,
                 start,
@@ -599,7 +585,7 @@ mod tests {
             "items": [
                 {
                     "kind": "prompt",
-                    "itemType": "text-input",
+                    "itemType": "text",
                     "itemId": "item-2",
                     "isRecording": false,
                     "start": {
@@ -616,12 +602,14 @@ mod tests {
         schedule.normalize_for_client();
 
         match &schedule.items[0] {
-            ScheduleItem::TextInput {
+            ScheduleItem::Text {
+                kind,
                 url,
                 default,
                 options,
                 ..
             } => {
+                assert_eq!(kind, "prompt");
                 assert!(options.is_empty());
                 assert_eq!(url.as_deref(), Some("https://example.invalid/prompt.png"));
                 assert_eq!(
@@ -631,7 +619,7 @@ mod tests {
                     Some("https://example.invalid/prompt.png")
                 );
             }
-            _ => panic!("expected text-input item"),
+            _ => panic!("expected text item (prompt kind)"),
         }
     }
 

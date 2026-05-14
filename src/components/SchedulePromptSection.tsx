@@ -40,7 +40,7 @@ export function SchedulePromptSection({
             onAnswerChange={handleCurrentAnswerChange}
           />
         )}
-      {currentItem.itemType === "text-input" && (
+      {currentItem.kind === "prompt" && currentItem.itemType === "text" && (
         <textarea
           value={currentAnswer}
           onChange={(e) => handleCurrentAnswerChange(e.target.value)}
