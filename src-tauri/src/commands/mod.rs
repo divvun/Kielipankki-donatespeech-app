@@ -23,7 +23,6 @@ pub struct SaveRecordingResponse {
 struct RecordingMetadata {
     recording_id: Option<String>,
     client_id: Option<String>,
-    item_id: Option<String>,
     recording_timestamp: Option<String>,
     recording_duration: Option<f64>,
     content_type: Option<String>,
@@ -152,6 +151,9 @@ pub fn save_recording(
     // Store duration for response
     let duration_seconds = audio_metadata.duration_seconds;
     
+    // Capture timestamp once so metadata and the DB row are guaranteed to agree
+    let timestamp = chrono::Utc::now().to_rfc3339();
+
     // Create metadata JSON
     let metadata_json = serde_json::json!({
         "recordingId": recording_id,
@@ -159,7 +161,7 @@ pub fn save_recording(
         "clientPlatformName": std::env::consts::OS,
         "clientPlatformVersion": "Tauri",
         "itemId": item_id,
-        "recordingTimestamp": chrono::Utc::now().to_rfc3339(),
+        "recordingTimestamp": timestamp,
         "recordingDuration": audio_metadata.duration_seconds,
         "recordingSampleRate": audio_metadata.sample_rate,
         "recordingBitDepth": audio_metadata.bit_depth,
@@ -173,7 +175,7 @@ pub fn save_recording(
         item_id: Some(item_id),
         file_name: Some(audio_metadata.filename),
         client_id: Some(client_id),
-        timestamp: chrono::Utc::now().to_rfc3339(),
+        timestamp,
         upload_status: Some(UploadStatus::Pending),
         metadata: Some(metadata_json.to_string()),
     };
