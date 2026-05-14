@@ -249,12 +249,19 @@ impl ApiClient {
     pub async fn download_media(&self, filename: &str) -> Result<Vec<u8>, String> {
         let url = format!("{}/v1/media/{}", self.base_url, filename);
         
-        self.client
+        let response = self.client
             .get(&url)
             .send()
             .await
-            .map_err(|e| format!("Failed to download media: {}", e))?
-            .bytes()
+            .map_err(|e| format!("Failed to download media: {}", e))?;
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("Media download failed with status {}: {}", status, error_text));
+        }
+
+        response.bytes()
             .await
             .map_err(|e| format!("Failed to read media bytes: {}", e))
             .map(|b| b.to_vec())
