@@ -6,27 +6,10 @@
         "version": "2.0.0"
     },
     "paths": {
-        "/": {
-            "get": {
-                "summary": "Root",
-                "description": "Health check endpoint.",
-                "operationId": "root__get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/v1/upload": {
             "post": {
                 "summary": "Init Upload",
-                "description": "Initialize an upload by storing metadata and generating a SAS URL.\n\nThis endpoint:\n1. Validates the filename and metadata\n2. Stores metadata as JSON in Azure Blob Storage\n3. Returns a SAS URL for the client to upload the audio file directly",
+                "description": "Initialize an upload by storing metadata and generating a SAS URL.\n\n1. Validates the filename and metadata\n2. Stores metadata as JSON in Azure Blob Storage\n3. Returns a SAS URL for the client to upload the audio file directly",
                 "operationId": "init_upload_v1_upload_post",
                 "requestBody": {
                     "content": {
@@ -218,7 +201,7 @@
         "/v1/schedule/{schedule_id}": {
             "get": {
                 "summary": "Load Schedule",
-                "description": "Load a specific schedule file.",
+                "description": "Load a specific schedule file for one language.",
                 "operationId": "load_schedule_v1_schedule__schedule_id__get",
                 "parameters": [
                     {
@@ -231,6 +214,17 @@
                             "title": "Schedule Id"
                         },
                         "description": "Schedule ID"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Language code, for example 'fi' or 'nb'",
+                            "title": "Lang"
+                        },
+                        "description": "Language code, for example 'fi' or 'nb'"
                     }
                 ],
                 "responses": {
@@ -259,9 +253,9 @@
         },
         "/v1/schedule": {
             "get": {
-                "summary": "Load All Schedules",
-                "description": "Load all schedule files.",
-                "operationId": "load_all_schedules_v1_schedule_get",
+                "summary": "List Schedules",
+                "description": "List all schedules with their available languages.",
+                "operationId": "list_schedules_v1_schedule_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -269,10 +263,52 @@
                             "application/json": {
                                 "schema": {
                                     "items": {
-                                        "$ref": "#/components/schemas/ScheduleListItem"
+                                        "$ref": "#/components/schemas/ScheduleAvailability"
                                     },
                                     "type": "array",
-                                    "title": "Response Load All Schedules V1 Schedule Get"
+                                    "title": "Response List Schedules V1 Schedule Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/schedule/{schedule_id}/languages": {
+            "get": {
+                "summary": "Schedule Languages",
+                "description": "Return which languages are available for one schedule.",
+                "operationId": "schedule_languages_v1_schedule__schedule_id__languages_get",
+                "parameters": [
+                    {
+                        "name": "schedule_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Schedule ID",
+                            "title": "Schedule Id"
+                        },
+                        "description": "Schedule ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScheduleAvailability"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -283,7 +319,7 @@
         "/v1/theme/{theme_id}": {
             "get": {
                 "summary": "Load Theme",
-                "description": "Load a specific theme file.",
+                "description": "Load a specific theme file for one language.",
                 "operationId": "load_theme_v1_theme__theme_id__get",
                 "parameters": [
                     {
@@ -296,6 +332,17 @@
                             "title": "Theme Id"
                         },
                         "description": "Theme ID"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Language code, for example 'fi' or 'nb'",
+                            "title": "Lang"
+                        },
+                        "description": "Language code, for example 'fi' or 'nb'"
                     }
                 ],
                 "responses": {
@@ -324,9 +371,9 @@
         },
         "/v1/theme": {
             "get": {
-                "summary": "Load All Themes",
-                "description": "Load all theme files.",
-                "operationId": "load_all_themes_v1_theme_get",
+                "summary": "List Themes",
+                "description": "List all themes with their available languages.",
+                "operationId": "list_themes_v1_theme_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -334,10 +381,52 @@
                             "application/json": {
                                 "schema": {
                                     "items": {
-                                        "$ref": "#/components/schemas/ThemeListItem"
+                                        "$ref": "#/components/schemas/ThemeAvailability"
                                     },
                                     "type": "array",
-                                    "title": "Response Load All Themes V1 Theme Get"
+                                    "title": "Response List Themes V1 Theme Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/theme/{theme_id}/languages": {
+            "get": {
+                "summary": "Theme Languages",
+                "description": "Return which languages are available for one theme.",
+                "operationId": "theme_languages_v1_theme__theme_id__languages_get",
+                "parameters": [
+                    {
+                        "name": "theme_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Theme ID",
+                            "title": "Theme Id"
+                        },
+                        "description": "Theme ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ThemeAvailability"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -348,7 +437,7 @@
         "/v1/media/{filename}": {
             "get": {
                 "summary": "Serve Media",
-                "description": "Serve media files (audio/video) for playback in the client app.\n\nSupports HTTP range requests for streaming and seeking.\nRequired for AVPlayer on iOS/macOS.\n\nMedia files are stored in the `media/` prefix in blob storage.\nSupports audio (m4a, mp3, wav, etc.) and video (mp4, etc.) files.",
+                "description": "Serve media files (audio/video) for playback in the client app.\n\nSupports HTTP range requests for streaming and seeking.\nRequired for AVPlayer on iOS/macOS.",
                 "operationId": "serve_media_v1_media__filename__get",
                 "parameters": [
                     {
@@ -395,6 +484,23 @@
                     }
                 }
             }
+        },
+        "/": {
+            "get": {
+                "summary": "Root",
+                "description": "Health check endpoint.",
+                "operationId": "root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -427,12 +533,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'audio/m4a', 'audio/mpeg')"
-                    },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
                     },
                     "isRecording": {
                         "type": "boolean",
@@ -513,10 +613,7 @@
                     },
                     "options": {
                         "items": {
-                            "additionalProperties": {
-                                "type": "string"
-                            },
-                            "type": "object"
+                            "type": "string"
                         },
                         "type": "array",
                         "title": "Options",
@@ -548,172 +645,6 @@
                 ],
                 "title": "ChoicePromptItem",
                 "description": "Single choice prompt item"
-            },
-            "FakeYleAudioMediaItem": {
-                "properties": {
-                    "kind": {
-                        "type": "string",
-                        "const": "media",
-                        "title": "Kind"
-                    },
-                    "itemType": {
-                        "type": "string",
-                        "const": "fake-yle-audio",
-                        "title": "Itemtype"
-                    },
-                    "itemId": {
-                        "type": "string",
-                        "title": "Itemid",
-                        "description": "UUID v4 of the item"
-                    },
-                    "typeId": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Typeid",
-                        "description": "MIME type"
-                    },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
-                    },
-                    "isRecording": {
-                        "type": "boolean",
-                        "title": "Isrecording"
-                    },
-                    "start": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/MediaState"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "State before recording starts"
-                    },
-                    "recording": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/MediaState"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "State during recording"
-                    },
-                    "finish": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/MediaState"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "State after recording finishes"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "kind",
-                    "itemType",
-                    "itemId",
-                    "isRecording"
-                ],
-                "title": "FakeYleAudioMediaItem",
-                "description": "Fake YLE audio item returned when YLE credentials are not configured"
-            },
-            "FakeYleVideoMediaItem": {
-                "properties": {
-                    "kind": {
-                        "type": "string",
-                        "const": "media",
-                        "title": "Kind"
-                    },
-                    "itemType": {
-                        "type": "string",
-                        "const": "fake-yle-video",
-                        "title": "Itemtype"
-                    },
-                    "itemId": {
-                        "type": "string",
-                        "title": "Itemid",
-                        "description": "UUID v4 of the item"
-                    },
-                    "typeId": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Typeid",
-                        "description": "MIME type"
-                    },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
-                    },
-                    "isRecording": {
-                        "type": "boolean",
-                        "title": "Isrecording"
-                    },
-                    "start": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/MediaState"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "State before recording starts"
-                    },
-                    "recording": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/MediaState"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "State during recording"
-                    },
-                    "finish": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/MediaState"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "State after recording finishes"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "kind",
-                    "itemType",
-                    "itemId",
-                    "isRecording"
-                ],
-                "title": "FakeYleVideoMediaItem",
-                "description": "Fake YLE video item returned when YLE credentials are not configured"
             },
             "HTTPValidationError": {
                 "properties": {
@@ -756,12 +687,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'image/jpeg', 'image/png')"
-                    },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
                     },
                     "isRecording": {
                         "type": "boolean",
@@ -847,26 +772,17 @@
             "MediaState": {
                 "properties": {
                     "title": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
+                        "type": "string",
                         "title": "Title",
                         "description": "Localized title"
                     },
                     "body1": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
+                        "type": "string",
                         "title": "Body1",
                         "description": "Localized body text 1"
                     },
                     "body2": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
+                        "type": "string",
                         "title": "Body2",
                         "description": "Localized body text 2"
                     },
@@ -923,10 +839,7 @@
                     },
                     "options": {
                         "items": {
-                            "additionalProperties": {
-                                "type": "string"
-                            },
-                            "type": "object"
+                            "type": "string"
                         },
                         "type": "array",
                         "title": "Options",
@@ -950,10 +863,7 @@
                     "otherAnswer": {
                         "anyOf": [
                             {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
+                                "type": "string"
                             },
                             {
                                 "type": "null"
@@ -965,10 +875,7 @@
                     "otherEntryLabel": {
                         "anyOf": [
                             {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
+                                "type": "string"
                             },
                             {
                                 "type": "null"
@@ -1016,7 +923,7 @@
                     "start": {
                         "anyOf": [
                             {
-                                "$ref": "#/components/schemas/ScheduleState"
+                                "$ref": "#/components/schemas/MediaState"
                             },
                             {
                                 "type": "null"
@@ -1027,7 +934,7 @@
                     "finish": {
                         "anyOf": [
                             {
-                                "$ref": "#/components/schemas/ScheduleState"
+                                "$ref": "#/components/schemas/MediaState"
                             },
                             {
                                 "type": "null"
@@ -1063,12 +970,6 @@
                                     "$ref": "#/components/schemas/YleVideoMediaItem"
                                 },
                                 {
-                                    "$ref": "#/components/schemas/FakeYleAudioMediaItem"
-                                },
-                                {
-                                    "$ref": "#/components/schemas/FakeYleVideoMediaItem"
-                                },
-                                {
                                     "$ref": "#/components/schemas/TextContentItem"
                                 },
                                 {
@@ -1090,77 +991,27 @@
                 "title": "Schedule",
                 "description": "Schedule (playlist) containing items to present to user"
             },
-            "ScheduleListItem": {
+            "ScheduleAvailability": {
                 "properties": {
                     "id": {
                         "type": "string",
                         "title": "Id"
                     },
-                    "content": {
-                        "$ref": "#/components/schemas/Schedule"
+                    "availableLanguages": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Availablelanguages"
                     }
                 },
                 "type": "object",
                 "required": [
                     "id",
-                    "content"
+                    "availableLanguages"
                 ],
-                "title": "ScheduleListItem",
-                "description": "Single schedule in list response"
-            },
-            "ScheduleState": {
-                "properties": {
-                    "title": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
-                        "title": "Title",
-                        "description": "Localized title"
-                    },
-                    "body1": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
-                        "title": "Body1",
-                        "description": "Localized body text 1"
-                    },
-                    "body2": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Body2",
-                        "description": "Localized body text 2"
-                    },
-                    "url": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Url",
-                        "description": "Optional URL"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "title",
-                    "body1"
-                ],
-                "title": "ScheduleState",
-                "description": "State information for schedule start/finish screens"
+                "title": "ScheduleAvailability",
+                "description": "Availability info for one schedule across languages"
             },
             "SuperChoicePromptItem": {
                 "properties": {
@@ -1193,10 +1044,7 @@
                     },
                     "options": {
                         "items": {
-                            "additionalProperties": {
-                                "type": "string"
-                            },
-                            "type": "object"
+                            "type": "string"
                         },
                         "type": "array",
                         "title": "Options",
@@ -1220,10 +1068,7 @@
                     "otherEntryLabel": {
                         "anyOf": [
                             {
-                                "additionalProperties": {
-                                    "type": "string"
-                                },
-                                "type": "object"
+                                "type": "string"
                             },
                             {
                                 "type": "null"
@@ -1272,12 +1117,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'text/plain', 'text/html')"
-                    },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
                     },
                     "isRecording": {
                         "type": "boolean",
@@ -1417,12 +1256,6 @@
                         "title": "Typeid",
                         "description": "MIME type"
                     },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
-                    },
                     "isRecording": {
                         "type": "boolean",
                         "title": "Isrecording"
@@ -1484,76 +1317,49 @@
                         ],
                         "title": "Id"
                     },
-                    "title": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
-                        "title": "Title",
-                        "description": "Localized title (e.g., {'fi': '...', 'nb': '...'})"
+                    "mediaState": {
+                        "$ref": "#/components/schemas/MediaState"
                     },
-                    "body1": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
-                        "title": "Body1",
-                        "description": "Localized body text 1"
-                    },
-                    "body2": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
-                        "title": "Body2",
-                        "description": "Localized body text 2"
-                    },
-                    "image": {
+                    "schedule": {
                         "anyOf": [
                             {
-                                "type": "string"
+                                "$ref": "#/components/schemas/Schedule"
                             },
                             {
                                 "type": "null"
                             }
-                        ],
-                        "title": "Image",
-                        "description": "URL to theme image"
-                    },
-                    "scheduleIds": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array",
-                        "title": "Scheduleids"
+                        ]
                     }
                 },
                 "type": "object",
                 "required": [
-                    "title",
-                    "body1",
-                    "body2"
+                    "mediaState",
+                    "schedule"
                 ],
                 "title": "Theme",
                 "description": "Theme containing multiple schedule IDs with localized content"
             },
-            "ThemeListItem": {
+            "ThemeAvailability": {
                 "properties": {
                     "id": {
                         "type": "string",
                         "title": "Id"
                     },
-                    "content": {
-                        "$ref": "#/components/schemas/Theme"
+                    "availableLanguages": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Availablelanguages"
                     }
                 },
                 "type": "object",
                 "required": [
                     "id",
-                    "content"
+                    "availableLanguages"
                 ],
-                "title": "ThemeListItem",
-                "description": "Single theme in list response"
+                "title": "ThemeAvailability",
+                "description": "Availability info for one theme across languages"
             },
             "UploadMetadata": {
                 "properties": {
@@ -1708,12 +1514,6 @@
                         "title": "Typeid",
                         "description": "MIME type (e.g., 'video/mp4', 'video/webm')"
                     },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
-                    },
                     "isRecording": {
                         "type": "boolean",
                         "title": "Isrecording"
@@ -1791,12 +1591,6 @@
                         "title": "Typeid",
                         "description": "MIME type"
                     },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
-                    },
                     "isRecording": {
                         "type": "boolean",
                         "title": "Isrecording"
@@ -1873,12 +1667,6 @@
                         ],
                         "title": "Typeid",
                         "description": "MIME type"
-                    },
-                    "options": {
-                        "items": {},
-                        "type": "array",
-                        "title": "Options",
-                        "description": "Empty list for media items"
                     },
                     "isRecording": {
                         "type": "boolean",
