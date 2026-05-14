@@ -248,8 +248,8 @@ pub async fn download_media(
 }
 
 /// Tauri command to upload a single recording to the backend
-/// 
-/// Uploads a recording by ID, reads the FLAC file, sends to Azure Blob Storage, 
+///
+/// Uploads a recording by ID, reads the file, sends to Azure Blob Storage,
 /// and updates the database status to "Uploaded"
 #[tauri::command]
 pub async fn upload_recording(
@@ -259,80 +259,7 @@ pub async fn upload_recording(
     recording_id: String,
 ) -> Result<(), String> {
     println!("upload_recording called for: {}", recording_id);
-    
-    // Get the recording from database
-    let recording = database::get_recording_by_id(db.connection(), &recording_id)?;
-    
-    // Get the FLAC file path
-    let filename = recording.file_name
-        .ok_or_else(|| "Recording has no filename".to_string())?;
-    
-    let app_data_dir = app_handle
-        .path()
-        .app_data_dir()
-        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
-    
-    let recordings_dir = app_data_dir.join("recordings");
-    let file_path = recordings_dir.join(&filename);
-    
-    // Check if file exists
-    if !file_path.exists() {
-        return Err(format!("Recording file not found: {}", file_path.display()));
-    }
-    
-    // Read the FLAC file
-    let file_data = std::fs::read(&file_path)
-        .map_err(|e| format!("Failed to read recording file: {}", e))?;
-    
-    println!("Read {} bytes from {}", file_data.len(), filename);
-    
-    // Parse metadata
-    let metadata_str = recording.metadata
-        .ok_or_else(|| "Recording has no metadata".to_string())?;
-    
-    let metadata: RecordingMetadata = serde_json::from_str(&metadata_str)
-        .map_err(|e| format!("Failed to parse metadata: {}", e))?;
-    
-    // Get clientId from metadata (primary source) or recording (fallback)
-    let client_id = metadata.client_id
-        .or_else(|| recording.client_id.clone())
-        .filter(|id| !id.is_empty())
-        .ok_or_else(|| format!("Recording {} has no valid clientId", recording_id))?;
-    
-    println!("Upload metadata - clientId: {}, recordingId: {:?}", client_id, metadata.recording_id);
-    
-    // Create upload request
-    let upload_metadata = api_client::UploadMetadata {
-        client_id,
-        session_id: None,  // We don't track session IDs in Tauri app
-        recording_id: metadata.recording_id,
-        content_type: metadata.content_type,
-        timestamp: metadata.recording_timestamp,
-        duration: metadata.recording_duration,
-        language: None,  // Not tracked yet
-    };
-    
-    let init_request = api_client::InitUploadRequest {
-        filename: filename.clone(),
-        metadata: upload_metadata,
-    };
-    
-    // Get presigned URL from backend
-    println!("Requesting presigned URL...");
-    let upload_response = api_client.init_upload(init_request).await?;
-    
-    println!("Got presigned URL, uploading file...");
-    
-    // Upload file to Azure Blob Storage
-    api_client.upload_file(&upload_response.presigned_url, file_data).await?;
-    
-    println!("Upload successful, updating database status...");
-    
-    // Update status in database
-    database::update_recording_status(db.connection(), &recording_id, UploadStatus::Uploaded)?;
-    
-    println!("Recording {} uploaded successfully", recording_id);
-    Ok(())
+    upload_recording_impl(&app_handle, &db, &api_client, recording_id).await
 }
 
 /// Tauri command to upload all pending recordings
