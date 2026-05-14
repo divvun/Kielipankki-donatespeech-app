@@ -40,11 +40,13 @@ export function ScheduleFinishSummary({
       <div className="max-w-2xl w-full">
         {finishImageUrl ? (
           <div className="mb-8 flex justify-center">
-            <img
-              src={finishImageUrl}
-              alt=""
-              className="max-w-md w-full h-auto rounded-lg shadow-lg"
-            />
+            <div className="max-w-md w-full aspect-video rounded-lg shadow-lg overflow-hidden">
+              <img
+                src={finishImageUrl}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         ) : (
           <ScheduleFinishFallbackIllustration />

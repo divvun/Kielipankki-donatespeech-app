@@ -32,14 +32,14 @@ export function ScheduleMediaSection({
     !currentMediaUrl && !mediaError && !isFakeYleItem && hasUrl;
 
   return (
-    <div>
+    <div className="w-full">
       {mediaError && (
         <Alert variant="destructive" className="mb-4">
           <AlertDescription>{mediaError}</AlertDescription>
         </Alert>
       )}
       {stateImageUrl ? (
-        <div className="w-full h-50 rounded-2xl overflow-hidden bg-linear-to-br from-secondary to-[#b8d4e8]">
+        <div className="w-full aspect-video rounded-2xl overflow-hidden bg-linear-to-br from-secondary to-[#b8d4e8]">
           <img
             src={stateImageUrl}
             alt={title}
@@ -55,12 +55,12 @@ export function ScheduleMediaSection({
             <AudioPlayer url={currentMediaUrl} description={title} />
           )}
           {showMediaLoader && (
-            <div className="w-full h-50 rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
+            <div className="w-full aspect-video rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
               <Spinner className="w-8 h-8" />
             </div>
           )}
           {isFakeYleItem && (
-            <div className="w-full h-50 rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
+            <div className="w-full aspect-video rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">
               <Image className="w-8 h-8 text-primary" />
               <span className="sr-only">{currentItem.itemType}</span>
             </div>
