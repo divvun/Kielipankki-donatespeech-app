@@ -488,7 +488,7 @@ pub fn fix_client_ids(
             .map_err(|e| format!("Failed to lock database: {}", e))?;
         
         conn.execute(
-            "UPDATE recordings SET client_id = ?1 WHERE client_id = ?2",
+            "UPDATE Recording SET ClientId = ?1 WHERE ClientId = ?2",
             params![real_client_id, "test-client-id"],
         ).map_err(|e| format!("Failed to update client IDs: {}", e))?
     }; // Lock is released here
@@ -512,7 +512,7 @@ pub fn fix_client_ids(
                             .map_err(|e| format!("Failed to lock database: {}", e))?;
                         
                         conn.execute(
-                            "UPDATE recordings SET metadata = ?1 WHERE recording_id = ?2",
+                            "UPDATE Recording SET Metadata = ?1 WHERE RecordingId = ?2",
                             params![updated_metadata, recording.recording_id],
                         ).map_err(|e| format!("Failed to update metadata: {}", e))?;
                     }
