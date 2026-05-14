@@ -1,6 +1,11 @@
 use crate::api_client;
 use crate::database;
-use crate::models::{theme::{Theme, ThemeListItem}, schedule::Schedule, Recording, UploadStatus};
+use crate::models::{
+    schedule::{Schedule, ScheduleAvailability},
+    theme::{Theme, ThemeAvailability},
+    Recording,
+    UploadStatus,
+};
 use crate::recording;
 use tauri::{AppHandle, State, Manager};
 use base64::Engine;
@@ -73,26 +78,34 @@ pub fn insert_test_recording(db: State<database::Database>) -> Result<(), String
 
 /// Tauri command to fetch all themes from the backend API
 #[tauri::command]
-pub async fn fetch_themes(api_client: State<'_, api_client::ApiClient>) -> Result<Vec<ThemeListItem>, String> {
+pub async fn fetch_themes(api_client: State<'_, api_client::ApiClient>) -> Result<Vec<ThemeAvailability>, String> {
     api_client.get_themes().await
 }
 
 /// Tauri command to fetch a specific theme by ID
 #[tauri::command]
-pub async fn fetch_theme(api_client: State<'_, api_client::ApiClient>, theme_id: String) -> Result<Theme, String> {
-    api_client.get_theme(&theme_id).await
+pub async fn fetch_theme(
+    api_client: State<'_, api_client::ApiClient>,
+    theme_id: String,
+    lang: String,
+) -> Result<Theme, String> {
+    api_client.get_theme(&theme_id, &lang).await
 }
 
 /// Tauri command to fetch all schedules from the backend API
 #[tauri::command]
-pub async fn fetch_schedules(api_client: State<'_, api_client::ApiClient>) -> Result<Vec<Schedule>, String> {
+pub async fn fetch_schedules(api_client: State<'_, api_client::ApiClient>) -> Result<Vec<ScheduleAvailability>, String> {
     api_client.get_schedules().await
 }
 
 /// Tauri command to fetch a specific schedule by ID
 #[tauri::command]
-pub async fn fetch_schedule(api_client: State<'_, api_client::ApiClient>, schedule_id: String) -> Result<Schedule, String> {
-    api_client.get_schedule(&schedule_id).await
+pub async fn fetch_schedule(
+    api_client: State<'_, api_client::ApiClient>,
+    schedule_id: String,
+    lang: String,
+) -> Result<Schedule, String> {
+    api_client.get_schedule(&schedule_id, &lang).await
 }
 
 /// Tauri command to get the API base URL

@@ -1,13 +1,14 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+
+pub type LocalizedText = String;
 
 /// Localized content state for media items and prompts
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MediaState {
-    pub title: HashMap<String, String>,
-    pub body1: HashMap<String, String>,
-    pub body2: HashMap<String, String>,
+    pub title: LocalizedText,
+    pub body1: LocalizedText,
+    pub body2: LocalizedText,
     #[serde(skip_serializing_if = "Option::is_none", alias = "url")]
     pub image_url: Option<String>,
 }
@@ -16,19 +17,19 @@ pub struct MediaState {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ScheduleState {
-    pub title: HashMap<String, String>,
-    pub body1: HashMap<String, String>,
+    pub title: LocalizedText,
+    pub body1: LocalizedText,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub body2: Option<HashMap<String, String>>,
+    pub body2: Option<LocalizedText>,
     #[serde(skip_serializing_if = "Option::is_none", alias = "url")]
     pub image_url: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct ScheduleListItem {
+pub struct ScheduleAvailability {
     pub id: String,
-    pub content: Schedule,
+    pub available_languages: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -39,11 +40,11 @@ pub struct Schedule {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub schedule_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub title: Option<HashMap<String, String>>,
+    pub title: Option<LocalizedText>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub body1: Option<HashMap<String, String>>,
+    pub body1: Option<LocalizedText>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub body2: Option<HashMap<String, String>>,
+    pub body2: Option<LocalizedText>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub start: Option<ScheduleState>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -79,7 +80,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -106,7 +107,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -133,7 +134,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -160,7 +161,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -188,7 +189,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -216,7 +217,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -244,7 +245,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -273,7 +274,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -301,7 +302,7 @@ pub enum ScheduleItem {
         #[serde(skip_serializing_if = "Option::is_none")]
         finish: Option<MediaState>,
         #[serde(rename = "metaTitle", skip_serializing_if = "Option::is_none")]
-        meta_title: Option<HashMap<String, String>>,
+        meta_title: Option<LocalizedText>,
         #[serde(default, rename = "startTime")]
         start_time: i32,
         #[serde(default, rename = "endTime")]
@@ -320,7 +321,7 @@ pub enum ScheduleItem {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         default: Option<MediaState>,
         #[serde(default)]
-        options: Vec<HashMap<String, String>>, // Localized answer options
+        options: Vec<LocalizedText>,
         #[serde(rename = "isRecording")]
         is_recording: bool,
         #[serde(skip_serializing_if = "Option::is_none")]
@@ -342,13 +343,13 @@ pub enum ScheduleItem {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         default: Option<MediaState>,
         #[serde(default)]
-        options: Vec<HashMap<String, String>>, // Localized answer options
+        options: Vec<LocalizedText>,
         #[serde(rename = "isRecording")]
         is_recording: bool,
         #[serde(rename = "otherAnswer", skip_serializing_if = "Option::is_none")]
-        other_answer: Option<HashMap<String, String>>,
+        other_answer: Option<LocalizedText>,
         #[serde(rename = "otherEntryLabel", skip_serializing_if = "Option::is_none")]
-        other_entry_label: Option<HashMap<String, String>>,
+        other_entry_label: Option<LocalizedText>,
         #[serde(skip_serializing_if = "Option::is_none")]
         start: Option<MediaState>,
         #[serde(default, rename = "startTime")]
@@ -368,11 +369,11 @@ pub enum ScheduleItem {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         default: Option<MediaState>,
         #[serde(default)]
-        options: Vec<HashMap<String, String>>, // Localized answer options
+        options: Vec<LocalizedText>,
         #[serde(rename = "isRecording")]
         is_recording: bool,
         #[serde(rename = "otherEntryLabel", skip_serializing_if = "Option::is_none")]
-        other_entry_label: Option<HashMap<String, String>>,
+        other_entry_label: Option<LocalizedText>,
         #[serde(skip_serializing_if = "Option::is_none")]
         start: Option<MediaState>,
         #[serde(default, rename = "startTime")]
@@ -553,9 +554,9 @@ mod tests {
                     "itemId": "item-1",
                     "isRecording": true,
                     "start": {
-                        "title": { "fi": "otsikko" },
-                        "body1": { "fi": "teksti 1" },
-                        "body2": { "fi": "teksti 2" },
+                        "title": "otsikko",
+                        "body1": "teksti 1",
+                        "body2": "teksti 2",
                         "url": "https://example.invalid/media.mp3"
                     }
                 }
@@ -589,9 +590,9 @@ mod tests {
                     "itemId": "item-2",
                     "isRecording": false,
                     "start": {
-                        "title": { "fi": "kysymys" },
-                        "body1": { "fi": "selite" },
-                        "body2": { "fi": "lisatieto" },
+                        "title": "kysymys",
+                        "body1": "selite",
+                        "body2": "lisatieto",
                         "url": "https://example.invalid/prompt.png"
                     }
                 }
@@ -626,9 +627,9 @@ mod tests {
     #[test]
     fn accepts_legacy_image_url_field_name() {
         let state: MediaState = serde_json::from_value(serde_json::json!({
-            "title": { "fi": "otsikko" },
-            "body1": { "fi": "teksti 1" },
-            "body2": { "fi": "teksti 2" },
+            "title": "otsikko",
+            "body1": "teksti 1",
+            "body2": "teksti 2",
             "imageUrl": "https://example.invalid/image.png"
         }))
         .expect("media state should deserialize");

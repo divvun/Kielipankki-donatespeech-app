@@ -1,5 +1,9 @@
-use crate::models::{schedule::{Schedule, ScheduleListItem}, theme::{Theme, ThemeListItem}};
+use crate::models::{
+    schedule::{Schedule, ScheduleAvailability},
+    theme::{Theme, ThemeAvailability},
+};
 use serde::{Deserialize, Serialize};
+use serde::de::DeserializeOwned;
 
 #[derive(Debug, Clone)]
 pub struct ApiClient {
@@ -72,71 +76,79 @@ impl ApiClient {
         &self.base_url
     }
 
+    async fn parse_json_response<T: DeserializeOwned>(
+        response: reqwest::Response,
+    ) -> Result<T, String> {
+        let status = response.status();
+        let response_text = response
+            .text()
+            .await
+            .map_err(|e| format!("Failed to read response body: {}", e))?;
+
+        if !status.is_success() {
+            return Err(format!(
+                "Request failed with status {}: {}",
+                status,
+                response_text
+            ));
+        }
+
+        serde_json::from_str::<T>(&response_text)
+            .map_err(|e| format!("Failed to parse response: {}. Response was: {}", e, response_text))
+    }
+
     /// Fetch all themes from the backend
-    pub async fn get_themes(&self) -> Result<Vec<ThemeListItem>, String> {
+    pub async fn get_themes(&self) -> Result<Vec<ThemeAvailability>, String> {
         let url = format!("{}/v1/theme", self.base_url);
         
-        self.client
+        let response = self.client
             .get(&url)
             .send()
             .await
-            .map_err(|e| format!("Failed to send request: {}", e))?
-            .json::<Vec<ThemeListItem>>()
-            .await
-            .map_err(|e| format!("Failed to parse response: {}", e))
+            .map_err(|e| format!("Failed to send request: {}", e))?;
+
+        Self::parse_json_response(response).await
     }
 
     /// Fetch a specific theme by ID
-    pub async fn get_theme(&self, theme_id: &str) -> Result<Theme, String> {
+    pub async fn get_theme(&self, theme_id: &str, lang: &str) -> Result<Theme, String> {
         let url = format!("{}/v1/theme/{}", self.base_url, theme_id);
         
-        self.client
+        let response = self.client
             .get(&url)
+            .query(&[("lang", lang)])
             .send()
             .await
-            .map_err(|e| format!("Failed to send request: {}", e))?
-            .json::<Theme>()
-            .await
-            .map_err(|e| format!("Failed to parse response: {}", e))
+            .map_err(|e| format!("Failed to send request: {}", e))?;
+
+        Self::parse_json_response(response).await
     }
 
     /// Fetch all schedules from the backend
-    pub async fn get_schedules(&self) -> Result<Vec<Schedule>, String> {
+    pub async fn get_schedules(&self) -> Result<Vec<ScheduleAvailability>, String> {
         let url = format!("{}/v1/schedule", self.base_url);
 
-        let list = self.client
+        let response = self.client
             .get(&url)
             .send()
             .await
-            .map_err(|e| format!("Failed to send request: {}", e))?
-            .json::<Vec<ScheduleListItem>>()
-            .await
-            .map_err(|e| format!("Failed to parse response: {}", e))?;
+            .map_err(|e| format!("Failed to send request: {}", e))?;
 
-        let schedules = list.into_iter().map(|item| {
-            let mut schedule = item.content;
-            if schedule.id.is_none() {
-                schedule.id = Some(item.id);
-            }
-            schedule.normalize_for_client();
-            schedule
-        }).collect();
-
-        Ok(schedules)
+        Self::parse_json_response::<Vec<ScheduleAvailability>>(response).await
     }
 
     /// Fetch a specific schedule by ID
-    pub async fn get_schedule(&self, schedule_id: &str) -> Result<Schedule, String> {
+    pub async fn get_schedule(&self, schedule_id: &str, lang: &str) -> Result<Schedule, String> {
         let url = format!("{}/v1/schedule/{}", self.base_url, schedule_id);
         
-        let mut schedule = self.client
+        let response = self.client
             .get(&url)
+            .query(&[("lang", lang)])
             .send()
             .await
-            .map_err(|e| format!("Failed to send request: {}", e))?
-            .json::<Schedule>()
-            .await
-            .map_err(|e| format!("Failed to parse response: {}", e))?;
+            .map_err(|e| format!("Failed to send request: {}", e))?;
+
+        let mut schedule = Self::parse_json_response::<Schedule>(response).await?;
 
         schedule.normalize_for_client();
 
