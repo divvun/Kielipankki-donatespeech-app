@@ -77,3 +77,11 @@ export function getThemesPath(language?: LanguageCode | null): string {
 
   return `/themes?${THEME_LANGUAGE_PARAM}=${encodeURIComponent(language)}`;
 }
+
+export function appendSearch(path: string, search: string): string {
+  return search ? `${path}${search}` : path;
+}
+
+export function getThemesPathFromSearch(search: string): string {
+  return getThemesPath(getThemeLanguageFromSearch(search));
+}
