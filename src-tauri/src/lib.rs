@@ -41,7 +41,9 @@ pub fn run() {
                 .map_err(|e| format!("Failed to parse config: {}", e))?;
             
             let api_base_url = config.plugins.recorder.api_base_url;
-            println!("Initializing API client with base URL: {}", api_base_url);
+            if cfg!(debug_assertions) {
+                println!("Initializing API client with base URL: {}", api_base_url);
+            }
 
             // Initialize API client with configured URL
             let api_client = api_client::ApiClient::new(api_base_url);

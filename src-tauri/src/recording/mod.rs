@@ -48,19 +48,19 @@ fn detect_format(data: &[u8]) -> Result<AudioFormat, String> {
         .iter()
         .map(|&b| if b.is_ascii_graphic() || b == b' ' { b as char } else { '.' })
         .collect();
-    eprintln!("[Audio] First {} bytes (hex): {}", preview_len, hex_str);
-    eprintln!("[Audio] First {} bytes (ascii): '{}'", preview_len, ascii_str);
+    debug_log!("[Audio] First {} bytes (hex): {}", preview_len, hex_str);
+    debug_log!("[Audio] First {} bytes (ascii): '{}'", preview_len, ascii_str);
     
     // Check for WAV (RIFF header)
     if &data[0..4] == b"RIFF" && &data[8..12] == b"WAVE" {
-        eprintln!("[Audio] Detected WAV format, size: {} bytes", data.len());
+        debug_log!("[Audio] Detected WAV format, size: {} bytes", data.len());
         return Ok(AudioFormat::Wav);
     }
     
     // Check for ADTS AAC (sync word: 0xFFF at start of frame)
     // ADTS frames start with 12 bits of 1s: 0xFFF (appears as 0xFF 0xFx)
     if data[0] == 0xFF && (data[1] & 0xF0) == 0xF0 {
-        eprintln!("[Audio] Detected ADTS AAC format, size: {} bytes", data.len());
+        debug_log!("[Audio] Detected ADTS AAC format, size: {} bytes", data.len());
         return Ok(AudioFormat::Adts);
     }
     
@@ -72,7 +72,7 @@ fn detect_format(data: &[u8]) -> Result<AudioFormat, String> {
         } else {
             "unknown".to_string()
         };
-        eprintln!("[Audio] Detected M4A format, size: {} bytes, ftyp brand: '{}'", data.len(), brand);
+        debug_log!("[Audio] Detected M4A format, size: {} bytes, ftyp brand: '{}'", data.len(), brand);
         return Ok(AudioFormat::M4a);
     }
     
@@ -85,12 +85,12 @@ fn detect_format(data: &[u8]) -> Result<AudioFormat, String> {
 
 /// Decode WAV audio data to PCM samples
 fn decode_wav(data: &[u8]) -> Result<(Vec<i32>, u32, u16, u16), String> {
-    eprintln!("[WAV] Starting decode, input size: {} bytes", data.len());
+    debug_log!("[WAV] Starting decode, input size: {} bytes", data.len());
     
     let cursor = Cursor::new(data);
     let mut wav_reader = WavReader::new(cursor)
         .map_err(|e| {
-            eprintln!("[WAV] Failed to create WAV reader: {}", e);
+            debug_log!("[WAV] Failed to create WAV reader: {}", e);
             format!("Failed to read WAV data: {}", e)
         })?;
     
@@ -99,34 +99,34 @@ fn decode_wav(data: &[u8]) -> Result<(Vec<i32>, u32, u16, u16), String> {
     let channels = spec.channels;
     let bits_per_sample = spec.bits_per_sample;
     
-    eprintln!("[WAV] Spec: {}Hz, {} channels, {} bits, format: {:?}", 
+    debug_log!("[WAV] Spec: {}Hz, {} channels, {} bits, format: {:?}", 
         sample_rate, channels, bits_per_sample, spec.sample_format);
     
     let samples: Vec<i32> = match spec.sample_format {
         SampleFormat::Int => {
-            eprintln!("[WAV] Reading integer samples...");
+            debug_log!("[WAV] Reading integer samples...");
             wav_reader
                 .samples::<i32>()
                 .collect::<Result<Vec<_>, _>>()
                 .map_err(|e| {
-                    eprintln!("[WAV] Failed to read int samples: {}", e);
+                    debug_log!("[WAV] Failed to read int samples: {}", e);
                     format!("Failed to read WAV samples: {}", e)
                 })?
         }
         SampleFormat::Float => {
-            eprintln!("[WAV] Reading float samples...");
+            debug_log!("[WAV] Reading float samples...");
             wav_reader
                 .samples::<f32>()
                 .map(|s: Result<f32, _>| s.map(|f| (f * i32::MAX as f32) as i32))
                 .collect::<Result<Vec<_>, _>>()
                 .map_err(|e| {
-                    eprintln!("[WAV] Failed to read float samples: {}", e);
+                    debug_log!("[WAV] Failed to read float samples: {}", e);
                     format!("Failed to read WAV samples: {}", e)
                 })?
         }
     };
     
-    eprintln!("[WAV] Successfully decoded {} samples", samples.len());
+    debug_log!("[WAV] Successfully decoded {} samples", samples.len());
     
     Ok((samples, sample_rate, bits_per_sample, channels))
 }
@@ -140,7 +140,7 @@ pub fn save_recording_as_flac(
     audio_data: &[u8],
     recordings_dir: &PathBuf,
 ) -> Result<AudioMetadata, String> {
-    eprintln!("[AUDIO] save_recording_as_flac called with {} bytes", audio_data.len());
+    debug_log!("[AUDIO] save_recording_as_flac called with {} bytes", audio_data.len());
     
     // Generate unique recording ID
     let recording_id = Uuid::new_v4().to_string();
@@ -150,11 +150,11 @@ pub fn save_recording_as_flac(
         .map_err(|e| format!("Failed to create recordings directory: {}", e))?;
 
     // Detect audio format
-    eprintln!("[AUDIO] Detecting audio format...");
+    debug_log!("[AUDIO] Detecting audio format...");
     let format = match detect_format(audio_data) {
         Ok(fmt) => fmt,
         Err(e) => {
-            eprintln!("[AUDIO] Format detection failed: {}", e);
+            debug_log!("[AUDIO] Format detection failed: {}", e);
             return Err(e);
         }
     };
@@ -163,12 +163,12 @@ pub fn save_recording_as_flac(
     match format {
         AudioFormat::Wav => {
             // Convert WAV to FLAC
-            eprintln!("[AUDIO] Converting WAV to FLAC...");
+            debug_log!("[AUDIO] Converting WAV to FLAC...");
             convert_wav_to_flac(audio_data, &recording_id, recordings_dir)
         },
         AudioFormat::M4a | AudioFormat::Adts => {
             // Save M4A/ADTS as-is
-            eprintln!("[AUDIO] Saving M4A/AAC file as-is...");
+            debug_log!("[AUDIO] Saving M4A/AAC file as-is...");
             save_m4a_file(audio_data, &recording_id, recordings_dir)
         },
     }
@@ -183,11 +183,11 @@ fn convert_wav_to_flac(
     let filename = format!("{}.flac", recording_id);
     let output_path = recordings_dir.join(&filename);
     
-    eprintln!("[FLAC] Decoding WAV...");
+    debug_log!("[FLAC] Decoding WAV...");
     let (samples, sample_rate, bits_per_sample, channels) = match decode_wav(audio_data) {
         Ok(result) => result,
         Err(e) => {
-            eprintln!("[FLAC] WAV decode failed: {}", e);
+            debug_log!("[FLAC] WAV decode failed: {}", e);
             return Err(e);
         }
     };
@@ -195,7 +195,7 @@ fn convert_wav_to_flac(
     let sample_count = samples.len();
     let duration_seconds = sample_count as f64 / (sample_rate as f64 * channels as f64);
     
-    eprintln!("[FLAC] Decoded audio: {} samples, {:.2}s duration, {}Hz, {} channels, {} bit", 
+    debug_log!("[FLAC] Decoded audio: {} samples, {:.2}s duration, {}Hz, {} channels, {} bit", 
         sample_count, duration_seconds, sample_rate, channels, bits_per_sample);
 
     // Validate decoded samples
@@ -204,15 +204,15 @@ fn convert_wav_to_flac(
     }
 
     // Create FLAC encoder configuration
-    eprintln!("[FLAC] Creating FLAC encoder...");
+    debug_log!("[FLAC] Creating FLAC encoder...");
     let encoder_config = config::Encoder::default().into_verified()
         .map_err(|e| {
-            eprintln!("[FLAC] Failed to verify encoder config: {:?}", e);
+            debug_log!("[FLAC] Failed to verify encoder config: {:?}", e);
             format!("Failed to verify FLAC encoder config: {:?}", e)
         })?;
     
     // Create audio source
-    eprintln!("[FLAC] Creating audio source from samples...");
+    debug_log!("[FLAC] Creating audio source from samples...");
     let source = MemSource::from_samples(
         &samples,
         channels as usize,
@@ -221,38 +221,38 @@ fn convert_wav_to_flac(
     );
 
     // Encode to FLAC stream
-    eprintln!("[FLAC] Encoding to FLAC stream...");
+    debug_log!("[FLAC] Encoding to FLAC stream...");
     let stream = flacenc::encode_with_fixed_block_size(
         &encoder_config,
         source,
         encoder_config.block_size,
     )
     .map_err(|e| {
-        eprintln!("[FLAC] Encoding failed: {:?}", e);
+        debug_log!("[FLAC] Encoding failed: {:?}", e);
         format!("Failed to encode FLAC: {:?}", e)
     })?;
 
     // Write stream to MemSink to get bytes
-    eprintln!("[FLAC] Writing stream to memory sink...");
+    debug_log!("[FLAC] Writing stream to memory sink...");
     let mut sink = MemSink::<u8>::new();
     stream.write(&mut sink)
         .map_err(|e| {
-            eprintln!("[FLAC] Stream write failed: {:?}", e);
+            debug_log!("[FLAC] Stream write failed: {:?}", e);
             format!("Failed to serialize FLAC stream: {:?}", e)
         })?;
     
     let flac_data = sink.into_inner();
-    eprintln!("[FLAC] FLAC encoding complete, output size: {} bytes", flac_data.len());
+    debug_log!("[FLAC] FLAC encoding complete, output size: {} bytes", flac_data.len());
 
     // Write FLAC file
-    eprintln!("[FLAC] Writing {} bytes to {:?}", flac_data.len(), output_path);
+    debug_log!("[FLAC] Writing {} bytes to {:?}", flac_data.len(), output_path);
     let mut file = File::create(&output_path)
         .map_err(|e| format!("Failed to create FLAC file: {}", e))?;
     
     file.write_all(&flac_data)
         .map_err(|e| format!("Failed to write FLAC file: {}", e))?;
 
-    eprintln!("[FLAC] Successfully saved recording: {}", filename);
+    debug_log!("[FLAC] Successfully saved recording: {}", filename);
 
     Ok(AudioMetadata {
         filename,
@@ -273,7 +273,7 @@ fn save_m4a_file(
     let filename = format!("{}.m4a", recording_id);
     let output_path = recordings_dir.join(&filename);
     
-    eprintln!("[M4A] Saving {} bytes to {:?}", audio_data.len(), output_path);
+    debug_log!("[M4A] Saving {} bytes to {:?}", audio_data.len(), output_path);
     
     // Write M4A file as-is
     let mut file = File::create(&output_path)
@@ -282,7 +282,7 @@ fn save_m4a_file(
     file.write_all(audio_data)
         .map_err(|e| format!("Failed to write M4A file: {}", e))?;
 
-    eprintln!("[M4A] Successfully saved recording: {}", filename);
+    debug_log!("[M4A] Successfully saved recording: {}", filename);
     
     // Use default metadata for M4A files
     // Duration will be determined by the player when the file is accessed

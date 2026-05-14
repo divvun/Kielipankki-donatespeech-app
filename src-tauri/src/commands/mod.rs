@@ -69,13 +69,13 @@ pub fn delete_recording(
         if file_path.exists() {
             std::fs::remove_file(&file_path)
                 .map_err(|e| format!("Failed to delete recording file: {}", e))?;
-            println!("Deleted recording file: {}", file_path.display());
+            debug_log!("Deleted recording file: {}", file_path.display());
         } else {
-            println!("Recording file not found (already deleted?): {}", file_path.display());
+            debug_log!("Recording file not found (already deleted?): {}", file_path.display());
         }
     }
     
-    println!("Recording deleted successfully: {}", recording_id);
+    debug_log!("Recording deleted successfully: {}", recording_id);
     Ok(())
 }
 
@@ -134,7 +134,7 @@ pub fn save_recording(
     client_id: String,
     audio_data_base64: String,
 ) -> Result<SaveRecordingResponse, String> {
-    println!("save_recording called for item: {}", item_id);
+    debug_log!("save_recording called for item: {}", item_id);
     
     // Decode base64 audio data
     let audio_data = base64::engine::general_purpose::STANDARD
@@ -152,7 +152,7 @@ pub fn save_recording(
     // Save audio as FLAC and get metadata
     let audio_metadata = recording::save_recording_as_flac(&audio_data, &recordings_dir)?;
     
-    println!("Saved FLAC file: {}, duration: {:.2}s", 
+    debug_log!("Saved FLAC file: {}, duration: {:.2}s", 
         audio_metadata.filename, audio_metadata.duration_seconds);
     
     // Generate recording ID from filename (without extension)
@@ -193,7 +193,7 @@ pub fn save_recording(
     // Save to database
     database::save_recording(db.connection(), &recording)?;
     
-    println!("Recording saved successfully: {}", recording_id);
+    debug_log!("Recording saved successfully: {}", recording_id);
     
     Ok(SaveRecordingResponse {
         recording,
@@ -211,7 +211,7 @@ pub async fn download_media(
     api_client: State<'_, api_client::ApiClient>,
     url: String,
 ) -> Result<Vec<u8>, String> {
-    println!("download_media called for URL: {}", url);
+    debug_log!("download_media called for URL: {}", url);
     
     // Always extract just the filename from any URL format
     // This handles "/v1/media/file.mp4", "http://server/v1/media/file.mp4", or just "file.mp4"
@@ -220,7 +220,7 @@ pub async fn download_media(
         .ok_or_else(|| "Invalid URL: cannot extract filename".to_string())?
         .to_string();
     
-    println!("Extracted filename: {}", filename);
+    debug_log!("Extracted filename: {}", filename);
     
     // Get cache directory
     let app_data_dir = app_handle
@@ -238,23 +238,23 @@ pub async fn download_media(
     
     // Check if file already exists in cache
     if local_path.exists() {
-        println!("File already cached at: {}", local_path.display());
+        debug_log!("File already cached at: {}", local_path.display());
         // Read and return the cached file
         return std::fs::read(&local_path)
             .map_err(|e| format!("Failed to read cached file: {}", e));
     }
     
     // Download the file
-    println!("Downloading media file: {}", filename);
+    debug_log!("Downloading media file: {}", filename);
     let file_data = api_client.download_media(&filename).await?;
     
-    println!("Downloaded {} bytes", file_data.len());
+    debug_log!("Downloaded {} bytes", file_data.len());
     
     // Save to cache
     std::fs::write(&local_path, &file_data)
         .map_err(|e| format!("Failed to write file to cache: {}", e))?;
     
-    println!("Cached media file at: {}", local_path.display());
+    debug_log!("Cached media file at: {}", local_path.display());
     
     Ok(file_data)
 }
@@ -270,7 +270,7 @@ pub async fn upload_recording(
     api_client: State<'_, api_client::ApiClient>,
     recording_id: String,
 ) -> Result<(), String> {
-    println!("upload_recording called for: {}", recording_id);
+    debug_log!("upload_recording called for: {}", recording_id);
     upload_recording_impl(&app_handle, &db, &api_client, recording_id).await
 }
 
@@ -283,7 +283,7 @@ pub async fn upload_pending_recordings(
     db: State<'_, database::Database>,
     api_client: State<'_, api_client::ApiClient>,
 ) -> Result<String, String> {
-    println!("=== upload_pending_recordings called ===");
+    debug_log!("=== upload_pending_recordings called ===");
     
     // Get all pending recordings
     let pending_recordings = database::get_recordings_by_status(
@@ -298,7 +298,7 @@ pub async fn upload_pending_recordings(
         .collect();
     
     let total_count = real_recordings.len();
-    println!("Found {} real pending recordings (filtered out test recordings)", total_count);
+    debug_log!("Found {} real pending recordings (filtered out test recordings)", total_count);
     
     if total_count == 0 {
         return Ok("No pending recordings to upload".to_string());
@@ -309,7 +309,7 @@ pub async fn upload_pending_recordings(
     
     for (index, recording) in real_recordings.iter().enumerate() {
         let recording_id = recording.recording_id.clone();
-        println!("Uploading recording {}/{}: {}", index + 1, total_count, recording_id);
+        debug_log!("Uploading recording {}/{}: {}", index + 1, total_count, recording_id);
         
         // Upload using the single upload command logic
         match upload_recording_impl(
@@ -319,11 +319,11 @@ pub async fn upload_pending_recordings(
             recording_id.clone(),
         ).await {
             Ok(()) => {
-                println!("✓ Upload successful: {}", recording_id);
+                debug_log!("✓ Upload successful: {}", recording_id);
                 uploaded_count += 1;
             }
             Err(e) => {
-                println!("✗ Upload failed for {}: {}", recording_id, e);
+                debug_log!("✗ Upload failed for {}: {}", recording_id, e);
                 failed_count += 1;
             }
         }
@@ -333,7 +333,7 @@ pub async fn upload_pending_recordings(
         "Upload complete: {} successful, {} failed out of {} total",
         uploaded_count, failed_count, total_count
     );
-    println!("=== {} ===", message);
+    debug_log!("=== {} ===", message);
     
     Ok(message)
 }
@@ -418,7 +418,7 @@ pub fn fix_client_ids(
 ) -> Result<usize, String> {
     use rusqlite::params;
     
-    println!("Updating recordings with test-client-id to use: {}", real_client_id);
+    debug_log!("Updating recordings with test-client-id to use: {}", real_client_id);
     
     // Update the client_id in the recordings table
     let updated = {
@@ -460,7 +460,7 @@ pub fn fix_client_ids(
         }
     }
     
-    println!("Updated {} recordings with new client ID", updated);
+    debug_log!("Updated {} recordings with new client ID", updated);
     Ok(updated)
 }
 

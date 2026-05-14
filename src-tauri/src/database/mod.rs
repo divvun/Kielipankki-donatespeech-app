@@ -4,6 +4,16 @@ use std::sync::Mutex;
 use tauri::Manager;
 use crate::models::{Recording, UploadStatus};
 
+
+/// Log only in debug builds
+macro_rules! debug_log {
+    ($($arg:tt)*) => {
+        if cfg!(debug_assertions) {
+            println!($($arg)*);
+        }
+    };
+}
+
 const DATABASE_FILENAME: &str = "Recorder.sqlitedb";
 
 /// Database connection flags matching C# implementation:
@@ -34,7 +44,7 @@ pub fn init_connection(app_handle: &tauri::AppHandle) -> Result<Connection, Stri
     let connection = Connection::open_with_flags(&db_path, DATABASE_FLAGS)
         .map_err(|e| format!("Failed to open database at {:?}: {}", db_path, e))?;
     
-    println!("Connected to database at {:?}", db_path);
+    debug_log!("Connected to database at {:?}", db_path);
     
     Ok(connection)
 }
@@ -79,7 +89,7 @@ fn initialize_tables(connection: &Connection) -> Result<(), String> {
         )
         .map_err(|e| format!("Failed to create Recording table: {}", e))?;
     
-    println!("Database tables initialized");
+    debug_log!("Database tables initialized");
     Ok(())
 }
 
@@ -157,7 +167,7 @@ pub fn insert_test_recording(connection: &Mutex<Connection>) -> Result<(), Strin
     )
     .map_err(|e| format!("Failed to insert test recording: {}", e))?;
     
-    println!("Inserted test recording: {}", recording_id);
+    debug_log!("Inserted test recording: {}", recording_id);
     Ok(())
 }
 
@@ -184,7 +194,7 @@ pub fn save_recording(connection: &Mutex<Connection>, recording: &Recording) -> 
     )
     .map_err(|e| format!("Failed to insert recording: {}", e))?;
     
-    println!("Saved recording: {}", recording.recording_id);
+    debug_log!("Saved recording: {}", recording.recording_id);
     Ok(())
 }
 
@@ -215,7 +225,7 @@ pub fn delete_recording_by_id(connection: &Mutex<Connection>, recording_id: &str
         return Err(format!("Recording not found: {}", recording_id));
     }
     
-    println!("Deleted recording: {}", recording_id);
+    debug_log!("Deleted recording: {}", recording_id);
     Ok(recording)
 }
 
@@ -273,6 +283,6 @@ pub fn update_recording_status(connection: &Mutex<Connection>, recording_id: &st
         return Err(format!("Recording not found: {}", recording_id));
     }
     
-    println!("Updated recording {} status to {}", recording_id, status_str);
+    debug_log!("Updated recording {} status to {}", recording_id, status_str);
     Ok(())
 }
