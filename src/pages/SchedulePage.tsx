@@ -26,7 +26,11 @@ import { useItemState } from "../hooks/useItemState";
 import { useSchedule } from "../hooks/useSchedule";
 import { useLocalization } from "../contexts/LocalizationContext";
 import { SchedulePromptSection } from "@/components/SchedulePromptSection";
-import { getThemeLanguageFromSearch } from "../utils/themeLanguage";
+import {
+  appendSearch,
+  getThemeLanguageFromSearch,
+  getThemesPathFromSearch,
+} from "../utils/themeLanguage";
 
 const isFakeYleMediaType = (itemType: string) =>
   itemType === "fake-yle-audio" || itemType === "fake-yle-video";
@@ -187,13 +191,16 @@ export default function SchedulePage() {
       setCurrentIndex((prev) => prev + 1);
     } else {
       if (schedule && scheduleId) {
-        navigate(`/schedule/${scheduleId}/finish${location.search}`, {
-          state: {
-            finish: schedule.finish ?? null,
-            itemsCompleted: schedule.items.length,
+        navigate(
+          appendSearch(`/schedule/${scheduleId}/finish`, location.search),
+          {
+            state: {
+              finish: schedule.finish ?? null,
+              itemsCompleted: schedule.items.length,
+            },
+            replace: true,
           },
-          replace: true,
-        });
+        );
       }
     }
   };
@@ -232,7 +239,7 @@ export default function SchedulePage() {
   };
 
   const handleBack = () => {
-    navigate(`/themes${location.search}`);
+    navigate(getThemesPathFromSearch(location.search));
   };
 
   if (loading) {

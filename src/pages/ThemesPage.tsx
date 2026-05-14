@@ -18,6 +18,7 @@ import {
   type ThemeAvailability,
 } from "../types/Theme";
 import {
+  appendSearch,
   getAvailableThemeLanguages,
   getThemeLanguageDisplayName,
   getThemeLanguageFromSearch,
@@ -154,12 +155,12 @@ export default function ThemesPage() {
   const handleThemeClick = (theme: Theme) => {
     const scheduleId = getThemeScheduleId(theme);
     if (scheduleId) {
-      navigate(`/schedule/${scheduleId}/start${location.search}`);
+      navigate(appendSearch(`/schedule/${scheduleId}/start`, location.search));
     }
   };
 
   const navigateToDetails = () => {
-    navigate(`/details${location.search}`);
+    navigate(appendSearch("/details", location.search));
   };
 
   const handleLanguageSelect = (language: LanguageCode) => {

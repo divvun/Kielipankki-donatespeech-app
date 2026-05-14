@@ -10,7 +10,11 @@ import { ScheduleStartSummary } from "../components/ScheduleStartSummary";
 import { ScheduleStartActions } from "../components/ScheduleStartActions";
 import { ScheduleLoadingState } from "../components/ScheduleLoadingState";
 import { ScheduleErrorState } from "../components/ScheduleErrorState";
-import { getThemeLanguageFromSearch } from "../utils/themeLanguage";
+import {
+  appendSearch,
+  getThemeLanguageFromSearch,
+  getThemesPathFromSearch,
+} from "../utils/themeLanguage";
 
 export default function ScheduleStartPage() {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -32,11 +36,11 @@ export default function ScheduleStartPage() {
     if (!schedule || !scheduleId) return;
 
     // Navigate to the schedule page to begin
-    navigate(`/schedule/${scheduleId}${location.search}`);
+    navigate(appendSearch(`/schedule/${scheduleId}`, location.search));
   };
 
   const handleBack = () => {
-    navigate(`/themes${location.search}`);
+    navigate(getThemesPathFromSearch(location.search));
   };
 
   const startTitle = schedule?.start?.title

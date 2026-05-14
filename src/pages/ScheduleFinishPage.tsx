@@ -8,6 +8,7 @@ import { useLocalization } from "../contexts/LocalizationContext";
 import { ScheduleNavigationBar } from "../components/ScheduleNavigationBar";
 import { ScheduleFinishSummary } from "../components/ScheduleFinishSummary";
 import { ScheduleFinishActions } from "../components/ScheduleFinishActions";
+import { getThemesPathFromSearch } from "../utils/themeLanguage";
 
 interface ScheduleFinishLocationState {
   finish?: MediaState | null;
@@ -26,13 +27,11 @@ export default function ScheduleFinishPage() {
   const finish = state?.finish;
 
   const handleDonateMore = () => {
-    console.log("Navigating to languages from donate more button");
-    navigate("/themes", { replace: true });
+    navigate(getThemesPathFromSearch(location.search), { replace: true });
   };
 
   const handleBack = () => {
-    console.log("Navigating to themes from back button");
-    navigate(`/themes${location.search}`, { replace: true });
+    navigate(getThemesPathFromSearch(location.search), { replace: true });
   };
 
   const finishTitle = finish?.title

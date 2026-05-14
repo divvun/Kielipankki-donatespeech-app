@@ -10,6 +10,7 @@ import {
 } from "../utils/clientId";
 import { DetailsHeader } from "../components/DetailsHeader";
 import { DetailsPrivacyTab } from "../components/DetailsPrivacyTab";
+import { getThemesPathFromSearch } from "../utils/themeLanguage";
 
 export default function DetailsPage() {
   const [clientId, setClientId] = useState(getClientId());
@@ -26,7 +27,7 @@ export default function DetailsPage() {
   };
 
   const handleClose = () => {
-    navigate(`/themes${location.search}`);
+    navigate(getThemesPathFromSearch(location.search));
   };
 
   const copyClientId = async () => {
