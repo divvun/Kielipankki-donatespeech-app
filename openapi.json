@@ -434,10 +434,50 @@
                 }
             }
         },
+        "/v1/yle-media/{yle_program_id}": {
+            "get": {
+                "summary": "Get Yle Media",
+                "description": "Fetch media information from YLE API for a YLE program.\n\nThis endpoint is used for YleAudioMediaItem and YleVideoMediaItem types.",
+                "operationId": "get_yle_media_v1_yle_media__yle_program_id__get",
+                "parameters": [
+                    {
+                        "name": "yle_program_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "YLE program ID (e.g., 1-50525858)",
+                            "title": "Yle Program Id"
+                        },
+                        "description": "YLE program ID (e.g., 1-50525858)"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/media/{filename}": {
             "get": {
                 "summary": "Serve Media",
-                "description": "Serve media files (audio/video) for playback in the client app.\n\nSupports HTTP range requests for streaming and seeking.\nRequired for AVPlayer on iOS/macOS.",
+                "description": "Serve media files (audio/video) for playback in the client app.\n\nSupports HTTP range requests for streaming and seeking.\nRequired for AVPlayer on iOS/macOS.\n\nFor YLE media, use the /v1/yle-media/{yle_program_id} endpoint instead.",
                 "operationId": "serve_media_v1_media__filename__get",
                 "parameters": [
                     {
