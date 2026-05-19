@@ -20,6 +20,28 @@ use crate::recording;
 use tauri::{AppHandle, State, Manager};
 use base64::Engine;
 use serde::{Serialize, Deserialize};
+use std::hash::{Hash, Hasher};
+
+fn media_cache_file_name(media_source: &str) -> String {
+    let mut hasher = std::collections::hash_map::DefaultHasher::new();
+    media_source.hash(&mut hasher);
+    let hash = hasher.finish();
+
+    let trimmed = media_source
+        .split(['?', '#'])
+        .next()
+        .unwrap_or(media_source);
+    let extension = trimmed
+        .rsplit('.')
+        .next()
+        .filter(|ext| !ext.is_empty() && ext.len() <= 10 && ext.chars().all(|c| c.is_ascii_alphanumeric()))
+        .map(|ext| ext.to_lowercase());
+
+    match extension {
+        Some(ext) => format!("{:016x}.{}", hash, ext),
+        None => format!("{:016x}", hash),
+    }
+}
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -201,9 +223,15 @@ pub fn save_recording(
     })
 }
 
+/// Check if a string is a YLE program ID (format: digits-hexstring, no slashes)
+fn is_yle_program_id(media_source: &str) -> bool {
+    !media_source.contains('/') && !media_source.contains('.') && media_source.contains('-')
+}
+
 /// Tauri command to download a media file and cache it locally
 /// 
 /// Downloads media from the API server and saves to local cache directory.
+/// For YLE items, first fetches from /v1/yle-media/{program_id} endpoint.
 /// Returns the file data as base64 for creating a blob URL in the frontend.
 #[tauri::command]
 pub async fn download_media(
@@ -211,16 +239,14 @@ pub async fn download_media(
     api_client: State<'_, api_client::ApiClient>,
     url: String,
 ) -> Result<Vec<u8>, String> {
-    debug_log!("download_media called for URL: {}", url);
+    debug_log!("download_media called for source: {}", url);
     
-    // Always extract just the filename from any URL format
-    // This handles "/v1/media/file.mp4", "http://server/v1/media/file.mp4", or just "file.mp4"
-    let filename = url.split('/')
-        .last()
-        .ok_or_else(|| "Invalid URL: cannot extract filename".to_string())?
-        .to_string();
-    
-    debug_log!("Extracted filename: {}", filename);
+    // For YLE program IDs, fetch from the dedicated YLE endpoint
+    if is_yle_program_id(&url) {
+        debug_log!("Detected YLE program ID: {}", url);
+        let yle_json_bytes = api_client.get_yle_media(&url).await?;
+        return Ok(yle_json_bytes);
+    }
     
     // Get cache directory
     let app_data_dir = app_handle
@@ -234,7 +260,8 @@ pub async fn download_media(
     std::fs::create_dir_all(&cache_dir)
         .map_err(|e| format!("Failed to create cache directory: {}", e))?;
     
-    let local_path = cache_dir.join(&filename);
+    let cache_file_name = media_cache_file_name(&url);
+    let local_path = cache_dir.join(&cache_file_name);
     
     // Check if file already exists in cache
     if local_path.exists() {
@@ -245,8 +272,8 @@ pub async fn download_media(
     }
     
     // Download the file
-    debug_log!("Downloading media file: {}", filename);
-    let file_data = api_client.download_media(&filename).await?;
+    debug_log!("Downloading media source: {}", url);
+    let file_data = api_client.download_media(&url).await?;
     
     debug_log!("Downloaded {} bytes", file_data.len());
     

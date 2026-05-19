@@ -5,6 +5,15 @@ use crate::models::{
 use serde::{Deserialize, Serialize};
 use serde::de::DeserializeOwned;
 
+/// Log only in debug builds (cfg!(debug_assertions) is optimized away in release)
+macro_rules! debug_log {
+    ($($arg:tt)*) => {
+        if cfg!(debug_assertions) {
+            println!($($arg)*);
+        }
+    };
+}
+
 #[derive(Debug, Clone)]
 pub struct ApiClient {
     client: reqwest::Client,
@@ -148,7 +157,40 @@ impl ApiClient {
             .await
             .map_err(|e| format!("Failed to send request: {}", e))?;
 
-        let mut schedule = Self::parse_json_response::<Schedule>(response).await?;
+        let status = response.status();
+        let response_text = response
+            .text()
+            .await
+            .map_err(|e| format!("Failed to read response body: {}", e))?;
+
+        let preview_limit = 4000;
+        let response_preview = if response_text.chars().count() > preview_limit {
+            format!(
+                "{}... (truncated)",
+                response_text.chars().take(preview_limit).collect::<String>()
+            )
+        } else {
+            response_text.clone()
+        };
+
+        debug_log!(
+            "[api_client] GET {}?lang={} status={} body={} ",
+            url,
+            lang,
+            status,
+            response_preview
+        );
+
+        if !status.is_success() {
+            return Err(format!(
+                "Request failed with status {}: {}",
+                status,
+                response_text
+            ));
+        }
+
+        let mut schedule = serde_json::from_str::<Schedule>(&response_text)
+            .map_err(|e| format!("Failed to parse response: {}. Response was: {}", e, response_text))?;
 
         schedule.normalize_for_client();
 
@@ -245,9 +287,80 @@ impl ApiClient {
         Ok(())
     }
 
-    /// Download media file from the API
-    pub async fn download_media(&self, filename: &str) -> Result<Vec<u8>, String> {
-        let url = format!("{}/v1/media/{}", self.base_url, filename);
+    fn is_yle_program_id(media_source: &str) -> bool {
+        !media_source.contains('/') && !media_source.contains('.') && media_source.contains('-')
+    }
+
+    fn build_media_download_url(&self, media_source: &str) -> String {
+        if media_source.starts_with("http://") || media_source.starts_with("https://") {
+            return media_source.to_string();
+        }
+
+        if media_source.starts_with("/v1/media/") {
+            return format!("{}{}", self.base_url, media_source);
+        }
+
+        if media_source.starts_with("v1/media/") {
+            return format!("{}/{}", self.base_url, media_source);
+        }
+
+        let normalized_source = media_source.trim_start_matches('/');
+        format!("{}/v1/media/{}", self.base_url, normalized_source)
+    }
+
+    fn build_yle_media_url(&self, yle_program_id: &str) -> String {
+        let normalized_id = yle_program_id.trim_start_matches('/');
+        format!("{}/v1/yle-media/{}", self.base_url, normalized_id)
+    }
+
+    /// Fetch YLE media info from the YLE-specific endpoint
+    pub async fn get_yle_media(&self, yle_program_id: &str) -> Result<Vec<u8>, String> {
+        let url = self.build_yle_media_url(yle_program_id);
+        
+        let response = self.client
+            .get(&url)
+            .send()
+            .await
+            .map_err(|e| format!("Failed to fetch YLE media: {}", e))?;
+
+        let status = response.status();
+        let response_text = response
+            .text()
+            .await
+            .map_err(|e| format!("Failed to read response body: {}", e))?;
+
+        let preview_limit = 4000;
+        let response_preview = if response_text.chars().count() > preview_limit {
+            format!(
+                "{}... (truncated)",
+                response_text.chars().take(preview_limit).collect::<String>()
+            )
+        } else {
+            response_text.clone()
+        };
+
+        debug_log!(
+            "[api_client] GET {}/v1/yle-media/{} status={} body={}",
+            self.base_url,
+            yle_program_id,
+            status,
+            response_preview
+        );
+
+        if !status.is_success() {
+            return Err(format!(
+                "YLE media fetch failed with status {}: {}",
+                status,
+                response_text
+            ));
+        }
+
+        Ok(response_text.into_bytes())
+    }
+
+    /// Download media file from the API or an absolute media URL
+    pub async fn download_media(&self, media_source: &str) -> Result<Vec<u8>, String> {
+        let url = self.build_media_download_url(media_source);
         
         let response = self.client
             .get(&url)
@@ -255,10 +368,45 @@ impl ApiClient {
             .await
             .map_err(|e| format!("Failed to download media: {}", e))?;
 
-        if !response.status().is_success() {
-            let status = response.status();
+        let status = response.status();
+        let content_type = response
+            .headers()
+            .get(reqwest::header::CONTENT_TYPE)
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("<unknown>")
+            .to_string();
+
+        debug_log!(
+            "[api_client] GET {} status={} content-type={}",
+            url,
+            status,
+            content_type
+        );
+
+        if !status.is_success() {
             let error_text = response.text().await.unwrap_or_default();
+            debug_log!("[api_client] media error body={}", error_text);
             return Err(format!("Media download failed with status {}: {}", status, error_text));
+        }
+
+        if content_type.contains("application/json") || content_type.starts_with("text/") {
+            let body_text = response.text().await.unwrap_or_default();
+            let preview_limit = 4000;
+            let preview = if body_text.chars().count() > preview_limit {
+                format!(
+                    "{}... (truncated)",
+                    body_text.chars().take(preview_limit).collect::<String>()
+                )
+            } else {
+                body_text.clone()
+            };
+
+            debug_log!("[api_client] media response body={} ", preview);
+            return Err(format!(
+                "Media endpoint returned non-binary content-type {} with body: {}",
+                content_type,
+                preview
+            ));
         }
 
         response.bytes()

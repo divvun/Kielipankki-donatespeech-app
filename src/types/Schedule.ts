@@ -157,6 +157,16 @@ export function getDefaultItemState(item: ScheduleItem): MediaState | null {
 }
 
 export function getItemMediaUrl(item: ScheduleItem): string | null {
+  if (item.itemType === "yle-audio" || item.itemType === "yle-video") {
+    const resolvedStateUrl =
+      getStateMediaUrl(item.default) ??
+      getStateMediaUrl(item.start) ??
+      getStateMediaUrl(item.recording) ??
+      getStateMediaUrl(item.finish);
+
+    return resolvedStateUrl ?? item.url ?? null;
+  }
+
   if (item.url) {
     return item.url;
   }

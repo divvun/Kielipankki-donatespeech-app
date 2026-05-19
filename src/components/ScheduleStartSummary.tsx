@@ -1,3 +1,5 @@
+import { ScheduleMediaImage } from "./ScheduleMediaImage";
+
 interface ScheduleStartSummaryProps {
   startImageUrl?: string | null;
   title: string;
@@ -22,13 +24,11 @@ export function ScheduleStartSummary({
       <div className={contentClassName}>
         {startImageUrl && (
           <div className="mb-8 flex justify-center">
-            <div className="max-w-md w-full aspect-video rounded-lg shadow-lg overflow-hidden">
-              <img
-                src={startImageUrl}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <ScheduleMediaImage
+              mediaSource={startImageUrl}
+              alt={title}
+              className="max-w-md w-full aspect-video rounded-lg shadow-lg overflow-hidden"
+            />
           </div>
         )}
 

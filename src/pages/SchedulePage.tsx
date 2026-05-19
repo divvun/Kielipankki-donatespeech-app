@@ -279,9 +279,7 @@ export default function SchedulePage() {
   const body1 = getLocalizedText(stateContent.body1, currentLanguage);
   const body2 = getLocalizedText(stateContent.body2, currentLanguage);
   const stateMediaUrl = getStateMediaUrl(stateContent);
-  const stateImageUrl = stateMediaUrl?.startsWith("http")
-    ? stateMediaUrl
-    : null;
+  const stateImageUrl = stateMediaUrl;
   const progressPercent = ((currentIndex + 1) / schedule.items.length) * 100;
 
   return (

@@ -218,6 +218,78 @@ describe("SchedulePage fake YLE media", () => {
     });
   });
 
+  it("renders image media items from the resolved media URL", async () => {
+    const schedule: Schedule = {
+      scheduleId: "schedule-1",
+      items: [
+        {
+          kind: "media",
+          itemType: "image",
+          itemId: "item-image-1",
+          isRecording: false,
+          start: {
+            title: "Theme image",
+            body1: "Prompt text",
+            body2: "More prompt text",
+            url: "/v1/media/foto21_svt.jpg",
+          },
+          options: [],
+        },
+      ],
+    };
+
+    mocks.fetchSchedule.mockResolvedValue(schedule);
+    mocks.getMediaUrl.mockResolvedValue("blob:resolved-image-url");
+
+    render(<SchedulePage />);
+
+    const image = await screen.findByAltText("Theme image");
+
+    expect(image.getAttribute("src")).toBe("blob:resolved-image-url");
+    await waitFor(() => {
+      expect(mocks.getMediaUrl).toHaveBeenCalledWith(
+        "/v1/media/foto21_svt.jpg",
+      );
+    });
+  });
+
+  it("prefers YLE state URL over item-level program id", async () => {
+    const schedule: Schedule = {
+      scheduleId: "schedule-1",
+      items: [
+        {
+          kind: "media",
+          itemType: "yle-video",
+          itemId: "item-yle-1",
+          isRecording: false,
+          url: "85-685d6af67a3f426fa1714f38513bc62d",
+          start: {
+            title: "YLE stream",
+            body1: "Prompt text",
+            body2: "More prompt text",
+            url: "https://yleawsmpondemand-03.akamaized.net/vod/path/index.m3u8",
+          },
+          options: [],
+        },
+      ],
+    };
+
+    mocks.fetchSchedule.mockResolvedValue(schedule);
+    mocks.getMediaUrl.mockResolvedValue(
+      "https://example.invalid/resolved-yle-stream.m3u8",
+    );
+
+    render(<SchedulePage />);
+
+    await screen.findAllByText("YLE stream");
+
+    await waitFor(() => {
+      expect(mocks.getMediaUrl).toHaveBeenCalledWith(
+        "https://yleawsmpondemand-03.akamaized.net/vod/path/index.m3u8",
+      );
+    });
+  });
+
   it("resets recording duration when entering the next recording item", async () => {
     const schedule: Schedule = {
       scheduleId: "schedule-1",

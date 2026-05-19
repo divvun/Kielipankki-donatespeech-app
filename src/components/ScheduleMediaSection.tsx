@@ -1,5 +1,6 @@
 import { AudioPlayer } from "./AudioPlayer";
 import { VideoPlayer } from "./VideoPlayer";
+import { ScheduleMediaImage } from "./ScheduleMediaImage";
 import { TextContentView } from "./TextContentView";
 import { getItemMediaUrl, type ScheduleItem } from "../types/Schedule";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -24,6 +25,7 @@ export function ScheduleMediaSection({
   currentMediaUrl,
 }: ScheduleMediaSectionProps) {
   const hasUrl = Boolean(getItemMediaUrl(currentItem));
+  const isImageItem = currentItem.itemType === "image";
   const isVideoItem =
     currentItem.itemType === "video" || currentItem.itemType === "yle-video";
   const isAudioItem =
@@ -38,14 +40,11 @@ export function ScheduleMediaSection({
           <AlertDescription>{mediaError}</AlertDescription>
         </Alert>
       )}
-      {stateImageUrl ? (
-        <div className="w-full aspect-video rounded-2xl overflow-hidden bg-linear-to-br from-secondary to-[#b8d4e8]">
-          <img
-            src={stateImageUrl}
-            alt={title}
-            className="w-full h-full object-cover"
-          />
-        </div>
+      {isImageItem || stateImageUrl ? (
+        <ScheduleMediaImage
+          mediaSource={currentMediaUrl || stateImageUrl}
+          alt={title}
+        />
       ) : (
         <>
           {isVideoItem && hasUrl && currentMediaUrl && (

@@ -1,4 +1,5 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { getStateMediaUrl } from "../types/Schedule";
 import { useTranslation } from "../hooks/useTranslation";
 import { useSchedule } from "../hooks/useSchedule";
@@ -10,6 +11,7 @@ import { ScheduleStartSummary } from "../components/ScheduleStartSummary";
 import { ScheduleStartActions } from "../components/ScheduleStartActions";
 import { ScheduleLoadingState } from "../components/ScheduleLoadingState";
 import { ScheduleErrorState } from "../components/ScheduleErrorState";
+import { getMediaUrl } from "../utils/mediaUrl";
 import {
   appendSearch,
   getThemeLanguageFromSearch,
@@ -52,6 +54,35 @@ export default function ScheduleStartPage() {
   const startBody2 = schedule?.start?.body2
     ? getLocalizedText(schedule.start.body2, currentLanguage)
     : "";
+  const [startImageUrl, setStartImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const mediaSource = getStateMediaUrl(schedule?.start);
+
+    if (!mediaSource) {
+      setStartImageUrl(null);
+      return;
+    }
+
+    void getMediaUrl(mediaSource)
+      .then((resolvedUrl) => {
+        if (!cancelled) {
+          setStartImageUrl(resolvedUrl);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load start image:", error);
+        if (!cancelled) {
+          setStartImageUrl(null);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [schedule?.scheduleId, schedule?.start]);
 
   if (loading) {
     return <ScheduleLoadingState />;
@@ -75,7 +106,7 @@ export default function ScheduleStartPage() {
       />
 
       <ScheduleStartSummary
-        startImageUrl={getStateMediaUrl(schedule?.start)}
+        startImageUrl={startImageUrl}
         title={startTitle}
         body1={startBody1}
         body2={startBody2}

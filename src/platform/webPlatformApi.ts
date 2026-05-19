@@ -58,9 +58,22 @@ async function fetchJson<T>(path: string): Promise<T> {
   return (await response.json()) as T;
 }
 
+function isYleProgramId(mediaSource: string): boolean {
+  return (
+    !mediaSource.includes("/") &&
+    !mediaSource.includes(".") &&
+    mediaSource.includes("-")
+  );
+}
+
 function toMediaPath(url: string): string {
   if (/^https?:\/\//i.test(url)) {
     return url;
+  }
+
+  // Check if this is a YLE program ID
+  if (isYleProgramId(url)) {
+    return `/v1/yle-media/${url}`;
   }
 
   if (url.startsWith("/v1/media/")) {
@@ -250,13 +263,28 @@ export const webPlatformApi: PlatformApi = {
   },
 
   async downloadMedia(url) {
-    const response = await fetch(toApiUrl(toMediaPath(url)));
+    const mediaPath = toMediaPath(url);
+    const fullUrl = toApiUrl(mediaPath);
+    const isYle = isYleProgramId(url);
+
+    const response = await fetch(fullUrl);
 
     if (!response.ok) {
       const responseText = await response.text();
       throw new Error(
         `Media download failed (HTTP ${response.status}): ${responseText || response.statusText}`,
       );
+    }
+
+    // For YLE media endpoints, response is JSON with media info
+    if (isYle) {
+      const jsonText = await response.text();
+      console.log(
+        `[web] YLE media response (${url}):`,
+        jsonText.substring(0, 1000),
+      );
+      // Return JSON as bytes for consistency with Tauri API
+      return Array.from(new TextEncoder().encode(jsonText));
     }
 
     const buffer = await response.arrayBuffer();
