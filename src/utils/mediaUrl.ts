@@ -43,11 +43,34 @@ function getFilenameFromPath(filenameOrUrl: string): string {
   return filenameOrUrl.split("/").pop() || "";
 }
 
+function isHlsPlaylistSource(source: string): boolean {
+  return /\.m3u8(?:$|[?#])/i.test(source);
+}
+
+async function resolveUrl(filenameOrUrl: string): Promise<string> {
+  if (/^https?:\/\//i.test(filenameOrUrl)) {
+    return filenameOrUrl;
+  }
+
+  const baseUrl = await getApiBaseUrl();
+  const normalizedPath = filenameOrUrl.startsWith("/")
+    ? filenameOrUrl
+    : `/${filenameOrUrl}`;
+
+  return `${baseUrl}${normalizedPath}`;
+}
+
 /**
  * Download media file and convert to blob URL for playback
  */
 export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
   console.log("getMediaUrl called with:", filenameOrUrl);
+
+  if (isHlsPlaylistSource(filenameOrUrl)) {
+    const resolvedUrl = await resolveUrl(filenameOrUrl);
+    console.log("Using resolved HLS playlist URL:", resolvedUrl);
+    return resolvedUrl;
+  }
 
   // Check if we already have a blob URL for this file
   if (blobUrlCache.has(filenameOrUrl)) {
