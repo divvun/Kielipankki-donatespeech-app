@@ -102,7 +102,6 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
           onCanPlay={handleCanPlay}
           onError={handleError}
         >
-          <source src={url} />
           Your browser does not support the video element.
         </video>
       </div>

@@ -9,6 +9,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Schedule } from "../types/Schedule";
 import SchedulePage from "./SchedulePage";
 
+let mockScheduleId = "schedule-1";
+let mockLocationSearch = "";
+
 const mocks = vi.hoisted(() => ({
   fetchSchedule: vi.fn(),
   getMediaUrl: vi.fn(),
@@ -18,6 +21,7 @@ const mocks = vi.hoisted(() => ({
   resetDuration: vi.fn(),
   uploadNow: vi.fn(),
   refreshTotal: vi.fn(),
+  videoPlayer: vi.fn(),
 }));
 
 vi.mock("../platform", () => ({
@@ -30,6 +34,20 @@ vi.mock("../utils/mediaUrl", () => ({
   getMediaUrl: mocks.getMediaUrl,
 }));
 
+vi.mock("../components/VideoPlayer", () => ({
+  VideoPlayer: ({
+    url,
+    description,
+  }: {
+    url: string;
+    description?: string;
+  }) => {
+    mocks.videoPlayer(url);
+
+    return <div data-testid="video-player">{description}</div>;
+  },
+}));
+
 vi.mock("react-router-dom", async () => {
   const actual =
     await vi.importActual<typeof import("react-router-dom")>(
@@ -38,9 +56,9 @@ vi.mock("react-router-dom", async () => {
 
   return {
     ...actual,
-    useParams: () => ({ scheduleId: "schedule-1" }),
+    useParams: () => ({ scheduleId: mockScheduleId }),
     useNavigate: () => mocks.navigate,
-    useLocation: () => ({ search: "", state: null }),
+    useLocation: () => ({ search: mockLocationSearch, state: null }),
   };
 });
 
@@ -90,6 +108,10 @@ vi.mock("../hooks/useTranslation", () => ({
 }));
 
 vi.mock("../contexts/LocalizationContext", () => ({
+  SUPPORTED_LANGUAGES: {
+    fi: { englishName: "Finnish", nativeName: "suomi" },
+    nb: { englishName: "Norwegian Bokmål", nativeName: "norsk bokmål" },
+  },
   useLocalization: () => ({
     currentLanguage: "nb",
   }),
@@ -99,6 +121,8 @@ describe("SchedulePage fake YLE media", () => {
   beforeEach(() => {
     cleanup();
     vi.clearAllMocks();
+    mockScheduleId = "schedule-1";
+    mockLocationSearch = "";
   });
 
   const buildFakeYleSchedule = (
@@ -288,6 +312,56 @@ describe("SchedulePage fake YLE media", () => {
         "https://yleawsmpondemand-03.akamaized.net/vod/path/index.m3u8",
       );
     });
+
+    expect(mocks.videoPlayer).toHaveBeenCalledWith(
+      "https://example.invalid/resolved-yle-stream.m3u8",
+    );
+    expect(screen.getByTestId("video-player")).toBeTruthy();
+    expect(screen.queryByAltText("YLE stream")).toBeNull();
+  });
+
+  it("renders the first fi item video for schedule 0598bf14-ab48-4ccb-a50c-0bd779f77933", async () => {
+    const scheduleId = "0598bf14-ab48-4ccb-a50c-0bd779f77933";
+    const hlsUrl =
+      "https://yleawsmpondemand-03.akamaized.net/vod/world/406318a3e25843d6a06c8def33ac8a0a/a8f702fdc8e7449cae194919044a34ee/d5fb3a697dbb4efda98a6aea7cb21fe7/index.m3u8?hdnts=exp=1779449002~acl=/vod/world/406318a3e25843d6a06c8def33ac8a0a/a8f702fdc8e7449cae194919044a34ee/*~hmac=b53a2064ffa945de335f1945c1bd07c6d5f3855307b9d1d6a2162d4703135337";
+
+    mockScheduleId = scheduleId;
+    mockLocationSearch = "?lang=fi";
+
+    const schedule: Schedule = {
+      scheduleId,
+      items: [
+        {
+          kind: "media",
+          itemType: "yle-video",
+          itemId: "item-yle-fi-1",
+          isRecording: false,
+          start: {
+            title: "YLE fi stream",
+            body1: "Prompt text",
+            body2: "More prompt text",
+            url: hlsUrl,
+          },
+          options: [],
+        },
+      ],
+    };
+
+    mocks.fetchSchedule.mockResolvedValue(schedule);
+    mocks.getMediaUrl.mockResolvedValue(hlsUrl);
+
+    render(<SchedulePage />);
+
+    await screen.findAllByText("YLE fi stream");
+
+    await waitFor(() => {
+      expect(mocks.fetchSchedule).toHaveBeenCalledWith(scheduleId, "fi");
+      expect(mocks.getMediaUrl).toHaveBeenCalledWith(hlsUrl);
+    });
+
+    expect(mocks.videoPlayer).toHaveBeenCalledWith(hlsUrl);
+    expect(screen.getByTestId("video-player")).toBeTruthy();
+    expect(screen.queryByAltText("YLE fi stream")).toBeNull();
   });
 
   it("resets recording duration when entering the next recording item", async () => {

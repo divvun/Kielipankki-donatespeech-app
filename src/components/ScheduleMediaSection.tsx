@@ -30,6 +30,8 @@ export function ScheduleMediaSection({
     currentItem.itemType === "video" || currentItem.itemType === "yle-video";
   const isAudioItem =
     currentItem.itemType === "audio" || currentItem.itemType === "yle-audio";
+  const shouldShowImage =
+    isImageItem || (!isVideoItem && !isAudioItem && Boolean(stateImageUrl));
   const showMediaLoader =
     !currentMediaUrl && !mediaError && !isFakeYleItem && hasUrl;
 
@@ -40,7 +42,7 @@ export function ScheduleMediaSection({
           <AlertDescription>{mediaError}</AlertDescription>
         </Alert>
       )}
-      {isImageItem || stateImageUrl ? (
+      {shouldShowImage ? (
         <ScheduleMediaImage
           mediaSource={currentMediaUrl || stateImageUrl}
           alt={title}
