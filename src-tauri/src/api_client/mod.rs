@@ -52,6 +52,11 @@ pub struct InitUploadResponse {
 }
 
 impl ApiClient {
+    fn schedule_matches_id(schedule: &Schedule, schedule_id: &str) -> bool {
+        schedule.id.as_deref() == Some(schedule_id)
+            || schedule.schedule_id.as_deref() == Some(schedule_id)
+    }
+
     pub fn new(base_url: String) -> Self {
         // Remap localhost to 10.0.2.2 for Android emulator
         let base_url = Self::remap_localhost_for_android(base_url);
@@ -133,68 +138,64 @@ impl ApiClient {
         Self::parse_json_response(response).await
     }
 
-    /// Fetch all schedules from the backend
+    /// Fetch all schedules by resolving schedule entries inside themes
     pub async fn get_schedules(&self) -> Result<Vec<ScheduleAvailability>, String> {
-        let url = format!("{}/v1/schedule", self.base_url);
+        let themes = self.get_themes().await?;
+        let mut schedules = Vec::new();
 
-        let response = self.client
-            .get(&url)
-            .send()
-            .await
-            .map_err(|e| format!("Failed to send request: {}", e))?;
+        for theme_availability in themes {
+            let Some(lang) = theme_availability.available_languages.first() else {
+                continue;
+            };
 
-        Self::parse_json_response::<Vec<ScheduleAvailability>>(response).await
-    }
+            let theme = self.get_theme(&theme_availability.id, lang).await?;
+            let Some(schedule) = theme.schedule else {
+                continue;
+            };
 
-    /// Fetch a specific schedule by ID
-    pub async fn get_schedule(&self, schedule_id: &str, lang: &str) -> Result<Schedule, String> {
-        let url = format!("{}/v1/schedule/{}", self.base_url, schedule_id);
-        
-        let response = self.client
-            .get(&url)
-            .query(&[("lang", lang)])
-            .send()
-            .await
-            .map_err(|e| format!("Failed to send request: {}", e))?;
+            let schedule_id = schedule
+                .id
+                .clone()
+                .or(schedule.schedule_id.clone())
+                .unwrap_or_else(|| theme_availability.id.clone());
 
-        let status = response.status();
-        let response_text = response
-            .text()
-            .await
-            .map_err(|e| format!("Failed to read response body: {}", e))?;
-
-        let preview_limit = 4000;
-        let response_preview = if response_text.chars().count() > preview_limit {
-            format!(
-                "{}... (truncated)",
-                response_text.chars().take(preview_limit).collect::<String>()
-            )
-        } else {
-            response_text.clone()
-        };
-
-        debug_log!(
-            "[api_client] GET {}?lang={} status={} body={} ",
-            url,
-            lang,
-            status,
-            response_preview
-        );
-
-        if !status.is_success() {
-            return Err(format!(
-                "Request failed with status {}: {}",
-                status,
-                response_text
-            ));
+            schedules.push(ScheduleAvailability {
+                id: schedule_id,
+                available_languages: theme_availability.available_languages,
+            });
         }
 
-        let mut schedule = serde_json::from_str::<Schedule>(&response_text)
-            .map_err(|e| format!("Failed to parse response: {}. Response was: {}", e, response_text))?;
+        Ok(schedules)
+    }
 
-        schedule.normalize_for_client();
+    /// Fetch a specific schedule by ID by reading schedule data from themes
+    pub async fn get_schedule(&self, schedule_id: &str, lang: &str) -> Result<Schedule, String> {
+        let themes = self.get_themes().await?;
 
-        Ok(schedule)
+        for theme_availability in themes {
+            if !theme_availability
+                .available_languages
+                .iter()
+                .any(|available_lang| available_lang == lang)
+            {
+                continue;
+            }
+
+            let theme = self.get_theme(&theme_availability.id, lang).await?;
+            let Some(mut schedule) = theme.schedule else {
+                continue;
+            };
+
+            if Self::schedule_matches_id(&schedule, schedule_id) {
+                schedule.normalize_for_client();
+                return Ok(schedule);
+            }
+        }
+
+        Err(format!(
+            "Schedule '{}' was not found in any theme for language '{}'",
+            schedule_id, lang
+        ))
     }
 
     /// Initialize an upload and get a presigned URL for direct upload
