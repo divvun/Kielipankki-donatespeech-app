@@ -98,6 +98,7 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
         <video
           ref={videoRef}
           controls
+          autoPlay
           className={`flex-1 w-full rounded-lg ${loading && !error ? "hidden" : "block"}`}
           onCanPlay={handleCanPlay}
           onError={handleError}
