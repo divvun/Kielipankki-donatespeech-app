@@ -152,12 +152,12 @@ export function useRecording(
         }
       }
 
-      // Generate output path for the recording
-      const tempDirPath = await pathApi.tempDir();
+      // Save inside app data so Tauri read/delete commands can access it.
+      const appDataDirPath = await pathApi.appDataDir();
       const timestamp = Date.now();
       // Don't specify extension - plugin will use .wav on desktop, .m4a on mobile
       const outputPath = await pathApi.join(
-        tempDirPath,
+        appDataDirPath,
         `recording_${timestamp}`,
       );
       outputPathRef.current = outputPath;
