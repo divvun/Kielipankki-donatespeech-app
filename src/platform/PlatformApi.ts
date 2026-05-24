@@ -34,5 +34,10 @@ export interface PlatformApi {
   saveRecording(
     payload: SaveRecordingPayload,
   ): Promise<SaveRecordingCommandResponse>;
+  saveRecordingFromPath(
+    filePath: string,
+    itemId: string,
+    clientId: string,
+  ): Promise<SaveRecordingCommandResponse>;
   deleteFile(filePath: string): Promise<void>;
 }

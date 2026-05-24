@@ -1,5 +1,6 @@
 use crate::api_client;
 use crate::database;
+use std::path::Path;
 
 /// Log only in debug builds (cfg!(debug_assertions) is optimized away in release)
 macro_rules! debug_log {
@@ -146,7 +147,7 @@ pub fn get_api_base_url(api_client: State<'_, api_client::ApiClient>) -> Result<
 }
 
 /// Tauri command to save a recording
-/// 
+///
 /// Receives WAV audio data as base64 string, saves it as FLAC, and creates database entry
 #[tauri::command]
 pub fn save_recording(
@@ -157,36 +158,101 @@ pub fn save_recording(
     audio_data_base64: String,
 ) -> Result<SaveRecordingResponse, String> {
     debug_log!("save_recording called for item: {}", item_id);
-    
-    // Decode base64 audio data
+
     let audio_data = base64::engine::general_purpose::STANDARD
         .decode(&audio_data_base64)
         .map_err(|e| format!("Failed to decode base64 audio data: {}", e))?;
-    
-    // Get recordings directory
+
+    save_recording_bytes(&app_handle, &db, item_id, client_id, audio_data)
+}
+
+/// Tauri command to save a recording directly from a file path.
+///
+/// Reads the audio file in Rust (no base64 round-trip through the WebView),
+/// converts/stores it as FLAC, creates a database entry, deletes the source
+/// file, and returns the recording metadata.  This is the preferred path for
+/// native recordings on all platforms.
+#[tauri::command]
+pub fn save_recording_from_path(
+    app_handle: AppHandle,
+    db: State<database::Database>,
+    file_path: String,
+    item_id: String,
+    client_id: String,
+) -> Result<SaveRecordingResponse, String> {
+    debug_log!("save_recording_from_path called: item={} path={}", item_id, file_path);
+
+    // Basic path safety: must be absolute and contain no parent-dir traversal.
+    let path = std::path::Path::new(&file_path);
+    if !path.is_absolute() {
+        return Err(format!("Recording path must be absolute, got: {}", file_path));
+    }
+    for component in path.components() {
+        if component == std::path::Component::ParentDir {
+            return Err(format!("Recording path must not contain '..': {}", file_path));
+        }
+    }
+
+    // Resolve symlinks if the file already exists; fall back to the raw path so
+    // the read attempt below gives a clear "not found" error rather than a
+    // cryptic canonicalize failure (which varies across iOS/macOS sandbox paths).
+    let real_path = std::fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf());
+
+    // Verify the resolved path stays inside the app's allowed directories.
+    // Detailed message so the actual paths appear in the web console on failure.
+    if !is_allowed_path(&app_handle, &real_path)? {
+        let path_api = app_handle.path();
+        let app_data = path_api.app_data_dir().unwrap_or_default();
+        let temp     = path_api.temp_dir().unwrap_or_default();
+        let cache    = path_api.app_cache_dir().unwrap_or_default();
+        let caches_root = cache.parent().map(|p| p.to_path_buf()).unwrap_or(cache);
+        let canon_app_data   = std::fs::canonicalize(&app_data).unwrap_or(app_data);
+        let canon_temp       = std::fs::canonicalize(&temp).unwrap_or(temp);
+        let canon_cache_root = std::fs::canonicalize(&caches_root).unwrap_or(caches_root);
+        return Err(format!(
+            "Access denied: '{}' (resolved: '{}') is not under app_data_dir='{}', temp_dir='{}', or caches_root='{}'",
+            file_path,
+            real_path.display(),
+            canon_app_data.display(),
+            canon_temp.display(),
+            canon_cache_root.display(),
+        ));
+    }
+
+    let audio_data = std::fs::read(&real_path)
+        .map_err(|e| format!("Failed to read recording file '{}': {}", real_path.display(), e))?;
+
+    let response = save_recording_bytes(&app_handle, &db, item_id, client_id, audio_data)?;
+
+    // Remove source file now that the FLAC copy is safely stored.
+    let _ = std::fs::remove_file(&real_path);
+
+    Ok(response)
+}
+
+fn save_recording_bytes(
+    app_handle: &AppHandle,
+    db: &State<database::Database>,
+    item_id: String,
+    client_id: String,
+    audio_data: Vec<u8>,
+) -> Result<SaveRecordingResponse, String> {
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
         .map_err(|e| format!("Failed to get app data directory: {}", e))?;
-    
+
     let recordings_dir = app_data_dir.join("recordings");
-    
-    // Save audio as FLAC and get metadata
+
     let audio_metadata = recording::save_recording_as_flac(&audio_data, &recordings_dir)?;
-    
-    debug_log!("Saved FLAC file: {}, duration: {:.2}s", 
+
+    debug_log!("Saved FLAC file: {}, duration: {:.2}s",
         audio_metadata.filename, audio_metadata.duration_seconds);
-    
-    // Generate recording ID from filename (without extension)
+
     let recording_id = audio_metadata.filename.trim_end_matches(".flac").to_string();
-    
-    // Store duration for response
     let duration_seconds = audio_metadata.duration_seconds;
-    
-    // Capture timestamp once so metadata and the DB row are guaranteed to agree
     let timestamp = chrono::Utc::now().to_rfc3339();
 
-    // Create metadata JSON
     let metadata_json = serde_json::json!({
         "recordingId": recording_id,
         "clientId": client_id,
@@ -200,8 +266,7 @@ pub fn save_recording(
         "recordingNumberOfChannels": audio_metadata.channels,
         "contentType": audio_metadata.content_type,
     });
-    
-    // Create Recording object
+
     let recording = Recording {
         recording_id: recording_id.clone(),
         item_id: Some(item_id),
@@ -211,16 +276,12 @@ pub fn save_recording(
         upload_status: Some(UploadStatus::Pending),
         metadata: Some(metadata_json.to_string()),
     };
-    
-    // Save to database
+
     database::save_recording(db.connection(), &recording)?;
-    
+
     debug_log!("Recording saved successfully: {}", recording_id);
-    
-    Ok(SaveRecordingResponse {
-        recording,
-        duration_seconds,
-    })
+
+    Ok(SaveRecordingResponse { recording, duration_seconds })
 }
 
 /// Check if a string is a YLE program ID (format: digits-hexstring, no slashes)
@@ -491,19 +552,42 @@ pub fn fix_client_ids(
     Ok(updated)
 }
 
+fn is_allowed_path(app_handle: &AppHandle, canonical_path: &Path) -> Result<bool, String> {
+    let path_api = app_handle.path();
+    let app_data_dir = path_api
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+    let temp_dir = path_api
+        .temp_dir()
+        .map_err(|e| format!("Failed to get temp directory: {}", e))?;
+    // iOS audio plugin saves recordings directly to Library/Caches (not to the
+    // app-specific subdirectory returned by app_cache_dir), so we allow the
+    // parent of app_cache_dir, i.e. the raw Library/Caches directory.
+    let cache_dir = path_api.app_cache_dir()
+        .map_err(|e| format!("Failed to get cache directory: {}", e))?;
+    let caches_root = cache_dir.parent()
+        .map(|p| p.to_path_buf())
+        .unwrap_or(cache_dir);
+
+    // Canonicalize base dirs so symlink differences (e.g. /var vs /private/var on iOS/macOS)
+    // don't cause false negatives in the starts_with check.
+    let canonical_app_data = std::fs::canonicalize(&app_data_dir).unwrap_or(app_data_dir);
+    let canonical_temp = std::fs::canonicalize(&temp_dir).unwrap_or(temp_dir);
+    let canonical_cache = std::fs::canonicalize(&caches_root).unwrap_or(caches_root);
+
+    Ok(canonical_path.starts_with(&canonical_app_data)
+        || canonical_path.starts_with(&canonical_temp)
+        || canonical_path.starts_with(&canonical_cache))
+}
+
 /// Tauri command to read a file and return its contents as base64
 #[tauri::command]
 pub fn read_file_as_base64(app_handle: AppHandle, file_path: String) -> Result<String, String> {
-    let app_data_dir = app_handle
-        .path()
-        .app_data_dir()
-        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
-
     let canonical_path = std::fs::canonicalize(&file_path)
         .map_err(|e| format!("Invalid path {}: {}", file_path, e))?;
 
-    if !canonical_path.starts_with(&app_data_dir) {
-        return Err("Access denied: path is outside the app data directory".to_string());
+    if !is_allowed_path(&app_handle, &canonical_path)? {
+        return Err("Access denied: path is outside allowed app directories".to_string());
     }
 
     let data = std::fs::read(&canonical_path)
@@ -516,16 +600,11 @@ pub fn read_file_as_base64(app_handle: AppHandle, file_path: String) -> Result<S
 /// Tauri command to delete a file
 #[tauri::command]
 pub fn delete_file(app_handle: AppHandle, file_path: String) -> Result<(), String> {
-    let app_data_dir = app_handle
-        .path()
-        .app_data_dir()
-        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
-
     let canonical_path = std::fs::canonicalize(&file_path)
         .map_err(|e| format!("Invalid path {}: {}", file_path, e))?;
 
-    if !canonical_path.starts_with(&app_data_dir) {
-        return Err("Access denied: path is outside the app data directory".to_string());
+    if !is_allowed_path(&app_handle, &canonical_path)? {
+        return Err("Access denied: path is outside allowed app directories".to_string());
     }
 
     if canonical_path.exists() {

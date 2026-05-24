@@ -220,35 +220,34 @@ export function useRecording(
         format: getRecordingFormat(extension),
       });
 
-      // Read the audio file and convert to base64
-      // Backend will handle format detection and conversion/storage appropriately
-      const audioBase64 = await platformApi.readFileAsBase64(result.filePath);
-
-      // Call backend to save recording
+      // Save recording directly from path — Rust reads the file, converts,
+      // stores, and deletes the source without any base64 transfer over IPC.
       console.log("Saving recording...", {
         itemId,
         clientId,
-        dataLength: audioBase64.length,
         filePath: result.filePath,
         duration: result.durationMs / 1000,
       });
 
-      const response = await platformApi.saveRecording({
+      const response = await platformApi.saveRecordingFromPath(
+        result.filePath,
         itemId,
         clientId,
-        audioDataBase64: audioBase64,
-      });
+      );
 
       console.log("Recording saved:", response);
-
-      // Clean up the temporary file
-      await platformApi.deleteFile(result.filePath);
 
       outputPathRef.current = null;
       return response;
     } catch (err) {
       console.error("Error saving recording:", err);
-      setError(err instanceof Error ? err.message : "Failed to save recording");
+      const message =
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+            ? err
+            : "Failed to save recording";
+      setError(message);
       throw err;
     }
   };

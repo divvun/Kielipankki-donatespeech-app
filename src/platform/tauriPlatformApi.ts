@@ -118,6 +118,14 @@ export const tauriPlatformApi: PlatformApi = {
     });
   },
 
+  saveRecordingFromPath(filePath, itemId, clientId) {
+    return invoke<SaveRecordingCommandResponse>("save_recording_from_path", {
+      filePath,
+      itemId,
+      clientId,
+    });
+  },
+
   deleteFile(filePath) {
     return invoke<void>("delete_file", { filePath });
   },

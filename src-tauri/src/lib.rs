@@ -62,6 +62,7 @@ pub fn run() {
             commands::get_api_base_url,
             commands::download_media,
             commands::save_recording,
+            commands::save_recording_from_path,
             commands::upload_recording,
             commands::upload_pending_recordings,
             commands::fix_client_ids,

@@ -387,6 +387,10 @@ export const webPlatformApi: PlatformApi = {
     };
   },
 
+  async saveRecordingFromPath() {
+    throw new Error(NOT_IMPLEMENTED_ERROR);
+  },
+
   async deleteFile() {
     // Browser mode has no temp file cleanup yet.
   },

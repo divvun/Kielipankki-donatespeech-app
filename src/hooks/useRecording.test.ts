@@ -9,9 +9,7 @@ const mocks = vi.hoisted(() => ({
   stopNativeRecording: vi.fn(),
   appDataDir: vi.fn(),
   joinPath: vi.fn(),
-  readFileAsBase64: vi.fn(),
-  saveRecording: vi.fn(),
-  deleteFile: vi.fn(),
+  saveRecordingFromPath: vi.fn(),
   requestWakeLock: vi.fn(),
   releaseWakeLock: vi.fn(),
 }));
@@ -38,9 +36,7 @@ vi.mock("@tauri-apps/api/path", () => ({
 
 vi.mock("../platform", () => ({
   platformApi: {
-    readFileAsBase64: mocks.readFileAsBase64,
-    saveRecording: mocks.saveRecording,
-    deleteFile: mocks.deleteFile,
+    saveRecordingFromPath: mocks.saveRecordingFromPath,
   },
 }));
 
@@ -61,15 +57,13 @@ describe("useRecording", () => {
       filePath: "/app-data/recording_123.wav",
       durationMs: 3000,
     });
-    mocks.readFileAsBase64.mockResolvedValue("base64");
-    mocks.saveRecording.mockResolvedValue({
+    mocks.saveRecordingFromPath.mockResolvedValue({
       recording: {
         recordingId: "rec-1",
         timestamp: new Date().toISOString(),
       },
       durationSeconds: 3,
     });
-    mocks.deleteFile.mockResolvedValue(undefined);
   });
 
   afterEach(() => {
