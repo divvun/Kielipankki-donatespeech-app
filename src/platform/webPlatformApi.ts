@@ -58,6 +58,55 @@ async function fetchJson<T>(path: string): Promise<T> {
   return (await response.json()) as T;
 }
 
+function scheduleMatchesId(schedule: Schedule, scheduleId: string): boolean {
+  return schedule.id === scheduleId || schedule.scheduleId === scheduleId;
+}
+
+function toThemeLanguagePath(themeId: string, lang: string): string {
+  return `/v1/theme/${encodeURIComponent(themeId)}?lang=${encodeURIComponent(lang)}`;
+}
+
+function isNonNullScheduleAvailability(
+  value: ScheduleAvailability | null,
+): value is ScheduleAvailability {
+  return value !== null;
+}
+
+async function resolveThemeSchedule(
+  scheduleId: string,
+  lang: string,
+): Promise<Schedule> {
+  const themes = await fetchJson<ThemeAvailability[]>("/v1/theme");
+  const themesForLanguage = themes.filter((theme) =>
+    theme.availableLanguages.includes(lang),
+  );
+
+  const candidates = await Promise.allSettled(
+    themesForLanguage.map((theme) =>
+      fetchJson<Theme>(toThemeLanguagePath(theme.id, lang)),
+    ),
+  );
+
+  for (const candidate of candidates) {
+    if (candidate.status !== "fulfilled") {
+      continue;
+    }
+
+    const schedule = candidate.value.schedule;
+    if (!schedule) {
+      continue;
+    }
+
+    if (scheduleMatchesId(schedule, scheduleId)) {
+      return schedule;
+    }
+  }
+
+  throw new Error(
+    `Schedule '${scheduleId}' was not found in any theme for language '${lang}'.`,
+  );
+}
+
 function isYleProgramId(mediaSource: string): boolean {
   return (
     !mediaSource.includes("/") &&
@@ -192,14 +241,41 @@ export const webPlatformApi: PlatformApi = {
     );
   },
 
-  fetchSchedules() {
-    return fetchJson<ScheduleAvailability[]>("/v1/schedule");
+  async fetchSchedules() {
+    const themes = await fetchJson<ThemeAvailability[]>("/v1/theme");
+
+    const resolvedSchedules = await Promise.all(
+      themes.map(async (themeAvailability) => {
+        const [firstLanguage] = themeAvailability.availableLanguages;
+        if (!firstLanguage) {
+          return null;
+        }
+
+        try {
+          const theme = await fetchJson<Theme>(
+            toThemeLanguagePath(themeAvailability.id, firstLanguage),
+          );
+          const schedule = theme.schedule;
+
+          if (!schedule) {
+            return null;
+          }
+
+          return {
+            id: schedule.id ?? schedule.scheduleId ?? themeAvailability.id,
+            availableLanguages: themeAvailability.availableLanguages,
+          } satisfies ScheduleAvailability;
+        } catch {
+          return null;
+        }
+      }),
+    );
+
+    return resolvedSchedules.filter(isNonNullScheduleAvailability);
   },
 
   fetchSchedule(scheduleId, lang) {
-    return fetchJson<Schedule>(
-      `/v1/schedule/${encodeURIComponent(scheduleId)}?lang=${encodeURIComponent(lang)}`,
-    );
+    return resolveThemeSchedule(scheduleId, lang);
   },
 
   async getRecordings() {
