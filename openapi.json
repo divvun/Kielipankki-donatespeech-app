@@ -198,124 +198,6 @@
                 }
             }
         },
-        "/v1/schedule/{schedule_id}": {
-            "get": {
-                "summary": "Load Schedule",
-                "description": "Load a specific schedule file for one language.",
-                "operationId": "load_schedule_v1_schedule__schedule_id__get",
-                "parameters": [
-                    {
-                        "name": "schedule_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "Schedule ID",
-                            "title": "Schedule Id"
-                        },
-                        "description": "Schedule ID"
-                    },
-                    {
-                        "name": "lang",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "Language code, for example 'fi' or 'nb'",
-                            "title": "Lang"
-                        },
-                        "description": "Language code, for example 'fi' or 'nb'"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Schedule"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/schedule": {
-            "get": {
-                "summary": "List Schedules",
-                "description": "List all schedules with their available languages.",
-                "operationId": "list_schedules_v1_schedule_get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "items": {
-                                        "$ref": "#/components/schemas/ScheduleAvailability"
-                                    },
-                                    "type": "array",
-                                    "title": "Response List Schedules V1 Schedule Get"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/schedule/{schedule_id}/languages": {
-            "get": {
-                "summary": "Schedule Languages",
-                "description": "Return which languages are available for one schedule.",
-                "operationId": "schedule_languages_v1_schedule__schedule_id__languages_get",
-                "parameters": [
-                    {
-                        "name": "schedule_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "description": "Schedule ID",
-                            "title": "Schedule Id"
-                        },
-                        "description": "Schedule ID"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ScheduleAvailability"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/v1/theme/{theme_id}": {
             "get": {
                 "summary": "Load Theme",
@@ -477,7 +359,7 @@
         "/v1/media/{filename}": {
             "get": {
                 "summary": "Serve Media",
-                "description": "Serve media files (audio/video) for playback in the client app.\n\nSupports HTTP range requests for streaming and seeking.\nRequired for AVPlayer on iOS/macOS.\n\nFor YLE media, use the /v1/yle-media/{yle_program_id} endpoint instead.",
+                "description": "Serve media files (audio/video/images) for playback in the client app.\n\nSupports HTTP range requests for streaming and seeking.\nRequired for AVPlayer on iOS/macOS.\n\nFor YLE media, use the /v1/yle-media/{yle_program_id} endpoint instead.",
                 "operationId": "serve_media_v1_media__filename__get",
                 "parameters": [
                     {
@@ -1030,28 +912,6 @@
                 ],
                 "title": "Schedule",
                 "description": "Schedule (playlist) containing items to present to user"
-            },
-            "ScheduleAvailability": {
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "title": "Id"
-                    },
-                    "availableLanguages": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array",
-                        "title": "Availablelanguages"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "id",
-                    "availableLanguages"
-                ],
-                "title": "ScheduleAvailability",
-                "description": "Availability info for one schedule across languages"
             },
             "SuperChoicePromptItem": {
                 "properties": {
