@@ -25,27 +25,6 @@ import {
   getThemesPath,
 } from "../utils/themeLanguage";
 
-const BACKEND_EXCEL_BASE_URL =
-  "https://raw.githubusercontent.com/divvun/Kielipankki-donatespeech-backend/main/recorder-backend/content/dev/excel";
-
-function isWebMode(): boolean {
-  const mode = import.meta.env.VITE_PLATFORM_MODE?.trim().toLowerCase();
-  if (mode === "web") {
-    return true;
-  }
-
-  if (mode !== "tauri" && typeof window !== "undefined") {
-    const windowRecord = window as unknown as Record<string, unknown>;
-    return !Boolean(windowRecord.__TAURI_INTERNALS__ || windowRecord.__TAURI__);
-  }
-
-  return false;
-}
-
-function getThemeExcelUrl(themeId: string): string {
-  return `${BACKEND_EXCEL_BASE_URL}/${encodeURIComponent(themeId)}.xlsx`;
-}
-
 export default function ThemesPage() {
   const [themeAvailabilities, setThemeAvailabilities] = useState<
     ThemeAvailability[]
@@ -57,7 +36,6 @@ export default function ThemesPage() {
   const navigate = useNavigate();
   const { getString } = useTranslation();
   const totalRecorded = useTotalRecorded();
-  const showExcelDownload = isWebMode();
   const themeLanguage = getThemeLanguageFromSearch(location.search);
   const availableThemeLanguages = useMemo(
     () => getAvailableThemeLanguages(themeAvailabilities),
@@ -260,7 +238,6 @@ export default function ThemesPage() {
               const themeId = getThemeId(theme);
               const title = theme.mediaState.title;
               const imageUrl = getStateMediaUrl(theme.mediaState);
-              const excelUrl = getThemeExcelUrl(themeId || "theme");
               const scheduleItemCount = theme.schedule?.items.length || 0;
 
               return (
@@ -297,19 +274,6 @@ export default function ThemesPage() {
                       <ChevronRight className="w-5 h-5 text-muted-foreground" />
                     </div>
                   </button>
-
-                  {showExcelDownload && themeId && (
-                    <a
-                      href={excelUrl}
-                      download={`${themeId}.xlsx`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-gray-300 px-4 text-sm font-semibold text-white hover:bg-gray-400"
-                      title={`Download ${themeId}.xlsx`}
-                    >
-                      XLSX
-                    </a>
-                  )}
                 </div>
               );
             })}
