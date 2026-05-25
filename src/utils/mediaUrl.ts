@@ -47,6 +47,10 @@ function isHlsPlaylistSource(source: string): boolean {
   return /\.m3u8(?:$|[?#])/i.test(source);
 }
 
+function isSvtEmbedSource(source: string): boolean {
+  return /^https:\/\/api\.svt\.se\/videoplayer-embed\//i.test(source);
+}
+
 async function resolveUrl(filenameOrUrl: string): Promise<string> {
   if (/^https?:\/\//i.test(filenameOrUrl)) {
     return filenameOrUrl;
@@ -65,6 +69,11 @@ async function resolveUrl(filenameOrUrl: string): Promise<string> {
  */
 export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
   console.log("getMediaUrl called with:", filenameOrUrl);
+
+  if (isSvtEmbedSource(filenameOrUrl)) {
+    console.log("Using SVT embed URL directly:", filenameOrUrl);
+    return filenameOrUrl;
+  }
 
   if (isHlsPlaylistSource(filenameOrUrl)) {
     const resolvedUrl = await resolveUrl(filenameOrUrl);

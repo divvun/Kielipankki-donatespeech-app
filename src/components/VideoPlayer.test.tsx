@@ -46,4 +46,20 @@ describe("VideoPlayer", () => {
     expect(video).toBeTruthy();
     expect(hlsInstances.attachMedia).toHaveBeenCalledWith(video);
   });
+
+  it("renders iframe for SVT embed URLs", () => {
+    const { container } = render(
+      <VideoPlayer url="https://api.svt.se/videoplayer-embed/abc123" />,
+    );
+
+    const iframe = container.querySelector("iframe");
+    const video = container.querySelector("video");
+
+    expect(iframe).toBeTruthy();
+    expect(iframe?.getAttribute("src")).toBe(
+      "https://api.svt.se/videoplayer-embed/abc123",
+    );
+    expect(video).toBeNull();
+    expect(hlsInstances.loadSource).not.toHaveBeenCalled();
+  });
 });

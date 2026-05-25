@@ -11,6 +11,9 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
   const [error, setError] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  const isSvtEmbedUrl = /^https:\/\/api\.svt\.se\/videoplayer-embed\//i.test(
+    url,
+  );
   const isHlsStream = /\.m3u8(?:$|[?#])/i.test(url);
 
   const handleCanPlay = () => {
@@ -24,6 +27,10 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
   };
 
   useEffect(() => {
+    if (isSvtEmbedUrl) {
+      return;
+    }
+
     const video = videoRef.current;
 
     if (!video) {
@@ -77,7 +84,12 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
       video.removeAttribute("src");
       video.load();
     };
-  }, [isHlsStream, url]);
+  }, [isHlsStream, isSvtEmbedUrl, url]);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+  }, [url]);
 
   return (
     <div className="w-full">
@@ -95,16 +107,32 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
             {error}
           </div>
         )}
-        <video
-          ref={videoRef}
-          controls
-          autoPlay
-          className={`flex-1 w-full rounded-lg ${loading && !error ? "hidden" : "block"}`}
-          onCanPlay={handleCanPlay}
-          onError={handleError}
-        >
-          Your browser does not support the video element.
-        </video>
+        {isSvtEmbedUrl ? (
+          <iframe
+            src={url}
+            title="Embedded video player"
+            className={`flex-1 w-full rounded-lg border-0 ${loading && !error ? "hidden" : "block"}`}
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            onLoad={() => setLoading(false)}
+            onError={() => {
+              setError("Failed to load video");
+              setLoading(false);
+            }}
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            controls
+            autoPlay
+            playsInline
+            className={`flex-1 w-full rounded-lg ${loading && !error ? "hidden" : "block"}`}
+            onCanPlay={handleCanPlay}
+            onError={handleError}
+          >
+            Your browser does not support the video element.
+          </video>
+        )}
       </div>
     </div>
   );

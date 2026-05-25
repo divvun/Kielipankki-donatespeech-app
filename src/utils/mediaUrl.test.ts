@@ -42,4 +42,13 @@ describe("getMediaUrl", () => {
 
     createObjectURL.mockRestore();
   });
+
+  it("returns SVT embed URLs directly without downloading", async () => {
+    await expect(
+      getMediaUrl("https://api.svt.se/videoplayer-embed/jqPzEW9"),
+    ).resolves.toBe("https://api.svt.se/videoplayer-embed/jqPzEW9");
+
+    expect(mocks.downloadMedia).not.toHaveBeenCalled();
+    expect(mocks.getApiBaseUrl).not.toHaveBeenCalled();
+  });
 });
