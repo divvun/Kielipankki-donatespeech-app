@@ -6,7 +6,7 @@ interface VideoPlayerProps {
   description?: string;
 }
 
-export function VideoPlayer({ url, description }: VideoPlayerProps) {
+export function VideoPlayer({ url }: VideoPlayerProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
