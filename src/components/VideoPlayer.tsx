@@ -94,9 +94,6 @@ export function VideoPlayer({ url, description }: VideoPlayerProps) {
   return (
     <div className="w-full">
       <div className="w-full aspect-video rounded-2xl bg-gray-100 overflow-hidden shadow-md flex flex-col">
-        {description && (
-          <p className="text-gray-700 text-center p-4 text-sm">{description}</p>
-        )}
         {loading && !error && (
           <div className="flex-1 flex items-center justify-center text-gray-500">
             Loading video...
