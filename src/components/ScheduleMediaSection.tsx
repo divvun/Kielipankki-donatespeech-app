@@ -50,10 +50,10 @@ export function ScheduleMediaSection({
       ) : (
         <>
           {isVideoItem && hasUrl && currentMediaUrl && (
-            <VideoPlayer url={currentMediaUrl} description={title} />
+            <VideoPlayer url={currentMediaUrl} />
           )}
           {isAudioItem && hasUrl && currentMediaUrl && (
-            <AudioPlayer url={currentMediaUrl} description={title} />
+            <AudioPlayer url={currentMediaUrl} />
           )}
           {showMediaLoader && (
             <div className="w-full aspect-video rounded-2xl bg-linear-to-br from-secondary to-[#b8d4e8] flex items-center justify-center">

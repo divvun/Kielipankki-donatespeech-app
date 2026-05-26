@@ -3,7 +3,6 @@ import Hls from "hls.js";
 
 interface VideoPlayerProps {
   url: string;
-  description?: string;
 }
 
 export function VideoPlayer({ url }: VideoPlayerProps) {
