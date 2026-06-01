@@ -23,7 +23,11 @@ export interface PlatformApi {
   fetchThemes(): Promise<ThemeAvailability[]>;
   fetchTheme(themeId: string, lang: string): Promise<Theme>;
   fetchSchedules(): Promise<ScheduleAvailability[]>;
-  fetchSchedule(scheduleId: string, lang: string): Promise<Schedule>;
+  fetchSchedule(
+    scheduleId: string,
+    lang: string,
+    themeId?: string,
+  ): Promise<Schedule>;
   getRecordings(): Promise<Recording[]>;
   insertTestRecording(): Promise<void>;
   deleteRecording(recordingId: string): Promise<void>;

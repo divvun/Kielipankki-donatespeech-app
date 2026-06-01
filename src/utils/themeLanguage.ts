@@ -5,6 +5,7 @@ import {
 import type { ThemeAvailability } from "../types/Theme";
 
 const THEME_LANGUAGE_PARAM = "lang";
+const THEME_ID_PARAM = "themeId";
 
 export const THEME_LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
   fi: "LanguageFinnish",
@@ -68,6 +69,19 @@ export function getThemeLanguageFromSearch(
   }
 
   return language as LanguageCode;
+}
+
+export function getThemeIdFromSearch(search: string): string | null {
+  const params = new URLSearchParams(search);
+  const themeId = params.get(THEME_ID_PARAM);
+  return themeId && themeId.length > 0 ? themeId : null;
+}
+
+export function appendThemeIdToSearch(search: string, themeId: string): string {
+  const params = new URLSearchParams(search);
+  params.set(THEME_ID_PARAM, themeId);
+  const serialized = params.toString();
+  return serialized ? `?${serialized}` : "";
 }
 
 export function getThemesPath(language?: LanguageCode | null): string {

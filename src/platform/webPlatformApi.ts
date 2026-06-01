@@ -75,7 +75,29 @@ function isNonNullScheduleAvailability(
 async function resolveThemeSchedule(
   scheduleId: string,
   lang: string,
+  themeId?: string,
 ): Promise<Schedule> {
+  if (themeId) {
+    const selectedTheme = await fetchJson<Theme>(
+      toThemeLanguagePath(themeId, lang),
+    );
+    const selectedSchedule = selectedTheme.schedule;
+
+    if (!selectedSchedule) {
+      throw new Error(
+        `Theme '${themeId}' has no schedule for language '${lang}'.`,
+      );
+    }
+
+    if (!scheduleMatchesId(selectedSchedule, scheduleId)) {
+      throw new Error(
+        `Theme '${themeId}' schedule does not match requested schedule '${scheduleId}'.`,
+      );
+    }
+
+    return selectedSchedule;
+  }
+
   const themes = await fetchJson<ThemeAvailability[]>("/v1/theme");
   const themesForLanguage = themes.filter((theme) =>
     theme.availableLanguages.includes(lang),
@@ -274,8 +296,8 @@ export const webPlatformApi: PlatformApi = {
     return resolvedSchedules.filter(isNonNullScheduleAvailability);
   },
 
-  fetchSchedule(scheduleId, lang) {
-    return resolveThemeSchedule(scheduleId, lang);
+  fetchSchedule(scheduleId, lang, themeId) {
+    return resolveThemeSchedule(scheduleId, lang, themeId);
   },
 
   async getRecordings() {

@@ -136,8 +136,11 @@ pub async fn fetch_schedule(
     api_client: State<'_, api_client::ApiClient>,
     schedule_id: String,
     lang: String,
+    theme_id: Option<String>,
 ) -> Result<Schedule, String> {
-    api_client.get_schedule(&schedule_id, &lang).await
+    api_client
+        .get_schedule(&schedule_id, &lang, theme_id.as_deref())
+        .await
 }
 
 /// Tauri command to get the API base URL

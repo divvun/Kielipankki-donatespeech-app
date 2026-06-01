@@ -169,7 +169,32 @@ impl ApiClient {
     }
 
     /// Fetch a specific schedule by ID by reading schedule data from themes
-    pub async fn get_schedule(&self, schedule_id: &str, lang: &str) -> Result<Schedule, String> {
+    pub async fn get_schedule(
+        &self,
+        schedule_id: &str,
+        lang: &str,
+        theme_id: Option<&str>,
+    ) -> Result<Schedule, String> {
+        if let Some(theme_id) = theme_id {
+            let theme = self.get_theme(theme_id, lang).await?;
+            let Some(mut schedule) = theme.schedule else {
+                return Err(format!(
+                    "Theme '{}' has no schedule for language '{}'",
+                    theme_id, lang
+                ));
+            };
+
+            if !Self::schedule_matches_id(&schedule, schedule_id) {
+                return Err(format!(
+                    "Theme '{}' schedule does not match requested schedule '{}'",
+                    theme_id, schedule_id
+                ));
+            }
+
+            schedule.normalize_for_client();
+            return Ok(schedule);
+        }
+
         let themes = self.get_themes().await?;
 
         for theme_availability in themes {

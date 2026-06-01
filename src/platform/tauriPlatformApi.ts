@@ -76,10 +76,12 @@ export const tauriPlatformApi: PlatformApi = {
     return invoke<ScheduleAvailability[]>("fetch_schedules");
   },
 
-  fetchSchedule(scheduleId, lang) {
-    return invoke<Schedule>("fetch_schedule", { scheduleId, lang }).then(
-      normalizeSchedule,
-    );
+  fetchSchedule(scheduleId, lang, themeId) {
+    return invoke<Schedule>("fetch_schedule", {
+      scheduleId,
+      lang,
+      themeId,
+    }).then(normalizeSchedule);
   },
 
   getRecordings() {

@@ -4,6 +4,7 @@ import { platformApi } from "../platform";
 
 interface UseScheduleOptions {
   scheduleId?: string;
+  themeId?: string;
   language: string;
   noItemsError: string;
 }
@@ -16,6 +17,7 @@ interface UseScheduleResult {
 
 export function useSchedule({
   scheduleId,
+  themeId,
   language,
   noItemsError,
 }: UseScheduleOptions): UseScheduleResult {
@@ -42,7 +44,11 @@ export function useSchedule({
       }
 
       try {
-        const result = await platformApi.fetchSchedule(scheduleId, language);
+        const result = await platformApi.fetchSchedule(
+          scheduleId,
+          language,
+          themeId,
+        );
 
         if (cancelled) {
           return;
@@ -74,7 +80,7 @@ export function useSchedule({
     return () => {
       cancelled = true;
     };
-  }, [scheduleId, language, noItemsError]);
+  }, [scheduleId, themeId, language, noItemsError]);
 
   return { schedule, loading, error };
 }

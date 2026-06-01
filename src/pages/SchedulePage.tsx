@@ -28,6 +28,7 @@ import { useLocalization } from "../contexts/LocalizationContext";
 import { SchedulePromptSection } from "@/components/SchedulePromptSection";
 import {
   appendSearch,
+  getThemeIdFromSearch,
   getThemeLanguageFromSearch,
   getThemesPathFromSearch,
 } from "../utils/themeLanguage";
@@ -40,6 +41,7 @@ export default function SchedulePage() {
   const location = useLocation();
   const { getString } = useTranslation();
   const { currentLanguage } = useLocalization();
+  const requestedThemeId = getThemeIdFromSearch(location.search);
   const requestedLanguage = getThemeLanguageFromSearch(location.search);
   const scheduleLanguage = requestedLanguage ?? currentLanguage;
 
@@ -52,6 +54,7 @@ export default function SchedulePage() {
 
   const { schedule, loading, error } = useSchedule({
     scheduleId,
+    themeId: requestedThemeId ?? undefined,
     language: scheduleLanguage,
     noItemsError: getString("SchedulePageNoItemsError"),
   });

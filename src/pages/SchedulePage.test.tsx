@@ -269,8 +269,8 @@ describe("SchedulePage fake YLE media", () => {
 
     const image = await screen.findByAltText("Theme image");
 
-    expect(image.getAttribute("src")).toBe("blob:resolved-image-url");
     await waitFor(() => {
+      expect(image.getAttribute("src")).toBe("blob:resolved-image-url");
       expect(mocks.getMediaUrl).toHaveBeenCalledWith(
         "/v1/media/foto21_svt.jpg",
       );
@@ -355,7 +355,11 @@ describe("SchedulePage fake YLE media", () => {
     await screen.findAllByText("YLE fi stream");
 
     await waitFor(() => {
-      expect(mocks.fetchSchedule).toHaveBeenCalledWith(scheduleId, "fi");
+      expect(mocks.fetchSchedule).toHaveBeenCalledWith(
+        scheduleId,
+        "fi",
+        undefined,
+      );
       expect(mocks.getMediaUrl).toHaveBeenCalledWith(hlsUrl);
     });
 
