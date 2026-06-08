@@ -1,75 +1,75 @@
 # Generated from AppResources.is.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-PromptMetaTitle = smj Hjelp forskeren
+PromptMetaTitle = smj Viehkeda dutkev
 
-MediaMetaTitle = smj Donasjon { $param0 }/{ $param1 }
+MediaMetaTitle = smj Hållasállim { $param0 }/{ $param1 }
 
-NonRecordingMediaMetaTitle = smj Se eller lytt
+NonRecordingMediaMetaTitle = smj Lågå jali gulldala
 
-ThemesPageTitleText = smj La oss bygge bedre tjenester!
+ThemesPageTitleText = smj Åvddånahttup buorep ræjdojt!
 
-ThemesPageBody1Text = smj Velg et tema du vil snakke om.
+ThemesPageBody1Text = smj Vállji tiemáv man birra sidá ságastit.
 
-ThemesPageBody2Text = smj Tjenesten vil veilede deg videre.
+ThemesPageBody2Text = smj Dån vijdábut bagáduvá.
 
-StartButtonText = smj Start
+StartButtonText = smj Álge
 
-StartRecording = smj Ta opp
+StartRecording = smj Báddi
 
-StopRecording = smj Stopp opptak
+StopRecording = smj Låhpada báddimav
 
-ContinueSchedule = smj Fortsett
+ContinueSchedule = smj Joarke
 
-SkipScheduleItem = smj Hopp over
+SkipScheduleItem = smj Guode dáv lávkev
 
-RetryScheduleItem = smj Prøv igjen
+RetryScheduleItem = smj Gæhttjala ådåsit
 
-RecordingFinishTitle = smj Godt fortalt, tusen takk!
+RecordingFinishTitle = smj Godt fortalt, edna gijtto!
 
-DetailsButtonText = smj Mer informasjon
+DetailsButtonText = smj Ienep diedo
 
-CloseButtonText = smj Lukk
+CloseButtonText = smj Dahpa
 
-ExitButtonText = smj Avslutt
+ExitButtonText = smj Låhpada
 
-DonatedLabelText = smj DU HAR DONERT
+DonatedLabelText = smj Dån la dal hållamav sállim
 
-ChooseOptionText = smj Velg et alternativ:
+ChooseOptionText = smj Vállji alternativjav:
 
-PrimaryNativeLanguageLabelText = smj Første morsmål:
+PrimaryNativeLanguageLabelText = smj Vuostasjgiella:
 
-SecondaryNativeLanguageLabelText = smj Andre morsmål:
+SecondaryNativeLanguageLabelText = smj Nuppátgiella:
 
-ReadMoreLinkLabelText = smj Les mer om personvern.
+ReadMoreLinkLabelText = smj Lågå ienebuv persåvnnåsuodjalime birra.
 
 PrivacyPolicyUrl = https://example.com
 
-InviteFriendButtonText = smj Fortell en venn
+InviteFriendButtonText = smj Gåhtjo rádnav
 
-DonateMoreButtonText = smj Doner mer
+DonateMoreButtonText = smj Sállim ájn ienebuv
 
-NextButtonText = smj Neste
+NextButtonText = smj Boahtte
 
-TryAgainButtonText = smj Prøv igjen
+TryAgainButtonText = smj Gæhttjala ådåsit
 
-LoadFailedAlertTitle = smj Feil
+LoadFailedAlertTitle = smj Boastovuohta
 
-LoadFailedAlertMessage = smj Lasting av innhold mislyktes. Sjekk nettverkstilkoblingen og prøv igjen ved å trykke Fortsett.
+LoadFailedAlertMessage = smj Sisano viedtjam ittjij vuorbástuvá. Guoradalá jus dujna la næhtta ja gæhttjala ådåsit.
 
-LoadFailedAlertContinue = smj Fortsett
+LoadFailedAlertContinue = smj Joarke
 
-LoadFailedAlertCancel = smj Avslutt
+LoadFailedAlertCancel = smj Låhpada
 
-StartTypingLabelText = smj Skriv noen få bokstaver fra begynnelsen av navnet og velg deretter fra listen:
+StartTypingLabelText = smj Tjálela gallegasj bokstávajt bágo álgos ja válljista de listas:
 
-InviteFriendTitle = smj Fortell en venn
+InviteFriendTitle = smj Subtsasta ráddnasit hållamsállima birra
 
-InviteFriendTemplate = smj Jeg donerte { $param0 } minutter av min tale. Doner du også! #hashtag https://example.com
+InviteFriendTemplate = smj Sállijiv { $param0 } minuhta ietjam hållamis. Sállista dån aj! #hashtag https://example.com
 
-InviteFriendNewbieTemplate = smj Jeg har nettopp donert min tale. Doner du også! #hashtag https://example.com
+InviteFriendNewbieTemplate = smj Lev jur ietjam hållamav sállim. Sállista dån aj! #hashtag https://example.com
 
-OnboardingTitle = smj Velkommen
+OnboardingTitle = smj Buorisboahtem
 
 OnboardingBody =
     
@@ -85,9 +85,9 @@ DetailsGeneralBody =
     
     Applikasjonen er ikke ment for delt bruk, hver bruker må bruke sin egen enhet. Dette gjør det mulig for alle å godta denne informasjonen selv og om nødvendig slette opptakene basert på enhets-ID. ID-en finner du nederst på denne siden.
 
-DetailsGeneralLinkTitle = smj Les mer på prosjektets nettside
+DetailsGeneralLinkTitle = smj Lågå ienebuv prosjevta næhttabielen
 
-DetailsPrivacyTitle = smj Personvernet ditt er viktig for oss
+DetailsPrivacyTitle = smj Duv persåvnnåsuodjalibme l ájnas midjij. 
 
 DetailsPrivacyBody =
     
@@ -95,11 +95,11 @@ DetailsPrivacyBody =
     
     Dette er tredje avsnitt av personvernteksten.
 
-DetailsPrivacyLinkTitle = smj Les mer om personvern
+DetailsPrivacyLinkTitle = smj Lågå ienebuv persåvnnåsuodjalime birra
 
-DetailsRemoveTitle = smj Sletting av opptak
+DetailsRemoveTitle = smj Gádoda báddimav
 
-DetailsRemoveBody1 = smj Ta vare på denne ID-en slik at du kan trekke tilbake donasjoner gjort med denne appinstallasjonen hvis du ønsker det. For å slette dine donasjoner må du sende ID-en til 
+DetailsRemoveBody1 = smj Vuorkki dáv ID:av váj maŋŋela besa gádodahttet hållamav majt la sállim jus iesj dav sidá. Jus sidá ietjat hållamav gádodahttet de viertti dáv ID:av rádjat diek 
 
 DetailsRemoveEmail = your-feedback-email
 
@@ -111,31 +111,31 @@ DetailsRemoveBody2 =
     
     Din installasjons-ID for denne appen er:
 
-DetailsRemoveButtonTitle = smj KOPIER ID
+DetailsRemoveButtonTitle = smj MOATTEDA ID:AV
 
-DetailsRemoveButtonClickedTitle = smj KOPIERT
+DetailsRemoveButtonClickedTitle = smj MOATTEDUM
 
-DetailsRemoveButtonMessage = smj Husk å lagre den kopierte ID-en!
+DetailsRemoveButtonMessage = smj Mujttu då ID:av vuorkkit!
 
-PermissionRationaleTitle = smj Tillatelse til opptak
+PermissionRationaleTitle = smj Dåhkkidav báddimav
 
-PermissionRationaleMessage = smj Applikasjonen trenger tillatelse til å bruke enhetens mikrofon for å ta opp talen din for donasjonen.
+PermissionRationaleMessage = smj Æhppa dárbaj miededimev anátjit mikrofåvnåv bádditjit duv hållamav.
 
 PermissionRationaleDismiss = smj OK
 
-PermissionDeniedTitle = smj Opptak blokkert
+PermissionDeniedTitle = smj Báddim buododuváj
 
-PermissionDeniedMessage = smj Dessverre er applikasjonens tillatelse til opptak blokkert. Du kan fikse situasjonen ved å gi tillatelse i enhetens innstillinger.
+PermissionDeniedMessage = smj Æhppa l buoduvvam báddimis. Miededa báddimij rustiga hiebadimij baktu. 
 
 PermissionDeniedDismiss = smj OK
 
-NoChoiceOption = smj Ingen valg
+NoChoiceOption = smj Illa majdik válljim
 
-TermsHelloTitle = smj Takk for at du kom.
+TermsHelloTitle = smj Gijtto gå berusta dát prosjevtas.
 
-TermsHelloBody = smj Les først denne grunnleggende informasjonen om prosjektet. Deretter kan du velge et emne som interesserer deg og donere talen din.
+TermsHelloBody = smj Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela besa válljit tiemáv massta berusta ja ietjat hållamav sállit.
 
-TermsGeneralTitle = smj Brukervilkår
+TermsGeneralTitle = smj Addneævto
 
 TermsGeneralBody =
     
@@ -143,11 +143,11 @@ TermsGeneralBody =
     
     Dette er tredje avsnitt av brukervilkårssiden.
 
-TermsGeneralLink = smj Mer informasjon om kampanjen
+TermsGeneralLink = smj Ienep diedo dán kampánja birra
 
 TermsGeneralUrl = https://example.com
 
-TermsOwnershipTitle = smj Hvem?
+TermsOwnershipTitle = smj Gut?
 
 TermsOwnershipBody1 = smj Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
 
@@ -159,35 +159,35 @@ TermsOwnershipBody2 = smj  i henhold til prinsippene presentert på siden.
 
 TermsVoluntaryTitle = smj Helt frivillig!
 
-TermsVoluntaryBody = smj Donasjon av tale og oppgivelse av personopplysninger er helt frivillig.
+TermsVoluntaryBody = smj Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat duogen.
 
-TermsPrivacyTitle = smj Hvordan behandles personopplysninger?
+TermsPrivacyTitle = smj Gåktu giehtadaláduvvi persåvnnådiedo?
 
 TermsPrivacyBody = smj Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
 
-TermsPrivacyLink = smj Mer informasjon om behandling av personopplysninger
+TermsPrivacyLink = smj Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
 
 TermsPrivacyUrl = https://example.com/tietosuoja
 
-TermsRightsTitle = smj Rettigheter til tale
+TermsRightsTitle = smj Rievtesvuoda hållamij
 
 TermsRightsBody =
     
     Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
 
-TermsAppropriateUseTitle = smj Bruk av applikasjonen
+TermsAppropriateUseTitle = smj Ehpav adnet
 
-TermsAppropriateUseBody = smj Denne applikasjonen er ikke ment for delt bruk. Alle donorer må bruke sin egen enhet når de donerer.
+TermsAppropriateUseBody = smj Gájka gudi sihti hållamav sállit æhppaj hæhttuji ietjas rustigav adnet sállimij.
 
-TermsAdditionalTitle = smj Mer informasjon
+TermsAdditionalTitle = smj Ienep diedo
 
-TermsAdditionalWebsite = smj Kampanjens nettside: 
+TermsAdditionalWebsite = smj Kampánja næhttabielle: 
 
 TermsAdditionalWebsiteLink = example.com
 
 TermsAdditionalWebsiteUrl = https://example.com
 
-TermsAdditionalContact = smj Universitetet i Helsinki, Språkbanken
+TermsAdditionalContact = smj Helssiga universitiehtta, Språkbanken
 
 TermsAdditionalLink = www.kielipankki.fi
 
@@ -195,34 +195,34 @@ TermsAdditionalUrl = https://www.kielipankki.fi
 
 TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
 
-TermsAcceptBody = smj Ved å trykke på Jeg godtar-knappen nedenfor godtar jeg vilkårene ovenfor for taledonasjon. Hvis jeg er under 18 år, godtar min verge vilkårene på mine vegne.
+TermsAcceptBody = smj Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamsállimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævojt duv åvdås.
 
-TermsAccept = smj Jeg godtar
+TermsAccept = smj Dåhkkidav
 
-RecordingStoppedLimitTitle = smj Opptak avbrutt
+RecordingStoppedLimitTitle = smj Baddim la boarkkiduvvam
 
-RecordingStoppedLimitMessage = smj Maksimal opptakstid ble nådd og opptaket ble automatisk stoppet. Takk for donasjonen!
+RecordingStoppedLimitMessage = smj Guhkemus báddimrádje l juo jåvsådum ja báddim ietjastis ganugahteduváj. Gijtto hållamsállimis!
 
-RecordingApproachingLimitMessage = smj Maksimal opptakstid nærmer seg. Du har omtrent ett minutt igjen.
+RecordingApproachingLimitMessage = smj Guhkemus báddimrádje la ruvva jåvsådum. Dujna l birrusin minuhtta báhtsám.
 
 AlertDismissOk = smj OK
 
-ChooseLanguageTitle = smj Velg språk
+ChooseLanguageTitle = smj Vállji gielav
 
-LanguageFinnish = smj Finsk
+LanguageFinnish = smj Suomagiella
 
-LanguageNorwegian = smj Norsk (bokmål)
+LanguageNorwegian = smj Vuonadárogiella (girjjegiella)
 
-LanguageNorthSami = smj Nordsamisk
+LanguageNorthSami = smj Nuorttasámegiella
 
-LanguageLuleSami = smj Lulesamisk
+LanguageLuleSami = smj Julevsámegiella
 
-LanguageSouthSami = smj Sørsamisk
+LanguageSouthSami = smj Oarjjelsámegiella
 
-LanguageInariSami = smj Enaresamisk
+LanguageInariSami = smj Anársámegiella
 
-LanguageSkoltSami = smj Skoltesamisk
+LanguageSkoltSami = smj Gålldåsámegiella
 
-LanguageSwedish = smj Svensk
+LanguageSwedish = smj Svierigadárogiella
 
-LanguageNynorsk = smj Norsk (nynorsk)
+LanguageNynorsk = smj Vuonadárogiella (ådådárogiella)
