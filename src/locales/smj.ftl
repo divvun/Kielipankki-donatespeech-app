@@ -3,7 +3,7 @@
 
 PromptMetaTitle = smj Viehkeda dutkev
 
-MediaMetaTitle = smj Hållasállim { $param0 }/{ $param1 }
+MediaMetaTitle = smj Hållamsállim { $param0 }/{ $param1 }
 
 NonRecordingMediaMetaTitle = smj Lågå jali gulldala
 
@@ -11,7 +11,7 @@ ThemesPageTitleText = smj Åvddånahttup buorep ræjdojt!
 
 ThemesPageBody1Text = smj Vállji tiemáv man birra sidá ságastit.
 
-ThemesPageBody2Text = smj Dån vijdábut bagáduvá.
+ThemesPageBody2Text = smj Dån vijddábut bagáduvá.
 
 StartButtonText = smj Álge
 
@@ -25,7 +25,7 @@ SkipScheduleItem = smj Guode dáv lávkev
 
 RetryScheduleItem = smj Gæhttjala ådåsit
 
-RecordingFinishTitle = smj Godt fortalt, edna gijtto!
+RecordingFinishTitle = smj Buorre, edna gijtto!
 
 DetailsButtonText = smj Ienep diedo
 
@@ -37,9 +37,9 @@ DonatedLabelText = smj Dån la dal hållamav sállim
 
 ChooseOptionText = smj Vállji alternativjav:
 
-PrimaryNativeLanguageLabelText = smj Vuostasjgiella:
+PrimaryNativeLanguageLabelText = smj Vuostasj giella majt ságasti:
 
-SecondaryNativeLanguageLabelText = smj Nuppátgiella:
+SecondaryNativeLanguageLabelText = smj Nuppát giella majt ságasti:
 
 ReadMoreLinkLabelText = smj Lågå ienebuv persåvnnåsuodjalime birra.
 
@@ -47,7 +47,7 @@ PrivacyPolicyUrl = https://example.com
 
 InviteFriendButtonText = smj Gåhtjo rádnav
 
-DonateMoreButtonText = smj Sállim ájn ienebuv
+DonateMoreButtonText = smj Sálli ájn ienep hållamav
 
 NextButtonText = smj Boahtte
 
@@ -77,7 +77,7 @@ OnboardingBody =
     
     Dette er tredje linje av onboarding-teksten.
 
-DetailsGeneralTitle = smj Detaljer om tjenesten
+DetailsGeneralTitle = smj Detálja dievnastusá birra
 
 DetailsGeneralBody =
     
@@ -99,7 +99,7 @@ DetailsPrivacyLinkTitle = smj Lågå ienebuv persåvnnåsuodjalime birra
 
 DetailsRemoveTitle = smj Gádoda báddimav
 
-DetailsRemoveBody1 = smj Vuorkki dáv ID:av váj maŋŋela besa gádodahttet hållamav majt la sállim jus iesj dav sidá. Jus sidá ietjat hållamav gádodahttet de viertti dáv ID:av rádjat diek 
+DetailsRemoveBody1 = smj Vuorkki dáv ID:av váj maŋŋela besa gádodahttet hållamav majt la sállim. Jus sidá ietjat hållamav gádodahttet de viertti dáv ID:av rádjat diek 
 
 DetailsRemoveEmail = your-feedback-email
 
@@ -119,19 +119,19 @@ DetailsRemoveButtonMessage = smj Mujttu då ID:av vuorkkit!
 
 PermissionRationaleTitle = smj Dåhkkidav báddimav
 
-PermissionRationaleMessage = smj Æhppa dárbaj miededimev anátjit mikrofåvnåv bádditjit duv hållamav.
+PermissionRationaleMessage = smj Æhppa dárbaj miededimev mikrofåvnnåj bádditjit duv hållamav.
 
 PermissionRationaleDismiss = smj OK
 
 PermissionDeniedTitle = smj Báddim buododuváj
 
-PermissionDeniedMessage = smj Æhppa l buoduvvam báddimis. Miededa báddimij rustiga hiebadimij baktu. 
+PermissionDeniedMessage = smj Æhppa l buododuvvam báddimis. Miededa báddimij rustiga hiebadimij baktu. 
 
 PermissionDeniedDismiss = smj OK
 
 NoChoiceOption = smj Illa majdik válljim
 
-TermsHelloTitle = smj Gijtto gå berusta dát prosjevtas.
+TermsHelloTitle = smj Gijtto gå dát prosjevtas berusta.
 
 TermsHelloBody = smj Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela besa válljit tiemáv massta berusta ja ietjat hållamav sállit.
 
@@ -151,13 +151,13 @@ TermsOwnershipTitle = smj Gut?
 
 TermsOwnershipBody1 = smj Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
 
-TermsOwnershipLink = smj Personvern
+TermsOwnershipLink = smj Persåvnnåsuodjalibme
 
 TermsOwnershipLinkUrl = https://example.com/tietosuoja
 
-TermsOwnershipBody2 = smj  i henhold til prinsippene presentert på siden.
+TermsOwnershipBody2 = smj  prinsihpaj milta ma li dán bielen tjielggiduvvam.
 
-TermsVoluntaryTitle = smj Helt frivillig!
+TermsVoluntaryTitle = smj Dåssju jus iesj sidá!
 
 TermsVoluntaryBody = smj Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat duogen.
 
@@ -169,7 +169,7 @@ TermsPrivacyLink = smj Ienep diedo dan birra gåk persåvnnådiedo giehtadaládu
 
 TermsPrivacyUrl = https://example.com/tietosuoja
 
-TermsRightsTitle = smj Rievtesvuoda hållamij
+TermsRightsTitle = smj Rievtesvuoda duv hållamij
 
 TermsRightsBody =
     
@@ -177,7 +177,7 @@ TermsRightsBody =
 
 TermsAppropriateUseTitle = smj Ehpav adnet
 
-TermsAppropriateUseBody = smj Gájka gudi sihti hållamav sállit æhppaj hæhttuji ietjas rustigav adnet sállimij.
+TermsAppropriateUseBody = smj Gájka gudi sihti hållamav sállit æhppaj hæhttuji ietjasa rustigav adnet sállimij.
 
 TermsAdditionalTitle = smj Ienep diedo
 
@@ -187,7 +187,7 @@ TermsAdditionalWebsiteLink = example.com
 
 TermsAdditionalWebsiteUrl = https://example.com
 
-TermsAdditionalContact = smj Helssiga universitiehtta, Språkbanken
+TermsAdditionalContact = smj Helsinkia universitiehtta, Språkbanken
 
 TermsAdditionalLink = www.kielipankki.fi
 
@@ -195,11 +195,11 @@ TermsAdditionalUrl = https://www.kielipankki.fi
 
 TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
 
-TermsAcceptBody = smj Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamsállimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævojt duv åvdås.
+TermsAcceptBody = smj Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamsállimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
 
 TermsAccept = smj Dåhkkidav
 
-RecordingStoppedLimitTitle = smj Baddim la boarkkiduvvam
+RecordingStoppedLimitTitle = smj Báddim la boarkkiduvvam
 
 RecordingStoppedLimitMessage = smj Guhkemus báddimrádje l juo jåvsådum ja báddim ietjastis ganugahteduváj. Gijtto hållamsállimis!
 
