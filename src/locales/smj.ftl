@@ -5,7 +5,7 @@ PromptMetaTitle = smj Viehkeda dutkev
 
 MediaMetaTitle = smj Hållamsállim { $param0 }/{ $param1 }
 
-NonRecordingMediaMetaTitle = smj Lågå jali gulldala
+NonRecordingMediaMetaTitle = smj Gehtja jali gulldala
 
 ThemesPageTitleText = smj Åvddånahttup buorep ræjdojt!
 
