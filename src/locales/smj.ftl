@@ -1,75 +1,75 @@
 # Generated from AppResources.is.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-PromptMetaTitle = smj Viehkeda dutkev
+PromptMetaTitle = Viehkeda dutkev
 
-MediaMetaTitle = smj Hållamsállim { $param0 }/{ $param1 }
+MediaMetaTitle = Hållamsállim { $param0 }/{ $param1 }
 
-NonRecordingMediaMetaTitle = smj Gehtja jali gulldala
+NonRecordingMediaMetaTitle = Gehtja jali gulldala
 
-ThemesPageTitleText = smj Åvddånahttup buorep ræjdojt!
+ThemesPageTitleText = Åvddånahttup buorep ræjdojt!
 
-ThemesPageBody1Text = smj Vállji tiemáv man birra sidá ságastit.
+ThemesPageBody1Text = Vállji tiemáv man birra sidá ságastit.
 
-ThemesPageBody2Text = smj Dån vijddábut bagáduvá.
+ThemesPageBody2Text = Dån vijddábut bagáduvá.
 
-StartButtonText = smj Álge
+StartButtonText = Álge
 
-StartRecording = smj Báddi
+StartRecording = Báddi
 
-StopRecording = smj Låhpada báddimav
+StopRecording = Låhpada báddimav
 
-ContinueSchedule = smj Joarke
+ContinueSchedule = Joarke
 
-SkipScheduleItem = smj Guode dáv lávkev
+SkipScheduleItem = Guode dáv lávkev
 
-RetryScheduleItem = smj Gæhttjala ådåsit
+RetryScheduleItem = Gæhttjala ådåsit
 
-RecordingFinishTitle = smj Buorre, edna gijtto!
+RecordingFinishTitle = Buorre, edna gijtto!
 
-DetailsButtonText = smj Ienep diedo
+DetailsButtonText = Ienep diedo
 
-CloseButtonText = smj Dahpa
+CloseButtonText = Dahpa
 
-ExitButtonText = smj Låhpada
+ExitButtonText = Låhpada
 
-DonatedLabelText = smj Dån la dal hållamav sállim
+DonatedLabelText = Dån la dal hållamav sállim
 
-ChooseOptionText = smj Vállji alternativjav:
+ChooseOptionText = Vállji alternativjav:
 
-PrimaryNativeLanguageLabelText = smj Vuostasj giella majt ságasti:
+PrimaryNativeLanguageLabelText = Vuostasj giella majt ságasti:
 
-SecondaryNativeLanguageLabelText = smj Nuppát giella majt ságasti:
+SecondaryNativeLanguageLabelText = Nuppát giella majt ságasti:
 
-ReadMoreLinkLabelText = smj Lågå ienebuv persåvnnåsuodjalime birra.
+ReadMoreLinkLabelText = Lågå ienebuv persåvnnåsuodjalime birra.
 
 PrivacyPolicyUrl = https://example.com
 
-InviteFriendButtonText = smj Gåhtjo rádnav
+InviteFriendButtonText = Gåhtjo rádnav
 
-DonateMoreButtonText = smj Sálli ájn ienep hållamav
+DonateMoreButtonText = Sálli ájn ienep hållamav
 
-NextButtonText = smj Boahtte
+NextButtonText = Boahtte
 
-TryAgainButtonText = smj Gæhttjala ådåsit
+TryAgainButtonText = Gæhttjala ådåsit
 
-LoadFailedAlertTitle = smj Boastovuohta
+LoadFailedAlertTitle = Boastovuohta
 
-LoadFailedAlertMessage = smj Sisano viedtjam ittjij vuorbástuvá. Guoradalá jus dujna la næhtta ja gæhttjala ådåsit.
+LoadFailedAlertMessage = Sisano viedtjam ittjij vuorbástuvá. Guoradalá jus dujna la næhtta ja gæhttjala ådåsit.
 
-LoadFailedAlertContinue = smj Joarke
+LoadFailedAlertContinue = Joarke
 
-LoadFailedAlertCancel = smj Låhpada
+LoadFailedAlertCancel = Låhpada
 
-StartTypingLabelText = smj Tjálela gallegasj bokstávajt bágo álgos ja válljista de listas:
+StartTypingLabelText = Tjálela gallegasj bokstávajt bágo álgos ja válljista de listas:
 
-InviteFriendTitle = smj Subtsasta ráddnasit hållamsállima birra
+InviteFriendTitle = Subtsasta ráddnasit hållamsállima birra
 
-InviteFriendTemplate = smj Sállijiv { $param0 } minuhta ietjam hållamis. Sállista dån aj! #hashtag https://example.com
+InviteFriendTemplate = Sállijiv { $param0 } minuhta ietjam hållamis. Sállista dån aj! #hashtag https://example.com
 
-InviteFriendNewbieTemplate = smj Lev jur ietjam hållamav sállim. Sállista dån aj! #hashtag https://example.com
+InviteFriendNewbieTemplate = Lev jur ietjam hållamav sállim. Sállista dån aj! #hashtag https://example.com
 
-OnboardingTitle = smj Buorisboahtem
+OnboardingTitle = Buorisboahtem
 
 OnboardingBody =
     
@@ -77,7 +77,7 @@ OnboardingBody =
     
     Dette er tredje linje av onboarding-teksten.
 
-DetailsGeneralTitle = smj Detálja dievnastusá birra
+DetailsGeneralTitle = Detálja dievnastusá birra
 
 DetailsGeneralBody =
     
@@ -85,9 +85,9 @@ DetailsGeneralBody =
     
     Applikasjonen er ikke ment for delt bruk, hver bruker må bruke sin egen enhet. Dette gjør det mulig for alle å godta denne informasjonen selv og om nødvendig slette opptakene basert på enhets-ID. ID-en finner du nederst på denne siden.
 
-DetailsGeneralLinkTitle = smj Lågå ienebuv prosjevta næhttabielen
+DetailsGeneralLinkTitle = Lågå ienebuv prosjevta næhttabielen
 
-DetailsPrivacyTitle = smj Duv persåvnnåsuodjalibme l ájnas midjij. 
+DetailsPrivacyTitle = Duv persåvnnåsuodjalibme l ájnas midjij. 
 
 DetailsPrivacyBody =
     
@@ -95,11 +95,11 @@ DetailsPrivacyBody =
     
     Dette er tredje avsnitt av personvernteksten.
 
-DetailsPrivacyLinkTitle = smj Lågå ienebuv persåvnnåsuodjalime birra
+DetailsPrivacyLinkTitle = Lågå ienebuv persåvnnåsuodjalime birra
 
-DetailsRemoveTitle = smj Gádoda báddimav
+DetailsRemoveTitle = Gádoda báddimav
 
-DetailsRemoveBody1 = smj Vuorkki dáv ID:av váj maŋŋela besa gádodahttet hållamav majt la sállim. Jus sidá ietjat hållamav gádodahttet de viertti dáv ID:av rádjat diek 
+DetailsRemoveBody1 = Vuorkki dáv ID:av váj maŋŋela besa gádodahttet hållamav majt la sállim. Jus sidá ietjat hållamav gádodahttet de viertti dáv ID:av rádjat diek 
 
 DetailsRemoveEmail = your-feedback-email
 
@@ -111,31 +111,31 @@ DetailsRemoveBody2 =
     
     Din installasjons-ID for denne appen er:
 
-DetailsRemoveButtonTitle = smj MOATTEDA ID:AV
+DetailsRemoveButtonTitle = MOATTEDA ID:AV
 
-DetailsRemoveButtonClickedTitle = smj MOATTEDUM
+DetailsRemoveButtonClickedTitle = MOATTEDUM
 
-DetailsRemoveButtonMessage = smj Mujttu då ID:av vuorkkit!
+DetailsRemoveButtonMessage = Mujttu då ID:av vuorkkit!
 
-PermissionRationaleTitle = smj Dåhkkidav báddimav
+PermissionRationaleTitle = Dåhkkidav báddimav
 
-PermissionRationaleMessage = smj Æhppa dárbaj miededimev mikrofåvnnåj bádditjit duv hållamav.
+PermissionRationaleMessage = Æhppa dárbaj miededimev mikrofåvnnåj bádditjit duv hållamav.
 
-PermissionRationaleDismiss = smj OK
+PermissionRationaleDismiss = OK
 
-PermissionDeniedTitle = smj Báddim buododuváj
+PermissionDeniedTitle = Báddim buododuváj
 
-PermissionDeniedMessage = smj Æhppa l buododuvvam báddimis. Miededa báddimij rustiga hiebadimij baktu. 
+PermissionDeniedMessage = Æhppa l buododuvvam báddimis. Miededa báddimij rustiga hiebadimij baktu. 
 
-PermissionDeniedDismiss = smj OK
+PermissionDeniedDismiss = OK
 
-NoChoiceOption = smj Illa majdik válljim
+NoChoiceOption = Illa majdik válljim
 
-TermsHelloTitle = smj Gijtto gå dát prosjevtas berusta.
+TermsHelloTitle = Gijtto gå dát prosjevtas berusta.
 
-TermsHelloBody = smj Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela besa válljit tiemáv massta berusta ja ietjat hållamav sállit.
+TermsHelloBody = Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela besa válljit tiemáv massta berusta ja ietjat hållamav sállit.
 
-TermsGeneralTitle = smj Addneævto
+TermsGeneralTitle = Addneævto
 
 TermsGeneralBody =
     
@@ -143,51 +143,51 @@ TermsGeneralBody =
     
     Dette er tredje avsnitt av brukervilkårssiden.
 
-TermsGeneralLink = smj Ienep diedo dán kampánja birra
+TermsGeneralLink = Ienep diedo dán kampánja birra
 
 TermsGeneralUrl = https://example.com
 
-TermsOwnershipTitle = smj Gut?
+TermsOwnershipTitle = Gut?
 
-TermsOwnershipBody1 = smj Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
+TermsOwnershipBody1 = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
 
-TermsOwnershipLink = smj Persåvnnåsuodjalibme
+TermsOwnershipLink = Persåvnnåsuodjalibme
 
 TermsOwnershipLinkUrl = https://example.com/tietosuoja
 
-TermsOwnershipBody2 = smj  prinsihpaj milta ma li dán bielen tjielggiduvvam.
+TermsOwnershipBody2 =  prinsihpaj milta ma li dán bielen tjielggiduvvam.
 
-TermsVoluntaryTitle = smj Dåssju jus iesj sidá!
+TermsVoluntaryTitle = Dåssju jus iesj sidá!
 
-TermsVoluntaryBody = smj Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat duogen.
+TermsVoluntaryBody = Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat duogen.
 
-TermsPrivacyTitle = smj Gåktu giehtadaláduvvi persåvnnådiedo?
+TermsPrivacyTitle = Gåktu giehtadaláduvvi persåvnnådiedo?
 
-TermsPrivacyBody = smj Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
+TermsPrivacyBody = Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
 
-TermsPrivacyLink = smj Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
+TermsPrivacyLink = Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
 
 TermsPrivacyUrl = https://example.com/tietosuoja
 
-TermsRightsTitle = smj Rievtesvuoda duv hållamij
+TermsRightsTitle = Rievtesvuoda duv hållamij
 
 TermsRightsBody =
     
     Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
 
-TermsAppropriateUseTitle = smj Ehpav adnet
+TermsAppropriateUseTitle = Ehpav adnet
 
-TermsAppropriateUseBody = smj Gájka gudi sihti hållamav sállit æhppaj hæhttuji ietjasa rustigav adnet sállimij.
+TermsAppropriateUseBody = Gájka gudi sihti hållamav sállit æhppaj hæhttuji ietjasa rustigav adnet sállimij.
 
-TermsAdditionalTitle = smj Ienep diedo
+TermsAdditionalTitle = Ienep diedo
 
-TermsAdditionalWebsite = smj Kampánja næhttabielle: 
+TermsAdditionalWebsite = Kampánja næhttabielle: 
 
 TermsAdditionalWebsiteLink = example.com
 
 TermsAdditionalWebsiteUrl = https://example.com
 
-TermsAdditionalContact = smj Helsinkia universitiehtta, Språkbanken
+TermsAdditionalContact = Helsinkia universitiehtta, Språkbanken
 
 TermsAdditionalLink = www.kielipankki.fi
 
@@ -195,34 +195,34 @@ TermsAdditionalUrl = https://www.kielipankki.fi
 
 TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
 
-TermsAcceptBody = smj Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamsállimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
+TermsAcceptBody = Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamsállimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
 
-TermsAccept = smj Dåhkkidav
+TermsAccept = Dåhkkidav
 
-RecordingStoppedLimitTitle = smj Báddim la boarkkiduvvam
+RecordingStoppedLimitTitle = Báddim la boarkkiduvvam
 
-RecordingStoppedLimitMessage = smj Guhkemus báddimrádje l juo jåvsådum ja báddim ietjastis ganugahteduváj. Gijtto hållamsállimis!
+RecordingStoppedLimitMessage = Guhkemus báddimrádje l juo jåvsådum ja báddim ietjastis ganugahteduváj. Gijtto hållamsállimis!
 
-RecordingApproachingLimitMessage = smj Guhkemus báddimrádje la ruvva jåvsådum. Dujna l birrusin minuhtta báhtsám.
+RecordingApproachingLimitMessage = Guhkemus báddimrádje la ruvva jåvsådum. Dujna l birrusin minuhtta báhtsám.
 
-AlertDismissOk = smj OK
+AlertDismissOk = OK
 
-ChooseLanguageTitle = smj Vállji gielav
+ChooseLanguageTitle = Vállji gielav
 
-LanguageFinnish = smj Suomagiella
+LanguageFinnish = Suomagiella
 
-LanguageNorwegian = smj Vuonadárogiella (girjjegiella)
+LanguageNorwegian = Vuonadárogiella (girjjegiella)
 
-LanguageNorthSami = smj Nuorttasámegiella
+LanguageNorthSami = Nuorttasámegiella
 
-LanguageLuleSami = smj Julevsámegiella
+LanguageLuleSami = Julevsámegiella
 
-LanguageSouthSami = smj Oarjjelsámegiella
+LanguageSouthSami = Oarjjelsámegiella
 
-LanguageInariSami = smj Anársámegiella
+LanguageInariSami = Anársámegiella
 
-LanguageSkoltSami = smj Gålldåsámegiella
+LanguageSkoltSami = Gålldåsámegiella
 
-LanguageSwedish = smj Svierigadárogiella
+LanguageSwedish = Svierigadárogiella
 
-LanguageNynorsk = smj Vuonadárogiella (ådådárogiella)
+LanguageNynorsk = Vuonadárogiella (ådådárogiella)
