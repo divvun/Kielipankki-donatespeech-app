@@ -1,12 +1,6 @@
 # Generated from AppResources.is.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-PromptMetaTitle = Viehkeda dutkev
-
-MediaMetaTitle = Hållamsállim { $param0 }/{ $param1 }
-
-NonRecordingMediaMetaTitle = Gehtja jali gulldala
-
 ThemesPageTitleText = Åvddånahttup buorep ræjdojt!
 
 ThemesPageBody1Text = Vállji tiemáv man birra sidá ságastit.
@@ -21,15 +15,9 @@ StopRecording = Låhpada báddimav
 
 ContinueSchedule = Joarke
 
-SkipScheduleItem = Guode dáv lávkev
-
-RetryScheduleItem = Gæhttjala ådåsit
-
 RecordingFinishTitle = Buorre, edna gijtto!
 
 DetailsButtonText = Ienep diedo
-
-CloseButtonText = Dahpa
 
 ExitButtonText = Låhpada
 
@@ -37,31 +25,9 @@ DonatedLabelText = Dån la dal hållamav sállim
 
 ChooseOptionText = Vállji alternativjav:
 
-PrimaryNativeLanguageLabelText = Vuostasj giella majt ságasti:
-
-SecondaryNativeLanguageLabelText = Nuppát giella majt ságasti:
-
-ReadMoreLinkLabelText = Lågå ienebuv persåvnnåsuodjalime birra.
-
-PrivacyPolicyUrl = https://example.com
-
 InviteFriendButtonText = Gåhtjo rádnav
 
 DonateMoreButtonText = Sálli ájn ienep hållamav
-
-NextButtonText = Boahtte
-
-TryAgainButtonText = Gæhttjala ådåsit
-
-LoadFailedAlertTitle = Boastovuohta
-
-LoadFailedAlertMessage = Sisano viedtjam ittjij vuorbástuvá. Guoradalá jus dujna la næhtta ja gæhttjala ådåsit.
-
-LoadFailedAlertContinue = Joarke
-
-LoadFailedAlertCancel = Låhpada
-
-StartTypingLabelText = Tjálela gallegasj bokstávajt bágo álgos ja válljista de listas:
 
 InviteFriendTitle = Subtsasta ráddnasit hållamsállima birra
 
@@ -71,65 +37,21 @@ InviteFriendNewbieTemplate = Lev jur ietjam hållamav sállim. Sállista dån aj
 
 OnboardingTitle = Buorisboahtem
 
-OnboardingBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje linje av onboarding-teksten.
+OnboardingBody = 
 
-DetailsGeneralTitle = Detálja dievnastusá birra
+OnboardingFeature1Title = 
 
-DetailsGeneralBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Applikasjonen er ikke ment for delt bruk, hver bruker må bruke sin egen enhet. Dette gjør det mulig for alle å godta denne informasjonen selv og om nødvendig slette opptakene basert på enhets-ID. ID-en finner du nederst på denne siden.
+OnboardingFeature1Body = 
 
-DetailsGeneralLinkTitle = Lågå ienebuv prosjevta næhttabielen
+OnboardingFeature2Title = 
 
-DetailsPrivacyTitle = Duv persåvnnåsuodjalibme l ájnas midjij. 
+OnboardingFeature2Body = 
 
-DetailsPrivacyBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje avsnitt av personvernteksten.
+OnboardingFeature3Title = 
 
-DetailsPrivacyLinkTitle = Lågå ienebuv persåvnnåsuodjalime birra
+OnboardingFeature3Body = 
 
-DetailsRemoveTitle = Gádoda báddimav
-
-DetailsRemoveBody1 = Vuorkki dáv ID:av váj maŋŋela besa gádodahttet hållamav majt la sállim. Jus sidá ietjat hållamav gádodahttet de viertti dáv ID:av rádjat diek 
-
-DetailsRemoveEmail = your-feedback-email
-
-DetailsRemoveEmailLink = your-feedback-email
-
-DetailsRemoveBody2 =
-    
-    Hvis du sletter applikasjonen og installerer den på nytt, må du ta vare på en ny ID. Du kan kun se gjeldende ID i appen, ikke tidligere. Når du bruker tjenesten i nettleseren, må du ta vare på din nettleserspesifikke ID.
-    
-    Din installasjons-ID for denne appen er:
-
-DetailsRemoveButtonTitle = MOATTEDA ID:AV
-
-DetailsRemoveButtonClickedTitle = MOATTEDUM
-
-DetailsRemoveButtonMessage = Mujttu då ID:av vuorkkit!
-
-PermissionRationaleTitle = Dåhkkidav báddimav
-
-PermissionRationaleMessage = Æhppa dárbaj miededimev mikrofåvnnåj bádditjit duv hållamav.
-
-PermissionRationaleDismiss = OK
-
-PermissionDeniedTitle = Báddim buododuváj
-
-PermissionDeniedMessage = Æhppa l buododuvvam báddimis. Miededa báddimij rustiga hiebadimij baktu. 
-
-PermissionDeniedDismiss = OK
-
-NoChoiceOption = Illa majdik válljim
+OnboardingCTA = 
 
 TermsHelloTitle = Gijtto gå dát prosjevtas berusta.
 
@@ -137,11 +59,7 @@ TermsHelloBody = Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela
 
 TermsGeneralTitle = Addneævto
 
-TermsGeneralBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje avsnitt av brukervilkårssiden.
+TermsGeneralBody = 
 
 TermsGeneralLink = Ienep diedo dán kampánja birra
 
@@ -171,9 +89,7 @@ TermsPrivacyUrl = https://example.com/tietosuoja
 
 TermsRightsTitle = Rievtesvuoda duv hållamij
 
-TermsRightsBody =
-    
-    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+TermsRightsBody = 
 
 TermsAppropriateUseTitle = Ehpav adnet
 
@@ -205,8 +121,6 @@ RecordingStoppedLimitMessage = Guhkemus báddimrádje l juo jåvsådum ja báddi
 
 RecordingApproachingLimitMessage = Guhkemus báddimrádje la ruvva jåvsådum. Dujna l birrusin minuhtta báhtsám.
 
-AlertDismissOk = OK
-
 ChooseLanguageTitle = Vállji gielav
 
 LanguageFinnish = Suomagiella
@@ -226,3 +140,29 @@ LanguageSkoltSami = Gålldåsámegiella
 LanguageSwedish = Svierigadárogiella
 
 LanguageNynorsk = Vuonadárogiella (ådådárogiella)
+
+ThemesPageNoValidThemesError = 
+
+ThemeFallbackAltText = 
+
+ThemesPageItemsCount = 
+
+ThemesPageEmptyText = 
+
+DetailsInfoTabTitle = 
+
+DetailsIdentitySwitchedMessage = 
+
+DetailsIdentitySwitchFailedMessage = 
+
+DetailsIdentityEmailLinkedMessage = 
+
+DetailsIdentityEmailInvalidMessage = 
+
+DetailsIdentityCreatedMessage = 
+
+ScheduleStartFallbackTitle = 
+
+BackToThemesButtonText = 
+
+RecordingSaveFailedError = 

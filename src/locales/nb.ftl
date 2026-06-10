@@ -26,8 +26,6 @@ InviteFriendButtonText = Fortell en venn
 
 DonateMoreButtonText = Doner mer
 
-LoadFailedAlertTitle = Feil
-
 InviteFriendTitle = Fortell en venn
 
 InviteFriendTemplate = Jeg donerte { $param0 } minutter av min tale. Doner du også! #hashtag https://example.com
@@ -36,17 +34,21 @@ InviteFriendNewbieTemplate = Jeg har nettopp donert min tale. Doner du også! #h
 
 OnboardingTitle = Velkommen
 
-OnboardingBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje linje av onboarding-teksten.
+OnboardingBody = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å forske på og utvikle verktøy for samiske språk.
 
-DetailsRemoveButtonTitle = KOPIER ID
+OnboardingFeature1Title = 
 
-DetailsRemoveButtonClickedTitle = KOPIERT
+OnboardingFeature1Body = 
 
-DetailsRemoveButtonMessage = Husk å lagre den kopierte ID-en!
+OnboardingFeature2Title = 
+
+OnboardingFeature2Body = 
+
+OnboardingFeature3Title = 
+
+OnboardingFeature3Body = 
+
+OnboardingCTA = 
 
 TermsHelloTitle = Takk for at du kom.
 
@@ -54,11 +56,7 @@ TermsHelloBody = Les først denne grunnleggende informasjonen om prosjektet. Der
 
 TermsGeneralTitle = Brukervilkår
 
-TermsGeneralBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje avsnitt av brukervilkårssiden.
+TermsGeneralBody = 
 
 TermsGeneralLink = Mer informasjon om kampanjen
 
@@ -88,9 +86,7 @@ TermsPrivacyUrl = https://example.com/tietosuoja
 
 TermsRightsTitle = Rettigheter til tale
 
-TermsRightsBody =
-    
-    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+TermsRightsBody = 
 
 TermsAppropriateUseTitle = Bruk av applikasjonen
 

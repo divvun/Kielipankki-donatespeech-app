@@ -1,12 +1,6 @@
 # Generated from AppResources.smn.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-PromptMetaTitle = smn Auta tutkijaa
-
-MediaMetaTitle = smn Lahjoitus { $param0 }/{ $param1 }
-
-NonRecordingMediaMetaTitle = smn Katso tai kuuntele
-
 ThemesPageTitleText = smn Pulistaan meille parempia palveluja!
 
 ThemesPageBody1Text = smn Valitse aihe, josta haluat puhua.
@@ -21,15 +15,9 @@ StopRecording = smn Lopeta äänitys
 
 ContinueSchedule = smn Jatka
 
-SkipScheduleItem = smn Ohita
-
-RetryScheduleItem = smn Kokeile uudelleen
-
 RecordingFinishTitle = smn Hyvin kerrottu, paljon kiitoksia!
 
 DetailsButtonText = smn Lisätietoa
-
-CloseButtonText = smn Sulje
 
 ExitButtonText = smn Poistu
 
@@ -37,31 +25,9 @@ DonatedLabelText = smn OLET LAHJOITTANUT
 
 ChooseOptionText = smn Valitse vaihtoehto:
 
-PrimaryNativeLanguageLabelText = smn Ensimmäinen äidinkieli:
-
-SecondaryNativeLanguageLabelText = smn Toinen äidinkieli:
-
-ReadMoreLinkLabelText = smn Lue lisää tietosuojasta.
-
-PrivacyPolicyUrl = https://example.com
-
 InviteFriendButtonText = smn Kerro kaverille
 
 DonateMoreButtonText = smn Lahjoita lisää
-
-NextButtonText = smn Seuraava
-
-TryAgainButtonText = smn Kokeile uudelleen
-
-LoadFailedAlertTitle = smn Virhe
-
-LoadFailedAlertMessage = smn Sisällön lataus ei onnistunut. Tarkista verkkoyhteys ja yritä uudelleen painamalla Jatka.
-
-LoadFailedAlertContinue = smn Jatka
-
-LoadFailedAlertCancel = smn Poistu
-
-StartTypingLabelText = smn Kirjoita muutama kirjain nimen alusta ja valitse sitten listalta:
 
 InviteFriendTitle = smn Kerro kaverille
 
@@ -71,65 +37,25 @@ InviteFriendNewbieTemplate = smn Lahjoitin juuri puhettani. Lahjoita sinäkin! #
 
 OnboardingTitle = smn Onboarding-otsikko
 
-OnboardingBody =
+OnboardingBody = 
     
     Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
     
     Tämä on onboarding-tekstin kolmas rivi.
 
-DetailsGeneralTitle = smn Lisätietosivun otsikko
+OnboardingFeature1Title = 
 
-DetailsGeneralBody =
-    
-    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
-    
-    Sovellusta ei ole tarkoitettu yhteiskäyttöön, vaan jokaisen käyttäjän tulee käyttää omaa laitettaan. Tämä mahdollistaa sen, että jokainen voi itse hyväksyä nämä tiedot ja tarvittaessa myös poistaa äänitteensä laitekohtaisen tunnisteen perusteella. Tunniste löytyy tämän sivun alalaidasta.
+OnboardingFeature1Body = 
 
-DetailsGeneralLinkTitle = smn Lue lisää hankkeen nettisivuilta
+OnboardingFeature2Title = 
 
-DetailsPrivacyTitle = smn Tietosuojasi on meille tärkeää
+OnboardingFeature2Body = 
 
-DetailsPrivacyBody =
-    
-    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
-    
-    Tämä on tietosuojaa käsittelevän teksti kolmas kappale.
+OnboardingFeature3Title = 
 
-DetailsPrivacyLinkTitle = smn Lue lisää tietosuojasta
+OnboardingFeature3Body = 
 
-DetailsRemoveTitle = smn Äänitteiden poistaminen
-
-DetailsRemoveBody1 = smn Ota talteen tämä tunniste, jotta voit halutessasi perua tällä sovelluksen asennuksella tehdyt lahjoitukset. Poistaaksesi lahjoituksesi sinun tulee lähettää tunniste osoitteeseen 
-
-DetailsRemoveEmail = your-feedback-email
-
-DetailsRemoveEmailLink = your-feedback-email
-
-DetailsRemoveBody2 =
-    
-    Jos poistat sovelluksen ja asennat sen uudestaan, sinun täytyy ottaa talteen uusi tunniste. Näet sovelluksesta ainoastaan nykyisen tunnisteen, et edellisiä. Käyttäessäsi palvelua selaimessa täytyy sinun ottaa talteen selainkohtainen tunnisteesi.
-    
-    Tämän sovelluksen asennuskohtainen tunnisteesi on:
-
-DetailsRemoveButtonTitle = smn KOPIOI TUNNISTE
-
-DetailsRemoveButtonClickedTitle = smn KOPIOITU
-
-DetailsRemoveButtonMessage = smn Muista tallentaa kopiomasi tunniste!
-
-PermissionRationaleTitle = smn Lupa äänittää
-
-PermissionRationaleMessage = smn Sovellus tarvitsee luvan käyttää laitteesi mikrofonia jotta puheesi voidaan äänittää lahjoitusta varten.
-
-PermissionRationaleDismiss = smn OK
-
-PermissionDeniedTitle = smn Äänitys estetty
-
-PermissionDeniedMessage = smn Valitettavasti sovelluksen lupa äänittää on estetty. Voit korjata tilanteen antamalla luvan laitteen asetuksista.
-
-PermissionDeniedDismiss = smn OK
-
-NoChoiceOption = smn Ei valintaa
+OnboardingCTA = 
 
 TermsHelloTitle = smn Kiitos, kun tulit.
 
@@ -137,11 +63,7 @@ TermsHelloBody = smn Lue ensin nämä perustiedot hankkeesta. Sen jälkeen voit 
 
 TermsGeneralTitle = smn Käyttöehtosivun otsikko
 
-TermsGeneralBody =
-    
-    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
-    
-    Tämä on käyttöehtosivun kolmas kappale.
+TermsGeneralBody = 
 
 TermsGeneralLink = smn Lisätietoja kampanjasta
 
@@ -171,9 +93,7 @@ TermsPrivacyUrl = https://example.com/tietosuoja
 
 TermsRightsTitle = smn Oikeudet puheeseen
 
-TermsRightsBody =
-    
-    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+TermsRightsBody = 
 
 TermsAppropriateUseTitle = smn Sovelluksen käyttäminen
 
@@ -205,8 +125,6 @@ RecordingStoppedLimitMessage = smn Äänityksen enimmäisaika tuli täyteen ja �
 
 RecordingApproachingLimitMessage = smn Äänityksen enimmäisaika lähestyy. Sinulla on noin yksi minuutti aikaa jäljellä.
 
-AlertDismissOk = smn OK
-
 ChooseLanguageTitle = smn Valitse kieli
 
 LanguageFinnish = smn Suomi
@@ -226,3 +144,29 @@ LanguageSkoltSami = smn Koltansaame
 LanguageSwedish = smn Ruotsi
 
 LanguageNynorsk = smn Norja (nynorsk)
+
+ThemesPageNoValidThemesError = 
+
+ThemeFallbackAltText = 
+
+ThemesPageItemsCount = 
+
+ThemesPageEmptyText = 
+
+DetailsInfoTabTitle = 
+
+DetailsIdentitySwitchedMessage = 
+
+DetailsIdentitySwitchFailedMessage = 
+
+DetailsIdentityEmailLinkedMessage = 
+
+DetailsIdentityEmailInvalidMessage = 
+
+DetailsIdentityCreatedMessage = 
+
+ScheduleStartFallbackTitle = 
+
+BackToThemesButtonText = 
+
+RecordingSaveFailedError = 

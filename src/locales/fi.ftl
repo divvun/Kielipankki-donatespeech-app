@@ -10,7 +10,7 @@ StartRecording = Äänitä
 
 StopRecording = Lopeta äänitys
 
-ContinueSchedule = Aloitetaan
+ContinueSchedule = Jatkaa
 
 RecordingFinishTitle = Hyvin kerrottu, paljon kiitoksia!
 
@@ -32,7 +32,7 @@ InviteFriendTemplate = Lahjoitin puhettani { $param0 } minuuttia. Lahjoita sinä
 
 InviteFriendNewbieTemplate = Lahjoitin juuri puhettani. Lahjoita sinäkin! #hashtag https://example.com
 
-OnboardingTitle = Äänesi kehittää kieliteknologiaa
+OnboardingTitle = Velkommen
 
 OnboardingBody = Lahjoita muutama minuutti puhettasi. Se auttaa kielitutkijoita kehittämään saamen kielen tutkimusta ja työkaluja.
 
@@ -57,10 +57,6 @@ TermsHelloBody = Lue ensin nämä perustiedot hankkeesta. Sen jälkeen voit vali
 TermsGeneralTitle = Käyttöehtosivun otsikko
 
 TermsGeneralBody = 
-    
-    Tähän elementtiin laitetut rivinvaihdot näkyvät lopputuloksessa.
-    
-    Tämä on käyttöehtosivun kolmas kappale.
 
 TermsGeneralLink = Lisätietoja kampanjasta
 

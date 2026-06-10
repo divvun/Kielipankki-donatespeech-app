@@ -13,7 +13,7 @@ StartRecording = Ta opp
 
 StopRecording = Stopp opptak
 
-ContinueSchedule = La oss starte
+ContinueSchedule = Fortsett
 
 RecordingFinishTitle = Godt fortalt, tusen takk!
 
@@ -35,7 +35,7 @@ InviteFriendTemplate = Eg donerte { $param0 } minutt av talen min. Doner du òg!
 
 InviteFriendNewbieTemplate = Eg har nettopp donert tale. Doner du òg! #hashtag https://example.com
 
-OnboardingTitle = Stemma di utviklar språkteknologi
+OnboardingTitle = Velkomen
 
 OnboardingBody = Doner nokre minutt av stemma di. Det hjelper språkforskarar med å forske på og utvikle verktøy for samiske språk.
 
@@ -60,10 +60,6 @@ TermsHelloBody = Les først denne grunnleggjande informasjonen om prosjektet. De
 TermsGeneralTitle = Brukarvilkår
 
 TermsGeneralBody = 
-    
-    Linjeskift lagt til dette elementet blir vist i sluttresultatet.
-    
-    Dette er tredje avsnitt av brukarvilkårssida.
 
 TermsGeneralLink = Meir informasjon om kampanjen
 
@@ -144,3 +140,29 @@ LanguageSkoltSami = Skoltesamisk
 LanguageSwedish = Svensk
 
 LanguageNynorsk = Norsk (nynorsk)
+
+ThemesPageNoValidThemesError = 
+
+ThemeFallbackAltText = Fáddá
+
+ThemesPageItemsCount = 
+
+ThemesPageEmptyText = 
+
+DetailsInfoTabTitle = 
+
+DetailsIdentitySwitchedMessage = 
+
+DetailsIdentitySwitchFailedMessage = 
+
+DetailsIdentityEmailLinkedMessage = 
+
+DetailsIdentityEmailInvalidMessage = 
+
+DetailsIdentityCreatedMessage = 
+
+ScheduleStartFallbackTitle = 
+
+BackToThemesButtonText = 
+
+RecordingSaveFailedError = 

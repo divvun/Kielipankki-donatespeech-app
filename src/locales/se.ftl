@@ -1,163 +1,81 @@
 # Generated from AppResources.se.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-PromptMetaTitle = se Hjelp forskeren
-
-MediaMetaTitle = se Donasjon { $param0 }/{ $param1 }
-
-NonRecordingMediaMetaTitle = se Se eller lytt
-
 ThemesPageTitleText = se La oss bygge bedre tjenester!
 
 ThemesPageBody1Text = Váljjes fáttá man birra háliidat hupmat.
 
 ThemesPageBody2Text = Bálvalus láidesta du.
 
-StartButtonText = se Start
+StartButtonText = Álgge
 
-StartRecording = se Ta opp
+StartRecording = Báddes
 
-StopRecording = se Stopp opptak
+StopRecording = Bisset báddema
 
-ContinueSchedule = se Fortsett
+ContinueSchedule = Joatkke
 
-SkipScheduleItem = se Hopp over
+RecordingFinishTitle = Buorre, eatnat giitu!
 
-RetryScheduleItem = se Prøv igjen
+DetailsButtonText = Eanet dieđut
 
-RecordingFinishTitle = se Godt fortalt, tusen takk!
+ExitButtonText = Heaittit
 
-DetailsButtonText = se Mer informasjon
+DonatedLabelText = Don leat dál skeŋken hállama
 
-CloseButtonText = se Lukk
+ChooseOptionText = Válljes eavttu
 
-ExitButtonText = se Avslutt
+InviteFriendButtonText = Muital skihpárii
 
-DonatedLabelText = se DU HAR DONERT
+DonateMoreButtonText = Skeŋkes eanet
 
-ChooseOptionText = se Velg et alternativ:
+InviteFriendTitle = Muital skihpárii
 
-PrimaryNativeLanguageLabelText = se Første morsmål:
+InviteFriendTemplate = Lean skeŋken {$param0} minuhta iežan hállamis. Skeŋkes don maid! #hashtag https://example.com
 
-SecondaryNativeLanguageLabelText = se Andre morsmål:
+InviteFriendNewbieTemplate = Lean áiddo skeŋken iežan hállama. Skeŋkes don maid! #hashtag https://example.com
 
-ReadMoreLinkLabelText = se Les mer om personvern.
+OnboardingTitle = Bures boahtin!
 
-PrivacyPolicyUrl = https://example.com
+OnboardingBody = Skeŋkes moadde minuhta du hállamis. Gielladutkkiide lea ávkkalaš guorahallat sámi gielaid ja ovdánahttit reaidduid daidda. 
 
-InviteFriendButtonText = se Fortell en venn
+OnboardingFeature1Title = Váljjes fáttá man birra háliidat hupmat.
 
-DonateMoreButtonText = se Doner mer
+OnboardingFeature1Body = Bálvalus láidesta du.
 
-NextButtonText = se Neste
+OnboardingFeature2Title = Báddes
 
-TryAgainButtonText = se Prøv igjen
+OnboardingFeature2Body = Ságastala sisdoalu birra.
 
-LoadFailedAlertTitle = se Feil
+OnboardingFeature3Title = Searvvat eaktodáhtolaččat
 
-LoadFailedAlertMessage = se Lasting av innhold mislyktes. Sjekk nettverkstilkoblingen og prøv igjen ved å trykke Fortsett.
+OnboardingFeature3Body = 
 
-LoadFailedAlertContinue = se Fortsett
+OnboardingCTA = Áinnas searvvan!
 
-LoadFailedAlertCancel = se Avslutt
-
-StartTypingLabelText = se Skriv noen få bokstaver fra begynnelsen av navnet og velg deretter fra listen:
-
-InviteFriendTitle = se Fortell en venn
-
-InviteFriendTemplate = se Jeg donerte { $param0 } minutter av min tale. Doner du også! #hashtag https://example.com
-
-InviteFriendNewbieTemplate = se Jeg har nettopp donert min tale. Doner du også! #hashtag https://example.com
-
-OnboardingTitle = se Velkommen
-
-OnboardingBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje linje av onboarding-teksten.
-
-DetailsGeneralTitle = se Detaljer om tjenesten
-
-DetailsGeneralBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Applikasjonen er ikke ment for delt bruk, hver bruker må bruke sin egen enhet. Dette gjør det mulig for alle å godta denne informasjonen selv og om nødvendig slette opptakene basert på enhets-ID. ID-en finner du nederst på denne siden.
-
-DetailsGeneralLinkTitle = se Les mer på prosjektets nettside
-
-DetailsPrivacyTitle = se Personvernet ditt er viktig for oss
-
-DetailsPrivacyBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje avsnitt av personvernteksten.
-
-DetailsPrivacyLinkTitle = se Les mer om personvern
-
-DetailsRemoveTitle = se Sletting av opptak
-
-DetailsRemoveBody1 = se Ta vare på denne ID-en slik at du kan trekke tilbake donasjoner gjort med denne appinstallasjonen hvis du ønsker det. For å slette dine donasjoner må du sende ID-en til 
-
-DetailsRemoveEmail = your-feedback-email
-
-DetailsRemoveEmailLink = your-feedback-email
-
-DetailsRemoveBody2 =
-    
-    Hvis du sletter applikasjonen og installerer den på nytt, må du ta vare på en ny ID. Du kan kun se gjeldende ID i appen, ikke tidligere. Når du bruker tjenesten i nettleseren, må du ta vare på din nettleserspesifikke ID.
-    
-    Din installasjons-ID for denne appen er:
-
-DetailsRemoveButtonTitle = se KOPIER ID
-
-DetailsRemoveButtonClickedTitle = se KOPIERT
-
-DetailsRemoveButtonMessage = se Husk å lagre den kopierte ID-en!
-
-PermissionRationaleTitle = se Tillatelse til opptak
-
-PermissionRationaleMessage = se Applikasjonen trenger tillatelse til å bruke enhetens mikrofon for å ta opp talen din for donasjonen.
-
-PermissionRationaleDismiss = se OK
-
-PermissionDeniedTitle = se Opptak blokkert
-
-PermissionDeniedMessage = se Dessverre er applikasjonens tillatelse til opptak blokkert. Du kan fikse situasjonen ved å gi tillatelse i enhetens innstillinger.
-
-PermissionDeniedDismiss = se OK
-
-NoChoiceOption = se Ingen valg
-
-TermsHelloTitle = se Takk for at du kom.
+TermsHelloTitle = Giitu go finadat
 
 TermsHelloBody = se Les først denne grunnleggende informasjonen om prosjektet. Deretter kan du velge et emne som interesserer deg og donere talen din.
 
 TermsGeneralTitle = se Brukervilkår
 
-TermsGeneralBody =
-    
-    Linjeskift lagt til dette elementet vises i sluttresultatet.
-    
-    Dette er tredje avsnitt av brukervilkårssiden.
+TermsGeneralBody = 
 
-TermsGeneralLink = se Mer informasjon om kampanjen
+TermsGeneralLink = Eanet dieđut dán kampanjja birra
 
 TermsGeneralUrl = https://example.com
 
-TermsOwnershipTitle = se Hvem?
+TermsOwnershipTitle = Geat?
 
-TermsOwnershipBody1 = se Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
+TermsOwnershipBody1 = 
 
-TermsOwnershipLink = se Personvern
+TermsOwnershipLink = Personsuodjalus
 
 TermsOwnershipLinkUrl = https://example.com/tietosuoja
 
 TermsOwnershipBody2 = se  i henhold til prinsippene presentert på siden.
 
-TermsVoluntaryTitle = se Helt frivillig!
+TermsVoluntaryTitle = Áibbas eaktodáhtolaččat
 
 TermsVoluntaryBody = se Donasjon av tale og oppgivelse av personopplysninger er helt frivillig.
 
@@ -171,9 +89,7 @@ TermsPrivacyUrl = https://example.com/tietosuoja
 
 TermsRightsTitle = se Rettigheter til tale
 
-TermsRightsBody =
-    
-    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin porta quis lectus in efficitur. Vivamus feugiat, nulla nec congue fermentum, mauris massa luctus risus, eu semper diam sapien non turpis. Nullam ac risus iaculis, tincidunt est ut, bibendum urna.
+TermsRightsBody = 
 
 TermsAppropriateUseTitle = se Bruk av applikasjonen
 
@@ -197,30 +113,56 @@ TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
 
 TermsAcceptBody = se Ved å trykke på Jeg godtar-knappen nedenfor godtar jeg vilkårene ovenfor for taledonasjon. Hvis jeg er under 18 år, godtar min verge vilkårene på mine vegne.
 
-TermsAccept = se Jeg godtar
+TermsAccept = Dohkkehan
 
-RecordingStoppedLimitTitle = se Opptak avbrutt
+RecordingStoppedLimitTitle = Bádden boatkaluvvui
 
 RecordingStoppedLimitMessage = se Maksimal opptakstid ble nådd og opptaket ble automatisk stoppet. Takk for donasjonen!
+
 RecordingApproachingLimitMessage = se Maksimal opptakstid nærmer seg. Du har omtrent ett minutt igjen.
-AlertDismissOk = se OK
 
-ChooseLanguageTitle = se Velg språk
+ChooseLanguageTitle = Válljes giela
 
-LanguageFinnish = se Finsk
+LanguageFinnish = Suomagiella
 
-LanguageNorwegian = se Norsk (bokmål)
+LanguageNorwegian = Girjedárogiella
 
-LanguageNorthSami = se Nordsamisk
+LanguageNorthSami = Davvisámegiella
 
-LanguageLuleSami = se Lulesamisk
+LanguageLuleSami = Julevsámegiella
 
-LanguageSouthSami = se Sørsamisk
+LanguageSouthSami = Máttasámegiella
 
-LanguageInariSami = se Enaresamisk
+LanguageInariSami = Anárašgiella
 
-LanguageSkoltSami = se Skoltesamisk
+LanguageSkoltSami = Nuorttalašgiella
 
-LanguageSwedish = se Svensk
+LanguageSwedish = Ruoŧagiella
 
-LanguageNynorsk = se Norsk (nynorsk)
+LanguageNynorsk = Ođđadárogiella
+
+ThemesPageNoValidThemesError = 
+
+ThemeFallbackAltText = 
+
+ThemesPageItemsCount = 
+
+ThemesPageEmptyText = 
+
+DetailsInfoTabTitle = 
+
+DetailsIdentitySwitchedMessage = 
+
+DetailsIdentitySwitchFailedMessage = 
+
+DetailsIdentityEmailLinkedMessage = 
+
+DetailsIdentityEmailInvalidMessage = 
+
+DetailsIdentityCreatedMessage = 
+
+ScheduleStartFallbackTitle = 
+
+BackToThemesButtonText = 
+
+RecordingSaveFailedError = 

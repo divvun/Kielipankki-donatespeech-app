@@ -51,13 +51,15 @@ OnboardingFeature3Title = Frivilligt deltagande
 
 OnboardingFeature3Body = Du kan stoppa eller hoppa över när som helst.
 
+OnboardingCTA = 
+
 TermsHelloTitle = Tack för att du kom.
 
 TermsHelloBody = Läs först denna grundläggande information om projektet. Därefter kan du välja ett ämne som intresserar dig och donera ditt tal.
 
 TermsGeneralTitle = Användarvillkor
 
-TermsGeneralBody = Radbrytningar som läggs till i detta element visas i slutresultatet. Detta är tredje stycket på sidan för användarvillkor.
+TermsGeneralBody = 
 
 TermsGeneralLink = Mer information om kampanjen
 
@@ -138,3 +140,29 @@ LanguageSkoltSami = Skoltsamiska
 LanguageSwedish = Svenska
 
 LanguageNynorsk = Norska (nynorsk)
+
+ThemesPageNoValidThemesError = 
+
+ThemeFallbackAltText = 
+
+ThemesPageItemsCount = 
+
+ThemesPageEmptyText = 
+
+DetailsInfoTabTitle = 
+
+DetailsIdentitySwitchedMessage = 
+
+DetailsIdentitySwitchFailedMessage = 
+
+DetailsIdentityEmailLinkedMessage = 
+
+DetailsIdentityEmailInvalidMessage = 
+
+DetailsIdentityCreatedMessage = 
+
+ScheduleStartFallbackTitle = 
+
+BackToThemesButtonText = 
+
+RecordingSaveFailedError = 
