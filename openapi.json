@@ -356,6 +356,46 @@
                 }
             }
         },
+        "/v1/media/v1/yle-media/{yle_program_id}": {
+            "get": {
+                "summary": "Get Yle Media Compat",
+                "description": "Backward-compatible alias for clients that prepend /v1/media to YLE URLs.",
+                "operationId": "get_yle_media_compat_v1_media_v1_yle_media__yle_program_id__get",
+                "parameters": [
+                    {
+                        "name": "yle_program_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "YLE program ID (e.g., 1-50525858)",
+                            "title": "Yle Program Id"
+                        },
+                        "description": "YLE program ID (e.g., 1-50525858)"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/media/{filename}": {
             "get": {
                 "summary": "Serve Media",
