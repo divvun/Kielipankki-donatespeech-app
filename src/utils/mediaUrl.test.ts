@@ -51,4 +51,35 @@ describe("getMediaUrl", () => {
     expect(mocks.downloadMedia).not.toHaveBeenCalled();
     expect(mocks.getApiBaseUrl).not.toHaveBeenCalled();
   });
+
+  it("resolves JSON string payloads from YLE program lookups to direct stream URLs", async () => {
+    const createObjectURL = vi.spyOn(URL, "createObjectURL");
+    const yleStreamUrl =
+      "https://example.invalid/stream/index.m3u8?token=abc123";
+
+    mocks.downloadMedia.mockResolvedValue(
+      Array.from(new TextEncoder().encode(JSON.stringify(yleStreamUrl))),
+    );
+
+    await expect(getMediaUrl("1-50525858")).resolves.toBe(yleStreamUrl);
+
+    expect(mocks.downloadMedia).toHaveBeenCalledWith("1-50525858");
+    expect(createObjectURL).not.toHaveBeenCalled();
+
+    createObjectURL.mockRestore();
+  });
+
+  it("normalizes /v1/yle-media endpoint paths to program ID flow", async () => {
+    const yleStreamUrl = "https://example.invalid/live/index.m3u8";
+
+    mocks.downloadMedia.mockResolvedValue(
+      Array.from(new TextEncoder().encode(JSON.stringify(yleStreamUrl))),
+    );
+
+    await expect(getMediaUrl("/v1/yle-media/1-50525858")).resolves.toBe(
+      yleStreamUrl,
+    );
+
+    expect(mocks.downloadMedia).toHaveBeenCalledWith("1-50525858");
+  });
 });

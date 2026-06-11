@@ -55,7 +55,17 @@ async function fetchJson<T>(path: string): Promise<T> {
     );
   }
 
-  return (await response.json()) as T;
+  const responseText = await response.text();
+
+  try {
+    return JSON.parse(responseText) as T;
+  } catch {
+    const contentType = response.headers.get("content-type") || "<unknown>";
+    const preview = responseText.slice(0, 200).replace(/\s+/g, " ").trim();
+    throw new Error(
+      `Expected JSON for ${path}, got content-type '${contentType}' with body preview: ${preview}. In web dev mode ensure backend is reachable (default http://localhost:8000).`,
+    );
+  }
 }
 
 function scheduleMatchesId(schedule: Schedule, scheduleId: string): boolean {

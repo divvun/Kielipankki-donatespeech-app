@@ -51,6 +51,85 @@ function isSvtEmbedSource(source: string): boolean {
   return /^https:\/\/api\.svt\.se\/videoplayer-embed\//i.test(source);
 }
 
+function normalizeMediaSource(source: string): string {
+  const trimmed = source.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+
+  return trimmed;
+}
+
+function extractYleProgramIdFromPath(source: string): string | null {
+  if (!source) {
+    return null;
+  }
+
+  const directPathMatch = source.match(
+    /^\/?v1\/(?:media\/v1\/)?yle-media\/([^/?#]+)$/i,
+  );
+  if (directPathMatch?.[1]) {
+    return decodeURIComponent(directPathMatch[1]);
+  }
+
+  if (!/^https?:\/\//i.test(source)) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(source);
+    const pathMatch = parsed.pathname.match(
+      /^\/v1\/(?:media\/v1\/)?yle-media\/([^/?#]+)$/i,
+    );
+    if (pathMatch?.[1]) {
+      return decodeURIComponent(pathMatch[1]);
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function extractUrlFromPayload(fileData: number[]): string | null {
+  const decoded = new TextDecoder().decode(new Uint8Array(fileData)).trim();
+  if (!decoded) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(decoded) as unknown;
+    if (typeof parsed === "string") {
+      return normalizeMediaSource(parsed);
+    }
+
+    if (
+      parsed &&
+      typeof parsed === "object" &&
+      "url" in parsed &&
+      typeof (parsed as { url: unknown }).url === "string"
+    ) {
+      return normalizeMediaSource((parsed as { url: string }).url);
+    }
+  } catch {
+    // Not JSON; continue with plain-text heuristics.
+  }
+
+  const plainValue = normalizeMediaSource(decoded);
+  if (
+    /^https?:\/\//i.test(plainValue) ||
+    plainValue.startsWith("/") ||
+    isHlsPlaylistSource(plainValue)
+  ) {
+    return plainValue;
+  }
+
+  return null;
+}
+
 async function resolveUrl(filenameOrUrl: string): Promise<string> {
   if (/^https?:\/\//i.test(filenameOrUrl)) {
     return filenameOrUrl;
@@ -68,32 +147,47 @@ async function resolveUrl(filenameOrUrl: string): Promise<string> {
  * Download media file and convert to blob URL for playback
  */
 export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
-  console.log("getMediaUrl called with:", filenameOrUrl);
+  const mediaSource = normalizeMediaSource(filenameOrUrl);
 
-  if (isSvtEmbedSource(filenameOrUrl)) {
-    console.log("Using SVT embed URL directly:", filenameOrUrl);
-    return filenameOrUrl;
+  console.log("getMediaUrl called with:", mediaSource);
+
+  const yleProgramId = extractYleProgramIdFromPath(mediaSource);
+  if (yleProgramId) {
+    // Route endpoint-style YLE sources through the program-id flow.
+    return getMediaUrl(yleProgramId);
   }
 
-  if (isHlsPlaylistSource(filenameOrUrl)) {
-    const resolvedUrl = await resolveUrl(filenameOrUrl);
+  if (isSvtEmbedSource(mediaSource)) {
+    console.log("Using SVT embed URL directly:", mediaSource);
+    return mediaSource;
+  }
+
+  if (isHlsPlaylistSource(mediaSource)) {
+    const resolvedUrl = await resolveUrl(mediaSource);
     console.log("Using resolved HLS playlist URL:", resolvedUrl);
     return resolvedUrl;
   }
 
   // Check if we already have a blob URL for this file
-  if (blobUrlCache.has(filenameOrUrl)) {
+  if (blobUrlCache.has(mediaSource)) {
     console.log("Using cached blob URL");
-    return blobUrlCache.get(filenameOrUrl)!;
+    return blobUrlCache.get(mediaSource)!;
   }
 
   // Download the media file (returns binary data as number array)
-  const fileData = await platformApi.downloadMedia(filenameOrUrl);
+  const fileData = await platformApi.downloadMedia(mediaSource);
 
   console.log(`Received ${fileData.length} bytes from download_media`);
 
+  const extractedUrl = extractUrlFromPayload(fileData);
+  if (extractedUrl) {
+    const resolvedUrl = await resolveUrl(extractedUrl);
+    console.log("Resolved media URL from payload:", resolvedUrl);
+    return resolvedUrl;
+  }
+
   // Extract filename for MIME type detection
-  const filename = getFilenameFromPath(filenameOrUrl);
+  const filename = getFilenameFromPath(mediaSource);
   const mimeType = getMimeType(filename);
 
   console.log(`Creating blob with MIME type: ${mimeType}`);
@@ -106,7 +200,7 @@ export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
   console.log("Created blob URL:", blobUrl);
 
   // Cache the blob URL
-  blobUrlCache.set(filenameOrUrl, blobUrl);
+  blobUrlCache.set(mediaSource, blobUrl);
 
   return blobUrl;
 }
