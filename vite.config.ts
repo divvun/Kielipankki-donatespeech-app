@@ -9,8 +9,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 const base = process.env.VITE_BASE_PATH || "/";
-const devApiTarget =
-  process.env.VITE_DEV_API_PROXY_TARGET || "http://localhost:8000";
 
 // Plugin to copy localization files from src to public
 function copyLocales() {
@@ -66,12 +64,6 @@ export default defineConfig(async () => ({
     port: 1420,
     strictPort: true,
     host: host || false,
-    proxy: {
-      "/v1": {
-        target: devApiTarget,
-        changeOrigin: true,
-      },
-    },
     hmr: host
       ? {
           protocol: "ws",
