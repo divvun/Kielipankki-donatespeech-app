@@ -1,19 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">DonateSpeech bars app icon</title>
-  <desc id="desc">Four rounded bars in Sami flag colors with widths based on the in-app animation.</desc>
-
-  <defs>
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="160%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.12"/>
-    </filter>
-  </defs>
-
-  <rect x="24" y="24" width="464" height="464" rx="112" fill="#f9f7ef" stroke="#e5e4e1" stroke-width="6"/>
-
-  <g filter="url(#softShadow)">
-    <rect x="128" y="192" width="56" height="200" rx="28" fill="#db241f"/>
-    <rect x="202" y="172" width="28" height="240" rx="14" fill="#fece04"/>
-    <rect x="248" y="182" width="28" height="220" rx="14" fill="#00722a"/>
-    <rect x="294" y="212" width="84" height="180" rx="42" fill="#0035ad"/>
-  </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 4267 4267" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(4.166667,0,0,4.166667,0,0)">
+        <g transform="matrix(3.020649,0,0,3.180124,-471.221239,-372.074534)">
+            <rect x="156" y="117" width="339" height="322" style="fill:rgb(249,247,239);"/>
+        </g>
+    </g>
+    <g transform="matrix(4.166667,0,0,4.166667,0,0)">
+        <g transform="matrix(2.74132,0,0,2.74132,-181.55396,-288.46544)">
+            <path d="M184,220L184,364C184,379.454 171.454,392 156,392L156,392C140.546,392 128,379.454 128,364L128,220C128,204.546 140.546,192 156,192L156,192C171.454,192 184,204.546 184,220Z" style="fill:rgb(219,36,31);"/>
+            <path d="M230,186L230,398C230,405.727 223.727,412 216,412L216,412C208.273,412 202,405.727 202,398L202,186C202,178.273 208.273,172 216,172L216,172C223.727,172 230,178.273 230,186Z" style="fill:rgb(254,206,4);"/>
+            <path d="M276,196L276,388C276,395.727 269.727,402 262,402L262,402C254.273,402 248,395.727 248,388L248,196C248,188.273 254.273,182 262,182L262,182C269.727,182 276,188.273 276,196Z" style="fill:rgb(0,114,42);"/>
+            <path d="M378,254L378,350C378,373.18 359.18,392 336,392L336,392C312.82,392 294,373.18 294,350L294,254C294,230.82 312.82,212 336,212L336,212C359.18,212 378,230.82 378,254Z" style="fill:rgb(0,53,173);"/>
+        </g>
+    </g>
 </svg>
