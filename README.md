@@ -15,6 +15,7 @@ This is the Tauri implementation that replaces the .NET MAUI version. See
 - **Tauri CLI**: `cargo install tauri-cli`
 
 **Platform-specific:**
+
 - iOS/macOS: Xcode 15+
 - Android: Android Studio, Android SDK 21+
 - Windows: Visual Studio Build Tools
@@ -46,8 +47,7 @@ pnpm tauri android build
 
 - [VS Code](https://code.visualstudio.com/) +
   [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode)
-  +
-  [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+  - [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
 
 ## Backend Setup
 
@@ -68,7 +68,6 @@ The backend runs on `http://localhost:8000` by default.
 **Verify backend is reachable:**
 
 ```bash
-curl http://localhost:8000/v1/schedule
 curl http://localhost:8000/v1/theme
 ```
 
@@ -101,10 +100,12 @@ This runs `tauri dev` with `src-tauri/tauri.conf.release.json`, so you get hot
 reload while calling the release API endpoint.
 
 **Change API endpoint:** Edit the `plugins.recorder.apiBaseUrl` in:
+
 - `src-tauri/tauri.conf.json` (development)
 - `src-tauri/tauri.conf.release.json` (production)
 
 **Verify configuration:** The console will log the API URL on startup:
+
 ```
 Initializing API client with base URL: http://localhost:8000
 ```
@@ -120,6 +121,7 @@ Run `pnpm tauri dev` for hot-reload development mode.
 #### Android
 
 **Android Emulator:**
+
 ```bash
 # List available emulators
 emulator -list-avds
@@ -135,6 +137,7 @@ pnpm tauri android dev
 to `10.0.2.2` (Android emulator's host address).
 
 **Physical Android Device:**
+
 1. Find your computer's LAN IP: `ifconfig | grep "inet " | grep -v 127.0.0.1`
    (macOS/Linux)
 2. Start backend on all interfaces:
@@ -158,7 +161,7 @@ during development:
 
 ```javascript
 // In browser DevTools console (F12 or Cmd+Option+I):
-localStorage.removeItem("onboardingCompleted")
+localStorage.removeItem("onboardingCompleted");
 ```
 
 Then refresh the app (F5 or Cmd+R).
@@ -200,6 +203,7 @@ node scripts/ftl-table-sync.js import --in locales.tsv
 ```
 
 Notes:
+
 - The first table column must be `key`.
 - Locale columns are inferred from the header names (for example `fi`, `nn`, `sv`).
 - Export uses `fi.ftl` as the source-of-truth key list (or the first locale if `fi` is missing).
@@ -213,9 +217,11 @@ The web content-creator interface is deployed with GitHub Actions to Azure
 Static Web Apps.
 
 Workflow file:
+
 - `.github/workflows/deploy-azure-static-web-app.yml`
 
 One-time setup:
+
 1. Create (or reuse) an Azure Static Web App in the labs subscription.
 2. In the Azure portal, copy the deployment token for that Static Web App.
 3. Add a GitHub Actions repository secret named
@@ -223,17 +229,19 @@ One-time setup:
 4. Ensure backend CORS allows your Static Web App origin.
 
 The workflow builds in web mode using:
+
 - `VITE_PLATFORM_MODE=web`
 - `VITE_BASE_PATH=/`
--
-  `VITE_API_BASE_URL=https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io`
+- `VITE_API_BASE_URL=https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io`
 
 Default frontend URL format:
+
 - `https://<your-static-web-app-name>.azurestaticapps.net`
 
 ### Google Play (Android)
 
 1. Build release APK/AAB:
+
    ```bash
    pnpm tauri android build --release
    ```
@@ -249,6 +257,7 @@ via Tauri configuration.
 ### App Store (iOS)
 
 1. Build release IPA:
+
    ```bash
    pnpm tauri ios build --release
    ```
@@ -265,21 +274,27 @@ profiles.
 ### Desktop Builds
 
 **macOS:**
+
 ```bash
 pnpm tauri build --target universal-apple-darwin
 ```
+
 Produces `.dmg` and `.app` in `src-tauri/target/release/bundle/`
 
 **Windows:**
+
 ```bash
 pnpm tauri build
 ```
+
 Produces `.msi` installer in `src-tauri/target/release/bundle/`
 
 **Linux:**
+
 ```bash
 pnpm tauri build
 ```
+
 Produces `.deb`, `.AppImage`, or other formats depending on configuration.
 
 ## Development Model
@@ -289,6 +304,7 @@ Trunk-based development: the latest development version is in the
 `main` branch. Releases are tagged with semantic versioning.
 
 App version is configured in:
+
 - `package.json` → Frontend version
 - `src-tauri/Cargo.toml` → Rust/Tauri version
 - `src-tauri/tauri.conf.json` → App bundle version
@@ -300,6 +316,7 @@ App version is configured in:
 **Problem:** App can't fetch themes/schedules
 
 **Solutions:**
+
 1. Verify backend is running: `curl http://localhost:8000/v1/theme`
 2. Check if backend allows HTTP connections
 3. For physical devices, verify:
@@ -312,15 +329,17 @@ App version is configured in:
 **Problem:** Build fails with SDK errors
 
 **Solutions:**
+
 1. Ensure Android SDK 21+ is installed
 2. Set `ANDROID_HOME` and `NDK_HOME` environment variables
 3. Accept all Android SDK licenses: `sdkmanager --licenses`
 
-### iOS Build Issues  
+### iOS Build Issues
 
 **Problem:** Build fails with Xcode errors
 
 **Solutions:**
+
 1. Ensure Xcode 15+ is installed
 2. Install Xcode Command Line Tools: `xcode-select --install`
 3. Open project in Xcode and resolve signing issues
@@ -330,6 +349,7 @@ App version is configured in:
 **Problem:** Recording fails or produces no audio
 
 **Solutions:**
+
 1. Check microphone permissions are granted
 2. Verify no other app is using the microphone
 3. On mobile, ensure app has proper audio session configuration
