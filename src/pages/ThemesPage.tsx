@@ -10,6 +10,7 @@ import { useAutoUpload } from "../hooks/useAutoUpload";
 import { useTotalRecorded } from "../hooks/useTotalRecorded";
 import { useTranslation } from "../hooks/useTranslation";
 import { platformApi } from "../platform";
+import { ScheduleMediaImage } from "../components/ScheduleMediaImage";
 import { getStateMediaUrl } from "../types/Schedule";
 import {
   getThemeId,
@@ -253,10 +254,10 @@ export default function ThemesPage() {
                   >
                     {/* Theme Thumbnail */}
                     {imageUrl ? (
-                      <img
-                        src={imageUrl}
+                      <ScheduleMediaImage
+                        mediaSource={imageUrl}
                         alt={title || getString("ThemeFallbackAltText")}
-                        className="w-14 h-14 rounded-xl object-cover shrink-0"
+                        className="w-14 h-14 rounded-xl overflow-hidden shrink-0"
                       />
                     ) : (
                       <div className="w-14 h-14 rounded-xl shrink-0 bg-linear-to-br from-secondary to-[#a8c8dd]" />
