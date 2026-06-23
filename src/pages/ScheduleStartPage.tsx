@@ -15,7 +15,7 @@ import { getMediaUrl } from "../utils/mediaUrl";
 import {
   appendSearch,
   getThemeLanguageFromSearch,
-  getThemesPathFromSearch,
+  getThemesPath,
 } from "../utils/themeLanguage";
 
 export default function ScheduleStartPage() {
@@ -42,7 +42,7 @@ export default function ScheduleStartPage() {
   };
 
   const handleBack = () => {
-    navigate(getThemesPathFromSearch(location.search));
+    navigate(getThemesPath());
   };
 
   const startTitle = schedule?.start?.title

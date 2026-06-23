@@ -30,7 +30,7 @@ import {
   appendSearch,
   getThemeIdFromSearch,
   getThemeLanguageFromSearch,
-  getThemesPathFromSearch,
+  getThemesPath,
 } from "../utils/themeLanguage";
 
 const isFakeYleMediaType = (itemType: string) =>
@@ -244,7 +244,7 @@ export default function SchedulePage() {
   };
 
   const handleBack = () => {
-    navigate(getThemesPathFromSearch(location.search));
+    navigate(getThemesPath());
   };
 
   if (loading) {
