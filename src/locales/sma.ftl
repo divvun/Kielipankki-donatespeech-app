@@ -1,7 +1,9 @@
 # Generated from AppResources.fo.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-ThemesPageTitleText = Baajh mijjiem buerebe faaleldahke öörnedh 
+AppTitle = 
+
+ThemesPageTitleText = Soptsesth akte heamture gïelen båetije biejjien åvteste, vedtieh dov gïele vadtesinie.
 
 ThemesPageBody1Text = Veeljh aamhtese man bïjre sïjhth soptsestidh
 
@@ -13,7 +15,7 @@ StartRecording = Spealedh dïjse
 
 StopRecording = Tjöödtjesth
 
-ContinueSchedule = sma Fortsett
+ContinueSchedule = Jåerhkieh
 
 RecordingFinishTitle = Hijven soptsestamme, jïjnjh gäjhtoe!
 
@@ -27,43 +29,43 @@ ChooseOptionText = Veeljh akte alternatijve
 
 InviteFriendButtonText = Raeresth voelpe
 
-DonateMoreButtonText =  Vedtieh jienebh
+DonateMoreButtonText = Vedtieh jienebh
 
-InviteFriendTitle = sma Fortell en venn
+InviteFriendTitle = Soptsesth voelpese 
 
-InviteFriendTemplate = sma Jeg donerte { $param0 } minutter av min tale. Doner du også! #hashtag https://example.com
+InviteFriendTemplate = Leam {$param0} minuhte jïjtjen gïeleste vadteme. Vedtieh datne aaj!#hashtag https://jietnašiella.org
 
-InviteFriendNewbieTemplate = sma Jeg har nettopp donert min tale. Doner du også! #hashtag https://example.com
+InviteFriendNewbieTemplate = Aadtjen gïele vadteme. Vedtieh datne aaj! #hashtag https://jietnašiella.org
 
-OnboardingTitle = sma Velkommen
+OnboardingTitle = Dov gïele gïeleteknologijem evtede
 
 OnboardingBody = Vedtieh muvhten minuhth dov gïeleste. Dle gïeledotkijh viehkete dotkedh, jïh gïeledïrregh saemiengïelide evtiedidh.
 
-OnboardingFeature1Title = 
+OnboardingFeature1Title = Veeljh aamhtese man bïjre sïjhth soptsestidh.
 
-OnboardingFeature1Body = 
+OnboardingFeature1Body = Dïenesjem datnem vaedtsehte.
 
-OnboardingFeature2Title = 
+OnboardingFeature2Title = Spealedh sïjse
 
-OnboardingFeature2Body = Vedtieh kommentaarem dov ietniegïelesne 
+OnboardingFeature2Body = Vedtieh kommentaarem dov ietniegïelesne
 
-OnboardingFeature3Title = Åadtjoeh jïjtje veeljedh mejtie sïjhth meatan årrodh 
+OnboardingFeature3Title = Åadtjoeh jïjtje veeljedh mejtie sïjhth meatan årrodh
 
 OnboardingFeature3Body = Tjöödtjesth jallh jåerhkedh gåessie sïjhth
 
-OnboardingCTA = 
+OnboardingCTA = Hävvi leam meatan!
 
 TermsHelloTitle = Gæjhtoe ihke böötih
 
-TermsHelloBody = Voestegh, lohkh bïevnesem. Dan mænngan maahtah aamhtese veeljedh jïh dov gïele vedtedh 
+TermsHelloBody = Voestegh, lohkh bïevnesem. Dan mænngan maahtah aamhtese veeljedh jïh dov gïele vedtedh
 
-TermsGeneralTitle = Nuhtjemenjoelkedassh 
+TermsGeneralTitle = Nuhtjemenjoelkedassh
 
 TermsGeneralBody = 
 
-TermsGeneralLink = Vielie bïevnesh kampaanjen bïjre 
+TermsGeneralLink = Vielie bïevnesh kampaanjen bïjre
 
-TermsGeneralUrl = https://example.com
+TermsGeneralUrl = https://jietnašiella.org
 
 TermsOwnershipTitle = Gie?
 
@@ -71,9 +73,9 @@ TermsOwnershipBody1 =
 
 TermsOwnershipLink = Integriteetevaarjelimmie
 
-TermsOwnershipLinkUrl = https://example.com/tietosuoja
+TermsOwnershipLinkUrl = https://jietnašiella.org/tietosuoja
 
-TermsOwnershipBody2 = Njoelkedassi mietie 
+TermsOwnershipBody2 = Njoelkedassi mietie
 
 TermsVoluntaryTitle = Eevre frijje væljoe
 
@@ -85,15 +87,15 @@ TermsPrivacyBody =
 
 TermsPrivacyLink = Vielie bïevnesh guktie almetjelaavenjassh gïeteduvvieh
 
-TermsPrivacyUrl = https://example.com/tietosuoja
+TermsPrivacyUrl = https://jietnašiella.org/tietosuoja
 
 TermsRightsTitle = Reaktah gïelen bïjre
 
 TermsRightsBody = 
 
-TermsAppropriateUseTitle = Nuhtjemem applikasjovneste 
+TermsAppropriateUseTitle = Nuhtjemem applikasjovneste
 
-TermsAppropriateUseBody = Applikasjovnem ij leah juekiemasse, gaajhkesh tjuerieh altese dïrrege nuhtjedhh gosse gïelh vedtieh 
+TermsAppropriateUseBody = Applikasjovnem ij leah juekiemasse, gaajhkesh tjuerieh altese dïrrege nuhtjedhh gosse gïelh vedtieh
 
 TermsAdditionalTitle = Vielie bïevnesh
 
@@ -101,9 +103,9 @@ TermsAdditionalWebsite = Kampaanjen hïejmesæjroe
 
 TermsAdditionalWebsiteLink = example.com
 
-TermsAdditionalWebsiteUrl = https://example.com
+TermsAdditionalWebsiteUrl = https://jietnašiella.org
 
-TermsAdditionalContact = sma Universitetet i Helsinki, Språkbanken
+TermsAdditionalContact = UiT Nöörjen arktihke universiteete, Divvun
 
 TermsAdditionalLink = www.kielipankki.fi
 
@@ -141,28 +143,32 @@ LanguageSwedish = Daaroengïele
 
 LanguageNynorsk = Nöörjengïele (nynorsk)
 
-ThemesPageNoValidThemesError = 
+LanguagePiteSami = Bidumsaemiengïele
 
-ThemeFallbackAltText = 
+LanguageUmeSami = Ubmejesaemiengïele
 
-ThemesPageItemsCount = 
+ThemesPageNoValidThemesError = Ij naan aamhtese dan gïelesne gååvnesh, veeljh jeatjah gïele.
 
-ThemesPageEmptyText = 
+ThemeFallbackAltText = Aamhtese
 
-DetailsInfoTabTitle = 
+ThemesPageItemsCount = Boelhkh
 
-DetailsIdentitySwitchedMessage = 
+ThemesPageEmptyText = Aamhtesem ij gååvnesh.
 
-DetailsIdentitySwitchFailedMessage = 
+DetailsInfoTabTitle = Bïevnesh
 
-DetailsIdentityEmailLinkedMessage = 
+DetailsIdentitySwitchedMessage = Målsoeh byjrehks identiteete
 
-DetailsIdentityEmailInvalidMessage = 
+DetailsIdentitySwitchFailedMessage = Idtji maehtieh identiteete målsodh
 
-DetailsIdentityCreatedMessage = 
+DetailsIdentityEmailLinkedMessage = E-påaste byjrehks anonyjme identiteetese gaarehtovveme
 
-ScheduleStartFallbackTitle = 
+DetailsIdentityEmailInvalidMessage = Tjaelieh rïektes e-påaste
 
-BackToThemesButtonText = 
+DetailsIdentityCreatedMessage = Orre byjrehks anonyjme identiteete dorjesovveme
 
-RecordingSaveFailedError = 
+ScheduleStartFallbackTitle = Riejries aelkedh
+
+BackToThemesButtonText = Bååstede aamhtesidie
+
+RecordingSaveFailedError = Idtji maehtieh vöörhkedh

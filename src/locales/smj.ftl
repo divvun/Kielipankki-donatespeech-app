@@ -1,11 +1,13 @@
 # Generated from AppResources.is.resx
 # Do not edit manually - use convert-resx-to-ftl.js script
 
-ThemesPageTitleText = Åvddånahttup buorep ræjdojt!
+AppTitle = Jiednasjiella
+
+ThemesPageTitleText = Håla gielat boahtteájge diehti- sállista jienat sjiellan!
 
 ThemesPageBody1Text = Vállji tiemáv man birra sidá ságastit.
 
-ThemesPageBody2Text = Dån vijddábut bagáduvá.
+ThemesPageBody2Text = Dån vijddábut lájddiduvá.
 
 StartButtonText = Álge
 
@@ -27,33 +29,33 @@ ChooseOptionText = Vállji alternativjav:
 
 InviteFriendButtonText = Gåhtjo rádnav
 
-DonateMoreButtonText = Sálli ájn ienep hållamav
+DonateMoreButtonText = Sállista ájn ienep hållamav
 
 InviteFriendTitle = Subtsasta ráddnasit hållamsállima birra
 
-InviteFriendTemplate = Sállijiv { $param0 } minuhta ietjam hållamis. Sállista dån aj! #hashtag https://example.com
+InviteFriendTemplate = Lev sállim { $param0 } minuhta ietjam hållamis. Sállista dån aj! #hashtag https://jietnašiella.org
 
-InviteFriendNewbieTemplate = Lev jur ietjam hållamav sállim. Sállista dån aj! #hashtag https://example.com
+InviteFriendNewbieTemplate = Lev jur ietjam hållamav sállim. Sállista dån aj! #hashtag https://jietnašiella.org
 
 OnboardingTitle = Buorisboahtem
 
-OnboardingBody = 
+OnboardingBody = Sállista muhtem minuhta ietjat hållamis. Dat la riek ávkálasj gielladutkijda, bessi guoradallat sáme gielajt ja åvddånahttet ræjdojt.
 
-OnboardingFeature1Title = 
+OnboardingFeature1Title = Vállji tiemáv man birra sidá ságastit.
 
-OnboardingFeature1Body = 
+OnboardingFeature1Body = Dån vijddábut lájddiduvá.
 
-OnboardingFeature2Title = 
+OnboardingFeature2Title = Báddista
 
-OnboardingFeature2Body = 
+OnboardingFeature2Body = Ságásta sisano birra
 
-OnboardingFeature3Title = 
+OnboardingFeature3Title = Dån iesj mierreda jus dási sidá sæbrrat
 
-OnboardingFeature3Body = 
+OnboardingFeature3Body = Gå iesj sidá de besa diedon báddimav ĺåhpadit jali tiemav guodet. 
 
-OnboardingCTA = 
+OnboardingCTA = Sidáv sæbrrat!
 
-TermsHelloTitle = Gijtto gå dát prosjevtas berusta.
+TermsHelloTitle = Gijtto gå dássta berusta.
 
 TermsHelloBody = Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela besa válljit tiemáv massta berusta ja ietjat hållamav sállit.
 
@@ -63,17 +65,17 @@ TermsGeneralBody =
 
 TermsGeneralLink = Ienep diedo dán kampánja birra
 
-TermsGeneralUrl = https://example.com
+TermsGeneralUrl = https://jietnašiella.org
 
 TermsOwnershipTitle = Gut?
 
-TermsOwnershipBody1 = Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae libero nec massa sollicitudin lobortis. Nulla facilisi. Aenean quis aliquam erat. Aliquam ac egestas augue. Sed sed scelerisque massa, a sodales nunc. Nulla nec felis ipsum. In hac habitasse platea dictumst. Curabitur eu congue neque 
+TermsOwnershipBody1 = 
 
 TermsOwnershipLink = Persåvnnåsuodjalibme
 
-TermsOwnershipLinkUrl = https://example.com/tietosuoja
+TermsOwnershipLinkUrl = https://jietnašiella.org/tietosuoja
 
-TermsOwnershipBody2 =  prinsihpaj milta ma li dán bielen tjielggiduvvam.
+TermsOwnershipBody2 = prinsihpaj milta ma li dán bielen tjielggiduvvam.
 
 TermsVoluntaryTitle = Dåssju jus iesj sidá!
 
@@ -81,11 +83,11 @@ TermsVoluntaryBody = Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat 
 
 TermsPrivacyTitle = Gåktu giehtadaláduvvi persåvnnådiedo?
 
-TermsPrivacyBody = Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris maximus quis elit sit amet ornare. Nam dui arcu, ornare quis diam ac, commodo aliquam quam.
+TermsPrivacyBody = 
 
 TermsPrivacyLink = Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
 
-TermsPrivacyUrl = https://example.com/tietosuoja
+TermsPrivacyUrl = https://jietnašiella.org/tietosuoja
 
 TermsRightsTitle = Rievtesvuoda duv hållamij
 
@@ -93,17 +95,17 @@ TermsRightsBody =
 
 TermsAppropriateUseTitle = Ehpav adnet
 
-TermsAppropriateUseBody = Gájka gudi sihti hållamav sállit æhppaj hæhttuji ietjasa rustigav adnet sállimij.
+TermsAppropriateUseBody = Æhppa ij galga juogeduvvat ienep ulmutjijs. Gájka gudi sihti hållamav æhppaj sállit hæhttuji ietjasa rustigav dasi adnet.
 
 TermsAdditionalTitle = Ienep diedo
 
-TermsAdditionalWebsite = Kampánja næhttabielle: 
+TermsAdditionalWebsite = Kampánja næhttabielle:
 
 TermsAdditionalWebsiteLink = example.com
 
-TermsAdditionalWebsiteUrl = https://example.com
+TermsAdditionalWebsiteUrl = https://jietnašiella.org
 
-TermsAdditionalContact = Helsinkia universitiehtta, Språkbanken
+TermsAdditionalContact = UiT Vuona arktalasj universitiehtta, Divvun
 
 TermsAdditionalLink = www.kielipankki.fi
 
@@ -141,28 +143,32 @@ LanguageSwedish = Svierigadárogiella
 
 LanguageNynorsk = Vuonadárogiella (ådådárogiella)
 
-ThemesPageNoValidThemesError = 
+LanguagePiteSami = Bidumsámegiella
 
-ThemeFallbackAltText = 
+LanguageUmeSami = Ubbmemsámegiell
 
-ThemesPageItemsCount = 
+ThemesPageNoValidThemesError = E gávnnu tiemá dán giellaj, vállji ietjá gielav.
 
-ThemesPageEmptyText = 
+ThemeFallbackAltText = Tiebmá
 
-DetailsInfoTabTitle = 
+ThemesPageItemsCount = { $count } tiema
 
-DetailsIdentitySwitchedMessage = 
+ThemesPageEmptyText = E gávnnu tiemá
 
-DetailsIdentitySwitchFailedMessage = 
+DetailsInfoTabTitle = Diedo
 
-DetailsIdentityEmailLinkedMessage = 
+DetailsIdentitySwitchedMessage = Æhppa rievddadij bájkálasj identitiehtav
 
-DetailsIdentityEmailInvalidMessage = 
+DetailsIdentitySwitchFailedMessage = Æhppa ittjij nagá identitiehtav rievddadit
 
-DetailsIdentityCreatedMessage = 
+DetailsIdentityEmailLinkedMessage = E-poassta tjanáduváj bájkálasj anaonijma identitiehttaj
 
-ScheduleStartFallbackTitle = 
+DetailsIdentityEmailInvalidMessage = Tjále doajmme e-poasstaadressav
 
-BackToThemesButtonText = 
+DetailsIdentityCreatedMessage = Æhppa dagáj ådå anonijma identiehtav
 
-RecordingSaveFailedError = 
+ScheduleStartFallbackTitle = Gárves álgátjit
+
+BackToThemesButtonText = Ruoptus tiemájda
+
+RecordingSaveFailedError = Æhppa ittjij vuorbástuvá báddimav vuorkkit
