@@ -11,8 +11,6 @@ export const THEME_LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
   se: "LanguageNorthSami",
   sma: "LanguageSouthSami",
   smj: "LanguageLuleSami",
-  smn: "LanguageInariSami",
-  sms: "LanguageSkoltSami",
 };
 
 function hasLanguage(

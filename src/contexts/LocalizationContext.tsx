@@ -12,8 +12,6 @@ export const SUPPORTED_LANGUAGES = {
   se: true,
   sma: true,
   smj: true,
-  sms: true,
-  smn: true,
 } as const;
 
 export type LanguageCode = keyof typeof SUPPORTED_LANGUAGES;
