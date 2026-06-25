@@ -10,7 +10,10 @@ import {
 } from "../utils/clientId";
 import { DetailsHeader } from "../components/DetailsHeader";
 import { DetailsPrivacyTab } from "../components/DetailsPrivacyTab";
-import { getThemesPathFromSearch } from "../utils/themeLanguage";
+import {
+  getThemeLanguageFromSearch,
+  getThemesPathFromSearch,
+} from "../utils/themeLanguage";
 import { useTranslation } from "../hooks/useTranslation";
 
 export default function DetailsPage() {
@@ -75,6 +78,11 @@ export default function DetailsPage() {
       <DetailsHeader
         totalRecorded={totalRecorded.totalFormatted}
         onClose={handleClose}
+        backLabel={
+          getThemeLanguageFromSearch(location.search)
+            ? getString("ThemesPageTitleText")
+            : getString("ChooseLanguageTitle")
+        }
       />
 
       <div className="flex px-5">
