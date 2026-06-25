@@ -30,7 +30,6 @@ import {
   appendSearch,
   getThemeIdFromSearch,
   getThemeLanguageFromSearch,
-  getThemesPath,
 } from "../utils/themeLanguage";
 
 const isFakeYleMediaType = (itemType: string) =>
@@ -244,7 +243,7 @@ export default function SchedulePage() {
   };
 
   const handleBack = () => {
-    navigate(getThemesPath());
+    navigate(appendSearch(`/schedule/${scheduleId}/start`, location.search));
   };
 
   if (loading) {
@@ -277,6 +276,10 @@ export default function SchedulePage() {
     (isMedia && !isRecordingMediaItem) ||
     showManualContinueAfterFinish;
 
+  const startBackLabel = schedule.start?.title
+    ? getLocalizedText(schedule.start.title, currentLanguage)
+    : getString("ScheduleStartFallbackTitle");
+
   // Get localized content from state
   const title = getLocalizedText(stateContent.title, currentLanguage);
   const body1 = getLocalizedText(stateContent.body1, currentLanguage);
@@ -290,6 +293,7 @@ export default function SchedulePage() {
       <ScheduleNavigationBar
         onBack={handleBack}
         totalRecorded={totalRecorded.totalFormatted}
+        backLabel={startBackLabel}
       />
 
       {/* Progress */}

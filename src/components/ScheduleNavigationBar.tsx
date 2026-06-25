@@ -3,11 +3,13 @@ import { ChevronLeft, Heart } from "lucide-react";
 interface ScheduleNavigationBarProps {
   onBack: () => void;
   totalRecorded: string;
+  backLabel: string;
 }
 
 export function ScheduleNavigationBar({
   onBack,
   totalRecorded,
+  backLabel,
 }: ScheduleNavigationBarProps) {
   return (
     <>
@@ -17,7 +19,7 @@ export function ScheduleNavigationBar({
           className="flex items-center gap-1.5 text-base text-muted-foreground hover:text-foreground transition-colors bg-transparent border-none cursor-pointer"
         >
           <ChevronLeft className="w-6 h-6 text-foreground" />
-          Aiheet
+          {backLabel}
         </button>
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-primary text-[13px] font-semibold">

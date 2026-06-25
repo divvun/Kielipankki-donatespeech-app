@@ -49,6 +49,7 @@ export default function ScheduleFinishPage() {
       <ScheduleNavigationBar
         onBack={handleBack}
         totalRecorded={totalRecorded.totalFormatted}
+        backLabel={getString("ThemesPageTitleText")}
       />
 
       <ScheduleFinishSummary

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChevronRight, Heart, Info } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
@@ -153,7 +153,17 @@ export default function ThemesPage() {
     <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
       {/* Navigation Bar */}
       <div className="flex items-center justify-between px-5 h-14 shrink-0">
-        <LanguageSelector />
+        {themeLanguage ? (
+          <button
+            onClick={() => navigate(getThemesPath())}
+            className="flex items-center gap-1.5 text-base text-muted-foreground hover:text-foreground transition-colors bg-transparent border-none cursor-pointer"
+          >
+            <ChevronLeft className="w-6 h-6 text-foreground" />
+            {getString("ChooseLanguageTitle")}
+          </button>
+        ) : (
+          <LanguageSelector />
+        )}
 
         <div className="flex items-center gap-2">
           {/* Donation pill */}

@@ -42,7 +42,7 @@ export default function ScheduleStartPage() {
   };
 
   const handleBack = () => {
-    navigate(getThemesPath());
+    navigate(getThemesPath(requestedLanguage));
   };
 
   const startTitle = schedule?.start?.title
@@ -103,6 +103,7 @@ export default function ScheduleStartPage() {
       <ScheduleNavigationBar
         onBack={handleBack}
         totalRecorded={totalRecorded.totalFormatted}
+        backLabel={getString("ThemesPageTitleText")}
       />
 
       <ScheduleStartSummary
