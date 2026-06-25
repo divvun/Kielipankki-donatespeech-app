@@ -8,15 +8,11 @@ const THEME_LANGUAGE_PARAM = "lang";
 const THEME_ID_PARAM = "themeId";
 
 export const THEME_LANGUAGE_NAME_KEYS: Record<LanguageCode, string> = {
-  fi: "LanguageFinnish",
-  nb: "LanguageNorwegian",
-  nn: "LanguageNynorsk",
   se: "LanguageNorthSami",
   sma: "LanguageSouthSami",
   smj: "LanguageLuleSami",
   smn: "LanguageInariSami",
   sms: "LanguageSkoltSami",
-  sv: "LanguageSwedish",
 };
 
 function hasLanguage(

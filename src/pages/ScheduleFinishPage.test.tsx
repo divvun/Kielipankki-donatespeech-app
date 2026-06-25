@@ -66,7 +66,7 @@ vi.mock("../hooks/useInviteFriendShare", () => ({
 
 vi.mock("../contexts/LocalizationContext", () => ({
   useLocalization: () => ({
-    currentLanguage: "nb",
+    currentLanguage: "se",
   }),
 }));
 

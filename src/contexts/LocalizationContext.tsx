@@ -8,17 +8,12 @@ import {
 import { FluentBundle, FluentResource } from "@fluent/bundle";
 import { ReactLocalization, LocalizationProvider } from "@fluent/react";
 
-// Supported language codes
 export const SUPPORTED_LANGUAGES = {
-  fi: true,
   se: true,
   sma: true,
   smj: true,
   sms: true,
   smn: true,
-  nb: true,
-  nn: true,
-  sv: true,
 } as const;
 
 export type LanguageCode = keyof typeof SUPPORTED_LANGUAGES;
@@ -66,13 +61,14 @@ async function createBundles(locales: LanguageCode[]): Promise<FluentBundle[]> {
   return bundles;
 }
 
-// Get stored language preference
+const DEFAULT_LANGUAGE: LanguageCode = "se";
+
 function getStoredLanguage(): LanguageCode {
   const stored = localStorage.getItem("language");
   if (stored && stored in SUPPORTED_LANGUAGES) {
     return stored as LanguageCode;
   }
-  return "nb"; // Default to Norwegian Bokmål
+  return DEFAULT_LANGUAGE;
 }
 
 export function FluentLocalizationProvider({
@@ -90,9 +86,10 @@ export function FluentLocalizationProvider({
       try {
         console.log("Loading localization for:", currentLanguage);
 
-        // Load current language and fallback to Norwegian Bokmål
         const locales: LanguageCode[] =
-          currentLanguage === "nb" ? ["nb"] : [currentLanguage, "nb"];
+          currentLanguage === DEFAULT_LANGUAGE
+            ? [DEFAULT_LANGUAGE]
+            : [currentLanguage, DEFAULT_LANGUAGE];
 
         const bundles = await createBundles(locales);
 

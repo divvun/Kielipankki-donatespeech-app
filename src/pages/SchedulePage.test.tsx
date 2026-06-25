@@ -107,15 +107,16 @@ vi.mock("../hooks/useTranslation", () => ({
   }),
 }));
 
-vi.mock("../contexts/LocalizationContext", () => ({
-  SUPPORTED_LANGUAGES: {
-    fi: { englishName: "Finnish", nativeName: "suomi" },
-    nb: { englishName: "Norwegian Bokmål", nativeName: "norsk bokmål" },
-  },
-  useLocalization: () => ({
-    currentLanguage: "nb",
-  }),
-}));
+vi.mock("../contexts/LocalizationContext", async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import("../contexts/LocalizationContext")>();
+  return {
+    ...actual,
+    useLocalization: () => ({
+      currentLanguage: "se",
+    }),
+  };
+});
 
 describe("SchedulePage fake YLE media", () => {
   beforeEach(() => {
@@ -320,13 +321,13 @@ describe("SchedulePage fake YLE media", () => {
     expect(screen.queryByAltText("YLE stream")).toBeNull();
   });
 
-  it("renders the first fi item video for schedule 0598bf14-ab48-4ccb-a50c-0bd779f77933", async () => {
+  it("renders the first se item video for schedule 0598bf14-ab48-4ccb-a50c-0bd779f77933", async () => {
     const scheduleId = "0598bf14-ab48-4ccb-a50c-0bd779f77933";
     const hlsUrl =
       "https://yleawsmpondemand-03.akamaized.net/vod/world/406318a3e25843d6a06c8def33ac8a0a/a8f702fdc8e7449cae194919044a34ee/d5fb3a697dbb4efda98a6aea7cb21fe7/index.m3u8?hdnts=exp=1779449002~acl=/vod/world/406318a3e25843d6a06c8def33ac8a0a/a8f702fdc8e7449cae194919044a34ee/*~hmac=b53a2064ffa945de335f1945c1bd07c6d5f3855307b9d1d6a2162d4703135337";
 
     mockScheduleId = scheduleId;
-    mockLocationSearch = "?lang=fi";
+    mockLocationSearch = "?lang=se";
 
     const schedule: Schedule = {
       scheduleId,
@@ -334,10 +335,10 @@ describe("SchedulePage fake YLE media", () => {
         {
           kind: "media",
           itemType: "yle-video",
-          itemId: "item-yle-fi-1",
+          itemId: "item-yle-se-1",
           isRecording: false,
           start: {
-            title: "YLE fi stream",
+            title: "YLE se stream",
             body1: "Prompt text",
             body2: "More prompt text",
             url: hlsUrl,
@@ -352,12 +353,12 @@ describe("SchedulePage fake YLE media", () => {
 
     render(<SchedulePage />);
 
-    await screen.findAllByText("YLE fi stream");
+    await screen.findAllByText("YLE se stream");
 
     await waitFor(() => {
       expect(mocks.fetchSchedule).toHaveBeenCalledWith(
         scheduleId,
-        "fi",
+        "se",
         undefined,
       );
       expect(mocks.getMediaUrl).toHaveBeenCalledWith(hlsUrl);
@@ -365,7 +366,7 @@ describe("SchedulePage fake YLE media", () => {
 
     expect(mocks.videoPlayer).toHaveBeenCalledWith(hlsUrl);
     expect(screen.getByTestId("video-player")).toBeTruthy();
-    expect(screen.queryByAltText("YLE fi stream")).toBeNull();
+    expect(screen.queryByAltText("YLE se stream")).toBeNull();
   });
 
   it("resets recording duration when entering the next recording item", async () => {

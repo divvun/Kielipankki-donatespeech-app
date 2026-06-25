@@ -58,7 +58,7 @@ vi.mock("../hooks/useTotalRecorded", () => ({
 
 vi.mock("../contexts/LocalizationContext", () => ({
   useLocalization: () => ({
-    currentLanguage: "nb",
+    currentLanguage: "se",
   }),
 }));
 

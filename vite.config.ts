@@ -22,17 +22,7 @@ function copyLocales() {
       mkdirSync(destDir, { recursive: true });
 
       // Copy all .ftl files
-      const locales = [
-        "fi.ftl",
-        "se.ftl",
-        "sma.ftl",
-        "smj.ftl",
-        "sms.ftl",
-        "smn.ftl",
-        "nb.ftl",
-        "nn.ftl",
-        "sv.ftl",
-      ];
+      const locales = ["se.ftl", "sma.ftl", "smj.ftl", "sms.ftl", "smn.ftl"];
 
       locales.forEach((file) => {
         const src = resolve(srcDir, file);

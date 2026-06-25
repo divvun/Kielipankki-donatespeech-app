@@ -17,7 +17,7 @@ function getFirstAvailableValue(record: Record<string, string>): string {
 export function getLocalizedText(
   record: string | Record<string, string> | null | undefined,
   currentLanguage: string,
-  fallbackLanguage = "nb",
+  fallbackLanguage = "se",
 ): string {
   if (!record) return EMPTY_LOCALIZED_TEXT;
 
