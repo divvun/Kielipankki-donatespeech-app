@@ -14,7 +14,7 @@ export function ScheduleNavigationBar({
 }: ScheduleNavigationBarProps) {
   return (
     <>
-      <div className="flex items-center justify-between px-5 min-h-[calc(44px+env(safe-area-inset-top))] pt-safe shrink-0">
+      <div className="flex items-center justify-between px-5 min-h-[calc(44px+var(--inset-top,env(safe-area-inset-top)))] pt-safe shrink-0">
         <BackButton onClick={onBack} label={backLabel} />
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-primary text-[13px] font-semibold">

@@ -153,7 +153,7 @@ export default function ThemesPage() {
   return (
     <div className="h-dvh bg-linear-to-b from-white to-background flex flex-col">
       {/* Navigation Bar */}
-      <div className="flex items-center justify-between px-5 min-h-[calc(44px+env(safe-area-inset-top))] pt-safe shrink-0">
+      <div className="flex items-center justify-between px-5 min-h-[calc(44px+var(--inset-top,env(safe-area-inset-top)))] pt-safe shrink-0">
         {themeLanguage ? (
           <BackButton
             onClick={() => navigate(getThemesPath())}

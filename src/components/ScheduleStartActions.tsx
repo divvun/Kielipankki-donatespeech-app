@@ -12,7 +12,10 @@ export function ScheduleStartActions({
   return (
     <div
       className="fixed bottom-0 left-0 right-0 bg-transparent px-6 pt-4 flex flex-col items-center"
-      style={{ paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom))" }}
+      style={{
+        paddingBottom:
+          "calc(2.5rem + var(--inset-bottom, env(safe-area-inset-bottom)))",
+      }}
     >
       <Button
         onClick={onStart}

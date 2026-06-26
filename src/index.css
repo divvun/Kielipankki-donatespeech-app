@@ -269,11 +269,11 @@
 }
 
 @utility pt-safe {
-  padding-top: env(safe-area-inset-top);
+  padding-top: var(--inset-top, env(safe-area-inset-top));
 }
 
 @utility pb-safe {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--inset-bottom, env(safe-area-inset-bottom));
 }
 
 @layer components {
