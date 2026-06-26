@@ -24,7 +24,7 @@ class MainActivity : TauriActivity() {
     webView.setBackgroundColor(Color.WHITE)
 
     val density = resources.displayMetrics.density
-    val insetTop = (readInsetPx(WindowInsetsCompat.Type.statusBars(), "status_bar_height", top = true) / density).toInt()
+    val insetTop = (readInsetPx(WindowInsetsCompat.Type.statusBars(), "status_bar_height", top = true) / density).toInt() + 8
     val insetBottom = (readInsetPx(WindowInsetsCompat.Type.navigationBars(), "navigation_bar_height", top = false) / density).toInt()
 
     if (WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
@@ -38,7 +38,7 @@ class MainActivity : TauriActivity() {
 
     ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { _, windowInsets ->
       val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-      val top = (insets.top / density).toInt()
+      val top = (insets.top / density).toInt() + 8
       val bottom = (insets.bottom / density).toInt()
       webView.evaluateJavascript(
         "document.documentElement.style.setProperty('--inset-top','${top}px');" +
