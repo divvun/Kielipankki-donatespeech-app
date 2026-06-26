@@ -45,7 +45,7 @@ export default function ScheduleFinishPage() {
     : "";
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
+    <div className="h-dvh bg-linear-to-b from-white to-background flex flex-col">
       <ScheduleNavigationBar
         onBack={handleBack}
         totalRecorded={totalRecorded.totalFormatted}

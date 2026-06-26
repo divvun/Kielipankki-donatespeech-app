@@ -74,7 +74,7 @@ export default function DetailsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="h-dvh bg-gray-100 flex flex-col">
       <DetailsHeader
         totalRecorded={totalRecorded.totalFormatted}
         onClose={handleClose}
@@ -94,7 +94,7 @@ export default function DetailsPage() {
         </div>
       </div>
 
-      <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1 px-6 pt-6 pb-6 overflow-y-auto">
         <DetailsPrivacyTab
           clientId={clientId}
           copiedClientId={copiedClientId}
@@ -106,6 +106,7 @@ export default function DetailsPage() {
           onCreateIdentityByEmail={handleCreateIdentityByEmail}
           onCreateAnonymousIdentity={handleCreateAnonymousIdentity}
         />
+        <div className="pb-safe" />
       </div>
     </div>
   );

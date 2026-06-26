@@ -151,9 +151,9 @@ export default function ThemesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
+    <div className="h-dvh bg-linear-to-b from-white to-background flex flex-col">
       {/* Navigation Bar */}
-      <div className="flex items-center justify-between px-5 h-14 shrink-0">
+      <div className="flex items-center justify-between px-5 min-h-[calc(44px+env(safe-area-inset-top))] pt-safe shrink-0">
         {themeLanguage ? (
           <BackButton
             onClick={() => navigate(getThemesPath())}
@@ -181,7 +181,7 @@ export default function ThemesPage() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-auto px-5 pb-5">
+      <div className="flex-1 overflow-auto px-5 pt-4 pb-5">
         {/* Header */}
         <div className="mb-5">
           <h1 className="text-[22px] font-extrabold tracking-tight leading-tight text-foreground">
@@ -326,6 +326,7 @@ export default function ThemesPage() {
               </Button>
             </div>
           )}
+        <div className="pb-safe" />
       </div>
     </div>
   );

@@ -289,7 +289,7 @@ export default function SchedulePage() {
   const progressPercent = ((currentIndex + 1) / schedule.items.length) * 100;
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
+    <div className="h-dvh bg-linear-to-b from-white to-background flex flex-col">
       <ScheduleNavigationBar
         onBack={handleBack}
         totalRecorded={totalRecorded.totalFormatted}

@@ -14,7 +14,7 @@ export default function TermsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-white to-background flex flex-col">
+    <div className="h-dvh bg-linear-to-b from-white to-background flex flex-col">
       <div className="flex-1 overflow-auto">
         <TermsWelcome
           title={getString("TermsPageTitle")}
@@ -27,6 +27,7 @@ export default function TermsPage() {
           acceptLabel={getString("TermsAccept")}
           onAccept={handleAccept}
         />
+        <div className="pb-safe" />
       </div>
     </div>
   );
