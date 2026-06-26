@@ -26,4 +26,3 @@ public/locales
 *.njsproj
 *.sln
 *.sw?
-/src-tauri/gen

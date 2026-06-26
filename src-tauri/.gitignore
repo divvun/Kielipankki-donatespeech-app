@@ -10,3 +10,4 @@
 !/gen/apple/tauri-app_iOS
 /gen/apple/tauri-app_iOS/*
 !/gen/apple/tauri-app_iOS/Info.plist
+!/gen/android
