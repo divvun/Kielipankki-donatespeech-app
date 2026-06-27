@@ -49,7 +49,7 @@ export function DetailsPrivacyTab({
           {getString("DetailsGeneralBody")}
         </p>
         <button
-          onClick={() => openLink("https://example.com")}
+          onClick={() => openLink("https://jietnašiella.org")}
           className="text-primary hover:underline text-sm text-left"
         >
           {getString("DetailsGeneralLinkTitle")}
@@ -65,7 +65,7 @@ export function DetailsPrivacyTab({
           {getString("DetailsPrivacyBody")}
         </p>
         <button
-          onClick={() => openLink("https://example.com/tietosuoja")}
+          onClick={() => openLink("https://jietnašiella.org/tietosuoja")}
           className="text-primary hover:underline text-sm text-left"
         >
           {getString("DetailsPrivacyLinkTitle")}

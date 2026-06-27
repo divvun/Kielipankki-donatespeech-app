@@ -57,11 +57,11 @@ OnboardingCTA = Áinnas searvvan!
 
 TermsHelloTitle = Giitu go finadat
 
-TermsHelloBody = se Les først denne grunnleggende informasjonen om prosjektet. Deretter kan du velge et emne som interesserer deg og donere talen din.
+TermsHelloBody = Please read this brief information about the project before you begin. Afterwards you can choose a topic and donate your speech.
 
 TermsGeneralTitle = Geavahaneavttut
 
-TermsGeneralBody = 
+TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
 
 TermsGeneralLink = Eanet dieđut dán kampanjja birra
 
@@ -69,7 +69,7 @@ TermsGeneralUrl = https://jietnašiella.org
 
 TermsOwnershipTitle = Geat?
 
-TermsOwnershipBody1 = 
+TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun) in cooperation with the Language Bank of Finland (Kielipankki). Your personal data is managed in accordance with the principles described in our privacy policy.
 
 TermsOwnershipLink = Personsuodjalus
 
@@ -83,7 +83,7 @@ TermsVoluntaryBody = Hállanskeŋken ja persovdnadieđuid guođđin barggat áib
 
 TermsPrivacyTitle = Mo persovdnadieđut gieđahallojit?
 
-TermsPrivacyBody = 
+TermsPrivacyBody = We collect your voice recordings and technical metadata (duration, sample rate, format, and timestamp), along with your device's operating system version. A randomly generated anonymous ID is stored on your device to group your donations and allow you to request deletion. No name, email address, or account information is required. Recordings are transmitted over HTTPS and stored in Microsoft Azure cloud storage in the EU/EEA.
 
 TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
 
@@ -91,17 +91,17 @@ TermsPrivacyUrl = https://jietnašiella.org/tietosuoja
 
 TermsRightsTitle = Vuoigatvuođat čatnon du hállamii
 
-TermsRightsBody = 
+TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may have all your recordings deleted at any time through the app or by contacting us.
 
 TermsAppropriateUseTitle = Áppgeavaheapmi
 
-TermsAppropriateUseBody = se Denne applikasjonen er ikke ment for delt bruk. Alle donorer må bruke sin egen enhet når de donerer.
+TermsAppropriateUseBody = This app is for individual use only. Each person who donates must use their own device.
 
 TermsAdditionalTitle = Eanet dieđut
 
 TermsAdditionalWebsite = Kampánjja ruoktosiidu:
 
-TermsAdditionalWebsiteLink = example.com
+TermsAdditionalWebsiteLink = jietnašiella.org
 
 TermsAdditionalWebsiteUrl = https://jietnašiella.org
 

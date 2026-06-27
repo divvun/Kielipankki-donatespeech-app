@@ -61,7 +61,7 @@ TermsHelloBody = Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela
 
 TermsGeneralTitle = Addneævto
 
-TermsGeneralBody = 
+TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
 
 TermsGeneralLink = Ienep diedo dán kampánja birra
 
@@ -69,7 +69,7 @@ TermsGeneralUrl = https://jietnašiella.org
 
 TermsOwnershipTitle = Gut?
 
-TermsOwnershipBody1 = 
+TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun) in cooperation with the Language Bank of Finland (Kielipankki). Your personal data is managed in accordance with the principles described in our privacy policy.
 
 TermsOwnershipLink = Persåvnnåsuodjalibme
 
@@ -83,7 +83,7 @@ TermsVoluntaryBody = Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat 
 
 TermsPrivacyTitle = Gåktu giehtadaláduvvi persåvnnådiedo?
 
-TermsPrivacyBody = 
+TermsPrivacyBody = We collect your voice recordings and technical metadata (duration, sample rate, format, and timestamp), along with your device's operating system version. A randomly generated anonymous ID is stored on your device to group your donations and allow you to request deletion. No name, email address, or account information is required. Recordings are transmitted over HTTPS and stored in Microsoft Azure cloud storage in the EU/EEA.
 
 TermsPrivacyLink = Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
 
@@ -91,7 +91,7 @@ TermsPrivacyUrl = https://jietnašiella.org/tietosuoja
 
 TermsRightsTitle = Rievtesvuoda duv hållamij
 
-TermsRightsBody = 
+TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may have all your recordings deleted at any time through the app or by contacting us.
 
 TermsAppropriateUseTitle = Ehpav adnet
 
@@ -101,7 +101,7 @@ TermsAdditionalTitle = Ienep diedo
 
 TermsAdditionalWebsite = Kampánja næhttabielle:
 
-TermsAdditionalWebsiteLink = example.com
+TermsAdditionalWebsiteLink = jietnašiella.org
 
 TermsAdditionalWebsiteUrl = https://jietnašiella.org
 

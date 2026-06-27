@@ -18,8 +18,8 @@ export default function TermsPage() {
       <div className="pt-safe shrink-0" />
       <div className="flex-1 overflow-auto">
         <TermsWelcome
-          title={getString("TermsPageTitle")}
-          body={getString("TermsPageSubtitle")}
+          title={getString("TermsHelloTitle")}
+          body={getString("TermsHelloBody")}
         />
 
         <TermsContent getString={getString} />
