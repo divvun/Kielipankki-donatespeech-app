@@ -76,7 +76,7 @@ function App() {
         <Route path="/themes" element={<ThemesPage />} />
 
         {/* Test page for development */}
-        <Route path="/test" element={<TestPage />} />
+        {import.meta.env.DEV && <Route path="/test" element={<TestPage />} />}
 
         {/* Schedule flow - start page, schedule items, finish page */}
         <Route
