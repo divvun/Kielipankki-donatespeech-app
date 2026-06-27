@@ -376,6 +376,8 @@ App version is configured in:
   Feature parity tracking
 - **Localization:** [LOCALIZATION_COVERAGE.md](LOCALIZATION_COVERAGE.md) -
   Language support details
+- **Privacy Policy:** https://jietnašiella.org/privacy/ — canonical, hosted on
+  the project website
 
 ## Contributing
 
