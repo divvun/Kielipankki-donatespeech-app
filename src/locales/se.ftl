@@ -111,7 +111,7 @@ TermsAdditionalLink = www.kielipankki.fi
 
 TermsAdditionalUrl = https://www.kielipankki.fi
 
-TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
+TermsAdditionalEmail = feedback@divvun.no
 
 TermsAcceptBody = Go diettát "Dohkkehan"-boalu dás vuolábealde, dohkkehat hállanskeŋkema eavttuid. Jus leat vuollel 18 jagi, de du váldeguoddi dohkkeha eavttuid du ovddas.
 

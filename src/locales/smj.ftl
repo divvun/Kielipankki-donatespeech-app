@@ -111,7 +111,7 @@ TermsAdditionalLink = www.kielipankki.fi
 
 TermsAdditionalUrl = https://www.kielipankki.fi
 
-TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
+TermsAdditionalEmail = feedback@divvun.no
 
 TermsAcceptBody = Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamdonierimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
 

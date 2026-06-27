@@ -111,7 +111,7 @@ TermsAdditionalLink = www.kielipankki.fi
 
 TermsAdditionalUrl = https://www.kielipankki.fi
 
-TermsAdditionalEmail = hankkeen-nimi@kielipankki.fi
+TermsAdditionalEmail = feedback@divvun.no
 
 TermsAcceptBody = Gosse "Manne dåhkasjahtam" dïedtem, manne njoelkedasside dåhkasjahtam.
 

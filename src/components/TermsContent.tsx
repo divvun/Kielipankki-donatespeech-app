@@ -98,7 +98,7 @@ export function TermsContent({ getString }: TermsContentProps) {
       content: (
         <div className="space-y-2 text-[15px] text-muted-foreground leading-relaxed">
           <p>
-            {getString("TermsAdditionalWebsite")}
+            {getString("TermsAdditionalWebsite")}{" "}
             <button
               onClick={() => openLink(getString("TermsAdditionalWebsiteUrl"))}
               className="text-primary hover:underline"

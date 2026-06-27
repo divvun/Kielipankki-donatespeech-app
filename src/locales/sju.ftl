@@ -106,7 +106,7 @@ TermsAdditionalLink =
 
 TermsAdditionalUrl = 
 
-TermsAdditionalEmail = 
+TermsAdditionalEmail = feedback@divvun.no
 
 TermsAcceptBody = 
 
