@@ -73,7 +73,7 @@ TermsOwnershipBody1 = This project is operated by UiT The Arctic University of N
 
 TermsOwnershipLink = Persåvnnåsuodjalibme
 
-TermsOwnershipLinkUrl = https://jietnašiella.org/tietosuoja
+TermsOwnershipLinkUrl = https://jietnašiella.org/privacy/
 
 TermsOwnershipBody2 = prinsihpaj milta ma li dán bielen tjielggiduvvam.
 
@@ -87,7 +87,7 @@ TermsPrivacyBody = We collect your voice recordings and technical metadata (dura
 
 TermsPrivacyLink = Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
 
-TermsPrivacyUrl = https://jietnašiella.org/tietosuoja
+TermsPrivacyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Rievtesvuoda duv hållamij
 

@@ -65,7 +65,7 @@ export function DetailsPrivacyTab({
           {getString("DetailsPrivacyBody")}
         </p>
         <button
-          onClick={() => openLink("https://jietnašiella.org/tietosuoja")}
+          onClick={() => openLink("https://jietnašiella.org/privacy/")}
           className="text-primary hover:underline text-sm text-left"
         >
           {getString("DetailsPrivacyLinkTitle")}

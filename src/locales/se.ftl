@@ -73,7 +73,7 @@ TermsOwnershipBody1 = This project is operated by UiT The Arctic University of N
 
 TermsOwnershipLink = Personsuodjalus
 
-TermsOwnershipLinkUrl = https://jietnašiella.org/tietosuoja
+TermsOwnershipLinkUrl = https://jietnašiella.org/privacy/
 
 TermsOwnershipBody2 = prinsihpaid mielde mat leat dán siiddus čilgejuvvon.
 
@@ -87,7 +87,7 @@ TermsPrivacyBody = We collect your voice recordings and technical metadata (dura
 
 TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
 
-TermsPrivacyUrl = https://jietnašiella.org/tietosuoja
+TermsPrivacyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Vuoigatvuođat čatnon du hállamii
 
