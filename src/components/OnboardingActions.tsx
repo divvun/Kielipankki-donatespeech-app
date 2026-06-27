@@ -10,7 +10,13 @@ export function OnboardingActions({ onContinue }: OnboardingActionsProps) {
   const { getString } = useTranslation();
 
   return (
-    <div className="px-6 pb-10 pt-4">
+    <div
+      className="px-6 pt-4 shrink-0"
+      style={{
+        paddingBottom:
+          "calc(2.5rem + var(--inset-bottom, env(safe-area-inset-bottom)))",
+      }}
+    >
       <Button
         onClick={onContinue}
         size="lg"

@@ -15,6 +15,7 @@ export default function TermsPage() {
 
   return (
     <div className="h-dvh bg-linear-to-b from-white to-background flex flex-col">
+      <div className="pt-safe shrink-0" />
       <div className="flex-1 overflow-auto">
         <TermsWelcome
           title={getString("TermsPageTitle")}
