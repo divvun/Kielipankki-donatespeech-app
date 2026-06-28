@@ -154,7 +154,7 @@ DetailsIdentityEmailInvalidMessage = Tjaelieh rïektes e-påaste
 
 DetailsIdentityCreatedMessage = Orre byjrehks anonyjme identiteete dorjesovveme
 
-DetailsPrivacyTitle = Privacy
+DetailsPrivacyTitle = Privacy Policy
 
 DetailsRemoveTitle = Delete your data
 

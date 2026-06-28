@@ -154,7 +154,7 @@ DetailsIdentityEmailInvalidMessage = Čális gustovaš e-boastačujuhusa
 
 DetailsIdentityCreatedMessage = Ráhkadii ođđa anonyma identitehta
 
-DetailsPrivacyTitle = Privacy
+DetailsPrivacyTitle = Privacy Policy
 
 DetailsRemoveTitle = Delete your data
 

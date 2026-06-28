@@ -154,7 +154,7 @@ DetailsIdentityEmailInvalidMessage = Tjále doajmme e-poasstaadressav
 
 DetailsIdentityCreatedMessage = Æhppa dagáj ådå anonijma identiehtav
 
-DetailsPrivacyTitle = Privacy
+DetailsPrivacyTitle = Privacy Policy
 
 DetailsRemoveTitle = Delete your data
 
