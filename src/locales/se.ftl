@@ -69,21 +69,17 @@ TermsGeneralUrl = https://jietnašiella.org
 
 TermsOwnershipTitle = Geat?
 
-TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun) in cooperation with the Language Bank of Finland (Kielipankki). Your personal data is managed in accordance with the principles described in our privacy policy.
+TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun) in cooperation with the Language Bank of Finland (Kielipankki).
 
 TermsOwnershipLink = Personsuodjalus
 
 TermsOwnershipLinkUrl = https://jietnašiella.org/privacy/
-
-TermsOwnershipBody2 = prinsihpaid mielde mat leat dán siiddus čilgejuvvon.
 
 TermsVoluntaryTitle = Dušše jus ieš háliidat!
 
 TermsVoluntaryBody = Hállanskeŋken ja persovdnadieđuid guođđin barggat áibbas eaktodáhtolaččat.
 
 TermsPrivacyTitle = Mo persovdnadieđut gieđahallojit?
-
-TermsPrivacyBody = We collect your voice recordings and technical metadata (duration, sample rate, format, and timestamp), along with your device's operating system version. A randomly generated anonymous ID is stored on your device to group your donations and allow you to request deletion. No name, email address, or account information is required. Recordings are transmitted over HTTPS and stored in Microsoft Azure cloud storage in the EU/EEA.
 
 TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
 
@@ -166,6 +162,18 @@ DetailsIdentityEmailLinkedMessage = E-boasta laktašuvvui báikkálaš anonyma i
 DetailsIdentityEmailInvalidMessage = Čális gustovaš e-boastačujuhusa
 
 DetailsIdentityCreatedMessage = Ráhkadii ođđa anonyma identitehta
+
+DetailsPrivacyTitle = Privacy
+
+DetailsPrivacyLinkTitle = Read our privacy policy
+
+DetailsRemoveTitle = Delete your data
+
+DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
+
+DetailsRemoveButtonTitle = Copy Client ID
+
+DetailsRemoveButtonClickedTitle = Copied!
 
 ScheduleStartFallbackTitle = Gearggus álgit
 

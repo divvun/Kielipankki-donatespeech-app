@@ -70,15 +70,11 @@ TermsOwnershipLink =
 
 TermsOwnershipLinkUrl = 
 
-TermsOwnershipBody2 = 
-
 TermsVoluntaryTitle = 
 
 TermsVoluntaryBody = 
 
 TermsPrivacyTitle = 
-
-TermsPrivacyBody = 
 
 TermsPrivacyLink = 
 
@@ -156,7 +152,19 @@ DetailsIdentityEmailLinkedMessage =
 
 DetailsIdentityEmailInvalidMessage = 
 
-DetailsIdentityCreatedMessage = 
+DetailsIdentityCreatedMessage =
+
+DetailsPrivacyTitle =
+
+DetailsPrivacyLinkTitle =
+
+DetailsRemoveTitle =
+
+DetailsRemoveBody =
+
+DetailsRemoveButtonTitle =
+
+DetailsRemoveButtonClickedTitle =
 
 ScheduleStartFallbackTitle = 
 

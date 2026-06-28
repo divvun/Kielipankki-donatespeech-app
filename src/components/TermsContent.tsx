@@ -1,3 +1,4 @@
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -11,7 +12,7 @@ export function TermsContent({ getString }: TermsContentProps) {
     setOpenItem(openItem === id ? null : id);
   };
   const openLink = (url: string) => {
-    window.open(url, "_blank");
+    openUrl(url);
   };
 
   const accordionItems = [
@@ -38,13 +39,6 @@ export function TermsContent({ getString }: TermsContentProps) {
       content: (
         <p className="text-[15px] text-muted-foreground leading-relaxed">
           {getString("TermsOwnershipBody1")}
-          <button
-            onClick={() => openLink(getString("TermsOwnershipLinkUrl"))}
-            className="text-primary hover:underline mx-1"
-          >
-            {getString("TermsOwnershipLink")}
-          </button>
-          {getString("TermsOwnershipBody2")}
         </p>
       ),
     },
@@ -52,17 +46,12 @@ export function TermsContent({ getString }: TermsContentProps) {
       id: "privacy",
       title: getString("TermsPrivacyTitle"),
       content: (
-        <>
-          <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed">
-            {getString("TermsPrivacyBody")}
-          </p>
-          <button
-            onClick={() => openLink(getString("TermsPrivacyUrl"))}
-            className="text-primary hover:underline text-sm"
-          >
-            {getString("TermsPrivacyLink")}
-          </button>
-        </>
+        <button
+          onClick={() => openLink(getString("TermsPrivacyUrl"))}
+          className="text-primary hover:underline text-sm"
+        >
+          {getString("TermsPrivacyLink")}
+        </button>
       ),
     },
     {
