@@ -47,10 +47,10 @@ export function DetailsPrivacyTab({
           {getString("DetailsPrivacyTitle")}
         </h3>
         <button
-          onClick={() => openLink("https://jietnašiella.org/privacy/")}
+          onClick={() => openLink(getString("PrivacyPolicyUrl"))}
           className="text-primary hover:underline text-sm text-left"
         >
-          {getString("DetailsPrivacyLinkTitle")}
+          {getString("PrivacyPolicyUrl")}
         </button>
       </div>
 

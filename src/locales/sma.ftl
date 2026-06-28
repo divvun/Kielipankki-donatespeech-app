@@ -78,9 +78,7 @@ TermsVoluntaryBody = Gïele jïh almetjelaavenjassh vedtedh, lea eevre frijje v�
 
 TermsPrivacyTitle = Guktie almetjelaavenjassh gïeteduvvieh?
 
-TermsPrivacyLink = Vielie bïevnesh guktie almetjelaavenjassh gïeteduvvieh
-
-TermsPrivacyUrl = https://jietnašiella.org/privacy/
+PrivacyPolicyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Reaktah gïelen bïjre
 
@@ -157,8 +155,6 @@ DetailsIdentityEmailInvalidMessage = Tjaelieh rïektes e-påaste
 DetailsIdentityCreatedMessage = Orre byjrehks anonyjme identiteete dorjesovveme
 
 DetailsPrivacyTitle = Privacy
-
-DetailsPrivacyLinkTitle = Read our privacy policy
 
 DetailsRemoveTitle = Delete your data
 

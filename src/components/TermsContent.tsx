@@ -47,10 +47,10 @@ export function TermsContent({ getString }: TermsContentProps) {
       title: getString("TermsPrivacyTitle"),
       content: (
         <button
-          onClick={() => openLink(getString("TermsPrivacyUrl"))}
+          onClick={() => openLink(getString("PrivacyPolicyUrl"))}
           className="text-primary hover:underline text-sm"
         >
-          {getString("TermsPrivacyLink")}
+          {getString("PrivacyPolicyUrl")}
         </button>
       ),
     },

@@ -78,9 +78,7 @@ TermsVoluntaryBody = Hállanskeŋken ja persovdnadieđuid guođđin barggat áib
 
 TermsPrivacyTitle = Mo persovdnadieđut gieđahallojit?
 
-TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
-
-TermsPrivacyUrl = https://jietnašiella.org/privacy/
+PrivacyPolicyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Vuoigatvuođat čatnon du hállamii
 
@@ -157,8 +155,6 @@ DetailsIdentityEmailInvalidMessage = Čális gustovaš e-boastačujuhusa
 DetailsIdentityCreatedMessage = Ráhkadii ođđa anonyma identitehta
 
 DetailsPrivacyTitle = Privacy
-
-DetailsPrivacyLinkTitle = Read our privacy policy
 
 DetailsRemoveTitle = Delete your data
 

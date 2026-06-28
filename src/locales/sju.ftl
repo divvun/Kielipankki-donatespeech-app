@@ -73,9 +73,7 @@ TermsVoluntaryBody =
 
 TermsPrivacyTitle = 
 
-TermsPrivacyLink = 
-
-TermsPrivacyUrl = 
+PrivacyPolicyUrl = 
 
 TermsRightsTitle = 
 
@@ -148,8 +146,6 @@ DetailsIdentityEmailInvalidMessage =
 DetailsIdentityCreatedMessage =
 
 DetailsPrivacyTitle =
-
-DetailsPrivacyLinkTitle =
 
 DetailsRemoveTitle =
 
