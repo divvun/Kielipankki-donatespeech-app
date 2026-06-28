@@ -69,11 +69,8 @@ TermsGeneralUrl = https://jietnašiella.org
 
 TermsOwnershipTitle = Gie?
 
-TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun) in cooperation with the Language Bank of Finland (Kielipankki).
+TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun).
 
-TermsOwnershipLink = Integriteetevaarjelimmie
-
-TermsOwnershipLinkUrl = https://jietnašiella.org/privacy/
 
 TermsVoluntaryTitle = Eevre frijje væljoe
 
@@ -102,10 +99,6 @@ TermsAdditionalWebsiteLink = jietnašiella.org
 TermsAdditionalWebsiteUrl = https://jietnašiella.org
 
 TermsAdditionalContact = UiT Nöörjen arktihke universiteete, Divvun
-
-TermsAdditionalLink = www.kielipankki.fi
-
-TermsAdditionalUrl = https://www.kielipankki.fi
 
 TermsAdditionalEmail = feedback@divvun.no
 

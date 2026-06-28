@@ -97,14 +97,6 @@ export function TermsContent({ getString }: TermsContentProps) {
           </p>
           <p>{getString("TermsAdditionalContact")}</p>
           <p>
-            <button
-              onClick={() => openLink(getString("TermsAdditionalUrl"))}
-              className="text-primary hover:underline"
-            >
-              {getString("TermsAdditionalLink")}
-            </button>
-          </p>
-          <p>
             <a
               href={`mailto:${getString("TermsAdditionalEmail")}`}
               className="text-primary hover:underline"

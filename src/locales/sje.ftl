@@ -66,9 +66,6 @@ TermsOwnershipTitle =
 
 TermsOwnershipBody1 = 
 
-TermsOwnershipLink = 
-
-TermsOwnershipLinkUrl = 
 
 TermsVoluntaryTitle = 
 
@@ -97,10 +94,6 @@ TermsAdditionalWebsiteLink =
 TermsAdditionalWebsiteUrl = 
 
 TermsAdditionalContact = 
-
-TermsAdditionalLink = 
-
-TermsAdditionalUrl = 
 
 TermsAdditionalEmail = feedback@divvun.no
 
