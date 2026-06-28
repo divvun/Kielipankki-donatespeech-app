@@ -84,7 +84,7 @@ TermsPrivacyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Rievtesvuoda duv hållamij
 
-TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may have all your recordings deleted at any time through the app or by contacting us.
+TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may request deletion of all your recordings at any time by contacting us at feedback@divvun.no.
 
 TermsAppropriateUseTitle = Ehpav adnet
 
