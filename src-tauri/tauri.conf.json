@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Jietnašiella",
+  "productName": "Jietnasiella",
   "version": "0.1.0",
   "identifier": "no.uit.divvun.donate-your-speech",
   "build": {
