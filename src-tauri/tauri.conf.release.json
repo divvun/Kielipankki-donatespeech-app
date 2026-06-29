@@ -1,12 +1,12 @@
 {
   "app": {
     "security": {
-      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io https:; style-src 'self' 'unsafe-inline'; img-src 'self' asset: https://asset.localhost data: blob: https:; media-src blob: https:; frame-src https://api.svt.se"
+      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost https://ca-recorder-backend-prod.ashysea-d89cd193.northeurope.azurecontainerapps.io https:; style-src 'self' 'unsafe-inline'; img-src 'self' asset: https://asset.localhost data: blob: https:; media-src blob: https:; frame-src https://api.svt.se"
     }
   },
   "plugins": {
     "recorder": {
-      "apiBaseUrl": "https://ca-recorder-backend-dev.politedune-2911b299.northeurope.azurecontainerapps.io"
+      "apiBaseUrl": "https://ca-recorder-backend-prod.ashysea-d89cd193.northeurope.azurecontainerapps.io"
     }
   }
 }
