@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@import "@fontsource-variable/nunito";
+
 @custom-variant dark (&:is(.dark *));
 
 @source "../src";
@@ -242,7 +244,7 @@
 }
 
 @theme inline {
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "Nunito Variable", system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
@@ -252,7 +254,7 @@
   body {
     @apply text-foreground;
     font-family:
-      "Inter",
+      "Nunito Variable",
       system-ui,
       -apple-system,
       sans-serif;

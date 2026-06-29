@@ -24,6 +24,7 @@
   "dependencies": {
     "@fluent/bundle": "^0.19.1",
     "@fluent/react": "^0.15.2",
+    "@fontsource-variable/nunito": "^5.2.7",
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-opener": "^2.5.4",
     "class-variance-authority": "^0.7.1",
