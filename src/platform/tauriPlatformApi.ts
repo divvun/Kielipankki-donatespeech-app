@@ -120,11 +120,12 @@ export const tauriPlatformApi: PlatformApi = {
     });
   },
 
-  saveRecordingFromPath(filePath, itemId, clientId) {
+  saveRecordingFromPath(filePath, itemId, clientId, durationSeconds) {
     return invoke<SaveRecordingCommandResponse>("save_recording_from_path", {
       filePath,
       itemId,
       clientId,
+      durationSeconds,
     });
   },
 

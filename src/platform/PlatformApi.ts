@@ -42,6 +42,7 @@ export interface PlatformApi {
     filePath: string,
     itemId: string,
     clientId: string,
+    durationSeconds: number,
   ): Promise<SaveRecordingCommandResponse>;
   deleteFile(filePath: string): Promise<void>;
 }
