@@ -78,6 +78,8 @@ TermsVoluntaryBody = Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat 
 
 TermsPrivacyTitle = Gåktu giehtadaláduvvi persåvnnådiedo?
 
+TermsPrivacyLink = Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
+
 PrivacyPolicyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Rievtesvuoda duv hållamij

@@ -71,9 +71,11 @@ TermsVoluntaryTitle =
 
 TermsVoluntaryBody = 
 
-TermsPrivacyTitle = 
+TermsPrivacyTitle =
 
-PrivacyPolicyUrl = 
+TermsPrivacyLink =
+
+PrivacyPolicyUrl =
 
 TermsRightsTitle = 
 

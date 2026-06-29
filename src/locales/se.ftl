@@ -78,6 +78,8 @@ TermsVoluntaryBody = Hállanskeŋken ja persovdnadieđuid guođđin barggat áib
 
 TermsPrivacyTitle = Mo persovdnadieđut gieđahallojit?
 
+TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
+
 PrivacyPolicyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Vuoigatvuođat čatnon du hállamii

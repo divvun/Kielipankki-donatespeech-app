@@ -78,6 +78,8 @@ TermsVoluntaryBody = Gïele jïh almetjelaavenjassh vedtedh, lea eevre frijje v�
 
 TermsPrivacyTitle = Guktie almetjelaavenjassh gïeteduvvieh?
 
+TermsPrivacyLink = Vielie bïevnesh guktie almetjelaavenjassh gïeteduvvieh
+
 PrivacyPolicyUrl = https://jietnašiella.org/privacy/
 
 TermsRightsTitle = Reaktah gïelen bïjre
