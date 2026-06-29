@@ -233,6 +233,7 @@ export function useRecording(
         result.filePath,
         itemId,
         clientId,
+        result.durationMs / 1000,
       );
 
       console.log("Recording saved:", response);

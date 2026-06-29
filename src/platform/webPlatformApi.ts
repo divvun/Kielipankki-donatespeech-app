@@ -419,7 +419,7 @@ export const webPlatformApi: PlatformApi = {
     };
   },
 
-  async saveRecordingFromPath() {
+  async saveRecordingFromPath(_filePath, _itemId, _clientId, _durationSeconds) {
     throw new Error(NOT_IMPLEMENTED_ERROR);
   },
 

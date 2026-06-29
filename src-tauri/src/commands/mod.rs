@@ -166,7 +166,7 @@ pub fn save_recording(
         .decode(&audio_data_base64)
         .map_err(|e| format!("Failed to decode base64 audio data: {}", e))?;
 
-    save_recording_bytes(&app_handle, &db, item_id, client_id, audio_data)
+    save_recording_bytes(&app_handle, &db, item_id, client_id, audio_data, None)
 }
 
 /// Tauri command to save a recording directly from a file path.
@@ -182,6 +182,7 @@ pub fn save_recording_from_path(
     file_path: String,
     item_id: String,
     client_id: String,
+    duration_seconds: Option<f64>,
 ) -> Result<SaveRecordingResponse, String> {
     debug_log!("save_recording_from_path called: item={} path={}", item_id, file_path);
 
@@ -225,7 +226,7 @@ pub fn save_recording_from_path(
     let audio_data = std::fs::read(&real_path)
         .map_err(|e| format!("Failed to read recording file '{}': {}", real_path.display(), e))?;
 
-    let response = save_recording_bytes(&app_handle, &db, item_id, client_id, audio_data)?;
+    let response = save_recording_bytes(&app_handle, &db, item_id, client_id, audio_data, duration_seconds)?;
 
     // Remove source file now that the FLAC copy is safely stored.
     let _ = std::fs::remove_file(&real_path);
@@ -239,6 +240,7 @@ fn save_recording_bytes(
     item_id: String,
     client_id: String,
     audio_data: Vec<u8>,
+    duration_seconds_hint: Option<f64>,
 ) -> Result<SaveRecordingResponse, String> {
     let app_data_dir = app_handle
         .path()
@@ -253,7 +255,13 @@ fn save_recording_bytes(
         audio_metadata.filename, audio_metadata.duration_seconds);
 
     let recording_id = audio_metadata.filename.trim_end_matches(".flac").to_string();
-    let duration_seconds = audio_metadata.duration_seconds;
+    // Prefer the OS-measured duration from the recording plugin.  Fall back to
+    // what audio parsing could determine (works for WAV/FLAC; 0 for M4A/AAC
+    // containers where we cannot parse duration without a full demuxer).
+    let duration_seconds = duration_seconds_hint
+        .filter(|v| v.is_finite() && *v > 0.0)
+        .map(|v| v.floor())
+        .unwrap_or(audio_metadata.duration_seconds);
     let timestamp = chrono::Utc::now().to_rfc3339();
 
     let metadata_json = serde_json::json!({
@@ -263,7 +271,7 @@ fn save_recording_bytes(
         "clientPlatformVersion": "Tauri",
         "itemId": item_id,
         "recordingTimestamp": timestamp,
-        "recordingDuration": audio_metadata.duration_seconds,
+        "recordingDuration": duration_seconds,
         "recordingSampleRate": audio_metadata.sample_rate,
         "recordingBitDepth": audio_metadata.bit_depth,
         "recordingNumberOfChannels": audio_metadata.channels,
