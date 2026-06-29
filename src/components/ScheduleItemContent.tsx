@@ -21,12 +21,12 @@ export function ScheduleItemContent({
           </h2>
         )}
         {body1 && (
-          <p className="text-lg tracking-tight leading-tight text-foreground">
+          <p className="text-lg tracking-tight leading-relaxed text-foreground">
             {body1}
           </p>
         )}
         {body2 && (
-          <p className="text-lg tracking-tight leading-tight text-foreground">
+          <p className="text-lg tracking-tight leading-relaxed text-foreground">
             {body2}
           </p>
         )}
