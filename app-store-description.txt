@@ -15,8 +15,7 @@ WHO CAN PARTICIPATE
 Sámi-speaking adults aged 18 and over. We welcome speakers of all fluency levels and dialects to ensure wide representation.
 
 HOW IT WORKS
-• Download Jietnašiella (free).
-• Start the app and choose a theme (fishing, nature, childhood memories, everyday chat, etc.).
+• Open the app and choose a theme (fishing, nature, childhood memories, everyday chat, etc.).
 • Record a short speech sample.
 • Your recordings are saved securely to the project server and used to train speech recognition and other language technologies.
 
