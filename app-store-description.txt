@@ -1,0 +1,36 @@
+Download Jietnašiella — share your story, shape tomorrow's Sámi services.
+
+Help build better Sámi language technology by contributing short, secure speech recordings. Jietnašiella is a free, open-source app created by the Divvun group at the University of Tromsø in collaboration with Nordic public broadcasters (including Yle Sápmi). The app collects Sámi language speech data to improve speech recognition, voice-enabled services (for example healthcare in your mother tongue), and other AI tools that understand and serve Sámi speakers.
+
+WHY YOUR VOICE MATTERS
+• Recordings from many speakers, ages and dialects make future services accurate and inclusive.
+• Each sample — a memory, a fishing story, a nature description or everyday chat — helps preserve and strengthen Sámi languages for future generations.
+• The project aims to collect 5,000 speech samples from adult Sámi speakers.
+
+WHICH LANGUAGES
+• North Sámi, South Sámi, Lule Sámi, Inari Sámi, Skolt Sámi, Ume Sámi and Pite Sámi.
+• Inari and Skolt Sámi are a particular focus in Finland.
+
+WHO CAN PARTICIPATE
+Sámi-speaking people aged 18 and over. We welcome speakers of all ages and fluency levels to ensure wide representation.
+
+HOW IT WORKS
+• Download Jietnašiella (free).
+• Start the app and choose a theme (fishing, nature, childhood memories, everyday chat, etc.).
+• Record a short speech sample — it's quick, easy and designed to be user-friendly for all ages.
+• Your recording is saved securely to the project server and used to train speech recognition and other language technologies.
+
+PRIVACY, ETHICS AND DATA SECURITY
+• The University of Tromsø is responsible for collecting and managing the data.
+• Data is handled with respect for the Sámi community and the integrity of Sámi languages, and in line with applicable ethical and legal safeguards.
+• Recordings are data-secure. The project shares and uses the data responsibly to benefit Sámi communities and future services.
+
+PARTNERS AND CAMPAIGN
+• Built by Divvun (University of Tromsø) with support from Nordic public broadcasters including Yle Sápmi and SVT.
+• The "Tell a Future for the Language" campaign encourages Sámi speakers to contribute and raises visibility across Sweden, Norway and Finland.
+
+GET INVOLVED — SMALL ACT, BIG IMPACT
+Contributing takes only a few minutes but helps create better access to services in Sámi and strengthens language technology for future generations. Download Jietnašiella and add your voice to a living resource for your community.
+
+QUESTIONS OR MORE INFORMATION
+The app and project are open-source and free. For details about data use, ethics and project partners, please see the project information inside the app or contact the University of Tromsø (Divvun).
