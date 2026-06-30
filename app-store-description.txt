@@ -21,9 +21,11 @@ HOW IT WORKS
 • Your recordings are saved securely to the project server and used to train speech recognition and other language technologies.
 
 PRIVACY, ETHICS AND DATA SECURITY
-• UiT – The Arctic University of Norway is responsible for collecting and managing the data.
-• Data is handled with respect for the Sámi community and the integrity of Sámi languages, and in line with applicable ethical and legal safeguards.
-• Recordings are data-secure. The project shares and uses the data responsibly to benefit Sámi communities and future services.
+• No account, name or email address required — recordings are linked only to a randomly generated anonymous ID stored on your device.
+• No tracking, analytics, advertising or cookies.
+• Recordings are uploaded over HTTPS and stored securely in Microsoft Azure (EU/EEA region) with restricted staff access.
+• You can request deletion of all your data at any time: find your client ID in the app's privacy section and email feedback@divvun.no.
+• UiT – The Arctic University of Norway is the data controller and handles all data in line with applicable ethical and legal safeguards.
 
 PARTNERS AND CAMPAIGN
 • Built by Divvun (UiT – The Arctic University of Norway) with support from Nordic public broadcasters including Yle Sápmi and SVT.
