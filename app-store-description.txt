@@ -1,6 +1,6 @@
 Download Jietnašiella — share your story, shape tomorrow's Sámi services.
 
-Help build better Sámi language technology by contributing short, secure speech recordings. Jietnašiella is a free, open-source app created by the Divvun group at UiT – The Arctic University of Norway in collaboration with Nordic public broadcasters (including Yle Sápmi). The app collects Sámi language speech data to improve speech recognition, voice-enabled services (for example healthcare in your mother tongue), and other AI tools that understand and serve Sámi speakers.
+Help build better Sámi language technology by contributing short, secure speech recordings. Jietnašiella (Jietnasiella) is a free, open-source app created by the Divvun group at UiT – The Arctic University of Norway in collaboration with Nordic public broadcasters (including Yle Sápmi). The app collects Sámi language speech data to improve speech recognition, voice-enabled services (for example healthcare in your mother tongue), and other AI tools that understand and serve Sámi speakers.
 
 WHY YOUR VOICE MATTERS
 • Recordings from many speakers, ages and dialects make future services accurate and inclusive.
@@ -31,7 +31,7 @@ PARTNERS AND CAMPAIGN
 • The "Tell a Future for the Language" campaign encourages Sámi speakers to contribute and raises visibility across Sweden, Norway and Finland.
 
 GET INVOLVED — SMALL ACT, BIG IMPACT
-Contributing takes only a few minutes but helps create better access to services in Sámi and strengthens language technology for future generations. Download Jietnašiella and add your voice to a living resource for your community.
+Contributing takes only a few minutes but helps create better access to services in Sámi and strengthens language technology for future generations. Download Jietnašiella and donate your voice to a living resource for your community.
 
 QUESTIONS OR MORE INFORMATION
 The app and project are open-source and free. For details about data use, ethics and project partners, please see the project information inside the app or contact UiT – The Arctic University of Norway (Divvun).
