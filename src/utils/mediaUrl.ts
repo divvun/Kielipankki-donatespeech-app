@@ -6,6 +6,9 @@ const DEFAULT_MIME_TYPE = "application/octet-stream";
 // Cache for blob URLs to avoid recreating them
 const blobUrlCache: Map<string, string> = new Map();
 
+// In-flight request deduplication: concurrent calls for the same source share one download
+const inFlightRequests: Map<string, Promise<string>> = new Map();
+
 /**
  * Get the API base URL (cached after first call)
  */
@@ -143,14 +146,7 @@ async function resolveUrl(filenameOrUrl: string): Promise<string> {
   return `${baseUrl}${normalizedPath}`;
 }
 
-/**
- * Download media file and convert to blob URL for playback
- */
-export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
-  const mediaSource = normalizeMediaSource(filenameOrUrl);
-
-  console.log("getMediaUrl called with:", mediaSource);
-
+async function fetchMediaUrl(mediaSource: string): Promise<string> {
   const yleProgramId = extractYleProgramIdFromPath(mediaSource);
   if (yleProgramId) {
     // Route endpoint-style YLE sources through the program-id flow.
@@ -168,13 +164,6 @@ export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
     return resolvedUrl;
   }
 
-  // Check if we already have a blob URL for this file
-  if (blobUrlCache.has(mediaSource)) {
-    console.log("Using cached blob URL");
-    return blobUrlCache.get(mediaSource)!;
-  }
-
-  // Download the media file (returns binary data as number array)
   const fileData = await platformApi.downloadMedia(mediaSource);
 
   console.log(`Received ${fileData.length} bytes from download_media`);
@@ -203,6 +192,34 @@ export async function getMediaUrl(filenameOrUrl: string): Promise<string> {
   blobUrlCache.set(mediaSource, blobUrl);
 
   return blobUrl;
+}
+
+/**
+ * Download media file and convert to blob URL for playback.
+ * Concurrent calls for the same source share a single in-flight request.
+ */
+export function getMediaUrl(filenameOrUrl: string): Promise<string> {
+  const mediaSource = normalizeMediaSource(filenameOrUrl);
+
+  console.log("getMediaUrl called with:", mediaSource);
+
+  if (blobUrlCache.has(mediaSource)) {
+    console.log("Using cached blob URL");
+    return Promise.resolve(blobUrlCache.get(mediaSource)!);
+  }
+
+  const existing = inFlightRequests.get(mediaSource);
+  if (existing) {
+    console.log("Joining in-flight request for:", mediaSource);
+    return existing;
+  }
+
+  const promise = fetchMediaUrl(mediaSource).finally(() => {
+    inFlightRequests.delete(mediaSource);
+  });
+
+  inFlightRequests.set(mediaSource, promise);
+  return promise;
 }
 
 /**
