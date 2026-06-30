@@ -275,6 +275,42 @@ impl ApiClient {
         Ok(())
     }
 
+    pub async fn delete_by_client_id(&self, client_id: &str) -> Result<(), String> {
+        let url = format!("{}/v1/recordings/{}", self.base_url, client_id);
+
+        let response = self.client
+            .delete(&url)
+            .send()
+            .await
+            .map_err(|e| format!("Failed to send request: {}", e))?;
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("Delete by client ID failed with status {}: {}", status, error_text));
+        }
+
+        Ok(())
+    }
+
+    pub async fn delete_by_session_id(&self, client_id: &str, session_id: &str) -> Result<(), String> {
+        let url = format!("{}/v1/recordings/{}/{}", self.base_url, client_id, session_id);
+
+        let response = self.client
+            .delete(&url)
+            .send()
+            .await
+            .map_err(|e| format!("Failed to send request: {}", e))?;
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("Delete by session ID failed with status {}: {}", status, error_text));
+        }
+
+        Ok(())
+    }
+
     fn build_media_download_url(&self, media_source: &str) -> String {
         if media_source.starts_with("http://") || media_source.starts_with("https://") {
             return media_source.to_string();
@@ -397,6 +433,32 @@ impl ApiClient {
             .await
             .map_err(|e| format!("Failed to read media bytes: {}", e))
             .map(|b| b.to_vec())
+    }
+
+    pub async fn delete_by_recording_id(
+        &self,
+        client_id: &str,
+        session_id: &str,
+        recording_id: &str,
+    ) -> Result<(), String> {
+        let url = format!(
+            "{}/v1/recordings/{}/{}/{}",
+            self.base_url, client_id, session_id, recording_id
+        );
+
+        let response = self.client
+            .delete(&url)
+            .send()
+            .await
+            .map_err(|e| format!("Failed to send request: {}", e))?;
+
+        if !response.status().is_success() {
+            let status = response.status();
+            let error_text = response.text().await.unwrap_or_default();
+            return Err(format!("Delete by recording ID failed with status {}: {}", status, error_text));
+        }
+
+        Ok(())
     }
 
 }
