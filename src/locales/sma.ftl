@@ -1,6 +1,3 @@
-# Generated from AppResources.fo.resx
-# Do not edit manually - use convert-resx-to-ftl.js script
-
 AppTitle = 
 
 ThemesPageTitleText = Soptsesth akte heamture gïelen båetije biejjien åvteste, vedtieh dov gïele vadtesinie.

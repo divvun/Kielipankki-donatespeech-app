@@ -1,6 +1,3 @@
-# Generated from AppResources.se.resx
-# Do not edit manually - use convert-resx-to-ftl.js script
-
 AppTitle = Jietnašiella
 
 ThemesPageTitleText = Máinnas gielat boahtteáigái – attes jienat šiellan!

@@ -1,6 +1,3 @@
-# Generated from AppResources.is.resx
-# Do not edit manually - use convert-resx-to-ftl.js script
-
 AppTitle = Jiednasjiella
 
 ThemesPageTitleText = Håla gielat boahtteájge diehti- donierista jienat sjiellan!
