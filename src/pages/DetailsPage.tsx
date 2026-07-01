@@ -162,6 +162,7 @@ export default function DetailsPage() {
       <div className="flex-1 px-6 pt-6 pb-6 overflow-y-auto">
         {activeTab === "recordings" ? (
           <DetailsRecordingsTab
+            activeClientId={clientId}
             loading={loading}
             error={error}
             recordings={recordings}

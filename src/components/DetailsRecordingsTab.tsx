@@ -9,6 +9,7 @@ export interface RecordingWithDuration extends Recording {
 }
 
 interface DetailsRecordingsTabProps {
+  activeClientId: string;
   loading: boolean;
   error: string;
   recordings: RecordingWithDuration[];
@@ -33,12 +34,17 @@ function formatTimestamp(timestamp: string): string {
 }
 
 export function DetailsRecordingsTab({
+  activeClientId,
   loading,
   error,
   recordings,
   deletingId,
   onDelete,
 }: DetailsRecordingsTabProps) {
+  const filteredRecordings = recordings.filter(
+    (recording) => recording.clientId === activeClientId,
+  );
+
   return (
     <div className="flex-1 overflow-auto px-5 py-3">
       {loading && (
@@ -51,15 +57,15 @@ export function DetailsRecordingsTab({
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      {!loading && !error && recordings.length === 0 && (
+      {!loading && !error && filteredRecordings.length === 0 && (
         <div className="text-center py-12 text-muted-foreground">
           No recordings yet.
         </div>
       )}
 
-      {!loading && !error && recordings.length > 0 && (
+      {!loading && !error && filteredRecordings.length > 0 && (
         <div className="flex flex-col gap-2">
-          {recordings.map((recording) => (
+          {filteredRecordings.map((recording) => (
             <div
               key={recording.recordingId}
               className="flex items-center justify-between p-3.5 px-4 bg-white border border-border rounded-xl"
