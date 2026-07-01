@@ -28,7 +28,7 @@ import { subtractRecordedSeconds } from "@/utils/preferences";
 // }
 
 export default function DetailsPage() {
-  const [activeTab, setActiveTab] = useState<DetailsTabType>("recordings");
+  const [activeTab, setActiveTab] = useState<DetailsTabType>("privacy");
   const [recordings, setRecordings] = useState<RecordingWithDuration[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
