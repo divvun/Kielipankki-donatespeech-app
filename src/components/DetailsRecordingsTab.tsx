@@ -1,5 +1,6 @@
-import { Trash2 } from "lucide-react";
+import { CloudCheck, CloudOff, Trash2 } from "lucide-react";
 import type { Recording } from "../types";
+import { useTranslation } from "../hooks/useTranslation";
 import { formatTotalRecorded } from "../utils/preferences";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
@@ -41,6 +42,7 @@ export function DetailsRecordingsTab({
   deletingId,
   onDelete,
 }: DetailsRecordingsTabProps) {
+  const { getString } = useTranslation();
   const filteredRecordings = recordings.filter(
     (recording) => recording.clientId === activeClientId,
   );
@@ -66,7 +68,7 @@ export function DetailsRecordingsTab({
       {!loading && !error && filteredRecordings.length > 0 && (
         <div className="flex flex-col gap-2">
           {filteredRecordings.map((recording) =>
-            renderRecordingItem(recording, onDelete, deletingId),
+            renderRecordingItem(recording, onDelete, deletingId, getString),
           )}
         </div>
       )}
@@ -78,6 +80,7 @@ function renderRecordingItem(
   recording: RecordingWithDuration,
   onDelete: (recording: RecordingWithDuration) => void,
   deletingId: string | null,
+  getString: (id: string) => string,
 ): import("react/jsx-runtime").JSX.Element {
   return (
     <div
@@ -99,17 +102,29 @@ function renderRecordingItem(
         </div>
       </div>
       <div className="flex items-center gap-2.5 shrink-0">
-        <span
-          className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${
-            recording.uploadStatus?.toLowerCase() === "uploaded"
-              ? "bg-secondary text-primary"
-              : "bg-[#FEF3CD] text-[#92780C]"
-          }`}
-        >
-          {recording.uploadStatus === "uploaded"
-            ? "OK"
-            : recording.uploadStatus || "—"}
-        </span>
+        {recording.uploadStatus?.toLowerCase() === "uploaded" ? (
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full bg-muted/30 px-2 py-1 text-muted-foreground"
+            aria-label={getString("RecordingUploadStatusUploaded")}
+            title={getString("RecordingUploadStatusUploaded")}
+          >
+            <CloudCheck className="w-4.5 h-4.5" />
+            <span className="text-[11px] font-semibold">
+              {getString("RecordingUploadStatusUploaded")}
+            </span>
+          </span>
+        ) : (
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full bg-muted/30 px-2 py-1 text-muted-foreground"
+            aria-label={getString("RecordingUploadStatusNotUploaded")}
+            title={getString("RecordingUploadStatusNotUploaded")}
+          >
+            <CloudOff className="w-4.5 h-4.5" />
+            <span className="text-[11px] font-semibold">
+              {getString("RecordingUploadStatusNotUploaded")}
+            </span>
+          </span>
+        )}
         <button
           type="button"
           aria-label="Delete recording"

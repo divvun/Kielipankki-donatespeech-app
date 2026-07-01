@@ -1,3 +1,5 @@
+RecordingUploadStatusUploaded = Uploaded
+RecordingUploadStatusNotUploaded = Not uploaded
 ThemesPageTitleText = 
 
 ThemesPageBody1Text = 

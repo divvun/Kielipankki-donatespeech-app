@@ -1,3 +1,5 @@
+RecordingUploadStatusUploaded = Läj vuorkáduvvum
+RecordingUploadStatusNotUploaded = Ii vuorkáduvvum
 AppTitle = Jiednasjiella
 
 ThemesPageTitleText = Håla gielat boahtteájge diehti- donierista jienat sjiellan!

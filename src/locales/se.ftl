@@ -153,6 +153,8 @@ DetailsIdentityEmailLinkedMessage = E-boasta laktašuvvui báikkálaš anonyma i
 DetailsIdentityEmailInvalidMessage = Čális gustovaš e-boastačujuhusa
 
 DetailsIdentityCreatedMessage = Ráhkadii ođđa anonyma identitehta
+RecordingUploadStatusUploaded = Uploaded
+RecordingUploadStatusNotUploaded = Not uploaded
 
 DetailsPrivacyTitle = Privacy Policy
 

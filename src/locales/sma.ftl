@@ -1,3 +1,5 @@
+RecordingUploadStatusUploaded = 
+RecordingUploadStatusNotUploaded = 
 AppTitle = 
 
 ThemesPageTitleText = Soptsesth akte heamture gïelen båetije biejjien åvteste, vedtieh dov gïele vadtesinie.
