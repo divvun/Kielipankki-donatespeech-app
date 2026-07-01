@@ -1,26 +1,26 @@
 AppTitle = 
 
-BackToThemesButtonText = 
+BackToThemesButtonText = Tillbaka till teman
 
-ChooseLanguageTitle = 
+ChooseLanguageTitle = Välj språk
 
-ChooseOptionText = 
+ChooseOptionText = Välj ett alternativ:
 
-ContinueSchedule = 
+ContinueSchedule = Fortsätt
 
-DetailsButtonText = 
+DetailsButtonText = Mer information
 
-DetailsIdentityCreatedMessage = 
+DetailsIdentityCreatedMessage = Skapade en ny lokal anonym identitet
 
-DetailsIdentityEmailInvalidMessage = 
+DetailsIdentityEmailInvalidMessage = Skriv in en giltig e-postadress
 
-DetailsIdentityEmailLinkedMessage = 
+DetailsIdentityEmailLinkedMessage = E-postadressen har kopplats till ett lokalt anonymt ID.
 
-DetailsIdentitySwitchedMessage = 
+DetailsIdentitySwitchedMessage = Bytte lokal profil
 
-DetailsIdentitySwitchFailedMessage = 
+DetailsIdentitySwitchFailedMessage = Kunde inte byta profil
 
-DetailsInfoTabTitle = 
+DetailsInfoTabTitle = Info
 
 DetailsPrivacyTitle = 
 
@@ -34,21 +34,21 @@ DetailsRemoveButtonTitle =
 
 DetailsRemoveTitle = 
 
-DonatedLabelText = 
+DonatedLabelText = DU HAR DONERAT
 
-DonateMoreButtonText = 
+DonateMoreButtonText = Donera mer
 
-ExitButtonText = 
+ExitButtonText = Avsluta
 
-InviteFriendButtonText = 
+InviteFriendButtonText = Tipsa en vän
 
-InviteFriendNewbieTemplate = 
+InviteFriendNewbieTemplate = Jag har just donerat tal. Donera du också! #hashtag https://jietnašiella.org
 
-InviteFriendTemplate = 
+InviteFriendTemplate = Jag donerade { $param0 } minuter av min röst. Donera du också! #hashtag https://jietnašiella.org
 
-InviteFriendTitle = 
+InviteFriendTitle = Tipsa en vän
 
-LanguageFinnish = 
+LanguageFinnish = Finska
 
 LanguageInariSami = Anársámegielan
 
@@ -56,9 +56,9 @@ LanguageLuleSami = Julevsámegielan
 
 LanguageNorthSami = Nuarrtasámegielan
 
-LanguageNorwegian = 
+LanguageNorwegian = Norska (bokmål)
 
-LanguageNynorsk = 
+LanguageNynorsk = Norska (nynorsk)
 
 LanguagePiteSami = Bisumsámegielan
 
@@ -66,110 +66,110 @@ LanguageSkoltSami = Skålltåsámegielan
 
 LanguageSouthSami = Urrjelsámegielan
 
-LanguageSwedish = 
+LanguageSwedish = Svenska
 
 LanguageUmeSami = Ubmejesámegielan
 
-OnboardingBody = 
+OnboardingBody = Donera några minuter av din röst. Det hjälper språkforskare att forska om och utveckla verktyg för samiska språk.
 
 OnboardingCTA = 
 
-OnboardingFeature1Body = 
+OnboardingFeature1Body = Tjänsten visar dig vägen vidare.
 
-OnboardingFeature1Title = 
+OnboardingFeature1Title = Välj ett ämne du vill prata om
 
-OnboardingFeature2Body = 
+OnboardingFeature2Body = Kommentera innehållet på ditt eget modersmål.
 
-OnboardingFeature2Title = 
+OnboardingFeature2Title = Spela in
 
-OnboardingFeature3Body = 
+OnboardingFeature3Body = Du kan stoppa eller hoppa över när som helst.
 
-OnboardingFeature3Title = 
+OnboardingFeature3Title = Frivilligt deltagande
 
-OnboardingTitle = 
+OnboardingTitle = Din röst utvecklar språkteknologi
 
 PrivacyPolicyUrl = 
 
-RecordingApproachingLimitMessage = 
+RecordingApproachingLimitMessage = Maximal inspelningstid närmar sig. Du har ungefär en minut kvar.
 
-RecordingFinishTitle = 
+RecordingFinishTitle = Bra berättat, tack så mycket!
 
-RecordingSaveFailedError = 
+RecordingSaveFailedError = Kunde inte spara inspelning
 
-RecordingStoppedLimitMessage = 
+RecordingStoppedLimitMessage = Maximal inspelningstid har uppnåtts och inspelningen stoppades automatiskt. Tack för donationen!
 
-RecordingStoppedLimitTitle = 
+RecordingStoppedLimitTitle = Inspelning avbruten
 
 RecordingUploadStatusNotUploaded = 
 
 RecordingUploadStatusUploaded = 
 
-ScheduleStartFallbackTitle = 
+ScheduleStartFallbackTitle = Redo att starta
 
-StartButtonText = 
+StartButtonText = Sätt igång
 
-StartRecording = 
+StartRecording = Spela in
 
-StopRecording = 
+StopRecording = Stoppa inspelning
 
-TermsAccept = 
+TermsAccept = Jag godkänner
 
-TermsAcceptBody = 
+TermsAcceptBody = Genom att trycka på knappen "Jag godkänner" nedan godkänner jag villkoren ovan för taldonation. Om jag är under 18 år godkänner min vårdnadshavare villkoren för min räkning.
 
-TermsAdditionalContact = 
+TermsAdditionalContact = UiT, Norges arktiske universitet, Divvun
 
 TermsAdditionalEmail = 
 
-TermsAdditionalTitle = 
+TermsAdditionalTitle = Mer information
 
-TermsAdditionalWebsite = 
+TermsAdditionalWebsite = Kampanjens webbplats:
 
 TermsAdditionalWebsiteLink = 
 
 TermsAdditionalWebsiteUrl = 
 
-TermsAppropriateUseBody = 
+TermsAppropriateUseBody = Denna applikation är inte avsedd för delad användning. Alla donatorer måste använda sin egen enhet när de donerar.
 
-TermsAppropriateUseTitle = 
+TermsAppropriateUseTitle = Användning av applikationen
 
 TermsGeneralBody = 
 
-TermsGeneralLink = 
+TermsGeneralLink = Mer information om kampanjen
 
-TermsGeneralTitle = 
+TermsGeneralTitle = Användarvillkor
 
 TermsGeneralUrl = 
 
-TermsHelloBody = 
+TermsHelloBody = Läs först denna grundläggande information om projektet. Därefter kan du välja ett ämne som intresserar dig och donera ditt tal.
 
-TermsHelloTitle = 
+TermsHelloTitle = Tack för att du kom.
 
 TermsOwnershipBody1 = 
 
-TermsOwnershipTitle = 
+TermsOwnershipTitle = Vem?
 
-TermsPrivacyLink = 
+TermsPrivacyLink = Mer information om behandling av personuppgifter
 
-TermsPrivacyTitle = 
+TermsPrivacyTitle = Hur behandlas personuppgifterna?
 
 TermsRightsBody = 
 
-TermsRightsTitle = 
+TermsRightsTitle = Rättigheter kopplade till talet
 
-TermsVoluntaryBody = 
+TermsVoluntaryBody = Att donera tal och lämna personuppgifter är helt frivilligt.
 
-TermsVoluntaryTitle = 
+TermsVoluntaryTitle = Helt frivilligt!
 
-ThemeFallbackAltText = 
+ThemeFallbackAltText = Tema
 
-ThemesPageBody1Text = 
+ThemesPageBody1Text = Välj ett ämne du vill prata om.
 
-ThemesPageBody2Text = 
+ThemesPageBody2Text = Tjänsten vägleder dig vidare.
 
-ThemesPageEmptyText = 
+ThemesPageEmptyText = Inget tema tillgängligt
 
-ThemesPageItemsCount = 
+ThemesPageItemsCount = element
 
-ThemesPageNoValidThemesError = 
+ThemesPageNoValidThemesError = Inga giltiga teman var tillgängliga för detta språk. Försök med ett annat språk
 
-ThemesPageTitleText = 
+ThemesPageTitleText = Berätta en saga för språkets framtid, skänk din röst som gåva.
