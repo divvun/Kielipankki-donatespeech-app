@@ -65,55 +65,65 @@ export function DetailsRecordingsTab({
 
       {!loading && !error && filteredRecordings.length > 0 && (
         <div className="flex flex-col gap-2">
-          {filteredRecordings.map((recording) => (
-            <div
-              key={recording.recordingId}
-              className="flex items-center justify-between p-3.5 px-4 bg-white border border-border rounded-xl"
-            >
-              <div className="flex flex-col gap-1 flex-1 min-w-0">
-                <span className="text-base text-foreground truncate">
-                  {recording.fileName || "Unknown"}
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-[13px] text-muted-foreground">
-                    {formatDuration(recording.duration)}
-                  </span>
-                  <div className="w-0.75 h-0.75 rounded-full bg-muted-foreground" />
-                  <span className="text-[13px] text-muted-foreground">
-                    {formatTimestamp(recording.timestamp)}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2.5 shrink-0">
-                <span
-                  className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${
-                    recording.uploadStatus?.toLowerCase() === "uploaded"
-                      ? "bg-secondary text-primary"
-                      : "bg-[#FEF3CD] text-[#92780C]"
-                  }`}
-                >
-                  {recording.uploadStatus === "uploaded"
-                    ? "OK"
-                    : recording.uploadStatus || "—"}
-                </span>
-                <button
-                  type="button"
-                  aria-label="Delete recording"
-                  onClick={() => onDelete(recording)}
-                  disabled={deletingId === recording.recordingId}
-                  className="bg-transparent border-none p-1 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
-                >
-                  {deletingId === recording.recordingId ? (
-                    <Spinner className="w-4.5 h-4.5" />
-                  ) : (
-                    <Trash2 className="w-4.5 h-4.5" />
-                  )}
-                </button>
-              </div>
-            </div>
-          ))}
+          {filteredRecordings.map((recording) =>
+            renderRecordingItem(recording, onDelete, deletingId),
+          )}
         </div>
       )}
+    </div>
+  );
+}
+
+function renderRecordingItem(
+  recording: RecordingWithDuration,
+  onDelete: (recording: RecordingWithDuration) => void,
+  deletingId: string | null,
+): import("react/jsx-runtime").JSX.Element {
+  return (
+    <div
+      key={recording.recordingId}
+      className="flex items-center justify-between p-3.5 px-4 bg-white border border-border rounded-xl"
+    >
+      <div className="flex flex-col gap-1 flex-1 min-w-0">
+        <span className="text-base text-foreground truncate">
+          {recording.fileName || "Unknown"}
+        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] text-muted-foreground">
+            {formatDuration(recording.duration)}
+          </span>
+          <div className="w-0.75 h-0.75 rounded-full bg-muted-foreground" />
+          <span className="text-[13px] text-muted-foreground">
+            {formatTimestamp(recording.timestamp)}
+          </span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2.5 shrink-0">
+        <span
+          className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+            recording.uploadStatus?.toLowerCase() === "uploaded"
+              ? "bg-secondary text-primary"
+              : "bg-[#FEF3CD] text-[#92780C]"
+          }`}
+        >
+          {recording.uploadStatus === "uploaded"
+            ? "OK"
+            : recording.uploadStatus || "—"}
+        </span>
+        <button
+          type="button"
+          aria-label="Delete recording"
+          onClick={() => onDelete(recording)}
+          disabled={deletingId === recording.recordingId}
+          className="bg-transparent border-none p-1 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
+        >
+          {deletingId === recording.recordingId ? (
+            <Spinner className="w-4.5 h-4.5" />
+          ) : (
+            <Trash2 className="w-4.5 h-4.5" />
+          )}
+        </button>
+      </div>
     </div>
   );
 }
