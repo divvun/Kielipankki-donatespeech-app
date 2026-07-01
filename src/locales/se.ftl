@@ -48,7 +48,7 @@ OnboardingFeature2Body = Ságastala sisdoalu birra.
 
 OnboardingFeature3Title = Searvvat eaktodáhtolaččat
 
-OnboardingFeature3Body = 
+OnboardingFeature3Body = Sáhtát heaittihit báddema dahje guođđit fáttá go ieš háliidat.
 
 OnboardingCTA = Áinnas searvvan!
 
@@ -67,7 +67,6 @@ TermsGeneralUrl = https://jietnašiella.org
 TermsOwnershipTitle = Geat?
 
 TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun).
-
 
 TermsVoluntaryTitle = Dušše jus ieš háliidat!
 
