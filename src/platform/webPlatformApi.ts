@@ -332,12 +332,12 @@ export const webPlatformApi: PlatformApi = {
     saveMockRecordings(recordings);
   },
 
-  async deleteRecording(recordingId) {
+  async deleteByRecordingId(recordingId) {
+    // Web mode has no backend server; delegate to local-only delete.
     const recordings = loadMockRecordings();
     const filtered = recordings.filter(
       (recording) => recording.recordingId !== recordingId,
     );
-
     saveMockRecordings(filtered);
   },
 

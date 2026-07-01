@@ -81,11 +81,10 @@ export default function DetailsPage() {
   }, []);
 
   const handleDelete = async (recording: RecordingWithDuration) => {
-    if (!confirm(`Delete recording "${recording.fileName}"?`)) return;
-
     setDeletingId(recording.recordingId);
     try {
-      await platformApi.deleteRecording(recording.recordingId);
+      setError("");
+      await platformApi.deleteByRecordingId(recording.recordingId);
 
       // Subtract duration from total recorded time
       if (recording.duration) {
@@ -97,7 +96,8 @@ export default function DetailsPage() {
       totalRecorded.refresh();
     } catch (err) {
       console.error("Failed to delete recording:", err);
-      alert(`Failed to delete recording: ${err}`);
+      setError(`Failed to delete recording: ${String(err)}`);
+      await fetchRecordings();
     } finally {
       setDeletingId(null);
     }

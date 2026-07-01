@@ -56,6 +56,7 @@ pub struct SaveRecordingResponse {
 struct RecordingMetadata {
     recording_id: Option<String>,
     client_id: Option<String>,
+    item_id: Option<String>,
     recording_timestamp: Option<String>,
     recording_duration: Option<f64>,
     content_type: Option<String>,
@@ -98,6 +99,69 @@ pub fn delete_recording(
         }
     }
     
+    debug_log!("Recording deleted successfully: {}", recording_id);
+    Ok(())
+}
+
+/// Tauri command to delete a recording both from the backend server and locally.
+///
+/// 1. Looks up the recording to get client_id and item_id (session_id).
+/// 2. Calls the backend API delete endpoint (non-fatal — local cleanup still proceeds on failure).
+/// 3. Removes the database row.
+/// 4. Removes the FLAC file from disk.
+#[tauri::command]
+pub async fn delete_by_recording_id(
+    db: State<'_, database::Database>,
+    api_client: State<'_, api_client::ApiClient>,
+    app_handle: AppHandle,
+    recording_id: String,
+) -> Result<(), String> {
+    // Fetch the recording so we have client_id / item_id for the server call.
+    let recording = database::get_recording_by_id(db.connection(), &recording_id)?;
+
+    // Attempt to delete from the backend server. Non-fatal: a network error or
+    // 404 must not block local cleanup.
+    if let (Some(client_id), Some(session_id)) = (&recording.client_id, &recording.item_id) {
+        match api_client
+            .delete_by_recording_id(client_id, session_id, &recording_id)
+            .await
+        {
+            Ok(()) => debug_log!("Deleted recording from server: {}", recording_id),
+            Err(e) => debug_log!(
+                "Server delete failed (continuing with local delete): {}",
+                e
+            ),
+        }
+    } else {
+        debug_log!(
+            "Skipping server delete — missing client_id or item_id for: {}",
+            recording_id
+        );
+    }
+
+    // Delete from local database (returns the recording row so we can find the file).
+    let recording = database::delete_recording_by_id(db.connection(), &recording_id)?;
+
+    // Delete FLAC file from disk.
+    if let Some(filename) = recording.file_name {
+        let app_data_dir = app_handle
+            .path()
+            .app_data_dir()
+            .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+        let recordings_dir = app_data_dir.join("recordings");
+        let file_path = recordings_dir.join(&filename);
+        if file_path.exists() {
+            std::fs::remove_file(&file_path)
+                .map_err(|e| format!("Failed to delete recording file: {}", e))?;
+            debug_log!("Deleted recording file: {}", file_path.display());
+        } else {
+            debug_log!(
+                "Recording file not found (already deleted?): {}",
+                file_path.display()
+            );
+        }
+    }
+
     debug_log!("Recording deleted successfully: {}", recording_id);
     Ok(())
 }
@@ -480,11 +544,17 @@ async fn upload_recording_impl(
         .or_else(|| recording.client_id.clone())
         .filter(|id| !id.is_empty())
         .ok_or_else(|| format!("Recording {} has no valid clientId", recording_id))?;
+
+    // sessionId maps to the schedule itemId so backend stores files under
+    // {clientId}/{sessionId}/..., matching delete-by-recording paths.
+    let session_id = metadata.item_id
+        .or_else(|| recording.item_id.clone())
+        .filter(|id| !id.is_empty());
     
     // Create upload request
     let upload_metadata = api_client::UploadMetadata {
         client_id,
-        session_id: None,
+        session_id,
         recording_id: metadata.recording_id,
         content_type: metadata.content_type,
         timestamp: metadata.recording_timestamp,

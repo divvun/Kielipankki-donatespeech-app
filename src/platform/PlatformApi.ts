@@ -30,7 +30,7 @@ export interface PlatformApi {
   ): Promise<Schedule>;
   getRecordings(): Promise<Recording[]>;
   insertTestRecording(): Promise<void>;
-  deleteRecording(recordingId: string): Promise<void>;
+  deleteByRecordingId(recordingId: string): Promise<void>;
   uploadPendingRecordings(): Promise<string>;
   getApiBaseUrl(): Promise<string>;
   downloadMedia(url: string): Promise<number[]>;

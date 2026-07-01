@@ -92,8 +92,8 @@ export const tauriPlatformApi: PlatformApi = {
     return invoke<void>("insert_test_recording");
   },
 
-  deleteRecording(recordingId) {
-    return invoke<void>("delete_recording", { recordingId });
+  deleteByRecordingId(recordingId) {
+    return invoke<void>("delete_by_recording_id", { recordingId });
   },
 
   uploadPendingRecordings() {

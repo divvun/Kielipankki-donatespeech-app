@@ -97,6 +97,8 @@ export function DetailsRecordingsTab({
                     : recording.uploadStatus || "—"}
                 </span>
                 <button
+                  type="button"
+                  aria-label="Delete recording"
                   onClick={() => onDelete(recording)}
                   disabled={deletingId === recording.recordingId}
                   className="bg-transparent border-none p-1 cursor-pointer text-muted-foreground hover:text-destructive transition-colors"
