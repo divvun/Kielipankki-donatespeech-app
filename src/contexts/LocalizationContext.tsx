@@ -10,8 +10,12 @@ import { ReactLocalization, LocalizationProvider } from "@fluent/react";
 
 export const SUPPORTED_LANGUAGES = {
   se: true,
+  sje: true,
+  sju: true,
   sma: true,
   smj: true,
+  smn: true,
+  sms: true,
 } as const;
 
 export type LanguageCode = keyof typeof SUPPORTED_LANGUAGES;
