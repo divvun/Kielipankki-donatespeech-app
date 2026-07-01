@@ -11,7 +11,6 @@ import ThemesPage from "./pages/ThemesPage";
 import SchedulePage from "./pages/SchedulePage";
 import ScheduleStartPage from "./pages/ScheduleStartPage";
 import ScheduleFinishPage from "./pages/ScheduleFinishPage";
-import TestPage from "./pages/TestPage";
 import DetailsPage from "./pages/DetailsPage";
 import { OnboardingResetButton } from "./components/OnboardingResetButton";
 import { getClientId } from "./utils/clientId";
@@ -74,9 +73,6 @@ function App() {
 
         {/* Themes page - main entry point after onboarding */}
         <Route path="/themes" element={<ThemesPage />} />
-
-        {/* Test page for development */}
-        {import.meta.env.DEV && <Route path="/test" element={<TestPage />} />}
 
         {/* Schedule flow - start page, schedule items, finish page */}
         <Route
