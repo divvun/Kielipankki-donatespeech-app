@@ -22,7 +22,7 @@ export function DetailsTabs({ activeTab, onTabChange }: DetailsTabsProps) {
               : "font-medium text-muted-foreground"
           }`}
         >
-          Info
+          {getString("DetailsInfoTabTitle")}
         </span>
         <div
           className={`w-full h-0.5 rounded-full ${
@@ -41,9 +41,7 @@ export function DetailsTabs({ activeTab, onTabChange }: DetailsTabsProps) {
               : "font-medium text-muted-foreground"
           }`}
         >
-          {getString("DetailsButtonText") === "Lisätietoa"
-            ? "Tallenteet"
-            : "Recordings"}
+          {getString("DetailsRecordingsTabTitle")}
         </span>
         <div
           className={`w-full h-0.5 rounded-full ${

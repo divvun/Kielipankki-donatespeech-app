@@ -140,11 +140,13 @@ ThemesPageNoValidThemesError = Eai lean gustovaš fáttát dán gielas. Válljes
 
 ThemeFallbackAltText = Fáddá
 
-ThemesPageItemsCount = { $count } bihttá
+ThemesPageItemsCount = { $count } bihtá
 
 ThemesPageEmptyText = Fáttát eai leat olamuttus
 
 DetailsInfoTabTitle = Dieđut
+
+DetailsRecordingsTabTitle = Báddemat
 
 DetailsIdentitySwitchedMessage = Rievddai báikkálaš identitehta
 

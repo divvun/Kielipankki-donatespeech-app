@@ -146,6 +146,8 @@ ThemesPageEmptyText = Aamhtesem ij gååvnesh.
 
 DetailsInfoTabTitle = Bïevnesh
 
+DetailsRecordingsTabTitle =
+
 DetailsIdentitySwitchedMessage = Målsoeh byjrehks identiteete
 
 DetailsIdentitySwitchFailedMessage = Idtji maehtieh identiteete målsodh

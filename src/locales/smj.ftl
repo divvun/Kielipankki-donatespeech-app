@@ -146,6 +146,8 @@ ThemesPageEmptyText = E gávnnu tiemá
 
 DetailsInfoTabTitle = Diedo
 
+DetailsRecordingsTabTitle = Báddima
+
 DetailsIdentitySwitchedMessage = Æhppa rievddadij bájkálasj identitiehtav
 
 DetailsIdentitySwitchFailedMessage = Æhppa ittjij nagá identitiehtav rievddadit

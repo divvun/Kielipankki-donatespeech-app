@@ -137,6 +137,8 @@ ThemesPageEmptyText =
 
 DetailsInfoTabTitle = 
 
+DetailsRecordingsTabTitle = 
+
 DetailsIdentitySwitchedMessage = 
 
 DetailsIdentitySwitchFailedMessage = 
