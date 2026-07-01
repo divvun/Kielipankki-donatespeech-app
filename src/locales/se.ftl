@@ -26,11 +26,11 @@ DetailsPrivacyTitle = Diehtosuodji
 
 DetailsRecordingsTabTitle = Báddemat
 
-DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
+DetailsRemoveBody = Jus háliidat sihkkut hállama maid leat skeŋken, máŋges geavaheaddji-ID maid gávnnat dás, ja sáddes dieđu feedback@divvun.no:i. Mii de sihkkut buot báddemiid mat leat čatnon dán ID:i.
 
-DetailsRemoveButtonClickedTitle = Copied!
+DetailsRemoveButtonClickedTitle = Máŋgejuvvon
 
-DetailsRemoveButtonTitle = Máŋge kl ID
+DetailsRemoveButtonTitle = Máŋges geavaheaddji-ID
 
 DetailsRemoveTitle = Sihko dáhtaid
 
@@ -100,9 +100,9 @@ RecordingStoppedLimitMessage = Báddenáigemearri nogai, ja bádden nogai. Giitu
 
 RecordingStoppedLimitTitle = Bádden boatkaluvvui
 
-RecordingUploadStatusNotUploaded = Ii vurkejuvvon
+RecordingUploadStatusNotUploaded = Ii vurkejuvvon bálvadihtorii
 
-RecordingUploadStatusUploaded = Vurkejuvvon
+RecordingUploadStatusUploaded = Vurkejuvvon bálvadihtorii
 
 ScheduleStartFallbackTitle = Gearggus álgit
 
@@ -114,7 +114,7 @@ StopRecording = Bisset báddema
 
 TermsAccept = Dohkkehan
 
-TermsAcceptBody = Go diettát "Dohkkehan"-boalu dás vuolábealde, dohkkehat hállanskeŋkema eavttuid. Jus leat vuollel 18 jagi, de du váldeguoddi dohkkeha eavttuid du ovddas.
+TermsAcceptBody = Go diettát Dohkkehan-boalu dás vuolábealde, dohkkehat hállanskeŋkema eavttuid. Jus leat vuollel 18 jagi, de du váldeguoddi dohkkeha eavttuid du ovddas.
 
 TermsAdditionalContact = UiT, Norgga árktalaš universitehta, Divvun
 
@@ -128,11 +128,11 @@ TermsAdditionalWebsiteLink = jietnašiella.org
 
 TermsAdditionalWebsiteUrl = https://jietnašiella.org
 
-TermsAppropriateUseBody = This app is for individual use only. Each person who donates must use their own device.
+TermsAppropriateUseBody = Buohkat geat háliidit skeŋket hállama fertejit geavahit iežaset ovttadaga skeŋkedettiin.
 
 TermsAppropriateUseTitle = Áppgeavaheapmi
 
-TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
+TermsGeneralBody = Go geavahat dán áppa, de dohkkehat ahte jietnabáddemat átnojit sámi gielaid dutkamii ja giellateknologiija ovdánahttimii. Searvvat áibbas eaktodáhtolaččat — sáhtát heaitit báddemis, guođđit fáttá dahje heaitit áppa geavaheames iežat miela mielde.
 
 TermsGeneralLink = Eanet dieđut dán kampanjja birra
 
@@ -140,7 +140,7 @@ TermsGeneralTitle = Geavahaneavttut
 
 TermsGeneralUrl = https://jietnašiella.org
 
-TermsHelloBody = Please read this brief information about the project before you begin. Afterwards you can choose a topic and donate your speech.
+TermsHelloBody = Go leat lohkan dáid oanehis dieđuid prošeavtta birra, de sáhtát válljet fáttá ja skeŋket du hállama.
 
 TermsHelloTitle = Giitu go finadat
 
@@ -152,7 +152,7 @@ TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
 
 TermsPrivacyTitle = Mo persovdnadieđut gieđahallojit?
 
-TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may request deletion of all your recordings at any time by contacting us at feedback@divvun.no.
+TermsRightsBody = Go skeŋket du báddemiid, de attát ii-eksklusiiva, royaltykeahtes liseanssa geavahit, vurket ja juogadit báddemiid sámi gielaid dutkamii ja giellateknologiija ovdánahttimii. Sáhtát dáhttut min sihkkut buot báddemiid mat leat čatnon du geavaheaddji-ID:i maid gávnnat dán áppas čujuhusa feedback@divvun.no bokte.
 
 TermsRightsTitle = Vuoigatvuođat čatnon du hállamii
 

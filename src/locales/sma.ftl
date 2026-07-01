@@ -22,17 +22,17 @@ DetailsIdentitySwitchFailedMessage = Idtji maehtieh identiteete målsodh
 
 DetailsInfoTabTitle = Bïevnesh
 
-DetailsPrivacyTitle = Privacy Policy
+DetailsPrivacyTitle = 
 
 DetailsRecordingsTabTitle = 
 
-DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
+DetailsRemoveBody = 
 
-DetailsRemoveButtonClickedTitle = Copied!
+DetailsRemoveButtonClickedTitle = 
 
-DetailsRemoveButtonTitle = Copy Client ID
+DetailsRemoveButtonTitle = 
 
-DetailsRemoveTitle = Delete your data
+DetailsRemoveTitle = 
 
 DonatedLabelText = Datne donereme
 
@@ -114,7 +114,7 @@ StopRecording = Tjöödtjesth
 
 TermsAccept = Manne dåhkasjahtam
 
-TermsAcceptBody = Gosse "Manne dåhkasjahtam" dïedtem, manne njoelkedasside dåhkasjahtam.
+TermsAcceptBody = Gosse Manne dåhkasjahtam dïedtem, manne njoelkedasside dåhkasjahtam.
 
 TermsAdditionalContact = UiT Nöörjen arktihke universiteete, Divvun
 
@@ -132,7 +132,7 @@ TermsAppropriateUseBody = Applikasjovnem ij leah juekiemasse, gaajhkesh tjuerieh
 
 TermsAppropriateUseTitle = Nuhtjemem applikasjovneste
 
-TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
+TermsGeneralBody = 
 
 TermsGeneralLink = Vielie bïevnesh kampaanjen bïjre
 
@@ -168,7 +168,7 @@ ThemesPageBody2Text = Dïenesjem datnem vijriebasse bïhkede
 
 ThemesPageEmptyText = Aamhtesem ij gååvnesh.
 
-ThemesPageItemsCount = Boelhkh
+ThemesPageItemsCount = { $count } boelhkh
 
 ThemesPageNoValidThemesError = Ij naan aamhtese dan gïelesne gååvnesh, veeljh jeatjah gïele.
 

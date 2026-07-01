@@ -22,17 +22,17 @@ DetailsIdentitySwitchFailedMessage = Æhppa ittjij nagá identitiehtav rievddadi
 
 DetailsInfoTabTitle = Diedo
 
-DetailsPrivacyTitle = Privacy Policy
+DetailsPrivacyTitle = 
 
 DetailsRecordingsTabTitle = Báddima
 
-DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
+DetailsRemoveBody = 
 
-DetailsRemoveButtonClickedTitle = Copied!
+DetailsRemoveButtonClickedTitle = 
 
-DetailsRemoveButtonTitle = Copy Client ID
+DetailsRemoveButtonTitle = 
 
-DetailsRemoveTitle = Delete your data
+DetailsRemoveTitle = 
 
 DonatedLabelText = Dån la dal hållamav donierim
 
@@ -114,7 +114,7 @@ StopRecording = Låhpada báddimav
 
 TermsAccept = Dåhkkidav
 
-TermsAcceptBody = Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamdonierimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
+TermsAcceptBody = Gå diebttjista Dåhkkidav-boalov vuollelin de dåhkkida ævtojt hållamdonierimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
 
 TermsAdditionalContact = UiT Vuona arktalasj universitiehtta, Divvun
 
@@ -132,7 +132,7 @@ TermsAppropriateUseBody = Æhppa ij galga juogeduvvat ienep ulmutjijs. Gájka gu
 
 TermsAppropriateUseTitle = Ehpav adnet
 
-TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
+TermsGeneralBody = 
 
 TermsGeneralLink = Ienep diedo dán kampánja birra
 
@@ -172,4 +172,4 @@ ThemesPageItemsCount = { $count } tiema
 
 ThemesPageNoValidThemesError = E gávnnu tiemá dán giellaj, vállji ietjá gielav.
 
-ThemesPageTitleText = Håla gielat boahtteájge diehti- donierista jienat sjiellan!
+ThemesPageTitleText = Håla gielat boahtteájge diehti - donierista jienat sjiellan!

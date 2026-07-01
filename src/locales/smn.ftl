@@ -42,9 +42,9 @@ ExitButtonText = Jooskâ
 
 InviteFriendButtonText = Muštâl skipárân
 
-InviteFriendNewbieTemplate = Lam eidu skeŋkkim jieččân sárnum. Skeŋkkii tun meid!  #hashtag https://jietnašiella.org
+InviteFriendNewbieTemplate = Lam eidu skeŋkkim jieččân sárnum. Skeŋkkii tun meid! #hashtag https://jietnašiella.org
 
-InviteFriendTemplate = Lam skeŋkkim {$param0} minuttid jieččân sárnumist. Skeŋkkii tun meid!  #hashtag https://jietnašiella.org
+InviteFriendTemplate = Lam skeŋkkim {$param0} minuttid jieččân sárnumist. Skeŋkkii tun meid! #hashtag https://jietnašiella.org
 
 InviteFriendTitle = Muštâl skipárân
 
@@ -114,7 +114,7 @@ StopRecording = Jooskâ paddim
 
 TermsAccept = Tuhhiittâm
 
-TermsAcceptBody = Ko teddilah "Tuhhiittâm"-puálu vuoluubel, tuhhiittah sárnumskeŋkkim iävtuid. Jis lah vuálá 18-ihásâš, te tuu huolâtteijee tuhhit iävtuid tuu peeleest.
+TermsAcceptBody = Ko teddilah Tuhhiittâm-puálu vuoluubel, tuhhiittah sárnumskeŋkkim iävtuid. Jis lah vuálá 18-ihásâš, te tuu huolâtteijee tuhhit iävtuid tuu peeleest.
 
 TermsAdditionalContact = UiT, Taažâ arktâlâš ollâopâttâh, Divvun
 
