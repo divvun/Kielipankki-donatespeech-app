@@ -1,10 +1,110 @@
-RecordingUploadStatusUploaded = Uploaded
-RecordingUploadStatusNotUploaded = Not uploaded
-ThemesPageTitleText = 
+AppTitle = 
 
-ThemesPageBody1Text = 
+BackToThemesButtonText = 
 
-ThemesPageBody2Text = 
+ChooseLanguageTitle = 
+
+ChooseOptionText = 
+
+ContinueSchedule = 
+
+DetailsButtonText = 
+
+DetailsIdentityCreatedMessage = 
+
+DetailsIdentityEmailInvalidMessage = 
+
+DetailsIdentityEmailLinkedMessage = 
+
+DetailsIdentitySwitchedMessage = 
+
+DetailsIdentitySwitchFailedMessage = 
+
+DetailsInfoTabTitle = 
+
+DetailsPrivacyTitle = 
+
+DetailsRecordingsTabTitle = 
+
+DetailsRemoveBody = 
+
+DetailsRemoveButtonClickedTitle = 
+
+DetailsRemoveButtonTitle = 
+
+DetailsRemoveTitle = 
+
+DonatedLabelText = 
+
+DonateMoreButtonText = 
+
+ExitButtonText = 
+
+InviteFriendButtonText = 
+
+InviteFriendNewbieTemplate = 
+
+InviteFriendTemplate = 
+
+InviteFriendTitle = 
+
+LanguageFinnish = 
+
+LanguageInariSami = Ánársámien
+
+LanguageLuleSami = Julevsámien
+
+LanguageNorthSami = Nuarttasámien
+
+LanguageNorwegian = 
+
+LanguageNynorsk = 
+
+LanguagePiteSami = Byöhđamesámien
+
+LanguageSkoltSami = Luvlliesámien
+
+LanguageSouthSami = Ürjjelsámien
+
+LanguageSwedish = 
+
+LanguageUmeSami = Ubmejesámien
+
+OnboardingBody = 
+
+OnboardingCTA = 
+
+OnboardingFeature1Body = 
+
+OnboardingFeature1Title = 
+
+OnboardingFeature2Body = 
+
+OnboardingFeature2Title = 
+
+OnboardingFeature3Body = 
+
+OnboardingFeature3Title = 
+
+OnboardingTitle = 
+
+PrivacyPolicyUrl = 
+
+RecordingApproachingLimitMessage = 
+
+RecordingFinishTitle = 
+
+RecordingSaveFailedError = 
+
+RecordingStoppedLimitMessage = 
+
+RecordingStoppedLimitTitle = 
+
+RecordingUploadStatusNotUploaded = 
+
+RecordingUploadStatusUploaded = 
+
+ScheduleStartFallbackTitle = 
 
 StartButtonText = 
 
@@ -12,80 +112,13 @@ StartRecording =
 
 StopRecording = 
 
-ContinueSchedule = 
+TermsAccept = 
 
-RecordingFinishTitle = 
+TermsAcceptBody = 
 
-DetailsButtonText = 
+TermsAdditionalContact = 
 
-ExitButtonText = 
-
-DonatedLabelText = 
-
-ChooseOptionText = 
-
-InviteFriendButtonText = 
-
-DonateMoreButtonText = 
-
-InviteFriendTitle = 
-
-InviteFriendTemplate = 
-
-InviteFriendNewbieTemplate = 
-
-OnboardingTitle = 
-
-OnboardingBody = 
-
-OnboardingFeature1Title = 
-
-OnboardingFeature1Body = 
-
-OnboardingFeature2Title = 
-
-OnboardingFeature2Body = 
-
-OnboardingFeature3Title = 
-
-OnboardingFeature3Body = 
-
-OnboardingCTA = 
-
-TermsHelloTitle = 
-
-TermsHelloBody = 
-
-TermsGeneralTitle = 
-
-TermsGeneralBody = 
-
-TermsGeneralLink = 
-
-TermsGeneralUrl = 
-
-TermsOwnershipTitle = 
-
-TermsOwnershipBody1 = 
-
-
-TermsVoluntaryTitle = 
-
-TermsVoluntaryBody = 
-
-TermsPrivacyTitle =
-
-TermsPrivacyLink =
-
-PrivacyPolicyUrl =
-
-TermsRightsTitle = 
-
-TermsRightsBody = 
-
-TermsAppropriateUseTitle = 
-
-TermsAppropriateUseBody = 
+TermsAdditionalEmail = 
 
 TermsAdditionalTitle = 
 
@@ -95,74 +128,48 @@ TermsAdditionalWebsiteLink =
 
 TermsAdditionalWebsiteUrl = 
 
-TermsAdditionalContact = 
+TermsAppropriateUseBody = 
 
-TermsAdditionalEmail = feedback@divvun.no
+TermsAppropriateUseTitle = 
 
-TermsAcceptBody = 
+TermsGeneralBody = 
 
-TermsAccept = 
+TermsGeneralLink = 
 
-RecordingStoppedLimitTitle = 
+TermsGeneralTitle = 
 
-RecordingStoppedLimitMessage = 
+TermsGeneralUrl = 
 
-RecordingApproachingLimitMessage = 
+TermsHelloBody = 
 
-ChooseLanguageTitle = 
+TermsHelloTitle = 
 
-LanguageFinnish = 
+TermsOwnershipBody1 = 
 
-LanguageNorwegian = 
+TermsOwnershipTitle = 
 
-LanguageNorthSami = 
+TermsPrivacyLink = 
 
-LanguageLuleSami = 
+TermsPrivacyTitle = 
 
-LanguageSouthSami = 
+TermsRightsBody = 
 
-LanguageInariSami = 
+TermsRightsTitle = 
 
-LanguageSkoltSami = 
+TermsVoluntaryBody = 
 
-LanguageSwedish = 
-
-LanguageNynorsk = 
-
-ThemesPageNoValidThemesError = 
+TermsVoluntaryTitle = 
 
 ThemeFallbackAltText = 
 
-ThemesPageItemsCount = 
+ThemesPageBody1Text = 
+
+ThemesPageBody2Text = 
 
 ThemesPageEmptyText = 
 
-DetailsInfoTabTitle = 
+ThemesPageItemsCount = 
 
-DetailsRecordingsTabTitle = 
+ThemesPageNoValidThemesError = 
 
-DetailsIdentitySwitchedMessage = 
-
-DetailsIdentitySwitchFailedMessage = 
-
-DetailsIdentityEmailLinkedMessage = 
-
-DetailsIdentityEmailInvalidMessage = 
-
-DetailsIdentityCreatedMessage =
-
-DetailsPrivacyTitle =
-
-DetailsRemoveTitle =
-
-DetailsRemoveBody =
-
-DetailsRemoveButtonTitle =
-
-DetailsRemoveButtonClickedTitle =
-
-ScheduleStartFallbackTitle = 
-
-BackToThemesButtonText = 
-
-RecordingSaveFailedError = 
+ThemesPageTitleText = 

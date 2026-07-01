@@ -1,10 +1,110 @@
 AppTitle = Jietnašiella
 
-ThemesPageTitleText = Máinnas gielat boahtteáigái – attes jienat šiellan!
+BackToThemesButtonText = Ruovttoluotta fáttáide
 
-ThemesPageBody1Text = Váljjes fáttá man birra háliidat hupmat.
+ChooseLanguageTitle = Válljes giela
 
-ThemesPageBody2Text = Bálvalus láidesta du.
+ChooseOptionText = Válljes eavttu
+
+ContinueSchedule = Joatkke
+
+DetailsButtonText = Eanet dieđut
+
+DetailsIdentityCreatedMessage = Ráhkadii ođđa anonyma identitehta
+
+DetailsIdentityEmailInvalidMessage = Čális gustovaš e-boastačujuhusa
+
+DetailsIdentityEmailLinkedMessage = E-boasta laktašuvvui báikkálaš anonyma identitehtii
+
+DetailsIdentitySwitchedMessage = Rievddai báikkálaš identitehta
+
+DetailsIdentitySwitchFailedMessage = Ii sáhttán rievdat identitehta
+
+DetailsInfoTabTitle = Dieđut
+
+DetailsPrivacyTitle = Diehtosuodji
+
+DetailsRecordingsTabTitle = Báddemat
+
+DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
+
+DetailsRemoveButtonClickedTitle = Copied!
+
+DetailsRemoveButtonTitle = Máŋge kl ID
+
+DetailsRemoveTitle = Sihko dáhtaid
+
+DonatedLabelText = Don leat dál skeŋken hállama
+
+DonateMoreButtonText = Skeŋkes eanet
+
+ExitButtonText = Heaittit
+
+InviteFriendButtonText = Muital skihpárii
+
+InviteFriendNewbieTemplate = Lean áiddo skeŋken iežan hállama. Skeŋkes don maid! #hashtag https://jietnašiella.org
+
+InviteFriendTemplate = Lean skeŋken {$param0} minuhta iežan hállamis. Skeŋkes don maid! #hashtag https://jietnašiella.org
+
+InviteFriendTitle = Muital skihpárii
+
+LanguageFinnish = Suomagiella
+
+LanguageInariSami = Anárašgiella
+
+LanguageLuleSami = Julevsámegiella
+
+LanguageNorthSami = Davvisámegiella
+
+LanguageNorwegian = Girjedárogiella
+
+LanguageNynorsk = Ođđadárogiella
+
+LanguagePiteSami = Bihtánsámegiella
+
+LanguageSkoltSami = Nuorttalašgiella
+
+LanguageSouthSami = Máttasámegiella
+
+LanguageSwedish = Ruoŧagiella
+
+LanguageUmeSami = Ubmisámegiella
+
+OnboardingBody = Skeŋkes moadde minuhta du hállamis. Gielladutkkiide lea ávkkalaš guorahallat sámi gielaid ja ovdánahttit reaidduid daidda.
+
+OnboardingCTA = Áinnas searvvan!
+
+OnboardingFeature1Body = Bálvalus láidesta du.
+
+OnboardingFeature1Title = Váljjes fáttá man birra háliidat hupmat.
+
+OnboardingFeature2Body = Ságastala sisdoalu birra.
+
+OnboardingFeature2Title = Báddes
+
+OnboardingFeature3Body = Sáhtát heaittihit báddema dahje guođđit fáttá go ieš háliidat.
+
+OnboardingFeature3Title = Searvvat eaktodáhtolaččat
+
+OnboardingTitle = Bures boahtin!
+
+PrivacyPolicyUrl = https://jietnašiella.org/privacy/
+
+RecordingApproachingLimitMessage = Lea minuhta dassái go báddenáigemearri nohká
+
+RecordingFinishTitle = Buorre, eatnat giitu!
+
+RecordingSaveFailedError = Ii sáhttán vurket báddema
+
+RecordingStoppedLimitMessage = Báddenáigemearri nogai, ja bádden nogai. Giitu skeaŋkka ovddas!
+
+RecordingStoppedLimitTitle = Bádden boatkaluvvui
+
+RecordingUploadStatusNotUploaded = Ii vurkejuvvon
+
+RecordingUploadStatusUploaded = Vurkejuvvon
+
+ScheduleStartFallbackTitle = Gearggus álgit
 
 StartButtonText = Álgge
 
@@ -12,79 +112,13 @@ StartRecording = Báddes
 
 StopRecording = Bisset báddema
 
-ContinueSchedule = Joatkke
+TermsAccept = Dohkkehan
 
-RecordingFinishTitle = Buorre, eatnat giitu!
+TermsAcceptBody = Go diettát "Dohkkehan"-boalu dás vuolábealde, dohkkehat hállanskeŋkema eavttuid. Jus leat vuollel 18 jagi, de du váldeguoddi dohkkeha eavttuid du ovddas.
 
-DetailsButtonText = Eanet dieđut
+TermsAdditionalContact = UiT, Norgga árktalaš universitehta, Divvun
 
-ExitButtonText = Heaittit
-
-DonatedLabelText = Don leat dál skeŋken hállama
-
-ChooseOptionText = Válljes eavttu
-
-InviteFriendButtonText = Muital skihpárii
-
-DonateMoreButtonText = Skeŋkes eanet
-
-InviteFriendTitle = Muital skihpárii
-
-InviteFriendTemplate = Lean skeŋken {$param0} minuhta iežan hállamis. Skeŋkes don maid! #hashtag https://jietnašiella.org
-
-InviteFriendNewbieTemplate = Lean áiddo skeŋken iežan hállama. Skeŋkes don maid! #hashtag https://jietnašiella.org
-
-OnboardingTitle = Bures boahtin!
-
-OnboardingBody = Skeŋkes moadde minuhta du hállamis. Gielladutkkiide lea ávkkalaš guorahallat sámi gielaid ja ovdánahttit reaidduid daidda.
-
-OnboardingFeature1Title = Váljjes fáttá man birra háliidat hupmat.
-
-OnboardingFeature1Body = Bálvalus láidesta du.
-
-OnboardingFeature2Title = Báddes
-
-OnboardingFeature2Body = Ságastala sisdoalu birra.
-
-OnboardingFeature3Title = Searvvat eaktodáhtolaččat
-
-OnboardingFeature3Body = Sáhtát heaittihit báddema dahje guođđit fáttá go ieš háliidat.
-
-OnboardingCTA = Áinnas searvvan!
-
-TermsHelloTitle = Giitu go finadat
-
-TermsHelloBody = Please read this brief information about the project before you begin. Afterwards you can choose a topic and donate your speech.
-
-TermsGeneralTitle = Geavahaneavttut
-
-TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
-
-TermsGeneralLink = Eanet dieđut dán kampanjja birra
-
-TermsGeneralUrl = https://jietnašiella.org
-
-TermsOwnershipTitle = Geat?
-
-TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun).
-
-TermsVoluntaryTitle = Dušše jus ieš háliidat!
-
-TermsVoluntaryBody = Hállanskeŋken ja persovdnadieđuid guođđin barggat áibbas eaktodáhtolaččat.
-
-TermsPrivacyTitle = Mo persovdnadieđut gieđahallojit?
-
-TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
-
-PrivacyPolicyUrl = https://jietnašiella.org/privacy/
-
-TermsRightsTitle = Vuoigatvuođat čatnon du hállamii
-
-TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may request deletion of all your recordings at any time by contacting us at feedback@divvun.no.
-
-TermsAppropriateUseTitle = Áppgeavaheapmi
-
-TermsAppropriateUseBody = This app is for individual use only. Each person who donates must use their own device.
+TermsAdditionalEmail = feedback@divvun.no
 
 TermsAdditionalTitle = Eanet dieđut
 
@@ -94,80 +128,48 @@ TermsAdditionalWebsiteLink = jietnašiella.org
 
 TermsAdditionalWebsiteUrl = https://jietnašiella.org
 
-TermsAdditionalContact = UiT, Norgga árktalaš universitehta, Divvun
+TermsAppropriateUseBody = This app is for individual use only. Each person who donates must use their own device.
 
-TermsAdditionalEmail = feedback@divvun.no
+TermsAppropriateUseTitle = Áppgeavaheapmi
 
-TermsAcceptBody = Go diettát "Dohkkehan"-boalu dás vuolábealde, dohkkehat hállanskeŋkema eavttuid. Jus leat vuollel 18 jagi, de du váldeguoddi dohkkeha eavttuid du ovddas.
+TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
 
-TermsAccept = Dohkkehan
+TermsGeneralLink = Eanet dieđut dán kampanjja birra
 
-RecordingStoppedLimitTitle = Bádden boatkaluvvui
+TermsGeneralTitle = Geavahaneavttut
 
-RecordingStoppedLimitMessage = Báddenáigemearri nogai, ja bádden nogai. Giitu skeaŋkka ovddas!
+TermsGeneralUrl = https://jietnašiella.org
 
-RecordingApproachingLimitMessage = Lea minuhta dassái go báddenáigemearri nohká
+TermsHelloBody = Please read this brief information about the project before you begin. Afterwards you can choose a topic and donate your speech.
 
-ChooseLanguageTitle = Válljes giela
+TermsHelloTitle = Giitu go finadat
 
-LanguageFinnish = Suomagiella
+TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun).
 
-LanguageNorwegian = Girjedárogiella
+TermsOwnershipTitle = Geat?
 
-LanguageNorthSami = Davvisámegiella
+TermsPrivacyLink = Eanet dieđut dan birra mo persovdnadieđut gieđahallojit
 
-LanguageLuleSami = Julevsámegiella
+TermsPrivacyTitle = Mo persovdnadieđut gieđahallojit?
 
-LanguageSouthSami = Máttasámegiella
+TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may request deletion of all your recordings at any time by contacting us at feedback@divvun.no.
 
-LanguageInariSami = Anárašgiella
+TermsRightsTitle = Vuoigatvuođat čatnon du hállamii
 
-LanguageSkoltSami = Nuorttalašgiella
+TermsVoluntaryBody = Hállanskeŋken ja persovdnadieđuid guođđin barggat áibbas eaktodáhtolaččat.
 
-LanguageSwedish = Ruoŧagiella
-
-LanguageNynorsk = Ođđadárogiella
-
-LanguagePiteSami = Bihtánsámegiella
-
-LanguageUmeSami = Ubmisámegiella
-
-ThemesPageNoValidThemesError = Eai lean gustovaš fáttát dán gielas. Válljes eará giela.
+TermsVoluntaryTitle = Dušše jus ieš háliidat!
 
 ThemeFallbackAltText = Fáddá
 
-ThemesPageItemsCount = { $count } bihtá
+ThemesPageBody1Text = Váljjes fáttá man birra háliidat hupmat.
+
+ThemesPageBody2Text = Bálvalus láidesta du.
 
 ThemesPageEmptyText = Fáttát eai leat olamuttus
 
-DetailsInfoTabTitle = Dieđut
+ThemesPageItemsCount = { $count } bihtá
 
-DetailsRecordingsTabTitle = Báddemat
+ThemesPageNoValidThemesError = Eai lean gustovaš fáttát dán gielas. Válljes eará giela.
 
-DetailsIdentitySwitchedMessage = Rievddai báikkálaš identitehta
-
-DetailsIdentitySwitchFailedMessage = Ii sáhttán rievdat identitehta
-
-DetailsIdentityEmailLinkedMessage = E-boasta laktašuvvui báikkálaš anonyma identitehtii
-
-DetailsIdentityEmailInvalidMessage = Čális gustovaš e-boastačujuhusa
-
-DetailsIdentityCreatedMessage = Ráhkadii ođđa anonyma identitehta
-RecordingUploadStatusUploaded = Uploaded
-RecordingUploadStatusNotUploaded = Not uploaded
-
-DetailsPrivacyTitle = Privacy Policy
-
-DetailsRemoveTitle = Delete your data
-
-DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
-
-DetailsRemoveButtonTitle = Copy Client ID
-
-DetailsRemoveButtonClickedTitle = Copied!
-
-ScheduleStartFallbackTitle = Gearggus álgit
-
-BackToThemesButtonText = Ruovttoluotta fáttáide
-
-RecordingSaveFailedError = Ii sáhttán vurket báddema
+ThemesPageTitleText = Máinnas gielat boahtteáigái – attes jienat šiellan!

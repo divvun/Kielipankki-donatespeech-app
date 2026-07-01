@@ -1,12 +1,110 @@
-RecordingUploadStatusUploaded = Läj vuorkáduvvum
-RecordingUploadStatusNotUploaded = Ii vuorkáduvvum
 AppTitle = Jiednasjiella
 
-ThemesPageTitleText = Håla gielat boahtteájge diehti- donierista jienat sjiellan!
+BackToThemesButtonText = Ruoptus tiemájda
 
-ThemesPageBody1Text = Vállji tiemáv man birra sidá ságastit.
+ChooseLanguageTitle = Vállji gielav
 
-ThemesPageBody2Text = Dån vijddábut lájddiduvá.
+ChooseOptionText = Vállji alternativjav:
+
+ContinueSchedule = Joarke
+
+DetailsButtonText = Ienep diedo
+
+DetailsIdentityCreatedMessage = Æhppa dagáj ådå anonijma identiehtav
+
+DetailsIdentityEmailInvalidMessage = Tjále doajmme e-poasstaadressav
+
+DetailsIdentityEmailLinkedMessage = E-poassta tjanáduváj bájkálasj anaonijma identitiehttaj
+
+DetailsIdentitySwitchedMessage = Æhppa rievddadij bájkálasj identitiehtav
+
+DetailsIdentitySwitchFailedMessage = Æhppa ittjij nagá identitiehtav rievddadit
+
+DetailsInfoTabTitle = Diedo
+
+DetailsPrivacyTitle = Privacy Policy
+
+DetailsRecordingsTabTitle = Báddima
+
+DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
+
+DetailsRemoveButtonClickedTitle = Copied!
+
+DetailsRemoveButtonTitle = Copy Client ID
+
+DetailsRemoveTitle = Delete your data
+
+DonatedLabelText = Dån la dal hållamav donierim
+
+DonateMoreButtonText = Donierista ájn ienep hållamav
+
+ExitButtonText = Låhpada
+
+InviteFriendButtonText = Gåhtjo rádnav
+
+InviteFriendNewbieTemplate = Lev jur ietjam hållamav sállim. Sállista dån aj! #hashtag https://jietnašiella.org
+
+InviteFriendTemplate = Lev donierim { $param0 } minuhta ietjam hållamis. Donierista dån aj! #hashtag https://jietnašiella.org
+
+InviteFriendTitle = Subtsasta ráddnasit hållamdonierima birra
+
+LanguageFinnish = Suomagiella
+
+LanguageInariSami = Anársámegiella
+
+LanguageLuleSami = Julevsámegiella
+
+LanguageNorthSami = Nuorttasámegiella
+
+LanguageNorwegian = Vuonadárogiella (girjjegiella)
+
+LanguageNynorsk = Vuonadárogiella (ådådárogiella)
+
+LanguagePiteSami = Bidumsámegiella
+
+LanguageSkoltSami = Gålldåsámegiella
+
+LanguageSouthSami = Oarjjelsámegiella
+
+LanguageSwedish = Svierigadárogiella
+
+LanguageUmeSami = Ubbmemsámegiell
+
+OnboardingBody = Donierista muhtem minuhta ietjat hållamis. Dat la riek ávkálasj gielladutkijda, bessi guoradallat sáme gielajt ja åvddånahttet ræjdojt.
+
+OnboardingCTA = Sidáv sæbrrat!
+
+OnboardingFeature1Body = Dån vijddábut lájddiduvá.
+
+OnboardingFeature1Title = Vállji tiemáv man birra sidá ságastit.
+
+OnboardingFeature2Body = Ságásta sisano birra
+
+OnboardingFeature2Title = Báddista
+
+OnboardingFeature3Body = Gå iesj sidá de besa diedon báddimav ĺåhpadit jali tiemav guodet.
+
+OnboardingFeature3Title = Dån iesj mierreda jus dási sidá sæbrrat
+
+OnboardingTitle = Buorisboahtem
+
+PrivacyPolicyUrl = https://jietnašiella.org/privacy/
+
+RecordingApproachingLimitMessage = Guhkemus báddimrádje la ruvva jåvsådum. Dujna l birrusin minuhtta báhtsám.
+
+RecordingFinishTitle = Buorre, edna gijtto!
+
+RecordingSaveFailedError = Æhppa ittjij vuorbástuvá báddimav vuorkkit
+
+RecordingStoppedLimitMessage = Guhkemus báddimrádje l juo jåvsådum ja báddim ietjastis ganugahteduváj. Gijtto hållamdonierimis!
+
+RecordingStoppedLimitTitle = Báddim la boarkkiduvvam
+
+RecordingUploadStatusNotUploaded = Ii vuorkáduvvum
+
+RecordingUploadStatusUploaded = Läj vuorkáduvvum
+
+ScheduleStartFallbackTitle = Gárves álgátjit
 
 StartButtonText = Álge
 
@@ -14,80 +112,13 @@ StartRecording = Báddi
 
 StopRecording = Låhpada báddimav
 
-ContinueSchedule = Joarke
+TermsAccept = Dåhkkidav
 
-RecordingFinishTitle = Buorre, edna gijtto!
+TermsAcceptBody = Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamdonierimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
 
-DetailsButtonText = Ienep diedo
+TermsAdditionalContact = UiT Vuona arktalasj universitiehtta, Divvun
 
-ExitButtonText = Låhpada
-
-DonatedLabelText = Dån la dal hållamav donierim
-
-ChooseOptionText = Vállji alternativjav:
-
-InviteFriendButtonText = Gåhtjo rádnav
-
-DonateMoreButtonText = Donierista ájn ienep hållamav
-
-InviteFriendTitle = Subtsasta ráddnasit hållamdonierima birra
-
-InviteFriendTemplate = Lev donierim { $param0 } minuhta ietjam hållamis. Donierista dån aj! #hashtag https://jietnašiella.org
-
-InviteFriendNewbieTemplate = Lev jur ietjam hållamav sállim. Sállista dån aj! #hashtag https://jietnašiella.org
-
-OnboardingTitle = Buorisboahtem
-
-OnboardingBody = Donierista muhtem minuhta ietjat hållamis. Dat la riek ávkálasj gielladutkijda, bessi guoradallat sáme gielajt ja åvddånahttet ræjdojt.
-
-OnboardingFeature1Title = Vállji tiemáv man birra sidá ságastit.
-
-OnboardingFeature1Body = Dån vijddábut lájddiduvá.
-
-OnboardingFeature2Title = Báddista
-
-OnboardingFeature2Body = Ságásta sisano birra
-
-OnboardingFeature3Title = Dån iesj mierreda jus dási sidá sæbrrat
-
-OnboardingFeature3Body = Gå iesj sidá de besa diedon báddimav ĺåhpadit jali tiemav guodet. 
-
-OnboardingCTA = Sidáv sæbrrat!
-
-TermsHelloTitle = Gijtto gå dássta berusta.
-
-TermsHelloBody = Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela besa válljit tiemáv massta berusta ja ietjat hållamav donierit.
-
-TermsGeneralTitle = Addneævto
-
-TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
-
-TermsGeneralLink = Ienep diedo dán kampánja birra
-
-TermsGeneralUrl = https://jietnašiella.org
-
-TermsOwnershipTitle = Gut?
-
-TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun).
-
-
-TermsVoluntaryTitle = Dåssju jus iesj sidá!
-
-TermsVoluntaryBody = Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat duogen.
-
-TermsPrivacyTitle = Gåktu giehtadaláduvvi persåvnnådiedo?
-
-TermsPrivacyLink = Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
-
-PrivacyPolicyUrl = https://jietnašiella.org/privacy/
-
-TermsRightsTitle = Rievtesvuoda duv hållamij
-
-TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may request deletion of all your recordings at any time by contacting us at feedback@divvun.no.
-
-TermsAppropriateUseTitle = Ehpav adnet
-
-TermsAppropriateUseBody = Æhppa ij galga juogeduvvat ienep ulmutjijs. Gájka gudi sihti hållamav donierit hæhttuji ietjasa rustigav dasi adnet.
+TermsAdditionalEmail = feedback@divvun.no
 
 TermsAdditionalTitle = Ienep diedo
 
@@ -97,78 +128,48 @@ TermsAdditionalWebsiteLink = jietnašiella.org
 
 TermsAdditionalWebsiteUrl = https://jietnašiella.org
 
-TermsAdditionalContact = UiT Vuona arktalasj universitiehtta, Divvun
+TermsAppropriateUseBody = Æhppa ij galga juogeduvvat ienep ulmutjijs. Gájka gudi sihti hållamav donierit hæhttuji ietjasa rustigav dasi adnet.
 
-TermsAdditionalEmail = feedback@divvun.no
+TermsAppropriateUseTitle = Ehpav adnet
 
-TermsAcceptBody = Gå diebttjista "Dåhkkidav-boalov" vuollelin de dåhkkida ævtojt hållamdonierimij. Jus illa ájn dævddám 18 jage, de dåhkkit duv oahttse ævtojt duv åvdås.
+TermsGeneralBody = By using this app, you agree to donate voice recordings to be used for Sami language research and the development of language technology. Your participation is entirely voluntary — you may stop, skip any prompt, or exit the app at any time.
 
-TermsAccept = Dåhkkidav
+TermsGeneralLink = Ienep diedo dán kampánja birra
 
-RecordingStoppedLimitTitle = Báddim la boarkkiduvvam
+TermsGeneralTitle = Addneævto
 
-RecordingStoppedLimitMessage = Guhkemus báddimrádje l juo jåvsådum ja báddim ietjastis ganugahteduváj. Gijtto hållamdonierimis!
+TermsGeneralUrl = https://jietnašiella.org
 
-RecordingApproachingLimitMessage = Guhkemus báddimrádje la ruvva jåvsådum. Dujna l birrusin minuhtta báhtsám.
+TermsHelloBody = Lågå vuostak vuododiedojt dán prosjevta birra. Dan maŋŋela besa válljit tiemáv massta berusta ja ietjat hållamav donierit.
 
-ChooseLanguageTitle = Vállji gielav
+TermsHelloTitle = Gijtto gå dássta berusta.
 
-LanguageFinnish = Suomagiella
+TermsOwnershipBody1 = This project is operated by UiT The Arctic University of Norway (Divvun).
 
-LanguageNorwegian = Vuonadárogiella (girjjegiella)
+TermsOwnershipTitle = Gut?
 
-LanguageNorthSami = Nuorttasámegiella
+TermsPrivacyLink = Ienep diedo dan birra gåk persåvnnådiedo giehtadaláduvvi
 
-LanguageLuleSami = Julevsámegiella
+TermsPrivacyTitle = Gåktu giehtadaláduvvi persåvnnådiedo?
 
-LanguageSouthSami = Oarjjelsámegiella
+TermsRightsBody = By donating your recordings, you grant UiT The Arctic University of Norway and its research partners a non-exclusive, royalty-free licence to use, store, and share the recordings for language research and language technology development. You may request deletion of all your recordings at any time by contacting us at feedback@divvun.no.
 
-LanguageInariSami = Anársámegiella
+TermsRightsTitle = Rievtesvuoda duv hållamij
 
-LanguageSkoltSami = Gålldåsámegiella
+TermsVoluntaryBody = Hållamsállim ja persåvnnådiedoj guodem la ållu ietjat duogen.
 
-LanguageSwedish = Svierigadárogiella
-
-LanguageNynorsk = Vuonadárogiella (ådådárogiella)
-
-LanguagePiteSami = Bidumsámegiella
-
-LanguageUmeSami = Ubbmemsámegiell
-
-ThemesPageNoValidThemesError = E gávnnu tiemá dán giellaj, vállji ietjá gielav.
+TermsVoluntaryTitle = Dåssju jus iesj sidá!
 
 ThemeFallbackAltText = Tiebmá
 
-ThemesPageItemsCount = { $count } tiema
+ThemesPageBody1Text = Vállji tiemáv man birra sidá ságastit.
+
+ThemesPageBody2Text = Dån vijddábut lájddiduvá.
 
 ThemesPageEmptyText = E gávnnu tiemá
 
-DetailsInfoTabTitle = Diedo
+ThemesPageItemsCount = { $count } tiema
 
-DetailsRecordingsTabTitle = Báddima
+ThemesPageNoValidThemesError = E gávnnu tiemá dán giellaj, vállji ietjá gielav.
 
-DetailsIdentitySwitchedMessage = Æhppa rievddadij bájkálasj identitiehtav
-
-DetailsIdentitySwitchFailedMessage = Æhppa ittjij nagá identitiehtav rievddadit
-
-DetailsIdentityEmailLinkedMessage = E-poassta tjanáduváj bájkálasj anaonijma identitiehttaj
-
-DetailsIdentityEmailInvalidMessage = Tjále doajmme e-poasstaadressav
-
-DetailsIdentityCreatedMessage = Æhppa dagáj ådå anonijma identiehtav
-
-DetailsPrivacyTitle = Privacy Policy
-
-DetailsRemoveTitle = Delete your data
-
-DetailsRemoveBody = To request deletion, copy your Client ID below and email it to feedback@divvun.no. We will delete all recordings associated with that ID from our servers.
-
-DetailsRemoveButtonTitle = Copy Client ID
-
-DetailsRemoveButtonClickedTitle = Copied!
-
-ScheduleStartFallbackTitle = Gárves álgátjit
-
-BackToThemesButtonText = Ruoptus tiemájda
-
-RecordingSaveFailedError = Æhppa ittjij vuorbástuvá báddimav vuorkkit
+ThemesPageTitleText = Håla gielat boahtteájge diehti- donierista jienat sjiellan!
